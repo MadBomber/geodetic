@@ -1266,10 +1266,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#universal-distance-calculations" class="md-nav__link">
+  <a href="#universal-distance-and-bearing-calculations" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Universal Distance Calculations
+        Universal Distance and Bearing Calculations
       
     </span>
   </a>
@@ -1619,10 +1619,12 @@
 </tr>
 </tbody>
 </table>
-<h2 id="universal-distance-calculations">Universal Distance Calculations<a class="headerlink" href="#universal-distance-calculations" title="Permanent link">&para;</a></h2>
-<p>All coordinate systems support universal distance calculations via <code>distance_to</code> (Vincenty great-circle) and <code>straight_line_distance_to</code> (ECEF Euclidean). These methods work across different coordinate types -- for example, computing the distance from a UTM coordinate to an MGRS coordinate. Class-level methods <code>GCS.distance_between</code> and <code>GCS.straight_line_distance_between</code> compute consecutive chain distances across a sequence of coordinates. See the <a href="../reference/conversions/#distance-calculations">Conversions Reference</a> for details.</p>
+<h2 id="universal-distance-and-bearing-calculations">Universal Distance and Bearing Calculations<a class="headerlink" href="#universal-distance-and-bearing-calculations" title="Permanent link">&para;</a></h2>
+<p>All coordinate systems support universal distance calculations via <code>distance_to</code> (Vincenty great-circle) and <code>straight_line_distance_to</code> (ECEF Euclidean). These methods work across different coordinate types -- for example, computing the distance from a UTM coordinate to an MGRS coordinate. Class-level methods <code>GCS.distance_between</code> and <code>GCS.straight_line_distance_between</code> compute consecutive chain distances across a sequence of coordinates.</p>
+<p>All coordinate systems also support universal bearing calculations via <code>bearing_to</code> (great-circle forward azimuth) and <code>elevation_to</code> (vertical look angle). These return <code>Bearing</code> and <code>Float</code> objects respectively. The class-level method <code>GCS.bearing_between</code> computes consecutive chain bearings.</p>
+<p>See the <a href="../reference/conversions/#distance-calculations">Conversions Reference</a> for details on distances and <a href="../reference/conversions/#bearing-calculations">Bearing Calculations</a> for bearings.</p>
 <blockquote>
-<p><strong>Note:</strong> ENU and NED are relative systems and must be converted to an absolute system (e.g., LLA) before using universal distance methods.</p>
+<p><strong>Note:</strong> ENU and NED are relative systems and must be converted to an absolute system (e.g., LLA) before using universal distance and bearing methods. They retain <code>local_bearing_to</code> and <code>local_elevation_angle_to</code> for tangent-plane operations.</p>
 </blockquote>
 <h2 id="conversion-paths">Conversion Paths<a class="headerlink" href="#conversion-paths" title="Permanent link">&para;</a></h2>
 <p>Conversions typically route through <strong>LLA</strong> or <strong>ECEF</strong> as intermediate steps:</p>

@@ -912,10 +912,10 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#universal-distance-methods" class="md-nav__link">
+  <a href="#universal-distance-and-bearing-methods" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Universal Distance Methods
+        Universal Distance and Bearing Methods
       
     </span>
   </a>
@@ -1466,10 +1466,10 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#universal-distance-methods" class="md-nav__link">
+  <a href="#universal-distance-and-bearing-methods" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Universal Distance Methods
+        Universal Distance and Bearing Methods
       
     </span>
   </a>
@@ -1588,11 +1588,11 @@
 <td>Horizontal (N-E plane) distance to another NED point (meters)</td>
 </tr>
 <tr>
-<td><code>bearing_to(other)</code></td>
+<td><code>local_bearing_to(other)</code></td>
 <td>Bearing from this point to another NED point (degrees from north, 0-360)</td>
 </tr>
 <tr>
-<td><code>elevation_angle_to(other)</code></td>
+<td><code>local_elevation_angle_to(other)</code></td>
 <td>Elevation angle from this point to another NED point (degrees)</td>
 </tr>
 <tr>
@@ -1613,11 +1613,12 @@
 </tr>
 </tbody>
 </table>
-<h3 id="universal-distance-methods">Universal Distance Methods<a class="headerlink" href="#universal-distance-methods" title="Permanent link">&para;</a></h3>
-<p>NED is a relative coordinate system. To use the universal <code>distance_to</code> or <code>straight_line_distance_to</code> methods, first convert to an absolute system (such as LLA or ECEF) using a reference point:</p>
+<h3 id="universal-distance-and-bearing-methods">Universal Distance and Bearing Methods<a class="headerlink" href="#universal-distance-and-bearing-methods" title="Permanent link">&para;</a></h3>
+<p>NED is a relative coordinate system. The universal <code>distance_to</code>, <code>straight_line_distance_to</code>, <code>bearing_to</code>, and <code>elevation_to</code> methods raise <code>ArgumentError</code> because NED cannot be converted to an absolute system without a reference point. Convert to an absolute system first:</p>
 <div class="language-ruby highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="n">ref</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">Geodetic</span><span class="o">::</span><span class="no">Coordinates</span><span class="o">::</span><span class="no">LLA</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">lat</span><span class="p">:</span><span class="w"> </span><span class="mi">47</span><span class="o">.</span><span class="mi">62</span><span class="p">,</span><span class="w"> </span><span class="ss">lng</span><span class="p">:</span><span class="w"> </span><span class="o">-</span><span class="mi">122</span><span class="o">.</span><span class="mi">35</span><span class="p">,</span><span class="w"> </span><span class="ss">alt</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="o">.</span><span class="mi">0</span><span class="p">)</span>
 </span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="n">lla</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ned</span><span class="o">.</span><span class="n">to_lla</span><span class="p">(</span><span class="n">ref</span><span class="p">)</span>
-</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="n">lla</span><span class="o">.</span><span class="n">distance_to</span><span class="p">(</span><span class="n">other_lla</span><span class="p">)</span><span class="w">  </span><span class="c1"># Vincenty great-circle distance</span>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="n">lla</span><span class="o">.</span><span class="n">distance_to</span><span class="p">(</span><span class="n">other_lla</span><span class="p">)</span><span class="w">   </span><span class="c1"># Vincenty great-circle distance</span>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="n">lla</span><span class="o">.</span><span class="n">bearing_to</span><span class="p">(</span><span class="n">other_lla</span><span class="p">)</span><span class="w">    </span><span class="c1"># Great-circle forward azimuth (Bearing object)</span>
 </span></code></pre></div>
 <h2 id="bearing-convention">Bearing Convention<a class="headerlink" href="#bearing-convention" title="Permanent link">&para;</a></h2>
 <p>Bearing is measured in <strong>degrees from north</strong>, clockwise, in the range <strong>0-360</strong>.</p>

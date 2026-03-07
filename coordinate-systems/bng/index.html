@@ -1052,10 +1052,10 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#universal-distance-methods" class="md-nav__link">
+  <a href="#universal-distance-and-bearing-methods" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Universal Distance Methods
+        Universal Distance and Bearing Methods
       
     </span>
   </a>
@@ -1388,10 +1388,10 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#universal-distance-methods" class="md-nav__link">
+  <a href="#universal-distance-and-bearing-methods" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Universal Distance Methods
+        Universal Distance and Bearing Methods
       
     </span>
   </a>
@@ -1469,26 +1469,13 @@
 <div class="language-ruby highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="n">point</span><span class="o">.</span><span class="n">valid?</span><span class="w">  </span><span class="c1"># =&gt; true if within Great Britain bounds</span>
 </span></code></pre></div>
 <h2 id="utility-methods">Utility Methods<a class="headerlink" href="#utility-methods" title="Permanent link">&para;</a></h2>
-<table>
-<thead>
-<tr>
-<th>Method</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>bearing_to(other)</code></td>
-<td>Computes the bearing (in degrees from grid north) to another <code>BNG</code> point</td>
-</tr>
-</tbody>
-</table>
-<h3 id="universal-distance-methods">Universal Distance Methods<a class="headerlink" href="#universal-distance-methods" title="Permanent link">&para;</a></h3>
-<p>The universal <code>distance_to</code> method computes the Vincenty great-circle distance (in meters) to any other coordinate type. The <code>straight_line_distance_to</code> method computes the Euclidean distance in ECEF space. Both accept single or multiple targets.</p>
+<h3 id="universal-distance-and-bearing-methods">Universal Distance and Bearing Methods<a class="headerlink" href="#universal-distance-and-bearing-methods" title="Permanent link">&para;</a></h3>
+<p>The universal <code>distance_to</code> method computes the Vincenty great-circle distance to any other coordinate type, returning a <code>Distance</code> object. The <code>straight_line_distance_to</code> method computes the Euclidean distance in ECEF space. The universal <code>bearing_to</code> method computes the great-circle forward azimuth, returning a <code>Bearing</code> object. All accept single or multiple targets.</p>
 <div class="language-ruby highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="n">bng_a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">Geodetic</span><span class="o">::</span><span class="no">Coordinates</span><span class="o">::</span><span class="no">BNG</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">easting</span><span class="p">:</span><span class="w"> </span><span class="mi">530000</span><span class="o">.</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="ss">northing</span><span class="p">:</span><span class="w"> </span><span class="mi">180000</span><span class="o">.</span><span class="mi">0</span><span class="p">)</span>
 </span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="n">bng_b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">Geodetic</span><span class="o">::</span><span class="no">Coordinates</span><span class="o">::</span><span class="no">BNG</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">easting</span><span class="p">:</span><span class="w"> </span><span class="mi">540000</span><span class="o">.</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="ss">northing</span><span class="p">:</span><span class="w"> </span><span class="mi">190000</span><span class="o">.</span><span class="mi">0</span><span class="p">)</span>
-</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="n">bng_a</span><span class="o">.</span><span class="n">distance_to</span><span class="p">(</span><span class="n">bng_b</span><span class="p">)</span><span class="w">                </span><span class="c1"># =&gt; Distance (meters, great-circle)</span>
-</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="n">bng_a</span><span class="o">.</span><span class="n">straight_line_distance_to</span><span class="p">(</span><span class="n">bng_b</span><span class="p">)</span><span class="w">  </span><span class="c1"># =&gt; Distance (meters, Euclidean)</span>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="n">bng_a</span><span class="o">.</span><span class="n">distance_to</span><span class="p">(</span><span class="n">bng_b</span><span class="p">)</span><span class="w">                </span><span class="c1"># =&gt; Distance (great-circle)</span>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="n">bng_a</span><span class="o">.</span><span class="n">straight_line_distance_to</span><span class="p">(</span><span class="n">bng_b</span><span class="p">)</span><span class="w">  </span><span class="c1"># =&gt; Distance (Euclidean)</span>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="n">bng_a</span><span class="o">.</span><span class="n">bearing_to</span><span class="p">(</span><span class="n">bng_b</span><span class="p">)</span><span class="w">                 </span><span class="c1"># =&gt; Bearing (great-circle forward azimuth)</span>
 </span></code></pre></div>
 
 
