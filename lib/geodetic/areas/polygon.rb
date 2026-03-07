@@ -36,7 +36,7 @@ module Geodetic
         (@boundary.length - 2).times do |index|
           return true if @boundary[index] == a_point
 
-          d_turn_angle  = a_point.heading_to(@boundary[index + 1]) - a_point.heading_to(@boundary[index])
+          d_turn_angle  = a_point.bearing_to(@boundary[index + 1]) - a_point.bearing_to(@boundary[index])
           d_turn_angle += (d_turn_angle > 0.0 ? -360.0 : 360.0) if d_turn_angle.abs > 180.0
           turn_angle   += d_turn_angle
         end

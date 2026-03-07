@@ -164,7 +164,70 @@ mgrs = GCS::MGRS.from_lla(portland)
 utm.distance_to(mgrs)    # => Distance
 ```
 
-> **Note:** ENU and NED are relative coordinate systems and must be converted to an absolute system before distance calculations. They retain `horizontal_distance_to` and `bearing_to` for local Euclidean operations.
+> **Note:** ENU and NED are relative coordinate systems and must be converted to an absolute system before distance and bearing calculations. They retain `local_bearing_to`, `horizontal_distance_to`, and other local methods for tangent-plane operations.
+
+### Bearing Calculations
+
+Universal bearing methods work across all coordinate types and return `Bearing` objects.
+
+**Instance method `bearing_to`** — great-circle forward azimuth:
+
+```ruby
+seattle = GCS::LLA.new(lat: 47.6205, lng: -122.3493, alt: 0.0)
+portland = GCS::LLA.new(lat: 45.5152, lng: -122.6784, alt: 0.0)
+
+b = seattle.bearing_to(portland)   # => Bearing
+b.degrees                          # => 188.2
+b.to_radians                      # => 3.28...
+b.to_compass                      # => "S"
+b.to_compass(points: 8)           # => "S"
+b.reverse                         # => Bearing (back azimuth)
+b.to_s                            # => "188.2036°"
+```
+
+**Instance method `elevation_to`** — vertical look angle:
+
+```ruby
+a = GCS::LLA.new(lat: 47.62, lng: -122.35, alt: 0.0)
+b = GCS::LLA.new(lat: 47.62, lng: -122.35, alt: 5000.0)
+
+a.elevation_to(b)   # => 89.9... (degrees, nearly straight up)
+```
+
+**Class method `bearing_between`** — consecutive chain bearings:
+
+```ruby
+GCS.bearing_between(seattle, portland)        # => Bearing
+GCS.bearing_between(seattle, portland, sf)    # => [Bearing, Bearing] (chain)
+```
+
+**Cross-system bearings** — works between any coordinate types:
+
+```ruby
+utm = seattle.to_utm
+mgrs = GCS::MGRS.from_lla(portland)
+utm.bearing_to(mgrs)    # => Bearing
+```
+
+### Bearing Class
+
+`Bearing` wraps an azimuth angle (0-360°) with compass and radian conversions.
+
+```ruby
+b = Geodetic::Bearing.new(225)
+b.degrees                   # => 225.0
+b.to_radians                # => 3.926...
+b.reverse                   # => Bearing (45°)
+b.to_compass(points: 4)     # => "W"
+b.to_compass(points: 8)     # => "SW"
+b.to_compass(points: 16)    # => "SW"
+b.to_s                      # => "225.0000°"
+
+# Arithmetic
+b + 10                       # => Bearing (235°)
+b - 10                       # => Bearing (215°)
+Bearing.new(90) - Bearing.new(45)  # => 45.0 (Float, angular difference)
+```
 
 ### Distance Class
 

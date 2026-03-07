@@ -42,19 +42,20 @@ The one exception is the conversion between ENU and NED, which does not require 
 | Method                          | Description                                                        |
 |---------------------------------|--------------------------------------------------------------------|
 | `horizontal_distance_to(other)` | Horizontal (E-N plane) distance to another ENU point (meters)      |
-| `bearing_to(other)`             | Bearing from this point to another ENU point (degrees from north, 0-360) |
+| `local_bearing_to(other)`       | Bearing from this point to another ENU point (degrees from north, 0-360) |
 | `distance_to_origin`            | Euclidean distance from this point to the origin (meters)          |
 | `bearing_from_origin`           | Bearing from the origin to this point (degrees from north, 0-360)  |
 | `horizontal_distance_to_origin` | Horizontal distance from this point to the origin (meters)         |
 
-### Universal Distance Methods
+### Universal Distance and Bearing Methods
 
-ENU is a relative coordinate system. To use the universal `distance_to` or `straight_line_distance_to` methods, first convert to an absolute system (such as LLA or ECEF) using a reference point:
+ENU is a relative coordinate system. The universal `distance_to`, `straight_line_distance_to`, `bearing_to`, and `elevation_to` methods raise `ArgumentError` because ENU cannot be converted to an absolute system without a reference point. Convert to an absolute system first:
 
 ```ruby
 ref = Geodetic::Coordinates::LLA.new(lat: 47.62, lng: -122.35, alt: 0.0)
 lla = enu.to_lla(ref)
-lla.distance_to(other_lla)  # Vincenty great-circle distance
+lla.distance_to(other_lla)   # Vincenty great-circle distance
+lla.bearing_to(other_lla)    # Great-circle forward azimuth (Bearing object)
 ```
 
 ## Bearing Convention

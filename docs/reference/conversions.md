@@ -279,4 +279,71 @@ lla = enu.to_lla(ref)
 lla.distance_to(other_lla)
 ```
 
-ENU and NED retain `horizontal_distance_to` and `bearing_to` for local Euclidean operations within the tangent plane.
+ENU and NED retain `horizontal_distance_to` and `local_bearing_to` for local Euclidean operations within the tangent plane.
+
+---
+
+## Bearing Calculations
+
+Universal bearing methods are available on all coordinate types and work across different coordinate systems. All bearing methods return `Bearing` objects.
+
+### Great-Circle Bearing (Forward Azimuth)
+
+- **`bearing_to(other)`** — Instance method. Computes the great-circle forward azimuth from the receiver to the target coordinate. Returns a `Bearing` object.
+- **`elevation_to(other)`** — Instance method. Computes the vertical look angle (elevation) from the receiver to the target. Returns a Float in degrees (-90 to +90).
+- **`GCS.bearing_between(*coords)`** — Class method on `Geodetic::Coordinates` (aliased as `GCS`). Computes consecutive chain bearings between an ordered sequence of coordinates. Returns a `Bearing` for two coordinates, or an Array of `Bearing` objects for three or more.
+
+```ruby
+seattle = GCS::LLA.new(lat: 47.6205, lng: -122.3493, alt: 0.0)
+portland = GCS::LLA.new(lat: 45.5152, lng: -122.6784, alt: 0.0)
+sf = GCS::LLA.new(lat: 37.7749, lng: -122.4194, alt: 0.0)
+
+# Forward azimuth
+b = seattle.bearing_to(portland)       # => Bearing
+b.degrees                              # => 188.2...
+b.to_compass(points: 8)               # => "S"
+b.reverse                             # => Bearing (back azimuth)
+
+# Elevation angle
+seattle.elevation_to(portland)         # => Float (degrees)
+
+# Consecutive chain bearings
+GCS.bearing_between(seattle, portland, sf)  # => [Bearing, Bearing]
+```
+
+### Cross-System Bearings
+
+`bearing_to` and `elevation_to` accept any coordinate type. Coordinates are converted to LLA internally:
+
+```ruby
+utm = seattle.to_utm
+mgrs = GCS::MGRS.from_lla(portland)
+utm.bearing_to(mgrs)    # => Bearing
+```
+
+### ENU and NED (Relative Systems)
+
+ENU and NED are relative coordinate systems and do not support `bearing_to` or `elevation_to` directly (these raise `ArgumentError`). Convert to an absolute system first, or use the local methods:
+
+- **`local_bearing_to(other)`** — Local tangent plane bearing (degrees from north, 0-360)
+- **`local_elevation_angle_to(other)`** — Local elevation angle (NED only, degrees)
+
+### Bearing Class
+
+`Bearing` wraps an azimuth angle (0-360) with compass and radian conversions:
+
+```ruby
+b = Geodetic::Bearing.new(225)
+b.degrees                   # => 225.0
+b.to_radians                # => 3.926...
+b.reverse                   # => Bearing (45)
+b.to_compass(points: 4)     # => "W"
+b.to_compass(points: 8)     # => "SW"
+b.to_compass(points: 16)    # => "SW"
+b.to_s                      # => "225.0000°"
+
+# Arithmetic
+b + 10                       # => Bearing (235°)
+b - 10                       # => Bearing (215°)
+Bearing.new(90) - Bearing.new(45)  # => 45.0 (Float, angular difference)
+```

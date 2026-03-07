@@ -228,16 +228,6 @@ module Geodetic
       end
 
 
-      # Bearing calculation
-      def bearing_to(other_coord)
-        dx = other_coord.easting - @easting
-        dy = other_coord.northing - @northing
-        bearing_rad = Math.atan2(dx, dy)
-        bearing_deg = bearing_rad * DEG_PER_RAD
-        bearing_deg = bearing_deg + 360.0 if bearing_deg < 0
-        bearing_deg
-      end
-
       # Validate BNG coordinates
       def valid?
         # Check if coordinates fall within Great Britain bounds

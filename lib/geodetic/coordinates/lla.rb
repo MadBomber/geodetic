@@ -200,23 +200,6 @@ module Geodetic
         new(lat: lat, lng: lng, alt: alt)
       end
 
-      # Forward azimuth (initial bearing) from this point to another LLA point.
-      # Returns degrees clockwise from north (0-360).
-      def heading_to(other)
-        raise ArgumentError, "Expected LLA" unless other.is_a?(LLA)
-
-        lat1 = @lat * RAD_PER_DEG
-        lat2 = other.lat * RAD_PER_DEG
-        delta_lng = (other.lng - @lng) * RAD_PER_DEG
-
-        x = Math.sin(delta_lng) * Math.cos(lat2)
-        y = Math.cos(lat1) * Math.sin(lat2) - Math.sin(lat1) * Math.cos(lat2) * Math.cos(delta_lng)
-
-        bearing = Math.atan2(x, y) * DEG_PER_RAD
-        bearing += 360.0 if bearing < 0
-        bearing
-      end
-
       def to_s
         "#{@lat}, #{@lng}, #{@alt}"
       end

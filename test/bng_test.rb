@@ -138,19 +138,22 @@ class BngTest < Minitest::Test
     assert dist > 0.0, "Expected positive distance between different BNG points"
   end
 
-  # -- bearing_to -----------------------------------------------------------
+  # -- bearing_to (universal mixin) -----------------------------------------
 
-  def test_bearing_to
+  def test_bearing_to_returns_bearing_object
     a = BNG.new(easting: 530000, northing: 180000)
     b = BNG.new(easting: 530000, northing: 181000)
-    # Due north
-    assert_in_delta 0.0, a.bearing_to(b), 1e-6
+    bearing = a.bearing_to(b)
+    assert_instance_of Geodetic::Bearing, bearing
+    # Due north: should be near 0
+    assert_in_delta 0.0, bearing.degrees, 1.0
   end
 
   def test_bearing_to_east
     a = BNG.new(easting: 530000, northing: 180000)
     b = BNG.new(easting: 531000, northing: 180000)
-    # Due east
-    assert_in_delta 90.0, a.bearing_to(b), 1e-6
+    bearing = a.bearing_to(b)
+    # Due east: should be near 90
+    assert_in_delta 90.0, bearing.degrees, 1.0
   end
 end

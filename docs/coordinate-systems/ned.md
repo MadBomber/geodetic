@@ -45,21 +45,22 @@ The one exception is the conversion between NED and ENU, which does not require 
 | Method                          | Description                                                              |
 |---------------------------------|--------------------------------------------------------------------------|
 | `horizontal_distance_to(other)` | Horizontal (N-E plane) distance to another NED point (meters)            |
-| `bearing_to(other)`             | Bearing from this point to another NED point (degrees from north, 0-360) |
-| `elevation_angle_to(other)`     | Elevation angle from this point to another NED point (degrees)           |
+| `local_bearing_to(other)`       | Bearing from this point to another NED point (degrees from north, 0-360) |
+| `local_elevation_angle_to(other)` | Elevation angle from this point to another NED point (degrees)         |
 | `distance_to_origin`            | Euclidean distance from this point to the origin (meters)                |
 | `elevation_angle`               | Elevation angle from the origin to this point (degrees)                  |
 | `bearing_from_origin`           | Bearing from the origin to this point (degrees from north, 0-360)        |
 | `horizontal_distance_to_origin` | Horizontal distance from this point to the origin (meters)               |
 
-### Universal Distance Methods
+### Universal Distance and Bearing Methods
 
-NED is a relative coordinate system. To use the universal `distance_to` or `straight_line_distance_to` methods, first convert to an absolute system (such as LLA or ECEF) using a reference point:
+NED is a relative coordinate system. The universal `distance_to`, `straight_line_distance_to`, `bearing_to`, and `elevation_to` methods raise `ArgumentError` because NED cannot be converted to an absolute system without a reference point. Convert to an absolute system first:
 
 ```ruby
 ref = Geodetic::Coordinates::LLA.new(lat: 47.62, lng: -122.35, alt: 0.0)
 lla = ned.to_lla(ref)
-lla.distance_to(other_lla)  # Vincenty great-circle distance
+lla.distance_to(other_lla)   # Vincenty great-circle distance
+lla.bearing_to(other_lla)    # Great-circle forward azimuth (Bearing object)
 ```
 
 ## Bearing Convention

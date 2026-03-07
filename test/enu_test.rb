@@ -159,30 +159,30 @@ class EnuTest < Minitest::Test
     assert_in_delta 5.0, a.horizontal_distance_to(b), 1e-10
   end
 
-  # 11. bearing_to
+  # 11. local_bearing_to
 
-  def test_bearing_to_due_east
+  def test_local_bearing_to_due_east
     a = ENU.new(e: 0.0, n: 0.0, u: 0.0)
     b = ENU.new(e: 100.0, n: 0.0, u: 0.0)
-    assert_in_delta 90.0, a.bearing_to(b), 1e-10
+    assert_in_delta 90.0, a.local_bearing_to(b), 1e-10
   end
 
-  def test_bearing_to_due_north
+  def test_local_bearing_to_due_north
     a = ENU.new(e: 0.0, n: 0.0, u: 0.0)
     b = ENU.new(e: 0.0, n: 100.0, u: 0.0)
-    assert_in_delta 0.0, a.bearing_to(b), 1e-10
+    assert_in_delta 0.0, a.local_bearing_to(b), 1e-10
   end
 
-  def test_bearing_to_due_south
+  def test_local_bearing_to_due_south
     a = ENU.new(e: 0.0, n: 0.0, u: 0.0)
     b = ENU.new(e: 0.0, n: -100.0, u: 0.0)
-    assert_in_delta 180.0, a.bearing_to(b), 1e-10
+    assert_in_delta 180.0, a.local_bearing_to(b), 1e-10
   end
 
-  def test_bearing_to_due_west
+  def test_local_bearing_to_due_west
     a = ENU.new(e: 0.0, n: 0.0, u: 0.0)
     b = ENU.new(e: -100.0, n: 0.0, u: 0.0)
-    assert_in_delta 270.0, a.bearing_to(b), 1e-10
+    assert_in_delta 270.0, a.local_bearing_to(b), 1e-10
   end
 
   # 12. distance_to_origin, bearing_from_origin, horizontal_distance_to_origin

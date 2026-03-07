@@ -47,17 +47,14 @@ point.valid?  # => true if within Great Britain bounds
 
 ## Utility Methods
 
-| Method | Description |
-|---|---|
-| `bearing_to(other)` | Computes the bearing (in degrees from grid north) to another `BNG` point |
+### Universal Distance and Bearing Methods
 
-### Universal Distance Methods
-
-The universal `distance_to` method computes the Vincenty great-circle distance (in meters) to any other coordinate type. The `straight_line_distance_to` method computes the Euclidean distance in ECEF space. Both accept single or multiple targets.
+The universal `distance_to` method computes the Vincenty great-circle distance to any other coordinate type, returning a `Distance` object. The `straight_line_distance_to` method computes the Euclidean distance in ECEF space. The universal `bearing_to` method computes the great-circle forward azimuth, returning a `Bearing` object. All accept single or multiple targets.
 
 ```ruby
 bng_a = Geodetic::Coordinates::BNG.new(easting: 530000.0, northing: 180000.0)
 bng_b = Geodetic::Coordinates::BNG.new(easting: 540000.0, northing: 190000.0)
-bng_a.distance_to(bng_b)                # => Distance (meters, great-circle)
-bng_a.straight_line_distance_to(bng_b)  # => Distance (meters, Euclidean)
+bng_a.distance_to(bng_b)                # => Distance (great-circle)
+bng_a.straight_line_distance_to(bng_b)  # => Distance (Euclidean)
+bng_a.bearing_to(bng_b)                 # => Bearing (great-circle forward azimuth)
 ```

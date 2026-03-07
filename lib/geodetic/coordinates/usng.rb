@@ -140,20 +140,6 @@ module Geodetic
       end
 
 
-      # Bearing calculation
-      def bearing_to(other_coord)
-        utm1 = self.to_utm
-        utm2 = other_coord.to_utm
-
-        dx = utm2.easting - utm1.easting
-        dy = utm2.northing - utm1.northing
-
-        bearing_rad = Math.atan2(dx, dy)
-        bearing_deg = bearing_rad * 180.0 / Math::PI
-        bearing_deg = bearing_deg + 360.0 if bearing_deg < 0
-        bearing_deg
-      end
-
       # Get adjacent grid squares
       def adjacent_squares
         squares = {}

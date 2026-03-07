@@ -138,7 +138,9 @@ module Geodetic
         Math.sqrt(de**2 + dn**2)
       end
 
-      def bearing_to(other)
+      # Local tangent-plane bearing to another ENU point (degrees, 0-360).
+      # For great-circle bearing across coordinate systems, use the universal bearing_to.
+      def local_bearing_to(other)
         raise ArgumentError, "Expected ENU" unless other.is_a?(ENU)
 
         de = other.e - @e

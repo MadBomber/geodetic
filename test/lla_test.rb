@@ -240,42 +240,52 @@ class LlaTest < Minitest::Test
     assert_match(/Longitude/, error.message)
   end
 
-  # -- heading_to -----------------------------------------------------------
+  # -- bearing_to (universal mixin) ----------------------------------------
 
-  def test_heading_to_due_north
+  def test_bearing_to_due_north
     a = LLA.new(lat: 0.0, lng: 0.0)
     b = LLA.new(lat: 1.0, lng: 0.0)
-    assert_in_delta 0.0, a.heading_to(b), 0.01
+    bearing = a.bearing_to(b)
+    assert_instance_of Geodetic::Bearing, bearing
+    assert_in_delta 0.0, bearing.degrees, 0.01
   end
 
-  def test_heading_to_due_east
+  def test_bearing_to_due_east
     a = LLA.new(lat: 0.0, lng: 0.0)
     b = LLA.new(lat: 0.0, lng: 1.0)
-    assert_in_delta 90.0, a.heading_to(b), 0.01
+    assert_in_delta 90.0, a.bearing_to(b).degrees, 0.01
   end
 
-  def test_heading_to_due_south
+  def test_bearing_to_due_south
     a = LLA.new(lat: 1.0, lng: 0.0)
     b = LLA.new(lat: 0.0, lng: 0.0)
-    assert_in_delta 180.0, a.heading_to(b), 0.01
+    assert_in_delta 180.0, a.bearing_to(b).degrees, 0.01
   end
 
-  def test_heading_to_due_west
+  def test_bearing_to_due_west
     a = LLA.new(lat: 0.0, lng: 0.0)
     b = LLA.new(lat: 0.0, lng: -1.0)
-    assert_in_delta 270.0, a.heading_to(b), 0.01
+    assert_in_delta 270.0, a.bearing_to(b).degrees, 0.01
   end
 
-  def test_heading_to_returns_0_to_360
-    a = LLA.new(lat: 47.6205, lng: -122.3493)
-    b = LLA.new(lat: 45.5152, lng: -122.6784)
-    heading = a.heading_to(b)
-    assert heading >= 0.0 && heading < 360.0
+  # -- elevation_to (universal mixin) ------------------------------------
+
+  def test_elevation_to_same_altitude
+    a = LLA.new(lat: 47.0, lng: -122.0, alt: 0.0)
+    b = LLA.new(lat: 47.1, lng: -122.0, alt: 0.0)
+    assert_in_delta 0.0, a.elevation_to(b), 1.0
   end
 
-  def test_heading_to_raises_for_non_lla
-    a = LLA.new(lat: 0.0, lng: 0.0)
-    assert_raises(ArgumentError) { a.heading_to("not an LLA") }
+  def test_elevation_to_above
+    a = LLA.new(lat: 47.0, lng: -122.0, alt: 0.0)
+    b = LLA.new(lat: 47.0, lng: -122.0, alt: 10000.0)
+    assert a.elevation_to(b) > 80.0  # nearly straight up
+  end
+
+  def test_elevation_to_below
+    a = LLA.new(lat: 47.0, lng: -122.0, alt: 10000.0)
+    b = LLA.new(lat: 47.0, lng: -122.0, alt: 0.0)
+    assert a.elevation_to(b) < -80.0  # nearly straight down
   end
 
   # -- immutability ---------------------------------------------------------

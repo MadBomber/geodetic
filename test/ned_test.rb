@@ -144,54 +144,50 @@ class NedTest < Minitest::Test
     assert_in_delta 5.0, a.horizontal_distance_to(b), 1e-10
   end
 
-  # 10. bearing_to
+  # 10. local_bearing_to
 
-  def test_bearing_to_due_east
+  def test_local_bearing_to_due_east
     a = NED.new(n: 0.0, e: 0.0, d: 0.0)
     b = NED.new(n: 0.0, e: 100.0, d: 0.0)
-    assert_in_delta 90.0, a.bearing_to(b), 1e-10
+    assert_in_delta 90.0, a.local_bearing_to(b), 1e-10
   end
 
-  def test_bearing_to_due_north
+  def test_local_bearing_to_due_north
     a = NED.new(n: 0.0, e: 0.0, d: 0.0)
     b = NED.new(n: 100.0, e: 0.0, d: 0.0)
-    assert_in_delta 0.0, a.bearing_to(b), 1e-10
+    assert_in_delta 0.0, a.local_bearing_to(b), 1e-10
   end
 
-  def test_bearing_to_due_south
+  def test_local_bearing_to_due_south
     a = NED.new(n: 0.0, e: 0.0, d: 0.0)
     b = NED.new(n: -100.0, e: 0.0, d: 0.0)
-    assert_in_delta 180.0, a.bearing_to(b), 1e-10
+    assert_in_delta 180.0, a.local_bearing_to(b), 1e-10
   end
 
-  def test_bearing_to_due_west
+  def test_local_bearing_to_due_west
     a = NED.new(n: 0.0, e: 0.0, d: 0.0)
     b = NED.new(n: 0.0, e: -100.0, d: 0.0)
-    assert_in_delta 270.0, a.bearing_to(b), 1e-10
+    assert_in_delta 270.0, a.local_bearing_to(b), 1e-10
   end
 
-  # 11. elevation_angle_to
+  # 11. local_elevation_angle_to
 
-  def test_elevation_angle_to_above
+  def test_local_elevation_angle_to_above
     a = NED.new(n: 0.0, e: 0.0, d: 0.0)
     b = NED.new(n: 100.0, e: 0.0, d: -100.0)
-    # vertical_diff = 0 - (-100) = 100, horizontal = 100
-    # atan2(100, 100) = 45 degrees
-    assert_in_delta 45.0, a.elevation_angle_to(b), 1e-10
+    assert_in_delta 45.0, a.local_elevation_angle_to(b), 1e-10
   end
 
-  def test_elevation_angle_to_below
+  def test_local_elevation_angle_to_below
     a = NED.new(n: 0.0, e: 0.0, d: 0.0)
     b = NED.new(n: 100.0, e: 0.0, d: 100.0)
-    # vertical_diff = 0 - 100 = -100, horizontal = 100
-    # atan2(-100, 100) = -45 degrees
-    assert_in_delta(-45.0, a.elevation_angle_to(b), 1e-10)
+    assert_in_delta(-45.0, a.local_elevation_angle_to(b), 1e-10)
   end
 
-  def test_elevation_angle_to_same_altitude
+  def test_local_elevation_angle_to_same_altitude
     a = NED.new(n: 0.0, e: 0.0, d: 50.0)
     b = NED.new(n: 100.0, e: 0.0, d: 50.0)
-    assert_in_delta 0.0, a.elevation_angle_to(b), 1e-10
+    assert_in_delta 0.0, a.local_elevation_angle_to(b), 1e-10
   end
 
   # 12. distance_to_origin, elevation_angle, bearing_from_origin, horizontal_distance_to_origin

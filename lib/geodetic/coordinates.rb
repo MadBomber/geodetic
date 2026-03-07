@@ -141,10 +141,63 @@ module Geodetic
       distances.length == 1 ? distances[0] : distances
     end
 
-    # Mixin for all coordinate classes
+    # Great-circle forward azimuth from lla_a to lla_b (degrees, 0-360)
+    def self.great_circle_bearing(lla_a, lla_b)
+      lat1 = lla_a.lat * RAD_PER_DEG
+      lat2 = lla_b.lat * RAD_PER_DEG
+      delta_lng = (lla_b.lng - lla_a.lng) * RAD_PER_DEG
+
+      x = Math.sin(delta_lng) * Math.cos(lat2)
+      y = Math.cos(lat1) * Math.sin(lat2) - Math.sin(lat1) * Math.cos(lat2) * Math.cos(delta_lng)
+
+      Math.atan2(x, y) * DEG_PER_RAD
+    end
+
+    # Elevation angle from observer to target using ECEF and local vertical.
+    # Returns degrees (-90 to +90). Positive means target is above observer.
+    def self.elevation_angle(lla_observer, ecef_observer, ecef_target)
+      # Vector from observer to target
+      vx = ecef_target.x - ecef_observer.x
+      vy = ecef_target.y - ecef_observer.y
+      vz = ecef_target.z - ecef_observer.z
+
+      # Local up direction (geodetic surface normal)
+      lat_rad = lla_observer.lat * RAD_PER_DEG
+      lng_rad = lla_observer.lng * RAD_PER_DEG
+      cos_lat = Math.cos(lat_rad)
+      up_x = cos_lat * Math.cos(lng_rad)
+      up_y = cos_lat * Math.sin(lng_rad)
+      up_z = Math.sin(lat_rad)
+
+      # Vertical component (dot product with up)
+      vertical = vx * up_x + vy * up_y + vz * up_z
+
+      # Total distance
+      dist = Math.sqrt(vx**2 + vy**2 + vz**2)
+      return 0.0 if dist == 0.0
+
+      # Horizontal component
+      horizontal = Math.sqrt([dist**2 - vertical**2, 0.0].max)
+
+      Math.atan2(vertical, horizontal) * DEG_PER_RAD
+    end
+
+    # Great-circle bearing between consecutive pairs.
+    # Two coordinates returns a Bearing; more returns an Array of Bearings.
+    def self.bearing_between(*coords)
+      list = normalize_coords(*coords)
+      raise ArgumentError, "At least 2 coordinates required" if list.length < 2
+
+      llas = list.map { |c| to_lla(c) }
+      bearings = llas.each_cons(2).map { |a, b| Bearing.new(great_circle_bearing(a, b)) }
+
+      bearings.length == 1 ? bearings[0] : bearings
+    end
+
+    # Mixin for all coordinate classes: distance methods
     module DistanceMethods
       # Great-circle distance from this coordinate to one or more others.
-      # Single target returns a Float; multiple returns an Array of Floats.
+      # Single target returns a Distance; multiple returns an Array of Distances.
       def distance_to(*others)
         list = others.length == 1 && others[0].is_a?(Array) ? others[0] : others
         distances = list.map { |other| Coordinates.distance_between(self, other) }
@@ -152,18 +205,37 @@ module Geodetic
       end
 
       # ECEF straight-line distance from this coordinate to one or more others.
-      # Single target returns a Float; multiple returns an Array of Floats.
+      # Single target returns a Distance; multiple returns an Array of Distances.
       def straight_line_distance_to(*others)
         list = others.length == 1 && others[0].is_a?(Array) ? others[0] : others
         distances = list.map { |other| Coordinates.straight_line_distance_between(self, other) }
         distances.length == 1 ? distances[0] : distances
       end
     end
+
+    # Mixin for all coordinate classes: bearing methods
+    module BearingMethods
+      # Great-circle forward azimuth from this coordinate to another.
+      # Returns a Bearing (degrees 0-360).
+      def bearing_to(other)
+        Coordinates.bearing_between(self, other)
+      end
+
+      # Elevation angle from this coordinate to another.
+      # Returns Float degrees (-90 to +90). Positive means target is above.
+      def elevation_to(other)
+        lla_self  = Coordinates.send(:to_lla, self)
+        ecef_self = Coordinates.send(:to_ecef, self)
+        ecef_other = Coordinates.send(:to_ecef, other)
+
+        Coordinates.elevation_angle(lla_self, ecef_self, ecef_other)
+      end
+    end
   end
 end
 
-# Include DistanceMethods in all coordinate classes
-[
+# Include mixins in all coordinate classes
+ALL_COORD_CLASSES = [
   Geodetic::Coordinates::LLA,
   Geodetic::Coordinates::ECEF,
   Geodetic::Coordinates::UTM,
@@ -175,7 +247,12 @@ end
   Geodetic::Coordinates::UPS,
   Geodetic::Coordinates::StatePlane,
   Geodetic::Coordinates::BNG,
-].each { |klass| klass.include(Geodetic::Coordinates::DistanceMethods) }
+].freeze
+
+ALL_COORD_CLASSES.each do |klass|
+  klass.include(Geodetic::Coordinates::DistanceMethods)
+  klass.include(Geodetic::Coordinates::BearingMethods)
+end
 
 # GCS is a convenience alias for Geodetic::Coordinates, available after require "geodetic"
 GCS = Geodetic::Coordinates

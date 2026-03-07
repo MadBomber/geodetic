@@ -118,7 +118,9 @@ module Geodetic
         Math.sqrt(dn**2 + de**2)
       end
 
-      def bearing_to(other)
+      # Local tangent-plane bearing to another NED point (degrees, 0-360).
+      # For great-circle bearing across coordinate systems, use the universal bearing_to.
+      def local_bearing_to(other)
         raise ArgumentError, "Expected NED" unless other.is_a?(NED)
 
         dn = other.n - @n
@@ -131,7 +133,9 @@ module Geodetic
         bearing_deg
       end
 
-      def elevation_angle_to(other)
+      # Local tangent-plane elevation angle to another NED point (degrees).
+      # For elevation angle across coordinate systems, use the universal elevation_to.
+      def local_elevation_angle_to(other)
         raise ArgumentError, "Expected NED" unless other.is_a?(NED)
 
         horizontal_dist = horizontal_distance_to(other)
