@@ -1,23 +1,8 @@
 # frozen_string_literal: true
 
 module Geodetic
-  QUARTER_PI     =    0.785398163397448
-  HALF_PI        =    1.5707963267949
-  RAD_PER_DEG    =    0.0174532925199433
-  DEG_PER_RAD    =   57.2957795130823
-  FEET_PER_MILE  = 5280.0
-  FEET_PER_METER =    3.2808399
-  INCH_PER_FOOT  =   12.0
-  KM_PER_MILE    =    1.609344
-  MILE_PER_KM    =    0.621371192237334
-  SM_PER_NM      =    0.868976242
-  NM_PER_SM      =    1.15077944789197
-  NM_PER_DEG     =   60.0
-  SM_PER_DEG     =   52.13857452
-  MILES_PER_DEG  = SM_PER_DEG
-  GRAVITY_MS2    =  9.80665
-  GRAVITY_FS2    = 32.174
-  GRAVITY        = GRAVITY_MS2
+  RAD_PER_DEG = 0.0174532925199433
+  DEG_PER_RAD = 57.2957795130823
 
   class Datum
     ELLIPSES = {
@@ -39,7 +24,7 @@ module Geodetic
       'WGS84'                       => { desc: 'World Geodetic System 1984',      a: 6378137.0,   f_inv: 298.257223563, b: 6356752.3142451793, e2: 0.00669437999014132 },
     }.freeze
 
-    attr_accessor :name, :desc, :a, :f, :f_inv, :b, :e, :e2
+    attr_reader :name, :desc, :a, :f, :f_inv, :b, :e, :e2
 
     def initialize(name:)
       @name = name.upcase
@@ -55,24 +40,11 @@ module Geodetic
     end
 
     def self.list
-      ELLIPSES.each { |name, data| puts "#{name}: #{data[:desc]}" }
-      nil
+      ELLIPSES.map { |name, data| "#{name}: #{data[:desc]}" }
     end
 
     def self.get(datum_name)
-      name = datum_name.upcase
-      raise NameError, "Unknown datum: #{name}" unless ELLIPSES.key?(name)
-      data = ELLIPSES[name]
-      {
-        'name'  => name,
-        'desc'  => data[:desc],
-        'a'     => data[:a],
-        'f_inv' => data[:f_inv],
-        'f'     => 1.0 / data[:f_inv],
-        'b'     => data[:b],
-        'e2'    => data[:e2],
-        'e'     => Math.sqrt(data[:e2])
-      }
+      new(name: datum_name)
     end
   end
 

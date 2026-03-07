@@ -39,16 +39,16 @@ class UpsTest < Minitest::Test
 
   # ── Accessors ──────────────────────────────────────────────
 
-  def test_easting_accessor
-    coord = UPS.new
-    coord.easting = 2500000.0
+  def test_easting_reader
+    coord = UPS.new(easting: 2500000.0)
     assert_in_delta 2500000.0, coord.easting, 1e-6
+    assert_raises(NoMethodError) { coord.easting = 99.0 }
   end
 
-  def test_northing_accessor
-    coord = UPS.new
-    coord.northing = 2500000.0
+  def test_northing_reader
+    coord = UPS.new(northing: 2500000.0)
     assert_in_delta 2500000.0, coord.northing, 1e-6
+    assert_raises(NoMethodError) { coord.northing = 99.0 }
   end
 
   def test_hemisphere_accessor

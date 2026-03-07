@@ -38,25 +38,22 @@ class EcefTest < Minitest::Test
 
   # --- Accessors ---
 
-  def test_x_accessor
+  def test_x_reader
     ecef = ECEF.new(x: 42.5)
     assert_in_delta 42.5, ecef.x, 1e-10
-    ecef.x = 99.9
-    assert_in_delta 99.9, ecef.x, 1e-10
+    assert_raises(NoMethodError) { ecef.x = 99.9 }
   end
 
-  def test_y_accessor
+  def test_y_reader
     ecef = ECEF.new(y: 42.5)
     assert_in_delta 42.5, ecef.y, 1e-10
-    ecef.y = 99.9
-    assert_in_delta 99.9, ecef.y, 1e-10
+    assert_raises(NoMethodError) { ecef.y = 99.9 }
   end
 
-  def test_z_accessor
+  def test_z_reader
     ecef = ECEF.new(z: 42.5)
     assert_in_delta 42.5, ecef.z, 1e-10
-    ecef.z = 99.9
-    assert_in_delta 99.9, ecef.z, 1e-10
+    assert_raises(NoMethodError) { ecef.z = 99.9 }
   end
 
   # --- to_s ---

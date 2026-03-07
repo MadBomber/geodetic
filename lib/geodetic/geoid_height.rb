@@ -1,10 +1,16 @@
+# frozen_string_literal: true
+
 # Geoid Height and Vertical Datum Support
 # Provides conversion between ellipsoidal heights and orthometric heights
-# Supports multiple geoid models and vertical datums
+#
+# NOTE: The geoid height calculations use simplified trigonometric
+# approximations, not actual geoid model grid data. Values will differ
+# from real EGM96/EGM2008/GEOID18/GEOID12B grids. Suitable for testing
+# and demonstration; for production use, integrate real grid data files.
 
 module Geodetic
   class GeoidHeight
-    attr_accessor :geoid_model, :interpolation_method
+    attr_reader :geoid_model, :interpolation_method
 
     GEOID_MODELS = {
       'EGM96' => {
@@ -268,9 +274,7 @@ module Geodetic
       geoid = GeoidHeight.new(geoid_model: geoid_model)
       new_height = geoid.convert_vertical_datum(self.lat, self.lng, self.alt, from_datum, to_datum)
 
-      new_coord = self.dup
-      new_coord.alt = new_height if new_coord.respond_to?(:alt=)
-      new_coord
+      self.class.new(lat: self.lat, lng: self.lng, alt: new_height)
     end
 
     def geoid_height(geoid_model = 'EGM2008')

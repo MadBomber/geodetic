@@ -1,12 +1,11 @@
-#############################
-## Earth-Centered, Earth-Fixed
+# frozen_string_literal: true
 
 require_relative '../datum'
 
 module Geodetic
   module Coordinates
     class ECEF
-      attr_accessor :x, :y, :z
+      attr_reader :x, :y, :z
 
       def initialize(x: 0.0, y: 0.0, z: 0.0)
         @x = x.to_f

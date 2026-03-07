@@ -82,27 +82,31 @@ class DatumTest < Minitest::Test
 
   # -- Datum.list -----------------------------------------------------------
 
-  def test_list_returns_nil
-    assert_nil Datum.list
+  def test_list_returns_array_of_strings
+    result = Datum.list
+    assert_instance_of Array, result
+    assert result.length > 0
+    assert result.any? { |s| s.include?("WGS84") }
   end
 
   # -- Datum.get ------------------------------------------------------------
 
-  def test_get_returns_hash
+  def test_get_returns_datum
     result = Datum.get("WGS84")
-    assert_instance_of Hash, result
+    assert_instance_of Datum, result
   end
 
-  def test_get_has_correct_keys
+  def test_get_has_correct_attributes
     result = Datum.get("WGS84")
-    %w[name desc a f_inv f b e2 e].each do |key|
-      assert result.key?(key), "Expected key '#{key}' in Datum.get result"
-    end
+    assert_equal "WGS84", result.name
+    assert result.desc.is_a?(String)
+    assert result.a > 0
+    assert result.f > 0
   end
 
   def test_get_correct_a_value
     result = Datum.get("WGS84")
-    assert_in_delta 6378137.0, result["a"], 1e-6
+    assert_in_delta 6378137.0, result.a, 1e-6
   end
 
   def test_get_invalid_name_raises
@@ -129,19 +133,10 @@ class DatumTest < Minitest::Test
     assert_in_delta 57.2957795130823, Geodetic::DEG_PER_RAD, 1e-10
   end
 
-  def test_quarter_pi_exists
-    assert_in_delta 0.785398163397448, Geodetic::QUARTER_PI, 1e-12
-  end
-
-  def test_half_pi_exists
-    assert_in_delta 1.5707963267949, Geodetic::HALF_PI, 1e-10
-  end
-
-  def test_feet_per_meter_exists
-    assert_in_delta 3.2808399, Geodetic::FEET_PER_METER, 1e-7
-  end
-
-  def test_gravity_constant_exists
-    assert_in_delta 9.80665, Geodetic::GRAVITY, 1e-5
+  def test_removed_constants_not_present
+    refute defined?(Geodetic::QUARTER_PI), "QUARTER_PI should be removed"
+    refute defined?(Geodetic::HALF_PI), "HALF_PI should be removed"
+    refute defined?(Geodetic::FEET_PER_METER), "FEET_PER_METER should be removed"
+    refute defined?(Geodetic::GRAVITY), "GRAVITY should be removed"
   end
 end

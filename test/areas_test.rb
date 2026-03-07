@@ -32,32 +32,36 @@ class CircleAreaTest < Minitest::Test
     assert_in_delta 5000.0, circle.radius, 1e-6
   end
 
-  # -- includes?/excludes? aliases -----------------------------------------
-  # Note: includes? relies on LLA#distance_to which is not yet implemented.
-  # These tests verify the alias methods exist on the class.
+  # -- includes?/excludes? --------------------------------------------------
 
-  def test_includes_method_exists
-    assert Circle.instance_method(:includes?)
+  def test_includes_point_inside_circle
+    centroid = LLA.new(lat: 47.6205, lng: -122.3493, alt: 0.0)
+    circle = Circle.new(centroid: centroid, radius: 10_000.0) # 10km
+    nearby = LLA.new(lat: 47.6300, lng: -122.3400, alt: 0.0)
+    assert circle.includes?(nearby)
   end
 
-  def test_excludes_method_exists
-    assert Circle.instance_method(:excludes?)
+  def test_excludes_point_outside_circle
+    centroid = LLA.new(lat: 47.6205, lng: -122.3493, alt: 0.0)
+    circle = Circle.new(centroid: centroid, radius: 1000.0) # 1km
+    far = LLA.new(lat: 45.5152, lng: -122.6784, alt: 0.0) # Portland
+    assert circle.excludes?(far)
   end
 
-  def test_include_alias_exists
-    assert Circle.instance_method(:include?)
+  def test_inside_and_outside_aliases
+    centroid = LLA.new(lat: 47.6205, lng: -122.3493, alt: 0.0)
+    circle = Circle.new(centroid: centroid, radius: 10_000.0)
+    nearby = LLA.new(lat: 47.6300, lng: -122.3400, alt: 0.0)
+    far = LLA.new(lat: 45.5152, lng: -122.6784, alt: 0.0)
+    assert circle.inside?(nearby)
+    assert circle.outside?(far)
   end
 
-  def test_exclude_alias_exists
-    assert Circle.instance_method(:exclude?)
-  end
-
-  def test_inside_alias_exists
-    assert Circle.instance_method(:inside?)
-  end
-
-  def test_outside_alias_exists
-    assert Circle.instance_method(:outside?)
+  def test_attributes_are_read_only
+    centroid = LLA.new(lat: 40.0, lng: -74.0, alt: 0.0)
+    circle = Circle.new(centroid: centroid, radius: 5000.0)
+    assert_raises(NoMethodError) { circle.radius = 99.0 }
+    assert_raises(NoMethodError) { circle.centroid = nil }
   end
 end
 
@@ -145,34 +149,57 @@ class PolygonAreaTest < Minitest::Test
       LLA.new(lat: 0.0, lng: 0.0),
       LLA.new(lat: 1.0, lng: 0.0),
     ]
-    assert_raises(UncaughtThrowError) { Polygon.new(boundary: boundary) }
+    assert_raises(ArgumentError) { Polygon.new(boundary: boundary) }
   end
 
-  # -- includes?/excludes? aliases -----------------------------------------
-  # Note: includes? relies on LLA#heading_to which is not yet implemented.
-  # These tests verify the alias methods exist on the class.
+  # -- includes?/excludes? --------------------------------------------------
 
-  def test_includes_method_exists
-    assert Polygon.instance_method(:includes?)
+  def test_includes_point_inside_polygon
+    boundary = [
+      LLA.new(lat: 47.60, lng: -122.35),
+      LLA.new(lat: 47.65, lng: -122.35),
+      LLA.new(lat: 47.65, lng: -122.30),
+      LLA.new(lat: 47.60, lng: -122.30),
+    ]
+    polygon = Polygon.new(boundary: boundary)
+    inside = LLA.new(lat: 47.625, lng: -122.325)
+    assert polygon.includes?(inside)
   end
 
-  def test_excludes_method_exists
-    assert Polygon.instance_method(:excludes?)
+  def test_excludes_point_outside_polygon
+    boundary = [
+      LLA.new(lat: 47.60, lng: -122.35),
+      LLA.new(lat: 47.65, lng: -122.35),
+      LLA.new(lat: 47.65, lng: -122.30),
+      LLA.new(lat: 47.60, lng: -122.30),
+    ]
+    polygon = Polygon.new(boundary: boundary)
+    outside = LLA.new(lat: 45.0, lng: -120.0)
+    assert polygon.excludes?(outside)
   end
 
-  def test_include_alias_exists
-    assert Polygon.instance_method(:include?)
+  def test_inside_and_outside_aliases
+    boundary = [
+      LLA.new(lat: 47.60, lng: -122.35),
+      LLA.new(lat: 47.65, lng: -122.35),
+      LLA.new(lat: 47.65, lng: -122.30),
+      LLA.new(lat: 47.60, lng: -122.30),
+    ]
+    polygon = Polygon.new(boundary: boundary)
+    inside = LLA.new(lat: 47.625, lng: -122.325)
+    outside = LLA.new(lat: 45.0, lng: -120.0)
+    assert polygon.inside?(inside)
+    assert polygon.outside?(outside)
   end
 
-  def test_exclude_alias_exists
-    assert Polygon.instance_method(:exclude?)
-  end
-
-  def test_inside_alias_exists
-    assert Polygon.instance_method(:inside?)
-  end
-
-  def test_outside_alias_exists
-    assert Polygon.instance_method(:outside?)
+  def test_attributes_are_read_only
+    boundary = [
+      LLA.new(lat: 0.0, lng: 0.0),
+      LLA.new(lat: 1.0, lng: 0.0),
+      LLA.new(lat: 0.0, lng: 1.0),
+    ]
+    polygon = Polygon.new(boundary: boundary)
+    assert_raises(NoMethodError) { polygon.boundary = [] }
+    assert_raises(NoMethodError) { polygon.centroid = nil }
   end
 end

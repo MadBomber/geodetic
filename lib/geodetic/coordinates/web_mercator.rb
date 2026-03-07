@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Web Mercator Coordinate System (EPSG:3857)
 # Also known as Pseudo-Mercator, Spherical Mercator, or Google Web Mercator
 # Used by Google Maps, OpenStreetMap, Bing Maps, and most web mapping services
@@ -7,7 +9,7 @@ module Geodetic
     class WebMercator
       require_relative '../datum'
 
-      attr_accessor :x, :y
+      attr_reader :x, :y
 
       # Web Mercator constants
       EARTH_RADIUS = 6378137.0  # WGS84 semi-major axis in meters

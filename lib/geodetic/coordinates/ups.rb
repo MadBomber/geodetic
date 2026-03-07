@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Universal Polar Stereographic (UPS) Coordinate System
 # Used for polar regions not covered by UTM (north of 84°N and south of 80°S)
 
@@ -6,7 +8,7 @@ module Geodetic
     class UPS
       require_relative '../datum'
 
-      attr_accessor :easting, :northing, :hemisphere, :zone
+      attr_reader :easting, :northing, :hemisphere, :zone
 
       # UPS Constants
       FALSE_EASTING = 2000000.0   # meters

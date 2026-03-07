@@ -1,12 +1,11 @@
-####################
-## North, East, Down
+# frozen_string_literal: true
 
 require_relative '../datum'
 
 module Geodetic
   module Coordinates
     class NED
-      attr_accessor :n, :e, :d
+      attr_reader :n, :e, :d
       alias_method :north, :n
       alias_method :east, :e
       alias_method :down, :d

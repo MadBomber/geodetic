@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # State Plane Coordinate System (SPC)
 # US state-based coordinate systems using various projections
 # Each state has one or more zones with specific parameters
@@ -7,7 +9,7 @@ module Geodetic
     class StatePlane
       require_relative '../datum'
 
-      attr_accessor :easting, :northing, :zone_code, :state, :datum
+      attr_reader :easting, :northing, :zone_code, :state, :datum
 
       # State Plane zone definitions (simplified subset - real implementation would have all zones)
       ZONES = {

@@ -239,4 +239,51 @@ class LlaTest < Minitest::Test
     error = assert_raises(ArgumentError) { LLA.new(lng: -180.001) }
     assert_match(/Longitude/, error.message)
   end
+
+  # -- heading_to -----------------------------------------------------------
+
+  def test_heading_to_due_north
+    a = LLA.new(lat: 0.0, lng: 0.0)
+    b = LLA.new(lat: 1.0, lng: 0.0)
+    assert_in_delta 0.0, a.heading_to(b), 0.01
+  end
+
+  def test_heading_to_due_east
+    a = LLA.new(lat: 0.0, lng: 0.0)
+    b = LLA.new(lat: 0.0, lng: 1.0)
+    assert_in_delta 90.0, a.heading_to(b), 0.01
+  end
+
+  def test_heading_to_due_south
+    a = LLA.new(lat: 1.0, lng: 0.0)
+    b = LLA.new(lat: 0.0, lng: 0.0)
+    assert_in_delta 180.0, a.heading_to(b), 0.01
+  end
+
+  def test_heading_to_due_west
+    a = LLA.new(lat: 0.0, lng: 0.0)
+    b = LLA.new(lat: 0.0, lng: -1.0)
+    assert_in_delta 270.0, a.heading_to(b), 0.01
+  end
+
+  def test_heading_to_returns_0_to_360
+    a = LLA.new(lat: 47.6205, lng: -122.3493)
+    b = LLA.new(lat: 45.5152, lng: -122.6784)
+    heading = a.heading_to(b)
+    assert heading >= 0.0 && heading < 360.0
+  end
+
+  def test_heading_to_raises_for_non_lla
+    a = LLA.new(lat: 0.0, lng: 0.0)
+    assert_raises(ArgumentError) { a.heading_to("not an LLA") }
+  end
+
+  # -- immutability ---------------------------------------------------------
+
+  def test_attributes_are_read_only
+    lla = LLA.new(lat: 47.0, lng: -122.0, alt: 100.0)
+    assert_raises(NoMethodError) { lla.lat = 0.0 }
+    assert_raises(NoMethodError) { lla.lng = 0.0 }
+    assert_raises(NoMethodError) { lla.alt = 0.0 }
+  end
 end

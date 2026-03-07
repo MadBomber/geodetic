@@ -1,12 +1,11 @@
-#############################
-## Universal Transverse Mercator
+# frozen_string_literal: true
 
 require_relative '../datum'
 
 module Geodetic
   module Coordinates
     class UTM
-      attr_accessor :easting, :northing, :altitude, :zone, :hemisphere
+      attr_reader :easting, :northing, :altitude, :zone, :hemisphere
       alias_method :x, :easting
       alias_method :y, :northing
       alias_method :z, :altitude

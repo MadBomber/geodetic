@@ -24,18 +24,16 @@ class WebMercatorTest < Minitest::Test
 
   # ── Accessors ──────────────────────────────────────────────
 
-  def test_x_accessor
+  def test_x_reader
     coord = WebMercator.new(x: 123.456)
     assert_in_delta 123.456, coord.x, 1e-6
-    coord.x = 789.0
-    assert_in_delta 789.0, coord.x, 1e-6
+    assert_raises(NoMethodError) { coord.x = 789.0 }
   end
 
-  def test_y_accessor
+  def test_y_reader
     coord = WebMercator.new(y: 654.321)
     assert_in_delta 654.321, coord.y, 1e-6
-    coord.y = 111.0
-    assert_in_delta 111.0, coord.y, 1e-6
+    assert_raises(NoMethodError) { coord.y = 111.0 }
   end
 
   # ── to_s ───────────────────────────────────────────────────

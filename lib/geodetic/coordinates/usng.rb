@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # US National Grid (USNG) Coordinate System
 # Based on MGRS but uses a slightly different format and always uses meter precision
 # Used primarily within the United States for emergency services and land management
@@ -8,7 +10,7 @@ module Geodetic
       require_relative '../datum'
       require_relative 'mgrs'
 
-      attr_accessor :grid_zone_designator, :square_identifier, :easting, :northing, :precision
+      attr_reader :grid_zone_designator, :square_identifier, :easting, :northing, :precision
 
       def initialize(usng_string: nil, grid_zone: nil, square_id: nil, easting: nil, northing: nil, precision: 5)
         if usng_string

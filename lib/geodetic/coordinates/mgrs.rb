@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Military Grid Reference System (MGRS) Coordinate
 # Converts between MGRS grid references and other coordinate systems
 # MGRS is based on UTM but uses a more compact alphanumeric format
@@ -7,7 +9,7 @@ module Geodetic
     class MGRS
       require_relative '../datum'
 
-      attr_accessor :grid_zone_designator, :square_identifier, :easting, :northing, :precision
+      attr_reader :grid_zone_designator, :square_identifier, :easting, :northing, :precision
 
       # MGRS 100km square identification letters
       SET1_E = 'ABCDEFGHJKLMNPQRSTUVWXYZ'  # Columns (exclude I and O)

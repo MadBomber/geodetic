@@ -1,12 +1,11 @@
-##################
-## East, North, Up
+# frozen_string_literal: true
 
 require_relative '../datum'
 
 module Geodetic
   module Coordinates
     class ENU
-      attr_accessor :e, :n, :u
+      attr_reader :e, :n, :u
       alias_method :east, :e
       alias_method :north, :n
       alias_method :up, :u

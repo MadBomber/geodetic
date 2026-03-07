@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # British National Grid (BNG) Coordinate System
 # Official coordinate system for Great Britain using OSGB36 datum
 # Uses Transverse Mercator projection with specific parameters
@@ -7,7 +9,7 @@ module Geodetic
     class BNG
       require_relative '../datum'
 
-      attr_accessor :easting, :northing, :grid_ref
+      attr_reader :easting, :northing, :grid_ref
 
       # BNG Constants (OSGB36 datum)
       ORIGIN_LATITUDE = 49.0        # degrees

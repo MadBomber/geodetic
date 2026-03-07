@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative "coordinates/lla"
 require_relative "coordinates/ecef"
 require_relative "coordinates/utm"
@@ -175,4 +177,5 @@ end
   Geodetic::Coordinates::BNG,
 ].each { |klass| klass.include(Geodetic::Coordinates::DistanceMethods) }
 
+# GCS is a convenience alias for Geodetic::Coordinates, available after require "geodetic"
 GCS = Geodetic::Coordinates

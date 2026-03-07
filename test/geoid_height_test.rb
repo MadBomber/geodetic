@@ -32,16 +32,14 @@ class GeoidHeightTest < Minitest::Test
   end
 
   # 2. Accessors: geoid_model, interpolation_method
-  def test_geoid_model_accessor
+  def test_geoid_model_reader
     assert_equal 'EGM2008', @geoid.geoid_model
-    @geoid.geoid_model = 'EGM96'
-    assert_equal 'EGM96', @geoid.geoid_model
+    assert_raises(NoMethodError) { @geoid.geoid_model = 'EGM96' }
   end
 
-  def test_interpolation_method_accessor
+  def test_interpolation_method_reader
     assert_equal 'bilinear', @geoid.interpolation_method
-    @geoid.interpolation_method = 'bicubic'
-    assert_equal 'bicubic', @geoid.interpolation_method
+    assert_raises(NoMethodError) { @geoid.interpolation_method = 'bicubic' }
   end
 
   # 3. geoid_height_at: returns a Float for known lat/lng
