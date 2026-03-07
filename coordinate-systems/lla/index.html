@@ -2092,6 +2092,7 @@
 </tr>
 </tbody>
 </table>
+<p>Setters validate ranges and coerce to <code>Float</code>. Setting <code>lat</code> outside <code>-90..90</code> or <code>lng</code> outside <code>-180..180</code> raises <code>ArgumentError</code>. The <code>alt</code> setter has no range constraint.</p>
 <h2 id="conversions">Conversions<a class="headerlink" href="#conversions" title="Permanent link">&para;</a></h2>
 <p>All conversion methods accept an optional <code>datum</code> parameter (defaults to <code>Geodetic::WGS84</code>).</p>
 <h3 id="to_ecefdatum-wgs84">to_ecef(datum = WGS84)<a class="headerlink" href="#to_ecefdatum-wgs84" title="Permanent link">&para;</a></h3>

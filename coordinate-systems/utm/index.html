@@ -2010,6 +2010,7 @@
 </tr>
 </tbody>
 </table>
+<p>Setters validate and coerce types. <code>easting</code> and <code>northing</code> must be non-negative (<code>ArgumentError</code>). <code>zone</code> must be <code>1..60</code>. <code>hemisphere</code> must be <code>'N'</code> or <code>'S'</code> (auto-upcased). <code>altitude</code> has no range constraint.</p>
 <h2 id="conversions">Conversions<a class="headerlink" href="#conversions" title="Permanent link">&para;</a></h2>
 <p>All conversion methods accept an optional <code>datum</code> parameter (defaults to <code>Geodetic::WGS84</code>).</p>
 <h3 id="to_lladatum-wgs84">to_lla(datum = WGS84)<a class="headerlink" href="#to_lladatum-wgs84" title="Permanent link">&para;</a></h3>
