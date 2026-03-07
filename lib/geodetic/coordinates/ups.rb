@@ -28,8 +28,13 @@ module Geodetic
         validate_zone
       end
 
-      def to_s
-        "#{@easting}, #{@northing}, #{@hemisphere}, #{@zone}"
+      def to_s(precision = 2)
+        precision = precision.to_i
+        if precision == 0
+          "#{@easting.round}, #{@northing.round}, #{@hemisphere}, #{@zone}"
+        else
+          format("%.#{precision}f, %.#{precision}f, %s, %s", @easting, @northing, @hemisphere, @zone)
+        end
       end
 
       def to_a

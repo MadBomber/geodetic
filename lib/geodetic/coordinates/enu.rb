@@ -101,8 +101,13 @@ module Geodetic
         lla.to_enu(reference_lla)
       end
 
-      def to_s
-        "#{@e}, #{@n}, #{@u}"
+      def to_s(precision = 2)
+        precision = precision.to_i
+        if precision == 0
+          "#{@e.round}, #{@n.round}, #{@u.round}"
+        else
+          format("%.#{precision}f, %.#{precision}f, %.#{precision}f", @e, @n, @u)
+        end
       end
 
       def to_a

@@ -54,7 +54,13 @@ class StatePlaneTest < Minitest::Test
 
   def test_to_s
     coord = SP.new(easting: 2000000, northing: 500000, zone_code: "CA_I")
-    assert_equal "2000000.0, 500000.0, CA_I", coord.to_s
+    assert_equal "2000000.00, 500000.00, CA_I", coord.to_s
+  end
+
+  def test_to_s_with_precision
+    coord = SP.new(easting: 2000123.456, northing: 500789.012, zone_code: "CA_I")
+    assert_equal "2000123.5, 500789.0, CA_I", coord.to_s(1)
+    assert_equal "2000123, 500789, CA_I", coord.to_s(0)
   end
 
   # -- to_a -----------------------------------------------------------------

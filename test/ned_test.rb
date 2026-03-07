@@ -49,7 +49,13 @@ class NedTest < Minitest::Test
 
   def test_to_s
     ned = NED.new(n: 1.5, e: 2.5, d: 3.5)
-    assert_equal "1.5, 2.5, 3.5", ned.to_s
+    assert_equal "1.50, 2.50, 3.50", ned.to_s
+  end
+
+  def test_to_s_with_precision
+    ned = NED.new(n: 100.123, e: 200.456, d: 50.789)
+    assert_equal "100.1, 200.5, 50.8", ned.to_s(1)
+    assert_equal "100, 200, 51", ned.to_s(0)
   end
 
   def test_to_a

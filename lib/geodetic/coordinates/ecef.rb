@@ -129,8 +129,13 @@ module Geodetic
         lla.to_ecef(datum)
       end
 
-      def to_s
-        "#{@x}, #{@y}, #{@z}"
+      def to_s(precision = 2)
+        precision = precision.to_i
+        if precision == 0
+          "#{@x.round}, #{@y.round}, #{@z.round}"
+        else
+          format("%.#{precision}f, %.#{precision}f, %.#{precision}f", @x, @y, @z)
+        end
       end
 
       def to_a

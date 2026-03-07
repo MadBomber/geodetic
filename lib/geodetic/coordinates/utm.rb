@@ -134,8 +134,13 @@ module Geodetic
         ned.to_utm(reference_lla, datum)
       end
 
-      def to_s
-        "#{@easting}, #{@northing}, #{@altitude}, #{@zone}, #{@hemisphere}"
+      def to_s(precision = 2)
+        precision = precision.to_i
+        if precision == 0
+          "#{@easting.round}, #{@northing.round}, #{@altitude.round}, #{@zone}, #{@hemisphere}"
+        else
+          format("%.#{precision}f, %.#{precision}f, %.#{precision}f, %d, %s", @easting, @northing, @altitude, @zone, @hemisphere)
+        end
       end
 
       def to_a

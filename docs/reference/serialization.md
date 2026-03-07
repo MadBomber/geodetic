@@ -10,10 +10,29 @@ Every coordinate class implements these four methods:
 
 | Method | Direction | Description |
 |--------|-----------|-------------|
-| `to_s` | Export | Returns a comma-separated string representation |
+| `to_s(precision)` | Export | Returns a comma-separated string with controlled decimal places |
 | `self.from_string(string)` | Import | Parses a comma-separated string into a new instance |
-| `to_a` | Export | Returns an array of component values |
+| `to_a` | Export | Returns an array of component values (full precision) |
 | `self.from_array(array)` | Import | Constructs a new instance from an array |
+
+### Precision Parameter
+
+All `to_s` methods accept an optional `precision` parameter controlling the number of decimal places. Each class has a sensible default:
+
+| Class | Default Precision | Notes |
+|-------|------------------|-------|
+| LLA | 6 | Altitude capped at min(precision, 2) |
+| Bearing | 4 | |
+| All others | 2 | Meters-based coordinates |
+
+Passing `0` returns integer values (no decimal point). MGRS and USNG are string-based and do not accept a precision parameter.
+
+```ruby
+lla = Geodetic::Coordinates::LLA.new(lat: 47.6205, lng: -122.3493, alt: 184.0)
+lla.to_s        # => "47.620500, -122.349300, 184.00"
+lla.to_s(3)     # => "47.620, -122.349, 184.00"
+lla.to_s(0)     # => "48, -122, 184"
+```
 
 ---
 
@@ -24,7 +43,8 @@ Every coordinate class implements these four methods:
 ```ruby
 point = Geodetic::Coordinates::LLA.new(lat: 38.8977, lng: -77.0365, alt: 100.0)
 
-point.to_s    # => "38.8977, -77.0365, 100.0"
+point.to_s    # => "38.897700, -77.036500, 100.00"
+point.to_s(2) # => "38.90, -77.04, 100.00"
 point.to_a    # => [38.8977, -77.0365, 100.0]
 
 Geodetic::Coordinates::LLA.from_string("38.8977, -77.0365, 100.0")
@@ -49,7 +69,8 @@ The DMS string format is: `DD MM' SS.ss" H, DDD MM' SS.ss" H, ALT m` where H is 
 ```ruby
 point = Geodetic::Coordinates::ECEF.new(x: 1130730.0, y: -4828583.0, z: 3991570.0)
 
-point.to_s    # => "1130730.0, -4828583.0, 3991570.0"
+point.to_s    # => "1130730.00, -4828583.00, 3991570.00"
+point.to_s(0) # => "1130730, -4828583, 3991570"
 point.to_a    # => [1130730.0, -4828583.0, 3991570.0]
 
 Geodetic::Coordinates::ECEF.from_string("1130730.0, -4828583.0, 3991570.0")
@@ -61,7 +82,7 @@ Geodetic::Coordinates::ECEF.from_array([1130730.0, -4828583.0, 3991570.0])
 ```ruby
 point = Geodetic::Coordinates::UTM.new(easting: 323394.0, northing: 4307396.0, altitude: 100.0, zone: 18, hemisphere: 'N')
 
-point.to_s    # => "323394.0, 4307396.0, 100.0, 18, N"
+point.to_s    # => "323394.00, 4307396.00, 100.00, 18, N"
 point.to_a    # => [323394.0, 4307396.0, 100.0, 18, "N"]
 
 Geodetic::Coordinates::UTM.from_string("323394.0, 4307396.0, 100.0, 18, N")
@@ -75,7 +96,7 @@ Note: The array and string formats include all five components: easting, northin
 ```ruby
 point = Geodetic::Coordinates::ENU.new(e: 100.0, n: 200.0, u: 50.0)
 
-point.to_s    # => "100.0, 200.0, 50.0"
+point.to_s    # => "100.00, 200.00, 50.00"
 point.to_a    # => [100.0, 200.0, 50.0]
 
 Geodetic::Coordinates::ENU.from_string("100.0, 200.0, 50.0")
@@ -87,7 +108,7 @@ Geodetic::Coordinates::ENU.from_array([100.0, 200.0, 50.0])
 ```ruby
 point = Geodetic::Coordinates::NED.new(n: 200.0, e: 100.0, d: -50.0)
 
-point.to_s    # => "200.0, 100.0, -50.0"
+point.to_s    # => "200.00, 100.00, -50.00"
 point.to_a    # => [200.0, 100.0, -50.0]
 
 Geodetic::Coordinates::NED.from_string("200.0, 100.0, -50.0")
@@ -99,7 +120,7 @@ Geodetic::Coordinates::NED.from_array([200.0, 100.0, -50.0])
 ```ruby
 point = Geodetic::Coordinates::WebMercator.new(x: -8575605.0, y: 4707175.0)
 
-point.to_s    # => "-8575605.0, 4707175.0"
+point.to_s    # => "-8575605.00, 4707175.00"
 point.to_a    # => [-8575605.0, 4707175.0]
 
 Geodetic::Coordinates::WebMercator.from_string("-8575605.0, 4707175.0")
@@ -111,7 +132,7 @@ Geodetic::Coordinates::WebMercator.from_array([-8575605.0, 4707175.0])
 ```ruby
 point = Geodetic::Coordinates::UPS.new(easting: 2000000.0, northing: 2000000.0, hemisphere: 'N', zone: 'Y')
 
-point.to_s    # => "2000000.0, 2000000.0, N, Y"
+point.to_s    # => "2000000.00, 2000000.00, N, Y"
 point.to_a    # => [2000000.0, 2000000.0, "N", "Y"]
 
 Geodetic::Coordinates::UPS.from_string("2000000.0, 2000000.0, N, Y")
@@ -123,7 +144,7 @@ Geodetic::Coordinates::UPS.from_array([2000000.0, 2000000.0, "N", "Y"])
 ```ruby
 point = Geodetic::Coordinates::BNG.new(easting: 530000.0, northing: 180000.0)
 
-point.to_s    # => "530000.0, 180000.0"
+point.to_s    # => "530000.00, 180000.00"
 point.to_a    # => [530000.0, 180000.0]
 
 Geodetic::Coordinates::BNG.from_string("530000.0, 180000.0")
@@ -143,7 +164,7 @@ point.to_grid_reference(0)  # => "TQ" (grid square only)
 ```ruby
 point = Geodetic::Coordinates::StatePlane.new(easting: 2000000.0, northing: 500000.0, zone_code: 'CA_I')
 
-point.to_s    # => "2000000.0, 500000.0, CA_I"
+point.to_s    # => "2000000.00, 500000.00, CA_I"
 point.to_a    # => [2000000.0, 500000.0, "CA_I"]
 
 Geodetic::Coordinates::StatePlane.from_string("2000000.0, 500000.0, CA_I")
@@ -216,16 +237,16 @@ restored = Geodetic::Coordinates::LLA.from_dms(dms_string)
 
 ## Summary Table
 
-| Class | `to_s` Format | `to_a` Elements | Extra Formats |
-|-------|--------------|-----------------|---------------|
-| LLA | `lat, lng, alt` | `[lat, lng, alt]` | `to_dms` / `from_dms` |
-| ECEF | `x, y, z` | `[x, y, z]` | -- |
-| UTM | `easting, northing, alt, zone, hemisphere` | `[easting, northing, alt, zone, hemisphere]` | -- |
-| ENU | `e, n, u` | `[e, n, u]` | -- |
-| NED | `n, e, d` | `[n, e, d]` | -- |
-| WebMercator | `x, y` | `[x, y]` | -- |
-| UPS | `easting, northing, hemisphere, zone` | `[easting, northing, hemisphere, zone]` | -- |
-| BNG | `easting, northing` | `[easting, northing]` | `to_grid_reference` / `grid_ref:` constructor |
-| StatePlane | `easting, northing, zone_code` | `[easting, northing, zone_code]` | -- |
-| MGRS | `grid_zone+square+coords` | (not available) | String-based only |
-| USNG | `grid_zone square coords` | (not available) | `to_full_format`, `to_abbreviated_format` |
+| Class | `to_s` Format | Default Precision | `to_a` Elements | Extra Formats |
+|-------|--------------|-------------------|-----------------|---------------|
+| LLA | `lat, lng, alt` | 6 (alt: 2) | `[lat, lng, alt]` | `to_dms` / `from_dms` |
+| ECEF | `x, y, z` | 2 | `[x, y, z]` | -- |
+| UTM | `easting, northing, alt, zone, hemisphere` | 2 | `[easting, northing, alt, zone, hemisphere]` | -- |
+| ENU | `e, n, u` | 2 | `[e, n, u]` | -- |
+| NED | `n, e, d` | 2 | `[n, e, d]` | -- |
+| WebMercator | `x, y` | 2 | `[x, y]` | -- |
+| UPS | `easting, northing, hemisphere, zone` | 2 | `[easting, northing, hemisphere, zone]` | -- |
+| BNG | `easting, northing` | 2 | `[easting, northing]` | `to_grid_reference` / `grid_ref:` constructor |
+| StatePlane | `easting, northing, zone_code` | 2 | `[easting, northing, zone_code]` | -- |
+| MGRS | `grid_zone+square+coords` | n/a | (not available) | String-based only |
+| USNG | `grid_zone square coords` | n/a | (not available) | `to_full_format`, `to_abbreviated_format` |

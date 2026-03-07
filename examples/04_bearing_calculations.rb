@@ -27,7 +27,9 @@ puts
 b = seattle.bearing_to(portland)
 puts <<~HEREDOC
   Seattle -> Portland:
-    #{b.to_s}
+    #{b.to_s}          (default: 4 decimals)
+    #{b.to_s(2)}            (2 decimals)
+    #{b.to_s(0)}               (integer)
     #{b.to_compass(points: 16)} (16-point compass)
     #{b.to_radians.round(4)} radians
     Back azimuth: #{b.reverse.to_s}

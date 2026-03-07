@@ -81,8 +81,13 @@ module Geodetic
         lla.to_ned(reference_lla)
       end
 
-      def to_s
-        "#{@n}, #{@e}, #{@d}"
+      def to_s(precision = 2)
+        precision = precision.to_i
+        if precision == 0
+          "#{@n.round}, #{@e.round}, #{@d.round}"
+        else
+          format("%.#{precision}f, %.#{precision}f, %.#{precision}f", @n, @e, @d)
+        end
       end
 
       def to_a

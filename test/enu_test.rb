@@ -49,7 +49,13 @@ class EnuTest < Minitest::Test
 
   def test_to_s
     enu = ENU.new(e: 1.5, n: 2.5, u: 3.5)
-    assert_equal "1.5, 2.5, 3.5", enu.to_s
+    assert_equal "1.50, 2.50, 3.50", enu.to_s
+  end
+
+  def test_to_s_with_precision
+    enu = ENU.new(e: 100.123, n: 200.456, u: 50.789)
+    assert_equal "100.1, 200.5, 50.8", enu.to_s(1)
+    assert_equal "100, 200, 51", enu.to_s(0)
   end
 
   def test_to_a

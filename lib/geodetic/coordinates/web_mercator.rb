@@ -21,8 +21,13 @@ module Geodetic
         @y = y.to_f
       end
 
-      def to_s
-        "#{@x}, #{@y}"
+      def to_s(precision = 2)
+        precision = precision.to_i
+        if precision == 0
+          "#{@x.round}, #{@y.round}"
+        else
+          format("%.#{precision}f, %.#{precision}f", @x, @y)
+        end
       end
 
       def to_a

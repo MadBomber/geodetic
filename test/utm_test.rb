@@ -94,7 +94,13 @@ class UtmTest < Minitest::Test
 
   def test_to_s
     utm = UTM.new(easting: 500000.0, northing: 5000000.0, altitude: 100.0, zone: 10, hemisphere: 'N')
-    assert_equal "500000.0, 5000000.0, 100.0, 10, N", utm.to_s
+    assert_equal "500000.00, 5000000.00, 100.00, 10, N", utm.to_s
+  end
+
+  def test_to_s_with_precision
+    utm = UTM.new(easting: 500123.456, northing: 5000789.012, altitude: 100.5, zone: 10, hemisphere: 'N')
+    assert_equal "500123.5, 5000789.0, 100.5, 10, N", utm.to_s(1)
+    assert_equal "500123, 5000789, 101, 10, N", utm.to_s(0)
   end
 
   # --- to_a ---

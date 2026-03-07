@@ -86,17 +86,21 @@ ned = lla.to_ned(reference)
 
 ### Serialization
 
-All coordinate classes support `to_s`, `to_a`, `from_string`, and `from_array`:
+All coordinate classes support `to_s`, `to_a`, `from_string`, and `from_array`. The `to_s` method accepts an optional precision parameter controlling the number of decimal places:
 
 ```ruby
 lla = Coordinates::LLA.new(lat: 47.6205, lng: -122.3493, alt: 184.0)
 
-lla.to_s                            # => "47.6205, -122.3493, 184.0"
+lla.to_s                            # => "47.620500, -122.349300, 184.00"
+lla.to_s(3)                         # => "47.620, -122.349, 184.00"
+lla.to_s(0)                         # => "48, -122, 184"
 lla.to_a                            # => [47.6205, -122.3493, 184.0]
 
 Coordinates::LLA.from_string("47.6205, -122.3493, 184.0")
 Coordinates::LLA.from_array([47.6205, -122.3493, 184.0])
 ```
+
+Default precisions by class: LLA=6, Bearing=4, all others=2. Passing `0` returns integers.
 
 ### DMS (Degrees, Minutes, Seconds)
 
@@ -222,6 +226,8 @@ b.to_compass(points: 4)     # => "W"
 b.to_compass(points: 8)     # => "SW"
 b.to_compass(points: 16)    # => "SW"
 b.to_s                      # => "225.0000°"
+b.to_s(1)                   # => "225.0°"
+b.to_s(0)                   # => "225°"
 
 # Arithmetic
 b + 10                       # => Bearing (235°)
@@ -260,8 +266,10 @@ d.meters          # => 1609.344 (always available)
 d = Geodetic::Distance.new(5000).to_km
 d.to_f     # => 5.0 (in display unit)
 d.to_i     # => 5
-d.to_s     # => "5.0 km"
-d.inspect  # => "#<Geodetic::Distance 5.0 km (5000.0 m)>"
+d.to_s     # => "5.00 km"
+d.to_s(1)  # => "5.0 km"
+d.to_s(0)  # => "5 km"
+d.inspect  # => "#<Geodetic::Distance 5.00 km (5000.0 m)>"
 ```
 
 **Arithmetic** — results always in meters:

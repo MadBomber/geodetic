@@ -65,7 +65,13 @@ class UpsTest < Minitest::Test
 
   def test_to_s
     coord = UPS.new(easting: 2000000.0, northing: 2000000.0, hemisphere: "N", zone: "Y")
-    assert_equal "2000000.0, 2000000.0, N, Y", coord.to_s
+    assert_equal "2000000.00, 2000000.00, N, Y", coord.to_s
+  end
+
+  def test_to_s_with_precision
+    coord = UPS.new(easting: 2000123.456, northing: 2000789.012, hemisphere: "N", zone: "Y")
+    assert_equal "2000123.5, 2000789.0, N, Y", coord.to_s(1)
+    assert_equal "2000123, 2000789, N, Y", coord.to_s(0)
   end
 
   # ── to_a ───────────────────────────────────────────────────

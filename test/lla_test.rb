@@ -68,7 +68,14 @@ class LlaTest < Minitest::Test
 
   def test_to_s
     coord = LLA.new(lat: 47.6205, lng: -122.3493, alt: 184.0)
-    assert_equal "47.6205, -122.3493, 184.0", coord.to_s
+    assert_equal "47.620500, -122.349300, 184.00", coord.to_s
+  end
+
+  def test_to_s_with_precision
+    coord = LLA.new(lat: 47.6205, lng: -122.3493, alt: 184.0)
+    assert_equal "47.620, -122.349, 184.00", coord.to_s(3)
+    assert_equal "47.62, -122.35, 184.00", coord.to_s(2)
+    assert_equal "48, -122, 184", coord.to_s(0)
   end
 
   # ── to_a ─────────────────────────────────────────────────────

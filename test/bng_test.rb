@@ -45,7 +45,13 @@ class BngTest < Minitest::Test
 
   def test_to_s
     coord = BNG.new(easting: 530000, northing: 180000)
-    assert_equal "530000.0, 180000.0", coord.to_s
+    assert_equal "530000.00, 180000.00", coord.to_s
+  end
+
+  def test_to_s_with_precision
+    coord = BNG.new(easting: 530123.456, northing: 180789.012)
+    assert_equal "530123.5, 180789.0", coord.to_s(1)
+    assert_equal "530123, 180789", coord.to_s(0)
   end
 
   # -- to_a -----------------------------------------------------------------

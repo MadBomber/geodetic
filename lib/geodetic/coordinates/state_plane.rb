@@ -102,8 +102,13 @@ module Geodetic
         validate_zone
       end
 
-      def to_s
-        "#{@easting}, #{@northing}, #{@zone_code}"
+      def to_s(precision = 2)
+        precision = precision.to_i
+        if precision == 0
+          "#{@easting.round}, #{@northing.round}, #{@zone_code}"
+        else
+          format("%.#{precision}f, %.#{precision}f, %s", @easting, @northing, @zone_code)
+        end
       end
 
       def to_a

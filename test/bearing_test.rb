@@ -30,6 +30,15 @@ class BearingTest < Minitest::Test
     assert_match(/90/, Bearing.new(90).to_s)
   end
 
+  def test_to_s_with_precision
+    b = Bearing.new(186.2539)
+    assert_equal "186.2539°", b.to_s         # default 4
+    assert_equal "186.25°", b.to_s(2)
+    assert_equal "186.3°", b.to_s(1)
+    assert_equal "186°", b.to_s(0)
+    assert_equal "186.253900°", b.to_s(6)
+  end
+
   def test_inspect
     b = Bearing.new(45)
     assert_match(/Geodetic::Bearing/, b.inspect)

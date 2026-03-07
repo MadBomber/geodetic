@@ -42,8 +42,13 @@ module Geodetic
       end
     end
 
-    def to_s
-      format("%.4f°", @degrees)
+    def to_s(precision = 4)
+      precision = precision.to_i
+      if precision == 0
+        "#{@degrees.round}°"
+      else
+        format("%.#{precision}f°", @degrees)
+      end
     end
 
     def inspect

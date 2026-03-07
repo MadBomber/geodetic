@@ -32,8 +32,13 @@ module Geodetic
       to_f.to_i
     end
 
-    def to_s
-      "#{to_f} #{UNITS[@unit][:abbr]}"
+    def to_s(precision = 2)
+      precision = precision.to_i
+      if precision == 0
+        "#{to_f.round} #{UNITS[@unit][:abbr]}"
+      else
+        format("%.#{precision}f %s", to_f, UNITS[@unit][:abbr])
+      end
     end
 
     def inspect

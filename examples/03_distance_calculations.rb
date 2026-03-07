@@ -143,14 +143,18 @@ puts "--- Display Formatting ---"
 puts
 
 d = Distance.km(42.195) # marathon distance
-puts "Marathon distance:"
-puts "  to_s:     #{d.to_s}"
-puts "  to_f:     #{d.to_f}"
-puts "  to_i:     #{d.to_i}"
-puts "  inspect:  #{d.inspect}"
-puts "  in miles: #{d.to_mi.to_s}"
-puts "  in feet:  #{d.to_ft.to_s}"
-puts
+puts <<~HEREDOC
+  Marathon distance:
+    to_s:      #{d.to_s}
+    to_s(3):   #{d.to_s(3)}
+    to_s(1):   #{d.to_s(1)}
+    to_s(0):   #{d.to_s(0)}
+    to_f:      #{d.to_f}
+    to_i:      #{d.to_i}
+    inspect:   #{d.inspect}
+    in miles:  #{d.to_mi.to_s}
+    in feet:   #{d.to_ft.to_s(0)}
+HEREDOC
 
 # ── Arithmetic ──────────────────────────────────────────────────
 

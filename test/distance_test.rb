@@ -72,6 +72,14 @@ class DistanceTest < Minitest::Test
     assert_match(/mi$/, d_mi.to_s)
   end
 
+  def test_to_s_with_precision
+    d = Distance.km(42.195)
+    assert_equal "42.20 km", d.to_s          # default 2
+    assert_equal "42.195 km", d.to_s(3)
+    assert_equal "42.2 km", d.to_s(1)
+    assert_equal "42 km", d.to_s(0)
+  end
+
   def test_inspect
     d = Distance.new(1000)
     assert_match(/Geodetic::Distance/, d.inspect)

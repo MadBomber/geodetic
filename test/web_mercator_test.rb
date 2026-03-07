@@ -40,7 +40,13 @@ class WebMercatorTest < Minitest::Test
 
   def test_to_s
     coord = WebMercator.new(x: 1000.5, y: 2000.5)
-    assert_equal "1000.5, 2000.5", coord.to_s
+    assert_equal "1000.50, 2000.50", coord.to_s
+  end
+
+  def test_to_s_with_precision
+    coord = WebMercator.new(x: 1234.5678, y: 5678.1234)
+    assert_equal "1234.568, 5678.123", coord.to_s(3)
+    assert_equal "1235, 5678", coord.to_s(0)
   end
 
   # ── to_a ───────────────────────────────────────────────────

@@ -60,7 +60,13 @@ class EcefTest < Minitest::Test
 
   def test_to_s
     ecef = ECEF.new(x: 1.5, y: 2.5, z: 3.5)
-    assert_equal "1.5, 2.5, 3.5", ecef.to_s
+    assert_equal "1.50, 2.50, 3.50", ecef.to_s
+  end
+
+  def test_to_s_with_precision
+    ecef = ECEF.new(x: 1234.5678, y: 2345.6789, z: 3456.7890)
+    assert_equal "1234.568, 2345.679, 3456.789", ecef.to_s(3)
+    assert_equal "1235, 2346, 3457", ecef.to_s(0)
   end
 
   # --- to_a ---

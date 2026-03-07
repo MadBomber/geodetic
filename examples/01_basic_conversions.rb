@@ -134,23 +134,23 @@ puts "18. Second point (Pioneer Square): #{pioneer_lla}"
 # ECEF distance
 pioneer_ecef = pioneer_lla.to_ecef
 ecef_distance = ecef.distance_to(pioneer_ecef)
-puts "19. ECEF distance: #{ecef_distance.round(2)}m"
+puts "19. ECEF distance: #{ecef_distance.to_s}"
 
 # ENU distance and bearing
 pioneer_enu = pioneer_lla.to_enu(lla)  # Using first point as reference
 enu_origin = ENU.new(e: 0, n: 0, u: 0)
-enu_distance = enu_origin.distance_to(pioneer_enu)
-enu_bearing = enu_origin.bearing_to(pioneer_enu)
+enu_distance = enu_origin.distance_to_origin
+enu_bearing = enu_origin.local_bearing_to(pioneer_enu)
 horizontal_distance = enu_origin.horizontal_distance_to(pioneer_enu)
 
-puts "20. ENU distance: #{enu_distance.round(2)}m"
+puts "20. ENU distance to origin: #{enu_distance.round(2)}m"
 puts "21. ENU bearing: #{enu_bearing.round(1)} degrees"
 puts "22. Horizontal distance: #{horizontal_distance.round(2)}m"
 
 # UTM distance (same zone)
 pioneer_utm = pioneer_lla.to_utm
-utm_distance = utm.distance_to(pioneer_utm) if utm.same_zone?(pioneer_utm)
-puts "23. UTM distance: #{utm_distance.round(2)}m" if utm_distance
+utm_distance = utm.distance_to(pioneer_utm)
+puts "23. UTM distance: #{utm_distance.to_s}"
 
 puts
 puts "=== All Coordinate Systems Summary ==="
@@ -159,6 +159,29 @@ puts "ECEF: #{ecef}"
 puts "UTM:  #{utm}"
 puts "ENU:  #{enu} (relative to reference)"
 puts "NED:  #{ned} (relative to reference)"
+
+puts
+puts "=== to_s Precision Control ==="
+puts
+puts "All to_s methods accept an optional precision parameter:"
+puts
+puts "LLA (default=6):"
+puts "  to_s     => #{lla.to_s}"
+puts "  to_s(3)  => #{lla.to_s(3)}"
+puts "  to_s(0)  => #{lla.to_s(0)}"
+puts
+puts "ECEF (default=2):"
+puts "  to_s     => #{ecef.to_s}"
+puts "  to_s(0)  => #{ecef.to_s(0)}"
+puts
+puts "UTM (default=2):"
+puts "  to_s     => #{utm.to_s}"
+puts "  to_s(0)  => #{utm.to_s(0)}"
+puts
+puts "ENU (default=2):"
+puts "  to_s     => #{enu.to_s}"
+puts "  to_s(4)  => #{enu.to_s(4)}"
+puts "  to_s(0)  => #{enu.to_s(0)}"
 puts
 puts "All coordinate systems successfully demonstrate complete orthogonal conversions!"
 puts "Each system can convert to and from every other system with high precision."

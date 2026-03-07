@@ -200,8 +200,14 @@ module Geodetic
         new(lat: lat, lng: lng, alt: alt)
       end
 
-      def to_s
-        "#{@lat}, #{@lng}, #{@alt}"
+      def to_s(precision = 6)
+        precision = precision.to_i
+        if precision == 0
+          "#{@lat.round}, #{@lng.round}, #{@alt.round}"
+        else
+          alt_precision = [precision, 2].min
+          format("%.#{precision}f, %.#{precision}f, %.#{alt_precision}f", @lat, @lng, @alt)
+        end
       end
 
       def to_a
