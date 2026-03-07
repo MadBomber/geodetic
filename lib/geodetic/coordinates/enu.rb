@@ -16,6 +16,21 @@ module Geodetic
         @u = u.to_f
       end
 
+      def e=(value)
+        @e = value.to_f
+      end
+      alias_method :east=, :e=
+
+      def n=(value)
+        @n = value.to_f
+      end
+      alias_method :north=, :n=
+
+      def u=(value)
+        @u = value.to_f
+      end
+      alias_method :up=, :u=
+
       def to_ecef(reference_ecef, reference_lla = nil)
         require_relative 'ecef'
         raise ArgumentError, "Expected ECEF" unless reference_ecef.is_a?(ECEF)

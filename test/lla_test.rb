@@ -295,12 +295,59 @@ class LlaTest < Minitest::Test
     assert a.elevation_to(b) < -80.0  # nearly straight down
   end
 
-  # -- immutability ---------------------------------------------------------
+  # -- setters ---------------------------------------------------------------
 
-  def test_attributes_are_read_only
+  def test_lat_setter
     lla = LLA.new(lat: 47.0, lng: -122.0, alt: 100.0)
-    assert_raises(NoMethodError) { lla.lat = 0.0 }
-    assert_raises(NoMethodError) { lla.lng = 0.0 }
-    assert_raises(NoMethodError) { lla.alt = 0.0 }
+    lla.lat = 48.0
+    assert_in_delta 48.0, lla.lat, 1e-6
+  end
+
+  def test_lng_setter
+    lla = LLA.new(lat: 47.0, lng: -122.0, alt: 100.0)
+    lla.lng = -121.0
+    assert_in_delta(-121.0, lla.lng, 1e-6)
+  end
+
+  def test_alt_setter
+    lla = LLA.new(lat: 47.0, lng: -122.0, alt: 100.0)
+    lla.alt = 200.0
+    assert_in_delta 200.0, lla.alt, 1e-6
+  end
+
+  def test_setter_aliases
+    lla = LLA.new(lat: 47.0, lng: -122.0, alt: 100.0)
+    lla.latitude = 48.0
+    lla.longitude = -121.0
+    lla.altitude = 200.0
+    assert_in_delta 48.0, lla.lat, 1e-6
+    assert_in_delta(-121.0, lla.lng, 1e-6)
+    assert_in_delta 200.0, lla.alt, 1e-6
+  end
+
+  def test_setters_coerce_to_float
+    lla = LLA.new(lat: 47.0, lng: -122.0, alt: 100.0)
+    lla.lat = "48"
+    lla.lng = "-121"
+    lla.alt = "200"
+    assert_in_delta 48.0, lla.lat, 1e-6
+    assert_in_delta(-121.0, lla.lng, 1e-6)
+    assert_in_delta 200.0, lla.alt, 1e-6
+  end
+
+  def test_lat_setter_validates_range
+    lla = LLA.new(lat: 47.0, lng: -122.0, alt: 100.0)
+    assert_raises(ArgumentError) { lla.lat = 91.0 }
+    assert_raises(ArgumentError) { lla.lat = -91.0 }
+    # Original value should be preserved
+    assert_in_delta 47.0, lla.lat, 1e-6
+  end
+
+  def test_lng_setter_validates_range
+    lla = LLA.new(lat: 47.0, lng: -122.0, alt: 100.0)
+    assert_raises(ArgumentError) { lla.lng = 181.0 }
+    assert_raises(ArgumentError) { lla.lng = -181.0 }
+    # Original value should be preserved
+    assert_in_delta(-122.0, lla.lng, 1e-6)
   end
 end

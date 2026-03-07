@@ -20,6 +20,34 @@ module Geodetic
         validate_parameters!
       end
 
+      def easting=(value)
+        value = value.to_f
+        raise ArgumentError, "Easting must be positive" if value < 0
+        @easting = value
+      end
+
+      def northing=(value)
+        value = value.to_f
+        raise ArgumentError, "Northing must be positive" if value < 0
+        @northing = value
+      end
+
+      def altitude=(value)
+        @altitude = value.to_f
+      end
+
+      def zone=(value)
+        value = value.to_i
+        raise ArgumentError, "UTM zone must be between 1 and 60" if value < 1 || value > 60
+        @zone = value
+      end
+
+      def hemisphere=(value)
+        value = value.to_s.upcase
+        raise ArgumentError, "Hemisphere must be 'N' or 'S'" unless ['N', 'S'].include?(value)
+        @hemisphere = value
+      end
+
       def to_lla(datum = WGS84)
         require_relative 'lla'
 

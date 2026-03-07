@@ -13,6 +13,18 @@ module Geodetic
         @z = z.to_f
       end
 
+      def x=(value)
+        @x = value.to_f
+      end
+
+      def y=(value)
+        @y = value.to_f
+      end
+
+      def z=(value)
+        @z = value.to_f
+      end
+
       def to_lla(datum = WGS84)
         require_relative 'lla'
 

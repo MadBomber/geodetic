@@ -45,6 +45,46 @@ class NedTest < Minitest::Test
     assert_in_delta 77.7, ned.down, 1e-10
   end
 
+  # Setters
+
+  def test_n_setter
+    ned = NED.new(n: 100.0)
+    ned.n = 200.0
+    assert_in_delta 200.0, ned.n, 1e-10
+  end
+
+  def test_e_setter
+    ned = NED.new(e: 100.0)
+    ned.e = 200.0
+    assert_in_delta 200.0, ned.e, 1e-10
+  end
+
+  def test_d_setter
+    ned = NED.new(d: 100.0)
+    ned.d = 200.0
+    assert_in_delta 200.0, ned.d, 1e-10
+  end
+
+  def test_setter_aliases
+    ned = NED.new
+    ned.north = 10.0
+    ned.east = 20.0
+    ned.down = 30.0
+    assert_in_delta 10.0, ned.n, 1e-10
+    assert_in_delta 20.0, ned.e, 1e-10
+    assert_in_delta 30.0, ned.d, 1e-10
+  end
+
+  def test_setters_coerce_to_float
+    ned = NED.new
+    ned.n = "123.45"
+    ned.e = "678.90"
+    ned.d = "111.22"
+    assert_in_delta 123.45, ned.n, 1e-10
+    assert_in_delta 678.90, ned.e, 1e-10
+    assert_in_delta 111.22, ned.d, 1e-10
+  end
+
   # 3. to_s, to_a, from_array, from_string roundtrips
 
   def test_to_s

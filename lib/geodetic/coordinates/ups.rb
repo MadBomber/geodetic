@@ -28,6 +28,34 @@ module Geodetic
         validate_zone
       end
 
+      def easting=(value)
+        @easting = value.to_f
+      end
+
+      def northing=(value)
+        @northing = value.to_f
+      end
+
+      def hemisphere=(value)
+        value = value.to_s.upcase
+        old_hemisphere = @hemisphere
+        @hemisphere = value
+        unless valid?
+          @hemisphere = old_hemisphere
+          raise ArgumentError, "Invalid UPS hemisphere '#{value}' for zone '#{@zone}'"
+        end
+      end
+
+      def zone=(value)
+        value = value.to_s.upcase
+        old_zone = @zone
+        @zone = value
+        unless valid?
+          @zone = old_zone
+          raise ArgumentError, "Invalid UPS zone '#{value}' for hemisphere '#{@hemisphere}'"
+        end
+      end
+
       def to_s(precision = 2)
         precision = precision.to_i
         if precision == 0

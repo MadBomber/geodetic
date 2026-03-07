@@ -102,6 +102,34 @@ Coordinates::LLA.from_array([47.6205, -122.3493, 184.0])
 
 Default precisions by class: LLA=6, Bearing=4, all others=2. Passing `0` returns integers.
 
+### Validated Setters
+
+All coordinate classes provide setter methods with type coercion and validation:
+
+```ruby
+lla = Coordinates::LLA.new(lat: 47.0, lng: -122.0, alt: 100.0)
+lla.lat = 48.0                     # validates -90..90
+lla.lng = -121.0                   # validates -180..180
+lla.alt = 200.0                    # no range constraint
+lla.lat = 91.0                     # => ArgumentError
+
+utm = Coordinates::UTM.new(easting: 500000.0, northing: 5000000.0, zone: 10, hemisphere: 'N')
+utm.zone = 15                      # validates 1..60
+utm.hemisphere = 'S'               # validates 'N' or 'S'
+utm.easting = -1.0                 # => ArgumentError
+
+# UPS cross-validates hemisphere/zone combinations
+ups = Coordinates::UPS.new(hemisphere: 'N', zone: 'Y')
+ups.zone = 'Z'                     # valid for hemisphere 'N'
+ups.zone = 'A'                     # => ArgumentError (rolls back)
+
+# BNG auto-updates grid_ref when easting/northing change
+bng = Coordinates::BNG.new(easting: 530000, northing: 180000)
+bng.easting = 430000               # grid_ref automatically recalculated
+```
+
+ECEF, ENU, NED, and WebMercator setters coerce to float with no range constraints. MGRS, USNG, Distance, and Bearing are immutable.
+
 ### DMS (Degrees, Minutes, Seconds)
 
 ```ruby

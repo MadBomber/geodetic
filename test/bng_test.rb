@@ -41,6 +41,35 @@ class BngTest < Minitest::Test
     assert_kind_of String, coord.grid_ref
   end
 
+  # -- Setters ----------------------------------------------------------------
+
+  def test_easting_setter
+    coord = BNG.new(easting: 530000, northing: 180000)
+    coord.easting = 540000.0
+    assert_in_delta 540000.0, coord.easting, 1e-6
+  end
+
+  def test_northing_setter
+    coord = BNG.new(easting: 530000, northing: 180000)
+    coord.northing = 190000.0
+    assert_in_delta 190000.0, coord.northing, 1e-6
+  end
+
+  def test_setters_coerce_to_float
+    coord = BNG.new(easting: 530000, northing: 180000)
+    coord.easting = "540000"
+    coord.northing = "190000"
+    assert_in_delta 540000.0, coord.easting, 1e-6
+    assert_in_delta 190000.0, coord.northing, 1e-6
+  end
+
+  def test_setter_updates_grid_ref
+    coord = BNG.new(easting: 530000, northing: 180000)
+    original_grid_ref = coord.grid_ref
+    coord.easting = 430000.0
+    refute_equal original_grid_ref, coord.grid_ref
+  end
+
   # -- to_s -----------------------------------------------------------------
 
   def test_to_s

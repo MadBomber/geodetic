@@ -45,6 +45,46 @@ class EnuTest < Minitest::Test
     assert_in_delta 77.7, enu.up, 1e-10
   end
 
+  # Setters
+
+  def test_e_setter
+    enu = ENU.new(e: 100.0)
+    enu.e = 200.0
+    assert_in_delta 200.0, enu.e, 1e-10
+  end
+
+  def test_n_setter
+    enu = ENU.new(n: 100.0)
+    enu.n = 200.0
+    assert_in_delta 200.0, enu.n, 1e-10
+  end
+
+  def test_u_setter
+    enu = ENU.new(u: 100.0)
+    enu.u = 200.0
+    assert_in_delta 200.0, enu.u, 1e-10
+  end
+
+  def test_setter_aliases
+    enu = ENU.new
+    enu.east = 10.0
+    enu.north = 20.0
+    enu.up = 30.0
+    assert_in_delta 10.0, enu.e, 1e-10
+    assert_in_delta 20.0, enu.n, 1e-10
+    assert_in_delta 30.0, enu.u, 1e-10
+  end
+
+  def test_setters_coerce_to_float
+    enu = ENU.new
+    enu.e = "123.45"
+    enu.n = "678.90"
+    enu.u = "111.22"
+    assert_in_delta 123.45, enu.e, 1e-10
+    assert_in_delta 678.90, enu.n, 1e-10
+    assert_in_delta 111.22, enu.u, 1e-10
+  end
+
   # 3. to_s, to_a, from_array, from_string roundtrips
 
   def test_to_s

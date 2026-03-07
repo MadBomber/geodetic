@@ -42,13 +42,11 @@ class UpsTest < Minitest::Test
   def test_easting_reader
     coord = UPS.new(easting: 2500000.0)
     assert_in_delta 2500000.0, coord.easting, 1e-6
-    assert_raises(NoMethodError) { coord.easting = 99.0 }
   end
 
   def test_northing_reader
     coord = UPS.new(northing: 2500000.0)
     assert_in_delta 2500000.0, coord.northing, 1e-6
-    assert_raises(NoMethodError) { coord.northing = 99.0 }
   end
 
   def test_hemisphere_accessor
@@ -58,6 +56,54 @@ class UpsTest < Minitest::Test
 
   def test_zone_accessor
     coord = UPS.new
+    assert_equal "Y", coord.zone
+  end
+
+  # ── Setters ──────────────────────────────────────────────
+
+  def test_easting_setter
+    coord = UPS.new(easting: 2500000.0)
+    coord.easting = 2600000.0
+    assert_in_delta 2600000.0, coord.easting, 1e-6
+  end
+
+  def test_northing_setter
+    coord = UPS.new(northing: 2500000.0)
+    coord.northing = 2600000.0
+    assert_in_delta 2600000.0, coord.northing, 1e-6
+  end
+
+  def test_setters_coerce_to_float
+    coord = UPS.new
+    coord.easting = "2500000"
+    coord.northing = "2600000"
+    assert_in_delta 2500000.0, coord.easting, 1e-6
+    assert_in_delta 2600000.0, coord.northing, 1e-6
+  end
+
+  def test_hemisphere_setter_valid
+    coord = UPS.new(hemisphere: "N", zone: "Y")
+    coord.hemisphere = "N"
+    assert_equal "N", coord.hemisphere
+  end
+
+  def test_hemisphere_setter_invalid_raises
+    coord = UPS.new(hemisphere: "N", zone: "Y")
+    assert_raises(ArgumentError) { coord.hemisphere = "S" }
+    # Should rollback to original value
+    assert_equal "N", coord.hemisphere
+  end
+
+  def test_zone_setter_valid
+    coord = UPS.new(hemisphere: "N", zone: "Y")
+    coord.zone = "Z"
+    assert_equal "Z", coord.zone
+  end
+
+  def test_zone_setter_invalid_raises
+    coord = UPS.new(hemisphere: "N", zone: "Y")
+    assert_raises(ArgumentError) { coord.zone = "A" }
+    # Should rollback to original value
     assert_equal "Y", coord.zone
   end
 

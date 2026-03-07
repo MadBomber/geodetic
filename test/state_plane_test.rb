@@ -50,6 +50,46 @@ class StatePlaneTest < Minitest::Test
     assert_equal Geodetic::WGS84, coord.datum
   end
 
+  # -- Setters ----------------------------------------------------------------
+
+  def test_easting_setter
+    coord = SP.new(easting: 2000000)
+    coord.easting = 2100000.0
+    assert_in_delta 2100000.0, coord.easting, 1e-6
+  end
+
+  def test_northing_setter
+    coord = SP.new(northing: 500000)
+    coord.northing = 600000.0
+    assert_in_delta 600000.0, coord.northing, 1e-6
+  end
+
+  def test_zone_code_setter
+    coord = SP.new(zone_code: "CA_I")
+    coord.zone_code = "TX_NORTH"
+    assert_equal "TX_NORTH", coord.zone_code
+  end
+
+  def test_zone_code_setter_upcases
+    coord = SP.new(zone_code: "CA_I")
+    coord.zone_code = "tx_north"
+    assert_equal "TX_NORTH", coord.zone_code
+  end
+
+  def test_zone_code_setter_validates
+    coord = SP.new(zone_code: "CA_I")
+    assert_raises(ArgumentError) { coord.zone_code = "INVALID" }
+    assert_equal "CA_I", coord.zone_code
+  end
+
+  def test_setters_coerce_to_float
+    coord = SP.new(easting: 2000000, northing: 500000)
+    coord.easting = "2100000"
+    coord.northing = "600000"
+    assert_in_delta 2100000.0, coord.easting, 1e-6
+    assert_in_delta 600000.0, coord.northing, 1e-6
+  end
+
   # -- to_s -----------------------------------------------------------------
 
   def test_to_s

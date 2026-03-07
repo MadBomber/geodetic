@@ -102,6 +102,20 @@ module Geodetic
         validate_zone
       end
 
+      def easting=(value)
+        @easting = value.to_f
+      end
+
+      def northing=(value)
+        @northing = value.to_f
+      end
+
+      def zone_code=(value)
+        value = value.to_s.upcase
+        raise ArgumentError, "Unknown State Plane zone: #{value}" unless ZONES.key?(value)
+        @zone_code = value
+      end
+
       def to_s(precision = 2)
         precision = precision.to_i
         if precision == 0

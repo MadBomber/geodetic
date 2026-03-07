@@ -90,6 +90,77 @@ class UtmTest < Minitest::Test
     assert_equal "S", utm.hemisphere
   end
 
+  # --- Setters ---
+
+  def test_easting_setter
+    utm = UTM.new(easting: 500000.0)
+    utm.easting = 600000.0
+    assert_in_delta 600000.0, utm.easting, 1e-10
+  end
+
+  def test_easting_setter_validates_positive
+    utm = UTM.new(easting: 500000.0)
+    assert_raises(ArgumentError) { utm.easting = -1.0 }
+    assert_in_delta 500000.0, utm.easting, 1e-10
+  end
+
+  def test_northing_setter
+    utm = UTM.new(northing: 5000000.0)
+    utm.northing = 6000000.0
+    assert_in_delta 6000000.0, utm.northing, 1e-10
+  end
+
+  def test_northing_setter_validates_positive
+    utm = UTM.new(northing: 5000000.0)
+    assert_raises(ArgumentError) { utm.northing = -1.0 }
+    assert_in_delta 5000000.0, utm.northing, 1e-10
+  end
+
+  def test_altitude_setter
+    utm = UTM.new(altitude: 100.0)
+    utm.altitude = 200.0
+    assert_in_delta 200.0, utm.altitude, 1e-10
+  end
+
+  def test_zone_setter
+    utm = UTM.new(zone: 10)
+    utm.zone = 15
+    assert_equal 15, utm.zone
+  end
+
+  def test_zone_setter_validates_range
+    utm = UTM.new(zone: 10)
+    assert_raises(ArgumentError) { utm.zone = 0 }
+    assert_raises(ArgumentError) { utm.zone = 61 }
+    assert_equal 10, utm.zone
+  end
+
+  def test_hemisphere_setter
+    utm = UTM.new(hemisphere: 'N')
+    utm.hemisphere = 'S'
+    assert_equal "S", utm.hemisphere
+  end
+
+  def test_hemisphere_setter_validates
+    utm = UTM.new(hemisphere: 'N')
+    assert_raises(ArgumentError) { utm.hemisphere = 'X' }
+    assert_equal "N", utm.hemisphere
+  end
+
+  def test_setters_coerce_types
+    utm = UTM.new(easting: 500000.0, northing: 5000000.0, altitude: 100.0, zone: 10, hemisphere: 'N')
+    utm.easting = "600000"
+    utm.northing = "6000000"
+    utm.altitude = "200"
+    utm.zone = "15"
+    utm.hemisphere = "s"
+    assert_in_delta 600000.0, utm.easting, 1e-10
+    assert_in_delta 6000000.0, utm.northing, 1e-10
+    assert_in_delta 200.0, utm.altitude, 1e-10
+    assert_equal 15, utm.zone
+    assert_equal "S", utm.hemisphere
+  end
+
   # --- to_s ---
 
   def test_to_s

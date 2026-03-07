@@ -37,6 +37,8 @@ The constructor raises `ArgumentError` if:
 | `zone`       | --    | read/write |
 | `hemisphere` | --    | read/write |
 
+Setters validate and coerce types. `easting` and `northing` must be non-negative (`ArgumentError`). `zone` must be `1..60`. `hemisphere` must be `'N'` or `'S'` (auto-upcased). `altitude` has no range constraint.
+
 ## Conversions
 
 All conversion methods accept an optional `datum` parameter (defaults to `Geodetic::WGS84`).

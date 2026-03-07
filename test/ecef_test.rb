@@ -41,19 +41,46 @@ class EcefTest < Minitest::Test
   def test_x_reader
     ecef = ECEF.new(x: 42.5)
     assert_in_delta 42.5, ecef.x, 1e-10
-    assert_raises(NoMethodError) { ecef.x = 99.9 }
   end
 
   def test_y_reader
     ecef = ECEF.new(y: 42.5)
     assert_in_delta 42.5, ecef.y, 1e-10
-    assert_raises(NoMethodError) { ecef.y = 99.9 }
   end
 
   def test_z_reader
     ecef = ECEF.new(z: 42.5)
     assert_in_delta 42.5, ecef.z, 1e-10
-    assert_raises(NoMethodError) { ecef.z = 99.9 }
+  end
+
+  # --- Setters ---
+
+  def test_x_setter
+    ecef = ECEF.new(x: 42.5)
+    ecef.x = 99.9
+    assert_in_delta 99.9, ecef.x, 1e-10
+  end
+
+  def test_y_setter
+    ecef = ECEF.new(y: 42.5)
+    ecef.y = 99.9
+    assert_in_delta 99.9, ecef.y, 1e-10
+  end
+
+  def test_z_setter
+    ecef = ECEF.new(z: 42.5)
+    ecef.z = 99.9
+    assert_in_delta 99.9, ecef.z, 1e-10
+  end
+
+  def test_setters_coerce_to_float
+    ecef = ECEF.new
+    ecef.x = "123.45"
+    ecef.y = "678.90"
+    ecef.z = "111.22"
+    assert_in_delta 123.45, ecef.x, 1e-10
+    assert_in_delta 678.90, ecef.y, 1e-10
+    assert_in_delta 111.22, ecef.z, 1e-10
   end
 
   # --- to_s ---

@@ -27,6 +27,25 @@ module Geodetic
         validate_coordinates!
       end
 
+      def lat=(value)
+        value = value.to_f
+        raise ArgumentError, "Latitude must be between -90 and 90 degrees" if value < -90 || value > 90
+        @lat = value
+      end
+      alias_method :latitude=, :lat=
+
+      def lng=(value)
+        value = value.to_f
+        raise ArgumentError, "Longitude must be between -180 and 180 degrees" if value < -180 || value > 180
+        @lng = value
+      end
+      alias_method :longitude=, :lng=
+
+      def alt=(value)
+        @alt = value.to_f
+      end
+      alias_method :altitude=, :alt=
+
       def to_ecef(datum = WGS84)
         require_relative 'ecef'
 

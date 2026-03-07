@@ -16,6 +16,21 @@ module Geodetic
         @d = d.to_f
       end
 
+      def n=(value)
+        @n = value.to_f
+      end
+      alias_method :north=, :n=
+
+      def e=(value)
+        @e = value.to_f
+      end
+      alias_method :east=, :e=
+
+      def d=(value)
+        @d = value.to_f
+      end
+      alias_method :down=, :d=
+
       def to_enu
         require_relative 'enu'
 

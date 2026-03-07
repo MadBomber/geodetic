@@ -27,13 +27,33 @@ class WebMercatorTest < Minitest::Test
   def test_x_reader
     coord = WebMercator.new(x: 123.456)
     assert_in_delta 123.456, coord.x, 1e-6
-    assert_raises(NoMethodError) { coord.x = 789.0 }
   end
 
   def test_y_reader
     coord = WebMercator.new(y: 654.321)
     assert_in_delta 654.321, coord.y, 1e-6
-    assert_raises(NoMethodError) { coord.y = 111.0 }
+  end
+
+  # ── Setters ──────────────────────────────────────────────
+
+  def test_x_setter
+    coord = WebMercator.new(x: 123.456)
+    coord.x = 789.0
+    assert_in_delta 789.0, coord.x, 1e-6
+  end
+
+  def test_y_setter
+    coord = WebMercator.new(y: 654.321)
+    coord.y = 111.0
+    assert_in_delta 111.0, coord.y, 1e-6
+  end
+
+  def test_setters_coerce_to_float
+    coord = WebMercator.new
+    coord.x = "1234.5"
+    coord.y = "6789.0"
+    assert_in_delta 1234.5, coord.x, 1e-6
+    assert_in_delta 6789.0, coord.y, 1e-6
   end
 
   # ── to_s ───────────────────────────────────────────────────

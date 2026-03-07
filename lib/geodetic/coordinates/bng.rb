@@ -55,6 +55,16 @@ module Geodetic
         end
       end
 
+      def easting=(value)
+        @easting = value.to_f
+        @grid_ref = to_grid_reference
+      end
+
+      def northing=(value)
+        @northing = value.to_f
+        @grid_ref = to_grid_reference
+      end
+
       def to_s(precision = 2)
         precision = precision.to_i
         if precision == 0

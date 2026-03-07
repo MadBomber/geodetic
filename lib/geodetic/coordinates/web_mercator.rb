@@ -21,6 +21,14 @@ module Geodetic
         @y = y.to_f
       end
 
+      def x=(value)
+        @x = value.to_f
+      end
+
+      def y=(value)
+        @y = value.to_f
+      end
+
       def to_s(precision = 2)
         precision = precision.to_i
         if precision == 0

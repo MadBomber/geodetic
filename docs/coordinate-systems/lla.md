@@ -37,6 +37,8 @@ The constructor raises `ArgumentError` if:
 | `lng`       | `longitude` | read/write      |
 | `alt`       | `altitude`  | read/write      |
 
+Setters validate ranges and coerce to `Float`. Setting `lat` outside `-90..90` or `lng` outside `-180..180` raises `ArgumentError`. The `alt` setter has no range constraint.
+
 ## Conversions
 
 All conversion methods accept an optional `datum` parameter (defaults to `Geodetic::WGS84`).
