@@ -1,0 +1,140 @@
+# MkDocs Configuration for Geodetic Documentation
+site_name: Geodetic
+site_description: Ruby gem for geodetic coordinate system conversions
+site_author: Dewayne VanHoozer
+site_url: https://madbomber.github.io/geodetic
+copyright: Copyright &copy; 2025 Dewayne VanHoozer
+
+# Repository information
+repo_name: madbomber/geodetic
+repo_url: https://github.com/madbomber/geodetic
+edit_uri: edit/main/docs/
+
+# Configuration
+theme:
+  name: material
+
+  palette:
+    - scheme: default
+      primary: indigo
+      accent: blue
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+
+    - scheme: slate
+      primary: indigo
+      accent: blue
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+
+  font:
+    text: Roboto
+    code: Roboto Mono
+
+  icon:
+    repo: fontawesome/brands/github
+    logo: material/earth
+
+  features:
+    - navigation.instant
+    - navigation.tracking
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.path
+    - navigation.indexes
+    - navigation.top
+    - navigation.footer
+    - toc.follow
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+    - content.code.annotate
+    - content.tabs.link
+
+# Plugins
+plugins:
+  - search:
+      separator: '[\s\-,:!=\[\]()"`/]+|\.(?!\d)|&[lg]t;|(?!\b)(?=[A-Z][a-z])'
+
+# Extensions
+markdown_extensions:
+  - abbr
+  - admonition
+  - attr_list
+  - def_list
+  - footnotes
+  - md_in_html
+  - tables
+  - toc:
+      permalink: true
+      title: On this page
+  - pymdownx.arithmatex:
+      generic: true
+  - pymdownx.betterem:
+      smart_enable: all
+  - pymdownx.caret
+  - pymdownx.details
+  - pymdownx.emoji:
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.keys
+  - pymdownx.magiclink:
+      repo_url_shorthand: true
+      user: madbomber
+      repo: geodetic
+  - pymdownx.mark
+  - pymdownx.smartsymbols
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.tilde
+
+# Extra
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/madbomber/geodetic
+      name: Geodetic on GitHub
+    - icon: fontawesome/solid/gem
+      link: https://rubygems.org/gems/geodetic
+      name: Geodetic on RubyGems
+
+# Navigation
+nav:
+  - Home:
+      - Overview: index.md
+  - Getting Started:
+      - Installation: getting-started/installation.md
+      - Quick Start: getting-started/quick-start.md
+  - Coordinate Systems:
+      - coordinate-systems/index.md
+      - LLA: coordinate-systems/lla.md
+      - ECEF: coordinate-systems/ecef.md
+      - UTM: coordinate-systems/utm.md
+      - ENU: coordinate-systems/enu.md
+      - NED: coordinate-systems/ned.md
+      - MGRS: coordinate-systems/mgrs.md
+      - USNG: coordinate-systems/usng.md
+      - Web Mercator: coordinate-systems/web-mercator.md
+      - UPS: coordinate-systems/ups.md
+      - State Plane: coordinate-systems/state-plane.md
+      - BNG: coordinate-systems/bng.md
+  - Reference:
+      - Datums: reference/datums.md
+      - Geoid Height: reference/geoid-height.md
+      - Areas: reference/areas.md
+      - Serialization: reference/serialization.md
+      - Conversions: reference/conversions.md

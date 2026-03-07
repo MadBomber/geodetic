@@ -1,0 +1,76 @@
+# Coordinate Systems Overview
+
+The Geodetic gem supports 11 coordinate systems organized into five categories. All coordinate classes live under `Geodetic::Coordinates`.
+
+## Global Systems
+
+| System | Class | Description |
+|--------|-------|-------------|
+| **LLA** | `Geodetic::Coordinates::LLA` | Latitude, Longitude, Altitude. The most common geographic coordinate system, expressing positions in decimal degrees with altitude in meters. Negative longitude is the Western hemisphere; negative latitude is the Southern hemisphere. |
+| **ECEF** | `Geodetic::Coordinates::ECEF` | Earth-Centered, Earth-Fixed. A Cartesian coordinate system with the origin at the Earth's center of mass. Positions are expressed as X, Y, Z in meters. Commonly used in satellite navigation and aerospace applications. |
+| **UTM** | `Geodetic::Coordinates::UTM` | Universal Transverse Mercator. Divides the Earth into 60 zones (each 6 degrees of longitude), projecting positions as easting/northing in meters within a zone and hemisphere. Covers latitudes 80S to 84N. |
+
+## Local Tangent Plane Systems
+
+| System | Class | Description |
+|--------|-------|-------------|
+| **ENU** | `Geodetic::Coordinates::ENU` | East, North, Up. A local tangent plane coordinate system centered on a reference point. Axes point East, North, and Up relative to the reference. Distances are in meters. Used in robotics, surveying, and local navigation. |
+| **NED** | `Geodetic::Coordinates::NED` | North, East, Down. A local tangent plane coordinate system centered on a reference point. Axes point North, East, and Down. Used extensively in aerospace and aviation applications. Mathematically related to ENU by axis reordering and sign inversion. |
+
+## Military and Grid Systems
+
+| System | Class | Description |
+|--------|-------|-------------|
+| **MGRS** | `Geodetic::Coordinates::MGRS` | Military Grid Reference System. An alphanumeric system based on UTM that identifies positions using grid zone designator, 100km square identifier, and numeric easting/northing. Variable precision from 10km down to 1m. |
+| **USNG** | `Geodetic::Coordinates::USNG` | United States National Grid. Based on MGRS but formatted with spaces for readability. Used primarily within the United States for emergency services and land management. |
+
+## Web Mapping
+
+| System | Class | Description |
+|--------|-------|-------------|
+| **WebMercator** | `Geodetic::Coordinates::WebMercator` | Web Mercator (EPSG:3857). Also known as Pseudo-Mercator or Spherical Mercator. The projection used by Google Maps, OpenStreetMap, and Bing Maps. Positions are X/Y in meters. Latitude is clamped to approximately +/-85.05 degrees. Includes tile and pixel coordinate methods for web mapping applications. |
+
+## Polar
+
+| System | Class | Description |
+|--------|-------|-------------|
+| **UPS** | `Geodetic::Coordinates::UPS` | Universal Polar Stereographic. Covers the polar regions not handled by UTM (north of 84N and south of 80S). Uses a stereographic projection centered on each pole with zones Y/Z (north) and A/B (south). |
+
+## Regional Systems
+
+| System | Class | Description |
+|--------|-------|-------------|
+| **StatePlane** | `Geodetic::Coordinates::StatePlane` | State Plane Coordinate System. US state-based coordinate systems using Lambert Conformal Conic or Transverse Mercator projections. Each state has one or more zones with specific parameters. Coordinates are typically in US Survey Feet. |
+| **BNG** | `Geodetic::Coordinates::BNG` | British National Grid. The official coordinate system for Great Britain, based on the OSGB36 datum with the Airy 1830 ellipsoid. Uses a Transverse Mercator projection and an alphanumeric grid reference system (e.g., "TQ 30 80"). |
+
+---
+
+## Conversion Matrix
+
+Every coordinate system can convert to every other coordinate system. The table below confirms full interoperability:
+
+| From \ To | LLA | ECEF | UTM | ENU | NED | MGRS | USNG | WebMercator | UPS | StatePlane | BNG |
+|-----------|-----|------|-----|-----|-----|------|------|-------------|-----|------------|-----|
+| **LLA**        | --  | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y |
+| **ECEF**       | Y | --  | Y | Y | Y | Y | Y | Y | Y | Y | Y |
+| **UTM**        | Y | Y | --  | Y | Y | Y | Y | Y | Y | Y | Y |
+| **ENU**        | Y | Y | Y | --  | Y | Y | Y | Y | Y | Y | Y |
+| **NED**        | Y | Y | Y | Y | --  | Y | Y | Y | Y | Y | Y |
+| **MGRS**       | Y | Y | Y | Y | Y | --  | Y | Y | Y | Y | Y |
+| **USNG**       | Y | Y | Y | Y | Y | Y | --  | Y | Y | Y | Y |
+| **WebMercator**| Y | Y | Y | Y | Y | Y | Y | --  | Y | Y | Y |
+| **UPS**        | Y | Y | Y | Y | Y | Y | Y | Y | --  | Y | Y |
+| **StatePlane** | Y | Y | Y | Y | Y | Y | Y | Y | Y | --  | Y |
+| **BNG**        | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | --  |
+
+## Conversion Paths
+
+Conversions typically route through **LLA** or **ECEF** as intermediate steps:
+
+- **LLA** serves as the universal hub. Most systems convert to LLA first, then from LLA to the target system.
+- **ECEF** is the intermediate for local tangent plane systems (ENU, NED), since the rotation from global Cartesian to local frames is straightforward in ECEF.
+- **ENU and NED** convert between each other directly by reordering axes and inverting the vertical component.
+- **MGRS and USNG** route through UTM, which in turn routes through LLA.
+- **WebMercator, UPS, BNG, and StatePlane** all convert through LLA.
+
+For example, converting from BNG to NED follows the chain: `BNG -> LLA -> ECEF -> ENU -> NED`. The gem handles this automatically when you call a conversion method.

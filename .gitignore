@@ -1,0 +1,43 @@
+/.bundle/
+/.yardoc
+/_yardoc/
+/coverage/
+/doc/
+/pkg/
+/spec/reports/
+/tmp/
+
+*.gem
+*.rbc
+*.o
+*.a
+*.so
+*.bundle
+*.dll
+
+Gemfile.lock
+
+/.config
+/InstalledFiles
+/vendor/bundle
+
+## Documentation cache and generated files
+/.yardoc/
+/rdoc/
+
+## Environment normalization
+/.env
+/.envrc
+
+## IDE / Editor files
+/.idea/
+/.vscode/
+*.swp
+*.swo
+*~
+\#*\#
+.#*
+
+## OS files
+.DS_Store
+Thumbs.db
