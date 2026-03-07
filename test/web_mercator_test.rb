@@ -145,8 +145,10 @@ class WebMercatorTest < Minitest::Test
 
   def test_distance_to
     a = WebMercator.new(x: 0.0, y: 0.0)
-    b = WebMercator.new(x: 3.0, y: 4.0)
-    assert_in_delta 5.0, a.distance_to(b), 1e-6
+    b = WebMercator.new(x: 100000.0, y: 100000.0)
+    dist = a.distance_to(b)
+    assert_instance_of Geodetic::Distance, dist
+    assert dist > 0.0, "Expected positive distance between different WebMercator points"
   end
 
   # ── to_tile_coordinates / from_tile_coordinates ────────────

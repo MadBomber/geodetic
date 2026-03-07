@@ -137,16 +137,6 @@ module Geodetic
         "#{@grid_zone_designator} #{@square_identifier} #{east_str} #{north_str}"
       end
 
-      # Distance calculation (approximate within grid square)
-      def distance_to(other_coord)
-        # Convert both to UTM for accurate distance calculation
-        utm1 = self.to_utm
-        utm2 = other_coord.to_utm
-
-        dx = utm1.easting - utm2.easting
-        dy = utm1.northing - utm2.northing
-        Math.sqrt(dx * dx + dy * dy)
-      end
 
       # Bearing calculation
       def bearing_to(other_coord)

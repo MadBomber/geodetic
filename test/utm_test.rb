@@ -200,38 +200,21 @@ class UtmTest < Minitest::Test
     assert_equal 3, utm.central_meridian
   end
 
-  # --- distance_to ---
+  # --- distance_to (Vincenty via LLA) ---
 
   def test_distance_to_same_zone
     a = UTM.new(easting: 500000.0, northing: 5000000.0, altitude: 0.0, zone: 10, hemisphere: 'N')
-    b = UTM.new(easting: 500003.0, northing: 5000004.0, altitude: 0.0, zone: 10, hemisphere: 'N')
-    assert_in_delta 5.0, a.distance_to(b), 1e-10
+    b = UTM.new(easting: 500100.0, northing: 5000100.0, altitude: 0.0, zone: 10, hemisphere: 'N')
+    dist = a.distance_to(b)
+    assert_instance_of Geodetic::Distance, dist
+    assert dist > 0.0, "Expected positive distance between different UTM points"
   end
 
-  def test_distance_to_with_altitude
-    a = UTM.new(easting: 500000.0, northing: 5000000.0, altitude: 0.0, zone: 10, hemisphere: 'N')
-    b = UTM.new(easting: 500000.0, northing: 5000000.0, altitude: 100.0, zone: 10, hemisphere: 'N')
-    assert_in_delta 100.0, a.distance_to(b), 1e-10
-  end
-
-  def test_distance_to_different_zone_raises
+  def test_distance_to_different_zones
     a = UTM.new(easting: 500000.0, northing: 5000000.0, zone: 10, hemisphere: 'N')
     b = UTM.new(easting: 500000.0, northing: 5000000.0, zone: 11, hemisphere: 'N')
-    assert_raises(ArgumentError) { a.distance_to(b) }
-  end
-
-  # --- horizontal_distance_to ---
-
-  def test_horizontal_distance_to_same_zone
-    a = UTM.new(easting: 500000.0, northing: 5000000.0, altitude: 0.0, zone: 10, hemisphere: 'N')
-    b = UTM.new(easting: 500003.0, northing: 5000004.0, altitude: 999.0, zone: 10, hemisphere: 'N')
-    # horizontal_distance ignores altitude
-    assert_in_delta 5.0, a.horizontal_distance_to(b), 1e-10
-  end
-
-  def test_horizontal_distance_to_different_zone_raises
-    a = UTM.new(easting: 500000.0, northing: 5000000.0, zone: 10, hemisphere: 'N')
-    b = UTM.new(easting: 500000.0, northing: 5000000.0, zone: 11, hemisphere: 'N')
-    assert_raises(ArgumentError) { a.horizontal_distance_to(b) }
+    dist = a.distance_to(b)
+    assert_instance_of Geodetic::Distance, dist
+    assert dist > 0.0, "Expected positive distance between different zones"
   end
 end

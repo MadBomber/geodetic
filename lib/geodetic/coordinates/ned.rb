@@ -109,15 +109,6 @@ module Geodetic
         delta_n <= 1e-6 && delta_e <= 1e-6 && delta_d <= 1e-6
       end
 
-      def distance_to(other)
-        raise ArgumentError, "Expected NED" unless other.is_a?(NED)
-
-        dn = @n - other.n
-        de = @e - other.e
-        dd = @d - other.d
-
-        Math.sqrt(dn**2 + de**2 + dd**2)
-      end
 
       def horizontal_distance_to(other)
         raise ArgumentError, "Expected NED" unless other.is_a?(NED)

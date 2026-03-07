@@ -222,3 +222,61 @@ Most conversions are not direct but route through intermediate systems. The gem 
 - **BNG**: Uses a simplified datum transformation between OSGB36 and WGS84 (approximate offset). A full Helmert 7-parameter transformation would provide higher accuracy.
 - **StatePlane**: Uses simplified projection formulas. Production applications may require the full NOAA/NGS projection equations for survey-grade accuracy.
 - **Equality comparisons**: All classes use tolerance-based equality. Coordinates (in meters) use 1e-6 m tolerance. LLA uses 1e-10 degrees for lat/lng and 1e-6 m for altitude.
+
+---
+
+## Distance Calculations
+
+Universal distance methods are available on all coordinate types and work across different coordinate systems.
+
+### Great-Circle Distance (Vincenty)
+
+- **`distance_to(other, *others)`** — Instance method. Computes the Vincenty great-circle distance from the receiver to one or more target coordinates. Returns a `Distance` for a single target, or an Array of `Distance` objects for multiple targets (radial distances from the receiver).
+- **`GCS.distance_between(*coords)`** — Class method on `Geodetic::Coordinates` (aliased as `GCS`). Computes consecutive chain distances between an ordered sequence of coordinates. Returns a `Distance` for two coordinates, or an Array of `Distance` objects for three or more.
+
+> **`Distance` objects** wrap a distance value and provide unit-aware access. Call `.meters` to get the raw Float value in meters, or `.to_f` to get the value in the current display unit.
+
+```ruby
+seattle = GCS::LLA.new(lat: 47.6205, lng: -122.3493, alt: 0.0)
+portland = GCS::LLA.new(lat: 45.5152, lng: -122.6784, alt: 0.0)
+sf = GCS::LLA.new(lat: 37.7749, lng: -122.4194, alt: 0.0)
+
+# Radial distances from receiver
+seattle.distance_to(portland)          # => Distance (235393.17 m)
+seattle.distance_to(portland, sf)      # => [Distance, Distance] (Array)
+
+# Consecutive chain distances
+GCS.distance_between(seattle, portland, sf)  # => [Distance, Distance] (Array)
+```
+
+### Straight-Line Distance (ECEF Euclidean)
+
+- **`straight_line_distance_to(other, *others)`** — Instance method. Computes the Euclidean distance in ECEF (3D Cartesian) space. Returns a `Distance` for a single target, or an Array of `Distance` objects for multiple targets.
+- **`GCS.straight_line_distance_between(*coords)`** — Class method. Computes consecutive chain Euclidean distances.
+
+```ruby
+seattle.straight_line_distance_to(portland)              # => Distance
+GCS.straight_line_distance_between(seattle, portland)    # => Distance
+```
+
+### Cross-System Distances
+
+Both `distance_to` and `straight_line_distance_to` accept any coordinate type. Coordinates are converted to LLA (for Vincenty) or ECEF (for Euclidean) internally:
+
+```ruby
+utm = seattle.to_utm
+mgrs = GCS::MGRS.from_lla(portland)
+utm.distance_to(mgrs)    # => Distance (235393.17 m)
+```
+
+### ENU and NED (Relative Systems)
+
+ENU and NED are relative coordinate systems and do not support `distance_to` or `straight_line_distance_to` directly. Convert to an absolute system first:
+
+```ruby
+ref = GCS::LLA.new(lat: 47.62, lng: -122.35, alt: 0.0)
+lla = enu.to_lla(ref)
+lla.distance_to(other_lla)
+```
+
+ENU and NED retain `horizontal_distance_to` and `bearing_to` for local Euclidean operations within the tangent plane.

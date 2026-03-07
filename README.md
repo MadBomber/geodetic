@@ -50,6 +50,18 @@ enu = Coordinates::ENU.new(e: 100.0, n: 200.0, u: 50.0)
 ned = Coordinates::NED.new(n: 200.0, e: 100.0, d: -50.0)
 ```
 
+### GCS Shorthand
+
+`GCS` is a top-level alias for `Geodetic::Coordinates`, providing a concise way to create and work with coordinates:
+
+```ruby
+require "geodetic"
+
+# Use GCS as a shorthand for Geodetic::Coordinates
+seattle = GCS::LLA.new(lat: 47.6205, lng: -122.3493, alt: 184.0)
+ecef = GCS::ECEF.new(x: -2304643.57, y: -3638650.07, z: 4688674.43)
+```
+
 ### Coordinate Conversions
 
 Every coordinate system can convert to and from every other system:
@@ -109,16 +121,111 @@ usng = Coordinates::USNG.from_string("18T WL 12345 67890")
 usng.to_s    # => "18T WL 12345 67890"
 ```
 
-### Distance and Bearing
+### Distance Calculations
+
+Universal distance methods work across all coordinate types and return `Distance` objects with unit tracking and conversion.
+
+**Instance method `distance_to`** — Vincenty great-circle distance:
 
 ```ruby
-p1 = Coordinates::ENU.new(e: 0.0, n: 0.0, u: 0.0)
-p2 = Coordinates::ENU.new(e: 300.0, n: 400.0, u: 0.0)
+seattle = GCS::LLA.new(lat: 47.6205, lng: -122.3493, alt: 0.0)
+portland = GCS::LLA.new(lat: 45.5152, lng: -122.6784, alt: 0.0)
+sf = GCS::LLA.new(lat: 37.7749, lng: -122.4194, alt: 0.0)
 
-p1.distance_to(p2)             # => 500.0
-p1.horizontal_distance_to(p2)  # => 500.0
-p1.bearing_to(p2)              # => 36.87 (degrees from north)
+d = seattle.distance_to(portland)         # => Distance (meters)
+d.meters                                  # => 235393.17
+d.to_km.to_f                             # => 235.39
+d.to_mi.to_f                             # => 146.28
+
+seattle.distance_to(portland, sf)         # => [Distance, Distance] (radial)
+seattle.distance_to([portland, sf])       # => [Distance, Distance] (radial)
 ```
+
+**Class method `distance_between`** — consecutive chain distances:
+
+```ruby
+GCS.distance_between(seattle, portland)        # => Distance
+GCS.distance_between(seattle, portland, sf)    # => [Distance, Distance] (chain)
+GCS.distance_between([seattle, portland, sf])  # => [Distance, Distance] (chain)
+```
+
+**Straight-line (ECEF Euclidean) versions:**
+
+```ruby
+seattle.straight_line_distance_to(portland)              # => Distance
+GCS.straight_line_distance_between(seattle, portland)    # => Distance
+```
+
+**Cross-system distances** — works between any coordinate types:
+
+```ruby
+utm = seattle.to_utm
+mgrs = GCS::MGRS.from_lla(portland)
+utm.distance_to(mgrs)    # => Distance
+```
+
+> **Note:** ENU and NED are relative coordinate systems and must be converted to an absolute system before distance calculations. They retain `horizontal_distance_to` and `bearing_to` for local Euclidean operations.
+
+### Distance Class
+
+`Distance` tracks values internally in meters with a configurable display unit. All distance methods return `Distance` objects.
+
+**Construction:**
+
+```ruby
+d = Geodetic::Distance.new(1000)          # 1000 meters
+d = Geodetic::Distance.km(5)             # 5 kilometers
+d = Geodetic::Distance.mi(3)             # 3 miles
+d = Geodetic::Distance.ft(5280)          # 5280 feet
+d = Geodetic::Distance.nmi(1)            # 1 nautical mile
+```
+
+**Unit conversions** — return a new `Distance` with the same meters, different display unit:
+
+```ruby
+d = Geodetic::Distance.new(1609.344)
+d.to_km.to_f     # => 1.609344
+d.to_mi.to_f     # => 1.0
+d.to_ft.to_f     # => 5280.0
+d.to_nmi.to_f    # => 0.869...
+d.meters          # => 1609.344 (always available)
+```
+
+**Display and formatting:**
+
+```ruby
+d = Geodetic::Distance.new(5000).to_km
+d.to_f     # => 5.0 (in display unit)
+d.to_i     # => 5
+d.to_s     # => "5.0 km"
+d.inspect  # => "#<Geodetic::Distance 5.0 km (5000.0 m)>"
+```
+
+**Arithmetic** — results always in meters:
+
+```ruby
+d1 = Geodetic::Distance.km(5)
+d2 = Geodetic::Distance.mi(3)
+
+(d1 + d2).meters      # => 9828.032 (5km + 3mi in meters)
+(d1 - d2).meters      # => 171.968
+(d1 * 2).meters       # => 10000.0
+(d1 / 2).meters       # => 2500.0
+d1 / d2               # => 1.034... (Float ratio)
+
+# Numeric constants use the display unit
+d = Geodetic::Distance.new(5000).to_km   # 5 km
+(d + 3).meters        # => 8000.0 (3 km added)
+```
+
+**Comparison:**
+
+```ruby
+Geodetic::Distance.km(1) == Geodetic::Distance.new(1000)  # => true
+Geodetic::Distance.km(5) > Geodetic::Distance.mi(2)       # => true
+```
+
+**Supported units:** meters (m), kilometers (km), centimeters (cm), millimeters (mm), miles (mi), yards (yd), feet (ft), inches (in), nautical_miles (nmi)
 
 ### Datums
 

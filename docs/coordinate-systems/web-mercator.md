@@ -54,4 +54,14 @@ bounds = Geodetic::Coordinates::WebMercator.tile_bounds(tile_x, tile_y, zoom)
 |---|---|
 | `valid?` | Returns `true` if the coordinates fall within the valid Web Mercator extent |
 | `clamp!` | Clamps coordinates to the valid range, modifying the object in place |
-| `distance_to(other)` | Computes the distance in meters to another `WebMercator` point |
+
+### Universal Distance Methods
+
+The universal `distance_to` method computes the Vincenty great-circle distance (in meters) to any other coordinate type. The `straight_line_distance_to` method computes the Euclidean distance in ECEF space. Both accept single or multiple targets.
+
+```ruby
+wm_a = Geodetic::Coordinates::WebMercator.new(x: -13627665.0, y: 6044499.0)
+wm_b = Geodetic::Coordinates::WebMercator.new(x: -13631157.0, y: 5694043.0)
+wm_a.distance_to(wm_b)                # => Distance (meters, great-circle)
+wm_a.straight_line_distance_to(wm_b)  # => Distance (meters, Euclidean)
+```

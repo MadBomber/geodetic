@@ -40,4 +40,14 @@ Both easting and northing use a **false origin of 2,000,000 meters** to ensure a
 | `grid_convergence` | Returns the angular difference between grid north and true north at the point |
 | `point_scale_factor` | Returns the scale distortion factor at the point's location |
 | `valid?` | Returns `true` if the coordinates represent a valid UPS position |
-| `distance_to(other)` | Computes the distance in meters to another `UPS` point |
+
+### Universal Distance Methods
+
+The universal `distance_to` method computes the Vincenty great-circle distance (in meters) to any other coordinate type. The `straight_line_distance_to` method computes the Euclidean distance in ECEF space. Both accept single or multiple targets.
+
+```ruby
+ups_a = Geodetic::Coordinates::UPS.new(easting: 2000000.0, northing: 2000000.0, hemisphere: 'N', zone: 'Z')
+ups_b = Geodetic::Coordinates::UPS.new(easting: 2100000.0, northing: 2100000.0, hemisphere: 'N', zone: 'Z')
+ups_a.distance_to(ups_b)                # => Distance (meters, great-circle)
+ups_a.straight_line_distance_to(ups_b)  # => Distance (meters, Euclidean)
+```

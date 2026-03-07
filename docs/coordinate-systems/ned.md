@@ -44,7 +44,6 @@ The one exception is the conversion between NED and ENU, which does not require 
 
 | Method                          | Description                                                              |
 |---------------------------------|--------------------------------------------------------------------------|
-| `distance_to(other)`            | Euclidean distance to another NED point (meters)                         |
 | `horizontal_distance_to(other)` | Horizontal (N-E plane) distance to another NED point (meters)            |
 | `bearing_to(other)`             | Bearing from this point to another NED point (degrees from north, 0-360) |
 | `elevation_angle_to(other)`     | Elevation angle from this point to another NED point (degrees)           |
@@ -52,6 +51,16 @@ The one exception is the conversion between NED and ENU, which does not require 
 | `elevation_angle`               | Elevation angle from the origin to this point (degrees)                  |
 | `bearing_from_origin`           | Bearing from the origin to this point (degrees from north, 0-360)        |
 | `horizontal_distance_to_origin` | Horizontal distance from this point to the origin (meters)               |
+
+### Universal Distance Methods
+
+NED is a relative coordinate system. To use the universal `distance_to` or `straight_line_distance_to` methods, first convert to an absolute system (such as LLA or ECEF) using a reference point:
+
+```ruby
+ref = Geodetic::Coordinates::LLA.new(lat: 47.62, lng: -122.35, alt: 0.0)
+lla = ned.to_lla(ref)
+lla.distance_to(other_lla)  # Vincenty great-circle distance
+```
 
 ## Bearing Convention
 

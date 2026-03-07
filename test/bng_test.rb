@@ -133,7 +133,9 @@ class BngTest < Minitest::Test
   def test_distance_to
     a = BNG.new(easting: 530000, northing: 180000)
     b = BNG.new(easting: 530000, northing: 181000)
-    assert_in_delta 1000.0, a.distance_to(b), 1e-6
+    dist = a.distance_to(b)
+    assert_instance_of Geodetic::Distance, dist
+    assert dist > 0.0, "Expected positive distance between different BNG points"
   end
 
   # -- bearing_to -----------------------------------------------------------

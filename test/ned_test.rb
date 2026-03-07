@@ -132,10 +132,8 @@ class NedTest < Minitest::Test
   def test_distance_to
     a = NED.new(n: 0.0, e: 0.0, d: 0.0)
     b = NED.new(n: 3.0, e: 4.0, d: 0.0)
-    assert_in_delta 5.0, a.distance_to(b), 1e-10
-
-    c = NED.new(n: 1.0, e: 2.0, d: 2.0)
-    assert_in_delta 3.0, a.distance_to(c), 1e-10
+    # NED is a relative coordinate system and cannot convert to LLA without a reference
+    assert_raises(ArgumentError) { a.distance_to(b) }
   end
 
   # 9. horizontal_distance_to

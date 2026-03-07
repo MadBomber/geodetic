@@ -147,10 +147,8 @@ class EnuTest < Minitest::Test
   def test_distance_to
     a = ENU.new(e: 0.0, n: 0.0, u: 0.0)
     b = ENU.new(e: 3.0, n: 4.0, u: 0.0)
-    assert_in_delta 5.0, a.distance_to(b), 1e-10
-
-    c = ENU.new(e: 1.0, n: 2.0, u: 2.0)
-    assert_in_delta 3.0, a.distance_to(c), 1e-10
+    # ENU is a relative coordinate system and cannot convert to LLA without a reference
+    assert_raises(ArgumentError) { a.distance_to(b) }
   end
 
   # 10. horizontal_distance_to

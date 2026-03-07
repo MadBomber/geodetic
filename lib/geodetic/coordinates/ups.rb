@@ -210,12 +210,6 @@ module Geodetic
         @hemisphere == other.hemisphere && @zone == other.zone
       end
 
-      # Distance calculation
-      def distance_to(other_coord)
-        dx = @easting - other_coord.easting
-        dy = @northing - other_coord.northing
-        Math.sqrt(dx * dx + dy * dy)
-      end
 
       # Grid convergence calculation
       def grid_convergence(datum = WGS84)

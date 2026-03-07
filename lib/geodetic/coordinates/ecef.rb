@@ -157,15 +157,6 @@ module Geodetic
         delta_x <= 1e-6 && delta_y <= 1e-6 && delta_z <= 1e-6
       end
 
-      def distance_to(other)
-        raise ArgumentError, "Expected ECEF" unless other.is_a?(ECEF)
-
-        dx = @x - other.x
-        dy = @y - other.y
-        dz = @z - other.z
-
-        Math.sqrt(dx**2 + dy**2 + dz**2)
-      end
     end
   end
 end

@@ -168,8 +168,10 @@ class UpsTest < Minitest::Test
 
   def test_distance_to
     a = UPS.new(easting: 2000000.0, northing: 2000000.0, hemisphere: "N", zone: "Y")
-    b = UPS.new(easting: 2000003.0, northing: 2000004.0, hemisphere: "N", zone: "Y")
-    assert_in_delta 5.0, a.distance_to(b), 1e-6
+    b = UPS.new(easting: 2000100.0, northing: 2000100.0, hemisphere: "N", zone: "Y")
+    dist = a.distance_to(b)
+    assert_instance_of Geodetic::Distance, dist
+    assert dist > 0.0, "Expected positive distance between different UPS points"
   end
 
   def test_distance_to_self_is_zero

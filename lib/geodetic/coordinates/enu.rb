@@ -129,15 +129,6 @@ module Geodetic
         delta_e <= 1e-6 && delta_n <= 1e-6 && delta_u <= 1e-6
       end
 
-      def distance_to(other)
-        raise ArgumentError, "Expected ENU" unless other.is_a?(ENU)
-
-        de = @e - other.e
-        dn = @n - other.n
-        du = @u - other.u
-
-        Math.sqrt(de**2 + dn**2 + du**2)
-      end
 
       def horizontal_distance_to(other)
         raise ArgumentError, "Expected ENU" unless other.is_a?(ENU)

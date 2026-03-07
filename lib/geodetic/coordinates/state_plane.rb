@@ -261,19 +261,6 @@ module Geodetic
         @zone_code == other.zone_code
       end
 
-      def distance_to(other_coord)
-        # Ensure both coordinates are in the same units
-        if @zone_code != other_coord.zone_code
-          # Convert to common coordinate system (LLA) for distance calculation
-          lla1 = self.to_lla
-          lla2 = other_coord.to_lla
-          return lla1.distance_to(lla2)
-        end
-
-        dx = @easting - other_coord.easting
-        dy = @northing - other_coord.northing
-        Math.sqrt(dx * dx + dy * dy)
-      end
 
       def valid?
         ZONES.key?(@zone_code)

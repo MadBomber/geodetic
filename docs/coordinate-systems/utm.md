@@ -161,33 +161,25 @@ a == b
 # => true
 ```
 
-### distance_to(other)
+### distance_to(other, *others)
 
-Computes the 3D Euclidean distance in meters between two UTM points (including the altitude component). Both points **must be in the same zone and hemisphere**.
+Computes the Vincenty great-circle distance to one or more other coordinates. Works across UTM zones and across different coordinate types (coordinates are converted to LLA internally). Returns a `Distance` for a single target or an Array of `Distance` objects for multiple targets (radial distances from the receiver).
 
 ```ruby
 a = Geodetic::Coordinates::UTM.new(easting: 580000.0, northing: 4510000.0, altitude: 10.0, zone: 18, hemisphere: 'N')
 b = Geodetic::Coordinates::UTM.new(easting: 580100.0, northing: 4510200.0, altitude: 15.0, zone: 18, hemisphere: 'N')
 a.distance_to(b)
-# => 223.83 (approximately, in meters)
+# => Distance (meters, great-circle distance)
 ```
 
-Raises `ArgumentError` if:
-- `other` is not a `UTM`
-- The two points are not in the same zone/hemisphere
+### straight_line_distance_to(other, *others)
 
-### horizontal_distance_to(other)
-
-Computes the 2D horizontal distance in meters (easting and northing only, ignoring altitude). Both points **must be in the same zone and hemisphere**.
+Computes the Euclidean (straight-line) distance between two points in ECEF space. Accepts any coordinate type. Returns a `Distance` for a single target or an Array of `Distance` objects for multiple targets.
 
 ```ruby
-a.horizontal_distance_to(b)
-# => 223.61 (approximately, in meters)
+a.straight_line_distance_to(b)
+# => Distance (meters)
 ```
-
-Raises `ArgumentError` if:
-- `other` is not a `UTM`
-- The two points are not in the same zone/hemisphere
 
 ### same_zone?(other)
 
@@ -243,8 +235,12 @@ point_b = Geodetic::Coordinates::UTM.new(
   altitude: 15.0, zone: 18, hemisphere: 'N'
 )
 
-puts "3D distance: #{point_a.distance_to(point_b)} m"
-puts "Horizontal:  #{point_a.horizontal_distance_to(point_b)} m"
+# Great-circle distance (works across zones and coordinate types)
+puts "Distance:    #{point_a.distance_to(point_b).meters} m"
+
+# Straight-line (Euclidean) distance
+puts "Straight:    #{point_a.straight_line_distance_to(point_b).meters} m"
+
 puts "Same zone?   #{point_a.same_zone?(point_b)}"
 ```
 

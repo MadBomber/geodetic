@@ -225,12 +225,6 @@ module Geodetic
         (@northing - other.northing).abs <= 1e-6
       end
 
-      # Distance calculation
-      def distance_to(other_coord)
-        dx = @easting - other_coord.easting
-        dy = @northing - other_coord.northing
-        Math.sqrt(dx * dx + dy * dy)
-      end
 
       # Bearing calculation
       def bearing_to(other_coord)

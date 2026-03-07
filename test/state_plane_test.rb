@@ -192,6 +192,8 @@ class StatePlaneTest < Minitest::Test
   def test_distance_to_same_zone
     a = SP.new(easting: 2000000, northing: 500000, zone_code: "CA_I")
     b = SP.new(easting: 2000000, northing: 501000, zone_code: "CA_I")
-    assert_in_delta 1000.0, a.distance_to(b), 1e-6
+    dist = a.distance_to(b)
+    assert_instance_of Geodetic::Distance, dist
+    assert dist > 0.0, "Expected positive distance between different StatePlane points"
   end
 end

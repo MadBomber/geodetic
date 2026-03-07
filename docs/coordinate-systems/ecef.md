@@ -141,18 +141,25 @@ a == b
 # => true
 ```
 
-### distance_to(other)
+### distance_to(other, *others)
 
-Computes the Euclidean (straight-line) distance in meters between two ECEF points.
+Computes the Vincenty great-circle distance to one or more other coordinates. Accepts any coordinate type (coordinates are converted to LLA internally). Returns a `Distance` for a single target or an Array of `Distance` objects for multiple targets (radial distances from the receiver).
 
 ```ruby
 a = Geodetic::Coordinates::ECEF.new(x: 1130730.0, y: -4828583.0, z: 3991570.0)
 b = Geodetic::Coordinates::ECEF.new(x: 1130740.0, y: -4828573.0, z: 3991580.0)
 a.distance_to(b)
-# => 17.320508075688775 (meters)
+# => Distance (meters, great-circle distance)
 ```
 
-Raises `ArgumentError` if `other` is not an `ECEF`.
+### straight_line_distance_to(other, *others)
+
+Computes the Euclidean (straight-line) distance between two points in ECEF space. Accepts any coordinate type (coordinates are converted to ECEF internally). Returns a `Distance` for a single target or an Array of `Distance` objects for multiple targets.
+
+```ruby
+a.straight_line_distance_to(b)
+# => Distance (17.320508075688775 m)
+```
 
 ## Code Examples
 
@@ -177,8 +184,13 @@ ecef == ecef_roundtrip
 station_a = Geodetic::Coordinates::ECEF.new(x: 1130730.0, y: -4828583.0, z: 3991570.0)
 station_b = Geodetic::Coordinates::ECEF.new(x: 1131000.0, y: -4828300.0, z: 3991800.0)
 
+# Great-circle distance (Vincenty)
 distance = station_a.distance_to(station_b)
-puts "Distance: #{distance} meters"
+puts "Great-circle distance: #{distance.meters} meters"
+
+# Straight-line (Euclidean) distance
+straight = station_a.straight_line_distance_to(station_b)
+puts "Straight-line distance: #{straight.meters} meters"
 ```
 
 ### Local tangent plane from ECEF

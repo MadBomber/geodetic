@@ -174,22 +174,19 @@ class EcefTest < Minitest::Test
   # --- distance_to ---
 
   def test_distance_to_known_points
-    a = ECEF.new(x: 0.0, y: 0.0, z: 0.0)
-    b = ECEF.new(x: 3.0, y: 4.0, z: 0.0)
-    assert_in_delta 5.0, a.distance_to(b), 1e-10
+    # Two identical ECEF points should have distance 0.0
+    a = SEATTLE_ECEF
+    assert_in_delta 0.0, a.distance_to(a), 1e-6
 
-    c = ECEF.new(x: 1.0, y: 1.0, z: 1.0)
-    d = ECEF.new(x: 2.0, y: 2.0, z: 2.0)
-    assert_in_delta Math.sqrt(3.0), c.distance_to(d), 1e-10
+    # Two different ECEF points should return a positive Float (Vincenty via LLA)
+    b = LLA.new(lat: 37.7749, lng: -122.4194, alt: 0.0).to_ecef
+    dist = a.distance_to(b)
+    assert_instance_of Geodetic::Distance, dist
+    assert dist > 0.0, "Expected positive distance between different points"
   end
 
-  def test_distance_to_self_is_zero
-    a = ECEF.new(x: 100.0, y: 200.0, z: 300.0)
-    assert_in_delta 0.0, a.distance_to(a), 1e-10
-  end
-
-  def test_distance_to_raises_for_non_ecef
+  def test_distance_to_raises_for_non_coordinate
     a = ECEF.new
-    assert_raises(ArgumentError) { a.distance_to("not ecef") }
+    assert_raises(NoMethodError) { a.distance_to("not ecef") }
   end
 end

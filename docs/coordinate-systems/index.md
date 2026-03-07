@@ -63,6 +63,12 @@ Every coordinate system can convert to every other coordinate system. The table 
 | **StatePlane** | Y | Y | Y | Y | Y | Y | Y | Y | Y | --  | Y |
 | **BNG**        | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | --  |
 
+## Universal Distance Calculations
+
+All coordinate systems support universal distance calculations via `distance_to` (Vincenty great-circle) and `straight_line_distance_to` (ECEF Euclidean). These methods work across different coordinate types -- for example, computing the distance from a UTM coordinate to an MGRS coordinate. Class-level methods `GCS.distance_between` and `GCS.straight_line_distance_between` compute consecutive chain distances across a sequence of coordinates. See the [Conversions Reference](../reference/conversions.md#distance-calculations) for details.
+
+> **Note:** ENU and NED are relative systems and must be converted to an absolute system (e.g., LLA) before using universal distance methods.
+
 ## Conversion Paths
 
 Conversions typically route through **LLA** or **ECEF** as intermediate steps:

@@ -172,12 +172,6 @@ module Geodetic
         self
       end
 
-      # Distance calculation (approximate, since Web Mercator distorts distances)
-      def distance_to(other_coord)
-        dx = @x - other_coord.x
-        dy = @y - other_coord.y
-        Math.sqrt(dx * dx + dy * dy)
-      end
 
       # Get bounds for a tile
       def self.tile_bounds(x_tile, y_tile, zoom_level)

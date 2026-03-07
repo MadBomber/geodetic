@@ -163,26 +163,6 @@ module Geodetic
         @zone == other.zone && @hemisphere == other.hemisphere
       end
 
-      def distance_to(other)
-        raise ArgumentError, "Expected UTM" unless other.is_a?(UTM)
-        raise ArgumentError, "UTM zones must match for distance calculation" unless same_zone?(other)
-
-        de = @easting - other.easting
-        dn = @northing - other.northing
-        da = @altitude - other.altitude
-
-        Math.sqrt(de**2 + dn**2 + da**2)
-      end
-
-      def horizontal_distance_to(other)
-        raise ArgumentError, "Expected UTM" unless other.is_a?(UTM)
-        raise ArgumentError, "UTM zones must match for distance calculation" unless same_zone?(other)
-
-        de = @easting - other.easting
-        dn = @northing - other.northing
-
-        Math.sqrt(de**2 + dn**2)
-      end
 
       def same_zone?(other)
         raise ArgumentError, "Expected UTM" unless other.is_a?(UTM)
