@@ -1324,6 +1324,67 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#distance-calculations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Distance Calculations
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Distance Calculations">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#great-circle-distance-vincenty" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Great-Circle Distance (Vincenty)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#straight-line-distance-ecef-euclidean" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Straight-Line Distance (ECEF Euclidean)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cross-system-distances" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cross-System Distances
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#enu-and-ned-relative-systems" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ENU and NED (Relative Systems)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -1498,6 +1559,67 @@
       
     </span>
   </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#distance-calculations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Distance Calculations
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Distance Calculations">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#great-circle-distance-vincenty" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Great-Circle Distance (Vincenty)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#straight-line-distance-ecef-euclidean" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Straight-Line Distance (ECEF Euclidean)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cross-system-distances" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cross-System Distances
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#enu-and-ned-relative-systems" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ENU and NED (Relative Systems)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -1772,6 +1894,49 @@
 <li><strong>StatePlane</strong>: Uses simplified projection formulas. Production applications may require the full NOAA/NGS projection equations for survey-grade accuracy.</li>
 <li><strong>Equality comparisons</strong>: All classes use tolerance-based equality. Coordinates (in meters) use 1e-6 m tolerance. LLA uses 1e-10 degrees for lat/lng and 1e-6 m for altitude.</li>
 </ul>
+<hr />
+<h2 id="distance-calculations">Distance Calculations<a class="headerlink" href="#distance-calculations" title="Permanent link">&para;</a></h2>
+<p>Universal distance methods are available on all coordinate types and work across different coordinate systems.</p>
+<h3 id="great-circle-distance-vincenty">Great-Circle Distance (Vincenty)<a class="headerlink" href="#great-circle-distance-vincenty" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong><code>distance_to(other, *others)</code></strong> — Instance method. Computes the Vincenty great-circle distance from the receiver to one or more target coordinates. Returns a <code>Distance</code> for a single target, or an Array of <code>Distance</code> objects for multiple targets (radial distances from the receiver).</li>
+<li><strong><code>GCS.distance_between(*coords)</code></strong> — Class method on <code>Geodetic::Coordinates</code> (aliased as <code>GCS</code>). Computes consecutive chain distances between an ordered sequence of coordinates. Returns a <code>Distance</code> for two coordinates, or an Array of <code>Distance</code> objects for three or more.</li>
+</ul>
+<blockquote>
+<p><strong><code>Distance</code> objects</strong> wrap a distance value and provide unit-aware access. Call <code>.meters</code> to get the raw Float value in meters, or <code>.to_f</code> to get the value in the current display unit.</p>
+</blockquote>
+<div class="language-ruby highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="n">seattle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">GCS</span><span class="o">::</span><span class="no">LLA</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">lat</span><span class="p">:</span><span class="w"> </span><span class="mi">47</span><span class="o">.</span><span class="mi">6205</span><span class="p">,</span><span class="w"> </span><span class="ss">lng</span><span class="p">:</span><span class="w"> </span><span class="o">-</span><span class="mi">122</span><span class="o">.</span><span class="mi">3493</span><span class="p">,</span><span class="w"> </span><span class="ss">alt</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="o">.</span><span class="mi">0</span><span class="p">)</span>
+</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="n">portland</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">GCS</span><span class="o">::</span><span class="no">LLA</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">lat</span><span class="p">:</span><span class="w"> </span><span class="mi">45</span><span class="o">.</span><span class="mi">5152</span><span class="p">,</span><span class="w"> </span><span class="ss">lng</span><span class="p">:</span><span class="w"> </span><span class="o">-</span><span class="mi">122</span><span class="o">.</span><span class="mi">6784</span><span class="p">,</span><span class="w"> </span><span class="ss">alt</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="o">.</span><span class="mi">0</span><span class="p">)</span>
+</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="n">sf</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">GCS</span><span class="o">::</span><span class="no">LLA</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">lat</span><span class="p">:</span><span class="w"> </span><span class="mi">37</span><span class="o">.</span><span class="mi">7749</span><span class="p">,</span><span class="w"> </span><span class="ss">lng</span><span class="p">:</span><span class="w"> </span><span class="o">-</span><span class="mi">122</span><span class="o">.</span><span class="mi">4194</span><span class="p">,</span><span class="w"> </span><span class="ss">alt</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="o">.</span><span class="mi">0</span><span class="p">)</span>
+</span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a>
+</span><span id="__span-11-5"><a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a><span class="c1"># Radial distances from receiver</span>
+</span><span id="__span-11-6"><a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a><span class="n">seattle</span><span class="o">.</span><span class="n">distance_to</span><span class="p">(</span><span class="n">portland</span><span class="p">)</span><span class="w">          </span><span class="c1"># =&gt; Distance (235393.17 m)</span>
+</span><span id="__span-11-7"><a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a><span class="n">seattle</span><span class="o">.</span><span class="n">distance_to</span><span class="p">(</span><span class="n">portland</span><span class="p">,</span><span class="w"> </span><span class="n">sf</span><span class="p">)</span><span class="w">      </span><span class="c1"># =&gt; [Distance, Distance] (Array)</span>
+</span><span id="__span-11-8"><a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a>
+</span><span id="__span-11-9"><a id="__codelineno-11-9" name="__codelineno-11-9" href="#__codelineno-11-9"></a><span class="c1"># Consecutive chain distances</span>
+</span><span id="__span-11-10"><a id="__codelineno-11-10" name="__codelineno-11-10" href="#__codelineno-11-10"></a><span class="no">GCS</span><span class="o">.</span><span class="n">distance_between</span><span class="p">(</span><span class="n">seattle</span><span class="p">,</span><span class="w"> </span><span class="n">portland</span><span class="p">,</span><span class="w"> </span><span class="n">sf</span><span class="p">)</span><span class="w">  </span><span class="c1"># =&gt; [Distance, Distance] (Array)</span>
+</span></code></pre></div>
+<h3 id="straight-line-distance-ecef-euclidean">Straight-Line Distance (ECEF Euclidean)<a class="headerlink" href="#straight-line-distance-ecef-euclidean" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong><code>straight_line_distance_to(other, *others)</code></strong> — Instance method. Computes the Euclidean distance in ECEF (3D Cartesian) space. Returns a <code>Distance</code> for a single target, or an Array of <code>Distance</code> objects for multiple targets.</li>
+<li><strong><code>GCS.straight_line_distance_between(*coords)</code></strong> — Class method. Computes consecutive chain Euclidean distances.</li>
+</ul>
+<div class="language-ruby highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="n">seattle</span><span class="o">.</span><span class="n">straight_line_distance_to</span><span class="p">(</span><span class="n">portland</span><span class="p">)</span><span class="w">              </span><span class="c1"># =&gt; Distance</span>
+</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="no">GCS</span><span class="o">.</span><span class="n">straight_line_distance_between</span><span class="p">(</span><span class="n">seattle</span><span class="p">,</span><span class="w"> </span><span class="n">portland</span><span class="p">)</span><span class="w">    </span><span class="c1"># =&gt; Distance</span>
+</span></code></pre></div>
+<h3 id="cross-system-distances">Cross-System Distances<a class="headerlink" href="#cross-system-distances" title="Permanent link">&para;</a></h3>
+<p>Both <code>distance_to</code> and <code>straight_line_distance_to</code> accept any coordinate type. Coordinates are converted to LLA (for Vincenty) or ECEF (for Euclidean) internally:</p>
+<div class="language-ruby highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="n">utm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">seattle</span><span class="o">.</span><span class="n">to_utm</span>
+</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="n">mgrs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">GCS</span><span class="o">::</span><span class="no">MGRS</span><span class="o">.</span><span class="n">from_lla</span><span class="p">(</span><span class="n">portland</span><span class="p">)</span>
+</span><span id="__span-13-3"><a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a><span class="n">utm</span><span class="o">.</span><span class="n">distance_to</span><span class="p">(</span><span class="n">mgrs</span><span class="p">)</span><span class="w">    </span><span class="c1"># =&gt; Distance (235393.17 m)</span>
+</span></code></pre></div>
+<h3 id="enu-and-ned-relative-systems">ENU and NED (Relative Systems)<a class="headerlink" href="#enu-and-ned-relative-systems" title="Permanent link">&para;</a></h3>
+<p>ENU and NED are relative coordinate systems and do not support <code>distance_to</code> or <code>straight_line_distance_to</code> directly. Convert to an absolute system first:</p>
+<div class="language-ruby highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="n">ref</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">GCS</span><span class="o">::</span><span class="no">LLA</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">lat</span><span class="p">:</span><span class="w"> </span><span class="mi">47</span><span class="o">.</span><span class="mi">62</span><span class="p">,</span><span class="w"> </span><span class="ss">lng</span><span class="p">:</span><span class="w"> </span><span class="o">-</span><span class="mi">122</span><span class="o">.</span><span class="mi">35</span><span class="p">,</span><span class="w"> </span><span class="ss">alt</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="o">.</span><span class="mi">0</span><span class="p">)</span>
+</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="n">lla</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">enu</span><span class="o">.</span><span class="n">to_lla</span><span class="p">(</span><span class="n">ref</span><span class="p">)</span>
+</span><span id="__span-14-3"><a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="n">lla</span><span class="o">.</span><span class="n">distance_to</span><span class="p">(</span><span class="n">other_lla</span><span class="p">)</span>
+</span></code></pre></div>
+<p>ENU and NED retain <code>horizontal_distance_to</code> and <code>bearing_to</code> for local Euclidean operations within the tangent plane.</p>
 
 
 
