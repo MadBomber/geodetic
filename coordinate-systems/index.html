@@ -1325,7 +1325,7 @@
 
 
 <h1 id="coordinate-systems-overview">Coordinate Systems Overview<a class="headerlink" href="#coordinate-systems-overview" title="Permanent link">&para;</a></h1>
-<p>The Geodetic gem supports 12 coordinate systems organized into six categories. All coordinate classes live under <code>Geodetic::Coordinates</code>.</p>
+<p>The Geodetic gem supports 14 coordinate systems organized into six categories. All coordinate classes live under <code>Geodetic::Coordinates</code>.</p>
 <h2 id="global-systems">Global Systems<a class="headerlink" href="#global-systems" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
@@ -1446,6 +1446,16 @@
 <td><code>Geodetic::Coordinates::GH36</code></td>
 <td>Geohash-36. A hierarchical spatial hashing algorithm that encodes latitude/longitude into a compact, URL-friendly string using a case-sensitive 36-character alphabet (radix-36). Each hash represents a rectangular cell; the coordinate value is the cell midpoint. Supports neighbor lookup, area extraction via <code>to_area</code>, and configurable precision (default 10 characters for sub-meter resolution).</td>
 </tr>
+<tr>
+<td><strong>GH</strong></td>
+<td><code>Geodetic::Coordinates::GH</code></td>
+<td>Geohash (base-32). The standard geohash algorithm by Gustavo Niemeyer using a 32-character alphabet (<code>0-9, b-z</code> excluding <code>a, i, l, o</code>). The de facto standard for spatial hashing, natively supported by Elasticsearch, Redis, PostGIS, and many geocoding services. Supports neighbor lookup, area extraction, and configurable precision (default 12 characters for sub-centimeter resolution).</td>
+</tr>
+<tr>
+<td><strong>HAM</strong></td>
+<td><code>Geodetic::Coordinates::HAM</code></td>
+<td>Maidenhead Locator System. A hierarchical grid system used worldwide in amateur radio that encodes positions using alternating letter/digit pairs (e.g., <code>FN31pr</code>). Four levels of precision: Field (18x18), Square (10x10), Subsquare (24x24), Extended (10x10). Supports neighbor lookup, area extraction, and configurable precision (default 6 characters for ~5 km resolution).</td>
+</tr>
 </tbody>
 </table>
 <h2 id="regional-systems">Regional Systems<a class="headerlink" href="#regional-systems" title="Permanent link">&para;</a></h2>
@@ -1489,12 +1499,16 @@
 <th>StatePlane</th>
 <th>BNG</th>
 <th>GH36</th>
+<th>GH</th>
+<th>HAM</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td><strong>LLA</strong></td>
 <td>--</td>
+<td>Y</td>
+<td>Y</td>
 <td>Y</td>
 <td>Y</td>
 <td>Y</td>
@@ -1521,12 +1535,16 @@
 <td>Y</td>
 <td>Y</td>
 <td>Y</td>
+<td>Y</td>
+<td>Y</td>
 </tr>
 <tr>
 <td><strong>UTM</strong></td>
 <td>Y</td>
 <td>Y</td>
 <td>--</td>
+<td>Y</td>
+<td>Y</td>
 <td>Y</td>
 <td>Y</td>
 <td>Y</td>
@@ -1551,6 +1569,8 @@
 <td>Y</td>
 <td>Y</td>
 <td>Y</td>
+<td>Y</td>
+<td>Y</td>
 </tr>
 <tr>
 <td><strong>NED</strong></td>
@@ -1559,6 +1579,8 @@
 <td>Y</td>
 <td>Y</td>
 <td>--</td>
+<td>Y</td>
+<td>Y</td>
 <td>Y</td>
 <td>Y</td>
 <td>Y</td>
@@ -1581,6 +1603,8 @@
 <td>Y</td>
 <td>Y</td>
 <td>Y</td>
+<td>Y</td>
+<td>Y</td>
 </tr>
 <tr>
 <td><strong>USNG</strong></td>
@@ -1591,6 +1615,8 @@
 <td>Y</td>
 <td>Y</td>
 <td>--</td>
+<td>Y</td>
+<td>Y</td>
 <td>Y</td>
 <td>Y</td>
 <td>Y</td>
@@ -1611,6 +1637,8 @@
 <td>Y</td>
 <td>Y</td>
 <td>Y</td>
+<td>Y</td>
+<td>Y</td>
 </tr>
 <tr>
 <td><strong>UPS</strong></td>
@@ -1623,6 +1651,8 @@
 <td>Y</td>
 <td>Y</td>
 <td>--</td>
+<td>Y</td>
+<td>Y</td>
 <td>Y</td>
 <td>Y</td>
 <td>Y</td>
@@ -1641,6 +1671,8 @@
 <td>--</td>
 <td>Y</td>
 <td>Y</td>
+<td>Y</td>
+<td>Y</td>
 </tr>
 <tr>
 <td><strong>BNG</strong></td>
@@ -1656,9 +1688,47 @@
 <td>Y</td>
 <td>--</td>
 <td>Y</td>
+<td>Y</td>
+<td>Y</td>
 </tr>
 <tr>
 <td><strong>GH36</strong></td>
+<td>Y</td>
+<td>Y</td>
+<td>Y</td>
+<td>Y</td>
+<td>Y</td>
+<td>Y</td>
+<td>Y</td>
+<td>Y</td>
+<td>Y</td>
+<td>Y</td>
+<td>Y</td>
+<td>--</td>
+<td>Y</td>
+<td>Y</td>
+</tr>
+<tr>
+<td><strong>GH</strong></td>
+<td>Y</td>
+<td>Y</td>
+<td>Y</td>
+<td>Y</td>
+<td>Y</td>
+<td>Y</td>
+<td>Y</td>
+<td>Y</td>
+<td>Y</td>
+<td>Y</td>
+<td>Y</td>
+<td>Y</td>
+<td>--</td>
+<td>Y</td>
+</tr>
+<tr>
+<td><strong>HAM</strong></td>
+<td>Y</td>
+<td>Y</td>
 <td>Y</td>
 <td>Y</td>
 <td>Y</td>
@@ -1679,7 +1749,7 @@
 <p>All coordinate systems also support universal bearing calculations via <code>bearing_to</code> (great-circle forward azimuth) and <code>elevation_to</code> (vertical look angle). These return <code>Bearing</code> and <code>Float</code> objects respectively. The class-level method <code>GCS.bearing_between</code> computes consecutive chain bearings.</p>
 <p>See the <a href="../reference/conversions/#distance-calculations">Conversions Reference</a> for details on distances and <a href="../reference/conversions/#bearing-calculations">Bearing Calculations</a> for bearings.</p>
 <blockquote>
-<p><strong>Note:</strong> ENU and NED are relative systems and must be converted to an absolute system (e.g., LLA) before using universal distance and bearing methods. They retain <code>local_bearing_to</code> and <code>local_elevation_angle_to</code> for tangent-plane operations.</p>
+<p><strong>Note:</strong> ENU and NED are relative systems and must be converted to an absolute system (e.g., LLA) before using universal distance and bearing methods. They retain <code>local_bearing_to</code> and <code>horizontal_distance_to</code> for tangent-plane operations. NED additionally provides <code>local_elevation_angle_to</code>.</p>
 </blockquote>
 <h2 id="conversion-paths">Conversion Paths<a class="headerlink" href="#conversion-paths" title="Permanent link">&para;</a></h2>
 <p>Conversions typically route through <strong>LLA</strong> or <strong>ECEF</strong> as intermediate steps:</p>
@@ -1688,7 +1758,7 @@
 <li><strong>ECEF</strong> is the intermediate for local tangent plane systems (ENU, NED), since the rotation from global Cartesian to local frames is straightforward in ECEF.</li>
 <li><strong>ENU and NED</strong> convert between each other directly by reordering axes and inverting the vertical component.</li>
 <li><strong>MGRS and USNG</strong> route through UTM, which in turn routes through LLA.</li>
-<li><strong>WebMercator, UPS, BNG, StatePlane, and GH36</strong> all convert through LLA.</li>
+<li><strong>WebMercator, UPS, BNG, StatePlane, GH36, GH, and HAM</strong> all convert through LLA.</li>
 </ul>
 <p>For example, converting from BNG to NED follows the chain: <code>BNG -&gt; LLA -&gt; ECEF -&gt; ENU -&gt; NED</code>. The gem handles this automatically when you call a conversion method.</p>
 
