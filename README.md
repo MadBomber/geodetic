@@ -437,6 +437,27 @@ Coordinates::WebMercator.from_tile_coordinates(5241, 11438, 15)
 
 Airy 1830, Modified Airy, Australian National, Bessel 1841, Clarke 1866, Clarke 1880, Everest (India 1830), Everest (Brunei & E.Malaysia), Everest (W.Malaysia & Singapore), GRS 1980, Helmert 1906, Hough 1960, International 1924, South American 1969, WGS72, WGS84
 
+## Documentation
+
+Full documentation is available at **[madbomber.github.io/geodetic](https://madbomber.github.io/geodetic/)**.
+
+## Examples
+
+The [`examples/`](examples/) directory contains runnable demo scripts showing progressive usage:
+
+| Script | Description |
+|--------|-------------|
+| [`01_basic_conversions.rb`](examples/01_basic_conversions.rb) | LLA, ECEF, UTM, ENU, NED conversions and roundtrips |
+| [`02_all_coordinate_systems.rb`](examples/02_all_coordinate_systems.rb) | All 12 coordinate systems, cross-system chains, and areas |
+| [`03_distance_calculations.rb`](examples/03_distance_calculations.rb) | Distance class features, unit conversions, and arithmetic |
+| [`04_bearing_calculations.rb`](examples/04_bearing_calculations.rb) | Bearing class, compass directions, elevation angles, and chain bearings |
+
+Run any example with:
+
+```bash
+ruby -Ilib examples/01_basic_conversions.rb
+```
+
 ## Development
 
 ```bash
