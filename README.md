@@ -1,23 +1,33 @@
 # Geodetic
 
-A Ruby gem for converting between geodetic coordinate systems. Supports 12 coordinate systems with full bidirectional conversions, plus geoid height calculations and geographic area operations.
+> [!INFO]
+> See the [CHANGELOG](CHANGELOG.md) for the latest changes. The [examples directory has runnable demo apps](examples/) that show-off the various capabilities of the Geodetic library.
 
-## Coordinate Systems
+<br>
+<table>
+<tr>
+<td width="50%" align="center" valign="top">
+<img src="docs/assets/images/geodetic.jpg" alt="Geodetic"><br>
+<em>"Convert coordinates. Map the world."</em>
+</td>
+<td width="50%" valign="top">
+<strong>Key Features</strong><br>
 
-| Class | Description |
-|-------|-------------|
-| `Coordinates::LLA` | Latitude, Longitude, Altitude (degrees/meters) |
-| `Coordinates::ECEF` | Earth-Centered, Earth-Fixed (meters) |
-| `Coordinates::UTM` | Universal Transverse Mercator |
-| `Coordinates::ENU` | East, North, Up (local tangent plane) |
-| `Coordinates::NED` | North, East, Down (local tangent plane) |
-| `Coordinates::MGRS` | Military Grid Reference System |
-| `Coordinates::USNG` | US National Grid |
-| `Coordinates::WebMercator` | Web Mercator / EPSG:3857 |
-| `Coordinates::UPS` | Universal Polar Stereographic |
-| `Coordinates::StatePlane` | US State Plane Coordinate System |
-| `Coordinates::BNG` | British National Grid |
-| `Coordinates::GH36` | Geohash-36 (spatial hash, URL-friendly) |
+- <strong>12 Coordinate Systems</strong> - LLA, ECEF, UTM, ENU, NED, MGRS, USNG, Web Mercator, UPS, State Plane, BNG, GH36<br>
+- <strong>Full Bidirectional Conversions</strong> - Every system converts to and from every other system<br>
+- <strong>Distance Calculations</strong> - Vincenty great-circle and straight-line with unit tracking<br>
+- <strong>Bearing Calculations</strong> - Forward azimuth, back azimuth, compass directions, elevation angles<br>
+- <strong>Geoid Height Support</strong> - EGM96, EGM2008, GEOID18, GEOID12B models<br>
+- <strong>Geographic Areas</strong> - Circle, Polygon, and Rectangle with point-in-area tests<br>
+- <strong>Validated Setters</strong> - Type coercion and range validation on all coordinate attributes<br>
+- <strong>Serialization</strong> - to_s(precision), to_a, from_string, from_array, DMS format<br>
+- <strong>Multiple Datums</strong> - WGS84, Clarke 1866, GRS 1980, Airy 1830, and more<br>
+- <strong>Immutable Value Types</strong> - Distance and Bearing with arithmetic and comparison
+</td>
+</tr>
+</table>
+
+<p>Geodetic enables precise conversion between geodetic coordinate systems in Ruby. All 12 coordinate systems support complete bidirectional conversions with high precision. Review the <a href="https://madbomber.github.io/geodetic/">full documentation website</a> and explore the <a href="examples/">runnable examples</a>.</p>
 
 ## Installation
 
@@ -459,6 +469,8 @@ ruby -Ilib examples/01_basic_conversions.rb
 ```
 
 ## Development
+
+For comprehensive guides and API documentation, visit **[https://madbomber.github.io/geodetic](https://madbomber.github.io/geodetic)**
 
 ```bash
 bin/setup          # Install dependencies

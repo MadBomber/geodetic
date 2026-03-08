@@ -1,5 +1,29 @@
 # Geodetic
 
+<table>
+<tr>
+<td width="50%" align="center" valign="top">
+<img src="assets/images/geodetic.jpg" alt="Geodetic"><br>
+<em>"Convert coordinates. Map the world."</em>
+</td>
+<td width="50%" valign="top">
+<h2>Key Features</h2>
+<lu>
+<li><strong>12 Coordinate Systems</strong> - LLA, ECEF, UTM, ENU, NED, MGRS, USNG, Web Mercator, UPS, State Plane, BNG, GH36<br>
+<li><strong>Full Bidirectional Conversions</strong> - Every system converts to and from every other system<br>
+<li><strong>Distance Calculations</strong> - Vincenty great-circle and straight-line with unit tracking<br>
+<li><strong>Bearing Calculations</strong> - Forward azimuth, back azimuth, compass directions, elevation angles<br>
+<li><strong>Geoid Height Support</strong> - EGM96, EGM2008, GEOID18, GEOID12B models<br>
+<li><strong>Geographic Areas</strong> - Circle, Polygon, and Rectangle with point-in-area tests<br>
+<li><strong>Validated Setters</strong> - Type coercion and range validation on all coordinate attributes<br>
+<li><strong>Serialization</strong> - to_s(precision), to_a, from_string, from_array, DMS format<br>
+<li><strong>Multiple Datums</strong> - WGS84, Clarke 1866, GRS 1980, Airy 1830, and more<br>
+<li><strong>Immutable Value Types</strong> - Distance and Bearing with arithmetic and comparison
+</lu>
+</td>
+</tr>
+</table>
+
 Geodetic is a Ruby gem for converting between geodetic coordinate systems. It provides a clean, consistent API for working with 12 coordinate systems, 16 geodetic datums, geoid height calculations, and geographic area computations.
 
 ## Coordinate Systems
