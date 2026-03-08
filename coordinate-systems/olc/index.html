@@ -12,7 +12,7 @@
         <meta name="author" content="Dewayne VanHoozer">
       
       
-        <link rel="canonical" href="https://madbomber.github.io/geodetic/coordinate-systems/ham/">
+        <link rel="canonical" href="https://madbomber.github.io/geodetic/coordinate-systems/olc/">
       
       
       
@@ -25,7 +25,7 @@
     
     
       
-        <title>Geodetic::Coordinates::HAM - Geodetic</title>
+        <title>Geodetic::Coordinates::OLC - Geodetic</title>
       
     
     
@@ -76,7 +76,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#geodeticcoordinatesham" class="md-skip">
+        <a href="#geodeticcoordinatesolc" class="md-skip">
           Skip to content
         </a>
       
@@ -112,7 +112,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Geodetic::Coordinates::HAM
+              Geodetic::Coordinates::OLC
             
           </span>
         </div>
@@ -1178,10 +1178,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#maidenhead-locator-system" class="md-nav__link">
+  <a href="#open-location-code-plus-codes" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Maidenhead Locator System
+        Open Location Code (Plus Codes)
       
     </span>
   </a>
@@ -1388,10 +1388,21 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#well-known-locators" class="md-nav__link">
+  <a href="#well-known-plus-codes" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Well-Known Locators
+        Well-Known Plus Codes
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#alphabet" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Alphabet
       
     </span>
   </a>
@@ -1424,60 +1435,43 @@
   
 
 
-<h1 id="geodeticcoordinatesham">Geodetic::Coordinates::HAM<a class="headerlink" href="#geodeticcoordinatesham" title="Permanent link">&para;</a></h1>
-<h2 id="maidenhead-locator-system">Maidenhead Locator System<a class="headerlink" href="#maidenhead-locator-system" title="Permanent link">&para;</a></h2>
-<p>The Maidenhead Locator System (also called QTH Locator or grid square) is a hierarchical geocoding system used worldwide in amateur radio. It encodes latitude/longitude into a compact string of alternating letter and digit pairs.</p>
-<p>The system uses a false coordinate origin that shifts longitude by +180 and latitude by +90, making all values positive before encoding. Four levels of subdivision produce strings of 2, 4, 6, or 8 characters:</p>
+<h1 id="geodeticcoordinatesolc">Geodetic::Coordinates::OLC<a class="headerlink" href="#geodeticcoordinatesolc" title="Permanent link">&para;</a></h1>
+<h2 id="open-location-code-plus-codes">Open Location Code (Plus Codes)<a class="headerlink" href="#open-location-code-plus-codes" title="Permanent link">&para;</a></h2>
+<p>Open Location Code (OLC), also known as Plus Codes, is Google's open system for encoding locations into short, URL-friendly codes like <code>849VCWC8+R9</code>. It uses a 20-character alphabet (<code>23456789CFGHJMPQRVWX</code>) that excludes vowels and visually ambiguous characters to avoid spelling words or confusing similar-looking characters.</p>
+<p>The encoding uses a false coordinate origin that shifts longitude by +180 and latitude by +90, making all values positive before encoding. Two encoding modes produce codes of varying precision:</p>
 <table>
 <thead>
 <tr>
-<th>Level</th>
-<th>Name</th>
+<th>Mode</th>
 <th>Characters</th>
-<th>Grid Size</th>
-<th>Divisions</th>
+<th>Encoding</th>
+<th>Resolution per Level</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>1</td>
-<td>Field</td>
-<td>2 letters (A-R)</td>
-<td>20 x 10</td>
-<td>18 x 18</td>
+<td><strong>Paired</strong></td>
+<td>1-10 (5 pairs)</td>
+<td>Base-20 lat/lng pairs</td>
+<td>20, 1, 0.05, 0.0025, 0.000125 degrees</td>
 </tr>
 <tr>
-<td>2</td>
-<td>Square</td>
-<td>2 digits (0-9)</td>
-<td>2 x 1</td>
-<td>10 x 10</td>
-</tr>
-<tr>
-<td>3</td>
-<td>Subsquare</td>
-<td>2 letters (a-x)</td>
-<td>5' x 2.5'</td>
-<td>24 x 24</td>
-</tr>
-<tr>
-<td>4</td>
-<td>Extended</td>
-<td>2 digits (0-9)</td>
-<td>30" x 15"</td>
-<td>10 x 10</td>
+<td><strong>Grid</strong></td>
+<td>11-15</td>
+<td>5x4 grid refinement</td>
+<td>Each character subdivides the remaining cell</td>
 </tr>
 </tbody>
 </table>
-<p>Convention: Field letters are uppercase, subsquare letters are lowercase (e.g., <code>FN31pr</code>).</p>
-<p>HAM is a <strong>2D coordinate system</strong> (no altitude). Conversions to/from other systems go through LLA as the intermediary. Each locator string represents a rectangular cell; the coordinate's point value is the cell's midpoint.</p>
+<p>All codes include a <code>+</code> separator after the 8<sup>th</sup> character position. Codes shorter than 8 significant characters are padded with <code>0</code>. For example, precision 2 produces <code>84000000+</code>.</p>
+<p>OLC is a <strong>2D coordinate system</strong> (no altitude). Conversions to/from other systems go through LLA as the intermediary. Each code represents a rectangular cell; the coordinate's point value is the cell's midpoint.</p>
 <h2 id="constructor">Constructor<a class="headerlink" href="#constructor" title="Permanent link">&para;</a></h2>
-<div class="language-ruby highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># From a Maidenhead locator string</span>
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="n">coord</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">Geodetic</span><span class="o">::</span><span class="no">Coordinates</span><span class="o">::</span><span class="no">HAM</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;FN31pr&quot;</span><span class="p">)</span>
+<div class="language-ruby highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># From a plus code string</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="n">coord</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">Geodetic</span><span class="o">::</span><span class="no">Coordinates</span><span class="o">::</span><span class="no">OLC</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;849VCWC8+R9&quot;</span><span class="p">)</span>
 </span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
 </span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="c1"># From any coordinate (converts via LLA)</span>
-</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="n">coord</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">Geodetic</span><span class="o">::</span><span class="no">Coordinates</span><span class="o">::</span><span class="no">HAM</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">lla_coord</span><span class="p">)</span>
-</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="n">coord</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">Geodetic</span><span class="o">::</span><span class="no">Coordinates</span><span class="o">::</span><span class="no">HAM</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">utm_coord</span><span class="p">,</span><span class="w"> </span><span class="ss">precision</span><span class="p">:</span><span class="w"> </span><span class="mi">8</span><span class="p">)</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="n">coord</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">Geodetic</span><span class="o">::</span><span class="no">Coordinates</span><span class="o">::</span><span class="no">OLC</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">lla_coord</span><span class="p">)</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="n">coord</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">Geodetic</span><span class="o">::</span><span class="no">Coordinates</span><span class="o">::</span><span class="no">OLC</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">utm_coord</span><span class="p">,</span><span class="w"> </span><span class="ss">precision</span><span class="p">:</span><span class="w"> </span><span class="mi">11</span><span class="p">)</span>
 </span></code></pre></div>
 <table>
 <thead>
@@ -1493,17 +1487,17 @@
 <td><code>source</code></td>
 <td>String or Coord</td>
 <td>—</td>
-<td>A Maidenhead string or any coordinate object</td>
+<td>A plus code string or any coordinate object</td>
 </tr>
 <tr>
 <td><code>precision</code></td>
 <td>Integer</td>
-<td>6</td>
-<td>Locator length: 2, 4, 6, or 8 (must be even)</td>
+<td>10</td>
+<td>Code length: 2, 4, 6, 8, 10, 11, 12, 13, 14, or 15</td>
 </tr>
 </tbody>
 </table>
-<p>Raises <code>ArgumentError</code> if the source string is empty, has odd length, exceeds 8 characters, or contains invalid characters for any level. String input normalizes Field to uppercase, Subsquare to lowercase.</p>
+<p>Raises <code>ArgumentError</code> if the source string is empty, lacks a <code>+</code> separator at position 8, contains invalid characters, has odd padding positions, or has characters after <code>+</code> when padded. String input is case-insensitive (normalized to uppercase).</p>
 <h2 id="attributes">Attributes<a class="headerlink" href="#attributes" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
@@ -1516,49 +1510,79 @@
 </thead>
 <tbody>
 <tr>
-<td><code>locator</code></td>
+<td><code>code</code></td>
 <td>String</td>
 <td>read-only</td>
-<td>The Maidenhead locator string</td>
+<td>The plus code string</td>
 </tr>
 </tbody>
 </table>
-<p>HAM is <strong>immutable</strong> — there are no setter methods.</p>
+<p>OLC is <strong>immutable</strong> — there are no setter methods.</p>
 <h2 id="precision">Precision<a class="headerlink" href="#precision" title="Permanent link">&para;</a></h2>
-<p>The precision (locator length) determines the size of the grid square:</p>
+<p>The precision (code length) determines the size of the encoded cell:</p>
 <table>
 <thead>
 <tr>
 <th>Length</th>
-<th>Level</th>
+<th>Mode</th>
 <th>Approximate Cell Size</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>2</td>
-<td>Field</td>
-<td>1,113 km x 2,226 km</td>
+<td>Paired</td>
+<td>~2,220 km x 2,220 km</td>
 </tr>
 <tr>
 <td>4</td>
-<td>Square</td>
-<td>111 km x 222 km</td>
+<td>Paired</td>
+<td>~111 km x 111 km</td>
 </tr>
 <tr>
 <td>6</td>
-<td>Subsquare</td>
-<td>4.6 km x 9.3 km</td>
+<td>Paired</td>
+<td>~5.5 km x 5.5 km</td>
 </tr>
 <tr>
 <td>8</td>
-<td>Extended</td>
-<td>463 m x 926 m</td>
+<td>Paired</td>
+<td>~275 m x 275 m</td>
+</tr>
+<tr>
+<td>10</td>
+<td>Paired</td>
+<td>~14 m x 14 m</td>
+</tr>
+<tr>
+<td>11</td>
+<td>Grid</td>
+<td>~3 m x 3.5 m</td>
+</tr>
+<tr>
+<td>12</td>
+<td>Grid</td>
+<td>~0.6 m x 0.9 m</td>
+</tr>
+<tr>
+<td>13</td>
+<td>Grid</td>
+<td>~0.1 m x 0.2 m</td>
+</tr>
+<tr>
+<td>14</td>
+<td>Grid</td>
+<td>~0.02 m x 0.05 m</td>
+</tr>
+<tr>
+<td>15</td>
+<td>Grid</td>
+<td>~0.005 m x 0.01 m</td>
 </tr>
 </tbody>
 </table>
-<div class="language-ruby highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="n">coord</span><span class="o">.</span><span class="n">precision</span><span class="w">              </span><span class="c1"># =&gt; 6 (locator length)</span>
-</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="n">coord</span><span class="o">.</span><span class="n">precision_in_meters</span><span class="w">    </span><span class="c1"># =&gt; { lat: 4631.0, lng: 9260.0 }</span>
+<div class="language-ruby highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="n">coord</span><span class="o">.</span><span class="n">precision</span><span class="w">              </span><span class="c1"># =&gt; 10 (number of significant characters)</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="n">coord</span><span class="o">.</span><span class="n">precision_in_meters</span><span class="w">    </span><span class="c1"># =&gt; { lat: ~13.9, lng: ~13.9 }</span>
 </span></code></pre></div>
 <h2 id="conversions">Conversions<a class="headerlink" href="#conversions" title="Permanent link">&para;</a></h2>
 <p>All conversions chain through LLA. The datum parameter defaults to <code>Geodetic::WGS84</code>.</p>
@@ -1576,55 +1600,56 @@
 </span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="n">coord</span><span class="o">.</span><span class="n">to_bng</span>
 </span><span id="__span-2-12"><a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="n">coord</span><span class="o">.</span><span class="n">to_gh36</span>
 </span><span id="__span-2-13"><a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a><span class="n">coord</span><span class="o">.</span><span class="n">to_gh</span>
-</span><span id="__span-2-14"><a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a><span class="n">coord</span><span class="o">.</span><span class="n">to_olc</span>
+</span><span id="__span-2-14"><a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a><span class="n">coord</span><span class="o">.</span><span class="n">to_ham</span>
 </span></code></pre></div>
 <h3 id="class-methods">Class Methods<a class="headerlink" href="#class-methods" title="Permanent link">&para;</a></h3>
-<div class="language-ruby highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="no">HAM</span><span class="o">.</span><span class="n">from_lla</span><span class="p">(</span><span class="n">lla_coord</span><span class="p">)</span>
-</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="no">HAM</span><span class="o">.</span><span class="n">from_ecef</span><span class="p">(</span><span class="n">ecef_coord</span><span class="p">)</span>
-</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="no">HAM</span><span class="o">.</span><span class="n">from_utm</span><span class="p">(</span><span class="n">utm_coord</span><span class="p">)</span>
-</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="no">HAM</span><span class="o">.</span><span class="n">from_web_mercator</span><span class="p">(</span><span class="n">wm_coord</span><span class="p">)</span>
-</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="no">HAM</span><span class="o">.</span><span class="n">from_gh</span><span class="p">(</span><span class="n">gh_coord</span><span class="p">)</span>
-</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="no">HAM</span><span class="o">.</span><span class="n">from_gh36</span><span class="p">(</span><span class="n">gh36_coord</span><span class="p">)</span>
-</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="no">HAM</span><span class="o">.</span><span class="n">from_olc</span><span class="p">(</span><span class="n">olc_coord</span><span class="p">)</span>
+<div class="language-ruby highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="no">OLC</span><span class="o">.</span><span class="n">from_lla</span><span class="p">(</span><span class="n">lla_coord</span><span class="p">)</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="no">OLC</span><span class="o">.</span><span class="n">from_ecef</span><span class="p">(</span><span class="n">ecef_coord</span><span class="p">)</span>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="no">OLC</span><span class="o">.</span><span class="n">from_utm</span><span class="p">(</span><span class="n">utm_coord</span><span class="p">)</span>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="no">OLC</span><span class="o">.</span><span class="n">from_web_mercator</span><span class="p">(</span><span class="n">wm_coord</span><span class="p">)</span>
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="no">OLC</span><span class="o">.</span><span class="n">from_gh</span><span class="p">(</span><span class="n">gh_coord</span><span class="p">)</span>
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="no">OLC</span><span class="o">.</span><span class="n">from_gh36</span><span class="p">(</span><span class="n">gh36_coord</span><span class="p">)</span>
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="no">OLC</span><span class="o">.</span><span class="n">from_ham</span><span class="p">(</span><span class="n">ham_coord</span><span class="p">)</span>
 </span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="c1"># ... and all other coordinate systems</span>
 </span></code></pre></div>
 <h3 id="lla-convenience-methods">LLA Convenience Methods<a class="headerlink" href="#lla-convenience-methods" title="Permanent link">&para;</a></h3>
-<div class="language-ruby highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="n">lla</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">Geodetic</span><span class="o">::</span><span class="no">Coordinates</span><span class="o">::</span><span class="no">LLA</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">lat</span><span class="p">:</span><span class="w"> </span><span class="mi">40</span><span class="o">.</span><span class="mi">689167</span><span class="p">,</span><span class="w"> </span><span class="ss">lng</span><span class="p">:</span><span class="w"> </span><span class="o">-</span><span class="mi">74</span><span class="o">.</span><span class="mo">044444</span><span class="p">)</span>
-</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="n">ham</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">lla</span><span class="o">.</span><span class="n">to_ham</span><span class="w">                    </span><span class="c1"># default precision 6</span>
-</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="n">ham</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">lla</span><span class="o">.</span><span class="n">to_ham</span><span class="p">(</span><span class="ss">precision</span><span class="p">:</span><span class="w"> </span><span class="mi">8</span><span class="p">)</span><span class="w">      </span><span class="c1"># extended precision</span>
+<div class="language-ruby highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="n">lla</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">Geodetic</span><span class="o">::</span><span class="no">Coordinates</span><span class="o">::</span><span class="no">LLA</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">lat</span><span class="p">:</span><span class="w"> </span><span class="mi">37</span><span class="o">.</span><span class="mi">4220</span><span class="p">,</span><span class="w"> </span><span class="ss">lng</span><span class="p">:</span><span class="w"> </span><span class="o">-</span><span class="mi">122</span><span class="o">.</span><span class="mi">0841</span><span class="p">)</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="n">olc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">lla</span><span class="o">.</span><span class="n">to_olc</span><span class="w">                    </span><span class="c1"># default precision 10</span>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="n">olc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">lla</span><span class="o">.</span><span class="n">to_olc</span><span class="p">(</span><span class="ss">precision</span><span class="p">:</span><span class="w"> </span><span class="mi">11</span><span class="p">)</span><span class="w">     </span><span class="c1"># grid refinement precision</span>
 </span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>
-</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="n">lla</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">Geodetic</span><span class="o">::</span><span class="no">Coordinates</span><span class="o">::</span><span class="no">LLA</span><span class="o">.</span><span class="n">from_ham</span><span class="p">(</span><span class="n">ham</span><span class="p">)</span>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="n">lla</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">Geodetic</span><span class="o">::</span><span class="no">Coordinates</span><span class="o">::</span><span class="no">LLA</span><span class="o">.</span><span class="n">from_olc</span><span class="p">(</span><span class="n">olc</span><span class="p">)</span>
 </span></code></pre></div>
 <h2 id="serialization">Serialization<a class="headerlink" href="#serialization" title="Permanent link">&para;</a></h2>
 <h3 id="to_struncate_to-nil"><code>to_s(truncate_to = nil)</code><a class="headerlink" href="#to_struncate_to-nil" title="Permanent link">&para;</a></h3>
-<p>Returns the locator string. An optional integer truncates to that length (rounded down to even, minimum 2).</p>
-<div class="language-ruby highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="n">coord</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">HAM</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;FN31pr45&quot;</span><span class="p">)</span>
-</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="n">coord</span><span class="o">.</span><span class="n">to_s</span><span class="w">       </span><span class="c1"># =&gt; &quot;FN31pr45&quot;</span>
-</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="n">coord</span><span class="o">.</span><span class="n">to_s</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span><span class="w">    </span><span class="c1"># =&gt; &quot;FN31pr&quot;</span>
-</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="n">coord</span><span class="o">.</span><span class="n">to_s</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span><span class="w">    </span><span class="c1"># =&gt; &quot;FN31&quot;</span>
+<p>Returns the plus code string. An optional integer truncates to that precision (re-encodes from decoded coordinates).</p>
+<div class="language-ruby highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="n">coord</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">OLC</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;849VCWC8+R9&quot;</span><span class="p">)</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="n">coord</span><span class="o">.</span><span class="n">to_s</span><span class="w">       </span><span class="c1"># =&gt; &quot;849VCWC8+R9&quot;</span>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="n">coord</span><span class="o">.</span><span class="n">to_s</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span><span class="w">   </span><span class="c1"># =&gt; &quot;849VCWC8+R9&quot; (already 11 chars, truncated to 10)</span>
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="n">coord</span><span class="o">.</span><span class="n">to_s</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span><span class="w">    </span><span class="c1"># =&gt; &quot;849VCWC8+&quot;</span>
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="n">coord</span><span class="o">.</span><span class="n">to_s</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span><span class="w">    </span><span class="c1"># =&gt; &quot;84900000+&quot;</span>
 </span></code></pre></div>
 <h3 id="to_slug"><code>to_slug</code><a class="headerlink" href="#to_slug" title="Permanent link">&para;</a></h3>
-<p>Alias for <code>to_s</code>. The locator is already URL-safe.</p>
+<p>Alias for <code>to_s</code>. Plus codes are already URL-safe.</p>
 <h3 id="to_a"><code>to_a</code><a class="headerlink" href="#to_a" title="Permanent link">&para;</a></h3>
 <p>Returns <code>[lat, lng]</code> of the cell midpoint.</p>
-<div class="language-ruby highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="n">coord</span><span class="o">.</span><span class="n">to_a</span><span class="w">    </span><span class="c1"># =&gt; [41.729..., -73.958...]</span>
+<div class="language-ruby highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="n">coord</span><span class="o">.</span><span class="n">to_a</span><span class="w">    </span><span class="c1"># =&gt; [37.4220..., -122.0841...]</span>
 </span></code></pre></div>
 <h3 id="from_string-from_array"><code>from_string</code> / <code>from_array</code><a class="headerlink" href="#from_string-from_array" title="Permanent link">&para;</a></h3>
-<div class="language-ruby highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="no">HAM</span><span class="o">.</span><span class="n">from_string</span><span class="p">(</span><span class="s2">&quot;FN31pr&quot;</span><span class="p">)</span><span class="w">              </span><span class="c1"># from locator string</span>
-</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="no">HAM</span><span class="o">.</span><span class="n">from_array</span><span class="p">(</span><span class="o">[</span><span class="mi">40</span><span class="o">.</span><span class="mi">689</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mi">74</span><span class="o">.</span><span class="mo">044</span><span class="o">]</span><span class="p">)</span><span class="w">       </span><span class="c1"># from [lat, lng]</span>
+<div class="language-ruby highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="no">OLC</span><span class="o">.</span><span class="n">from_string</span><span class="p">(</span><span class="s2">&quot;849VCWC8+R9&quot;</span><span class="p">)</span><span class="w">           </span><span class="c1"># from plus code string</span>
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="no">OLC</span><span class="o">.</span><span class="n">from_array</span><span class="p">(</span><span class="o">[</span><span class="mi">37</span><span class="o">.</span><span class="mi">4220</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mi">122</span><span class="o">.</span><span class="mi">0841</span><span class="o">]</span><span class="p">)</span><span class="w">      </span><span class="c1"># from [lat, lng]</span>
 </span></code></pre></div>
 <h2 id="neighbors">Neighbors<a class="headerlink" href="#neighbors" title="Permanent link">&para;</a></h2>
-<p>Returns all 8 adjacent grid squares as HAM instances.</p>
-<div class="language-ruby highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="n">coord</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">HAM</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;FN31pr&quot;</span><span class="p">)</span>
+<p>Returns all 8 adjacent cells as OLC instances.</p>
+<div class="language-ruby highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="n">coord</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">OLC</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;849VCWC8+R9&quot;</span><span class="p">)</span>
 </span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="n">neighbors</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">coord</span><span class="o">.</span><span class="n">neighbors</span>
-</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="c1"># =&gt; { N: HAM, S: HAM, E: HAM, W: HAM, NE: HAM, NW: HAM, SE: HAM, SW: HAM }</span>
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="c1"># =&gt; { N: OLC, S: OLC, E: OLC, W: OLC, NE: OLC, NW: OLC, SE: OLC, SW: OLC }</span>
 </span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>
 </span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="n">neighbors</span><span class="o">[</span><span class="ss">:N</span><span class="o">].</span><span class="n">to_lla</span><span class="o">.</span><span class="n">lat</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">coord</span><span class="o">.</span><span class="n">to_lla</span><span class="o">.</span><span class="n">lat</span><span class="w">   </span><span class="c1"># =&gt; true</span>
 </span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="n">neighbors</span><span class="o">[</span><span class="ss">:E</span><span class="o">].</span><span class="n">to_lla</span><span class="o">.</span><span class="n">lng</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">coord</span><span class="o">.</span><span class="n">to_lla</span><span class="o">.</span><span class="n">lng</span><span class="w">   </span><span class="c1"># =&gt; true</span>
 </span></code></pre></div>
-<p>Neighbors preserve the same precision as the original locator. Latitude is clamped to valid range near the poles; longitude wraps at the antimeridian.</p>
+<p>Neighbors preserve the same precision as the original code. Latitude is clamped to valid range near the poles; longitude wraps at the antimeridian.</p>
 <h2 id="area">Area<a class="headerlink" href="#area" title="Permanent link">&para;</a></h2>
-<p>The <code>to_area</code> method returns the grid square as a <code>Geodetic::Areas::Rectangle</code>.</p>
+<p>The <code>to_area</code> method returns the plus code cell as a <code>Geodetic::Areas::Rectangle</code>.</p>
 <div class="language-ruby highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="n">area</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">coord</span><span class="o">.</span><span class="n">to_area</span>
 </span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="c1"># =&gt; Geodetic::Areas::Rectangle</span>
 </span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>
@@ -1633,55 +1658,61 @@
 </span><span id="__span-9-6"><a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="n">area</span><span class="o">.</span><span class="n">se</span><span class="w">                         </span><span class="c1"># =&gt; LLA (southeast corner)</span>
 </span></code></pre></div>
 <h2 id="equality">Equality<a class="headerlink" href="#equality" title="Permanent link">&para;</a></h2>
-<p>Two HAM instances are equal if their locator strings match exactly.</p>
-<div class="language-ruby highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="no">HAM</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;FN31pr&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="no">HAM</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;FN31pr&quot;</span><span class="p">)</span><span class="w">   </span><span class="c1"># =&gt; true</span>
-</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="no">HAM</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;FN31pr&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="no">HAM</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;FN31ps&quot;</span><span class="p">)</span><span class="w">   </span><span class="c1"># =&gt; false</span>
+<p>Two OLC instances are equal if their code strings match exactly.</p>
+<div class="language-ruby highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="no">OLC</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;849VCWC8+R9&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="no">OLC</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;849VCWC8+R9&quot;</span><span class="p">)</span><span class="w">   </span><span class="c1"># =&gt; true</span>
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="no">OLC</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;849VCWC8+R9&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="no">OLC</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;849VCWC8+R8&quot;</span><span class="p">)</span><span class="w">   </span><span class="c1"># =&gt; false</span>
 </span></code></pre></div>
 <h2 id="valid"><code>valid?</code><a class="headerlink" href="#valid" title="Permanent link">&para;</a></h2>
-<p>Returns <code>true</code> if the locator has valid characters at each level and an even length.</p>
+<p>Returns <code>true</code> if the code has a <code>+</code> separator at position 8, valid characters, and correct padding.</p>
 <div class="language-ruby highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="n">coord</span><span class="o">.</span><span class="n">valid?</span><span class="w">    </span><span class="c1"># =&gt; true</span>
 </span></code></pre></div>
 <h2 id="universal-distance-and-bearing-methods">Universal Distance and Bearing Methods<a class="headerlink" href="#universal-distance-and-bearing-methods" title="Permanent link">&para;</a></h2>
-<p>HAM supports all universal distance and bearing methods via the <code>DistanceMethods</code> and <code>BearingMethods</code> mixins:</p>
-<div class="language-ruby highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">HAM</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;FN31pr&quot;</span><span class="p">)</span>
-</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">HAM</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;IO91wm&quot;</span><span class="p">)</span>
+<p>OLC supports all universal distance and bearing methods via the <code>DistanceMethods</code> and <code>BearingMethods</code> mixins:</p>
+<div class="language-ruby highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">OLC</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;849VCWC8+R9&quot;</span><span class="p">)</span>
+</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">OLC</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;87G8Q2JM+QV&quot;</span><span class="p">)</span>
 </span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>
-</span><span id="__span-12-4"><a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="n">a</span><span class="o">.</span><span class="n">distance_to</span><span class="p">(</span><span class="n">b</span><span class="p">)</span><span class="w">                </span><span class="c1"># =&gt; Distance (~5,570 km)</span>
+</span><span id="__span-12-4"><a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="n">a</span><span class="o">.</span><span class="n">distance_to</span><span class="p">(</span><span class="n">b</span><span class="p">)</span><span class="w">                </span><span class="c1"># =&gt; Distance</span>
 </span><span id="__span-12-5"><a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a><span class="n">a</span><span class="o">.</span><span class="n">straight_line_distance_to</span><span class="p">(</span><span class="n">b</span><span class="p">)</span><span class="w">  </span><span class="c1"># =&gt; Distance</span>
-</span><span id="__span-12-6"><a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a><span class="n">a</span><span class="o">.</span><span class="n">bearing_to</span><span class="p">(</span><span class="n">b</span><span class="p">)</span><span class="w">                 </span><span class="c1"># =&gt; Bearing (~51)</span>
+</span><span id="__span-12-6"><a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a><span class="n">a</span><span class="o">.</span><span class="n">bearing_to</span><span class="p">(</span><span class="n">b</span><span class="p">)</span><span class="w">                 </span><span class="c1"># =&gt; Bearing</span>
 </span><span id="__span-12-7"><a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a><span class="n">a</span><span class="o">.</span><span class="n">elevation_to</span><span class="p">(</span><span class="n">b</span><span class="p">)</span><span class="w">               </span><span class="c1"># =&gt; Float (degrees)</span>
 </span></code></pre></div>
-<h2 id="well-known-locators">Well-Known Locators<a class="headerlink" href="#well-known-locators" title="Permanent link">&para;</a></h2>
+<h2 id="well-known-plus-codes">Well-Known Plus Codes<a class="headerlink" href="#well-known-plus-codes" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
 <tr>
 <th>Location</th>
-<th>Locator</th>
+<th>Plus Code</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>New York City</td>
-<td>FN30</td>
+<td>Google HQ (Mountain View)</td>
+<td>849VCWC8+R9</td>
 </tr>
 <tr>
-<td>London</td>
-<td>IO91</td>
+<td>Statue of Liberty</td>
+<td>87G8Q2JM+QV</td>
 </tr>
 <tr>
-<td>Tokyo</td>
-<td>PM95</td>
+<td>Eiffel Tower</td>
+<td>8FW4V75V+8Q</td>
 </tr>
 <tr>
-<td>Sydney</td>
-<td>QF56</td>
+<td>Sydney Opera House</td>
+<td>4RRH46R6+PJ</td>
 </tr>
 <tr>
-<td>Origin (0, 0)</td>
-<td>JJ00</td>
+<td>Null Island (0, 0)</td>
+<td>6FG22222+22</td>
 </tr>
 </tbody>
 </table>
+<h2 id="alphabet">Alphabet<a class="headerlink" href="#alphabet" title="Permanent link">&para;</a></h2>
+<p>The 20-character OLC alphabet: <code>2 3 4 5 6 7 8 9 C F G H J M P Q R V W X</code></p>
+<p>Characters were chosen to avoid:
+- Vowels (no words can be spelled)
+- Visually ambiguous characters (no 0/O, 1/I/L)
+- Characters easily confused in handwriting</p>
 
 
 

@@ -2010,6 +2010,10 @@
 <td>Encode/decode via hierarchical letter/digit pairs</td>
 </tr>
 <tr>
+<td>OLC &lt;-&gt; LLA</td>
+<td>Encode/decode via base-20 pair encoding with grid refinement</td>
+</tr>
+<tr>
 <td>Any &lt;-&gt; Any</td>
 <td>Routes through LLA as the universal hub</td>
 </tr>
@@ -2029,7 +2033,8 @@
 <li><strong>GH36</strong>: Precision depends on hash length. Default 10 characters gives sub-meter resolution. Altitude information is lost (always 0.0).</li>
 <li><strong>GH</strong>: Precision depends on hash length. Default 12 characters gives sub-centimeter resolution. Altitude information is lost (always 0.0).</li>
 <li><strong>HAM</strong>: Precision depends on locator length (2, 4, 6, or 8 characters). Default 6 characters gives ~5 km resolution. Altitude information is lost (always 0.0).</li>
-<li><strong>Equality comparisons</strong>: All classes use tolerance-based equality. Coordinates (in meters) use 1e-6 m tolerance. LLA uses 1e-10 degrees for lat/lng and 1e-6 m for altitude. GH36, GH, and HAM use exact string comparison.</li>
+<li><strong>OLC</strong>: Precision depends on code length. Default 10 characters gives ~14 m resolution. Codes longer than 10 use 5x4 grid refinement for sub-meter resolution. Altitude information is lost (always 0.0).</li>
+<li><strong>Equality comparisons</strong>: All classes use tolerance-based equality. Coordinates (in meters) use 1e-6 m tolerance. LLA uses 1e-10 degrees for lat/lng and 1e-6 m for altitude. GH36, GH, HAM, and OLC use exact string comparison.</li>
 </ul>
 <hr />
 <h2 id="distance-calculations">Distance Calculations<a class="headerlink" href="#distance-calculations" title="Permanent link">&para;</a></h2>
