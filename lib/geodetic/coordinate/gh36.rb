@@ -17,11 +17,11 @@
 #   GH36.new(lla_coord)                 # from any coordinate (converts via LLA)
 #   GH36.new(utm_coord, precision: 8)   # with custom precision
 
+require_relative 'spatial_hash'
+
 module Geodetic
   module Coordinate
-    class GH36
-      require_relative '../datum'
-
+    class GH36 < SpatialHash
       # 6x6 encoding matrix mapping (row, col) to character
       # Row 0 is the northernmost latitude slice; row 5 is southernmost
       # Col 0 is the westernmost longitude slice; col 5 is easternmost
@@ -40,9 +40,6 @@ module Geodetic
       # Valid characters in a Geohash-36 string
       VALID_CHARS = '23456789bBCdDFgGhHjJKlLMnNPqQrRtTVWX'
       VALID_CHARS_SET = VALID_CHARS.chars.to_set.freeze
-
-      # Default hash length (10 chars gives sub-meter precision)
-      DEFAULT_LENGTH = 10
 
       # Reverse lookup: character -> [row, col] in the matrix
       CHAR_INDEX = {}.tap do |h|
@@ -68,183 +65,22 @@ module Geodetic
 
       attr_reader :geohash
 
-      # Create a GH36 from a geohash string or any coordinate object.
-      #
-      #   GH36.new("bdrdC26BqH")              # from geohash string
-      #   GH36.new(lla)                        # from LLA coordinate
-      #   GH36.new(utm, precision: 8)          # from any coordinate with custom precision
-      def initialize(source, precision: DEFAULT_LENGTH)
-        case source
-        when String
-          validate_geohash!(source)
-          @geohash = source
-        when LLA
-          @geohash = encode(source.lat, source.lng, precision)
-        else
-          if source.respond_to?(:to_lla)
-            lla = source.to_lla
-            @geohash = encode(lla.lat, lla.lng, precision)
-          else
-            raise ArgumentError,
-              "Expected a geohash String or a coordinate object, got #{source.class}"
-          end
-        end
-      end
+      def self.default_precision = 10
+      def self.hash_system_name = :gh36
 
-      def precision
-        @geohash.length
-      end
-
-      def to_s(truncate_to = nil)
-        if truncate_to
-          @geohash[0, truncate_to.to_i]
-        else
-          @geohash
-        end
-      end
-
-      def to_a
-        coords = decode(@geohash)
-        [coords[:lat], coords[:lng]]
-      end
-
-      def self.from_array(array)
-        new(LLA.new(lat: array[0].to_f, lng: array[1].to_f))
-      end
-
-      def self.from_string(string)
-        new(string.strip)
-      end
-
-      # Decode to LLA (altitude is always 0.0 since GH36 is 2D)
-      def to_lla(datum = WGS84)
-        coords = decode(@geohash)
-        LLA.new(lat: coords[:lat], lng: coords[:lng], alt: 0.0)
-      end
-
-      def self.from_lla(lla_coord, datum = WGS84, precision = DEFAULT_LENGTH)
-        new(lla_coord, precision: precision)
-      end
-
-      # All other conversions chain through LLA
-
-      def to_ecef(datum = WGS84)
-        to_lla(datum).to_ecef(datum)
-      end
-
-      def self.from_ecef(ecef_coord, datum = WGS84, precision = DEFAULT_LENGTH)
-        new(ecef_coord, precision: precision)
-      end
-
-      def to_utm(datum = WGS84)
-        to_lla(datum).to_utm(datum)
-      end
-
-      def self.from_utm(utm_coord, datum = WGS84, precision = DEFAULT_LENGTH)
-        new(utm_coord, precision: precision)
-      end
-
-      def to_enu(reference_lla, datum = WGS84)
-        to_lla(datum).to_enu(reference_lla)
-      end
-
-      def self.from_enu(enu_coord, reference_lla, datum = WGS84, precision = DEFAULT_LENGTH)
-        lla_coord = enu_coord.to_lla(reference_lla)
-        new(lla_coord, precision: precision)
-      end
-
-      def to_ned(reference_lla, datum = WGS84)
-        to_lla(datum).to_ned(reference_lla)
-      end
-
-      def self.from_ned(ned_coord, reference_lla, datum = WGS84, precision = DEFAULT_LENGTH)
-        lla_coord = ned_coord.to_lla(reference_lla)
-        new(lla_coord, precision: precision)
-      end
-
-      def to_mgrs(datum = WGS84, mgrs_precision = 5)
-        MGRS.from_lla(to_lla(datum), datum, mgrs_precision)
-      end
-
-      def self.from_mgrs(mgrs_coord, datum = WGS84, precision = DEFAULT_LENGTH)
-        new(mgrs_coord, precision: precision)
-      end
-
-      def to_usng(datum = WGS84, usng_precision = 5)
-        USNG.from_lla(to_lla(datum), datum, usng_precision)
-      end
-
-      def self.from_usng(usng_coord, datum = WGS84, precision = DEFAULT_LENGTH)
-        new(usng_coord, precision: precision)
-      end
-
-      def to_web_mercator(datum = WGS84)
-        WebMercator.from_lla(to_lla(datum), datum)
-      end
-
-      def self.from_web_mercator(wm_coord, datum = WGS84, precision = DEFAULT_LENGTH)
-        new(wm_coord, precision: precision)
-      end
-
-      def to_ups(datum = WGS84)
-        UPS.from_lla(to_lla(datum), datum)
-      end
-
-      def self.from_ups(ups_coord, datum = WGS84, precision = DEFAULT_LENGTH)
-        new(ups_coord, precision: precision)
-      end
-
-      def to_state_plane(zone_code, datum = WGS84)
-        StatePlane.from_lla(to_lla(datum), zone_code, datum)
-      end
-
-      def self.from_state_plane(sp_coord, datum = WGS84, precision = DEFAULT_LENGTH)
-        new(sp_coord, precision: precision)
-      end
-
-      def to_bng(datum = WGS84)
-        BNG.from_lla(to_lla(datum), datum)
-      end
-
-      def self.from_bng(bng_coord, datum = WGS84, precision = DEFAULT_LENGTH)
-        new(bng_coord, precision: precision)
-      end
-
-      def to_gh(datum = WGS84, gh_precision: 12)
-        GH.new(to_lla(datum), precision: gh_precision)
-      end
-
-      def self.from_gh(gh_coord, datum = WGS84, precision = DEFAULT_LENGTH)
-        new(gh_coord, precision: precision)
-      end
-
-      def to_ham(datum = WGS84, ham_precision: 6)
-        HAM.new(to_lla(datum), precision: ham_precision)
-      end
-
-      def self.from_ham(ham_coord, datum = WGS84, precision = DEFAULT_LENGTH)
-        new(ham_coord, precision: precision)
-      end
-
-      def to_olc(datum = WGS84, olc_precision: 10)
-        OLC.new(to_lla(datum), precision: olc_precision)
-      end
-
-      def self.from_olc(olc_coord, datum = WGS84, precision = DEFAULT_LENGTH)
-        new(olc_coord, precision: precision)
-      end
-
-      def ==(other)
-        return false unless other.is_a?(GH36)
-        @geohash == other.geohash
-      end
+      # --- Subclass contract implementations ---
 
       def valid?
         @geohash.length > 0 && @geohash.each_char.all? { |c| VALID_CHARS_SET.include?(c) }
       end
 
-      # Returns all 8 neighboring geohash cells as GH36 instances
-      # Keys: :N, :S, :E, :W, :NE, :NW, :SE, :SW
+      def code_value
+        @geohash
+      end
+
+      # --- GH36-specific overrides (matrix-based algorithms) ---
+
+      # Uses recursive matrix-based neighbor calculation instead of bounds-based
       def neighbors
         DIRECTIONS.each_with_object({}) do |(dir, delta), result|
           hash = self.class.send(:neighbor_hash, @geohash, delta[0], delta[1])
@@ -252,7 +88,7 @@ module Geodetic
         end
       end
 
-      # Returns the geohash cell as an Areas::Rectangle
+      # Uses decode_bounds via class method
       def to_area
         bb = self.class.send(:decode_bounds, @geohash)
         nw = LLA.new(lat: bb[:max_lat], lng: bb[:min_lng], alt: 0.0)
@@ -260,20 +96,23 @@ module Geodetic
         Areas::Rectangle.new(nw: nw, se: se)
       end
 
-      # Returns precision in meters as {lat:, lng:}
+      # Uses formula-based precision instead of bounds-based
       def precision_in_meters
         one_degree_meters = (2 * Math::PI * 6_370_000) / 360.0
         lat_prec = (90.0 / (MATRIX_SIDE ** precision)) * one_degree_meters
         { lat: lat_prec, lng: lat_prec * 2 }
       end
 
-      # URL-friendly slug (the geohash itself is already URL-safe)
-      alias_method :to_slug, :to_s
+      protected
+
+      def set_code(value)
+        @geohash = value
+      end
 
       private
 
       # Encode lat/lng to a geohash string of given length
-      def encode(lat, lng, length = DEFAULT_LENGTH)
+      def encode(lat, lng, length = self.class.default_precision)
         lat_min, lat_max = -90.0, 90.0
         lng_min, lng_max = -180.0, 180.0
 
@@ -323,7 +162,7 @@ module Geodetic
         }
       end
 
-      # Decode a geohash string to its bounding box
+      # Decode a geohash string to its bounding box (class method for neighbor_hash access)
       def self.decode_bounds(geohash)
         lat_min, lat_max = -90.0, 90.0
         lng_min, lng_max = -180.0, 180.0
@@ -353,9 +192,6 @@ module Geodetic
       # Compute a neighbor hash by adjusting the last character's position
       # in the matrix. When the adjustment wraps beyond the matrix edge,
       # we recurse on the parent prefix and carry the wrap.
-      #
-      # Matrix layout: row 0 = north (high lat), row 5 = south (low lat)
-      #                col 0 = west (low lng),  col 5 = east (high lng)
       def self.neighbor_hash(hash, row_delta, col_delta)
         return hash if hash.empty?
 
@@ -373,7 +209,7 @@ module Geodetic
         carry_col = 0
 
         if new_row < 0
-          carry_row = row_delta  # Propagate same direction
+          carry_row = row_delta
           new_row += MATRIX_SIDE
         elsif new_row >= MATRIX_SIDE
           carry_row = row_delta
@@ -403,6 +239,11 @@ module Geodetic
           raise ArgumentError, "Invalid Geohash-36 characters: #{invalid.join(', ')}"
         end
       end
+
+      alias_method :validate_code!, :validate_geohash!
+
+      register_hash_system(:gh36, self, default_precision: 10)
+      Coordinate.register_class(self)
     end
   end
 end

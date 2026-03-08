@@ -154,38 +154,6 @@ module Geodetic
         from_lla(bng_coord.to_lla(datum), datum, precision)
       end
 
-      def to_gh36(datum = WGS84, precision: 10)
-        GH36.new(to_lla(datum), precision: precision)
-      end
-
-      def self.from_gh36(gh36_coord, datum = WGS84, precision = 5)
-        from_lla(gh36_coord.to_lla(datum), datum, precision)
-      end
-
-      def to_gh(datum = WGS84, precision: 12)
-        GH.new(to_lla(datum), precision: precision)
-      end
-
-      def self.from_gh(gh_coord, datum = WGS84, precision = 5)
-        from_lla(gh_coord.to_lla(datum), datum, precision)
-      end
-
-      def to_ham(datum = WGS84, precision: 6)
-        HAM.new(to_lla(datum), precision: precision)
-      end
-
-      def self.from_ham(ham_coord, datum = WGS84, precision = 5)
-        from_lla(ham_coord.to_lla(datum), datum, precision)
-      end
-
-      def to_olc(datum = WGS84, precision: 10)
-        OLC.new(to_lla(datum), precision: precision)
-      end
-
-      def self.from_olc(olc_coord, datum = WGS84, precision = 5)
-        from_lla(olc_coord.to_lla(datum), datum, precision)
-      end
-
       def ==(other)
         return false unless other.is_a?(MGRS)
 
@@ -336,6 +304,8 @@ module Geodetic
         index = [0, [index, bands.length - 1].min].max
         bands[index]
       end
+
+      Coordinate.register_class(self)
     end
   end
 end

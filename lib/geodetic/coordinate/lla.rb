@@ -296,6 +296,8 @@ module Geodetic
         raise ArgumentError, "Latitude must be between -90 and 90 degrees" if @lat < -90 || @lat > 90
         raise ArgumentError, "Longitude must be between -180 and 180 degrees" if @lng < -180 || @lng > 180
       end
+
+      Coordinate.register_class(self)
     end
   end
 end

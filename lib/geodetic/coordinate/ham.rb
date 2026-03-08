@@ -19,11 +19,11 @@
 #   HAM.new(lla_coord)                   # from any coordinate (converts via LLA)
 #   HAM.new(utm_coord, precision: 8)     # with extended precision
 
+require_relative 'spatial_hash'
+
 module Geodetic
   module Coordinate
-    class HAM
-      require_relative '../datum'
-
+    class HAM < SpatialHash
       # Encoding levels (each level is a pair of characters)
       # Level 1 (Field):    A-R  (18 letters), lng step = 20°, lat step = 10°
       # Level 2 (Square):   0-9  (10 digits),  lng step = 2°,  lat step = 1°
@@ -48,50 +48,12 @@ module Geodetic
       # Divisor counts per level (how many subdivisions)
       DIVISORS = [FIELD_COUNT, SQUARE_COUNT, SUBSQUARE_COUNT, EXTENDED_COUNT].freeze
 
-      # Default precision: 6 characters (3 pairs = subsquare level)
-      # This is the standard used in amateur radio
-      DEFAULT_PRECISION = 6
-
-      # Direction offsets for neighbor calculation: [lat_direction, lng_direction]
-      DIRECTIONS = {
-        N:  [ 1,  0],
-        S:  [-1,  0],
-        E:  [ 0,  1],
-        W:  [ 0, -1],
-        NE: [ 1,  1],
-        NW: [ 1, -1],
-        SE: [-1,  1],
-        SW: [-1, -1]
-      }.freeze
-
       attr_reader :locator
 
-      # Create a HAM from a Maidenhead locator string or any coordinate object.
-      #
-      #   HAM.new("FN31pr")                    # from locator string
-      #   HAM.new(lla)                         # from LLA coordinate
-      #   HAM.new(utm, precision: 8)           # from any coordinate with extended precision
-      def initialize(source, precision: DEFAULT_PRECISION)
-        case source
-        when String
-          validate_locator!(source)
-          @locator = normalize(source)
-        when LLA
-          @locator = encode(source.lat, source.lng, precision)
-        else
-          if source.respond_to?(:to_lla)
-            lla = source.to_lla
-            @locator = encode(lla.lat, lla.lng, precision)
-          else
-            raise ArgumentError,
-              "Expected a Maidenhead locator String or a coordinate object, got #{source.class}"
-          end
-        end
-      end
+      def self.default_precision = 6
+      def self.hash_system_name = :ham
 
-      def precision
-        @locator.length
-      end
+      # --- Subclass contract implementations ---
 
       def to_s(truncate_to = nil)
         if truncate_to
@@ -105,142 +67,6 @@ module Geodetic
         end
       end
 
-      def to_a
-        coords = decode(@locator)
-        [coords[:lat], coords[:lng]]
-      end
-
-      def self.from_array(array)
-        new(LLA.new(lat: array[0].to_f, lng: array[1].to_f))
-      end
-
-      def self.from_string(string)
-        new(string.strip)
-      end
-
-      # Decode to LLA (altitude is always 0.0 since HAM is 2D)
-      def to_lla(datum = WGS84)
-        coords = decode(@locator)
-        LLA.new(lat: coords[:lat], lng: coords[:lng], alt: 0.0)
-      end
-
-      def self.from_lla(lla_coord, datum = WGS84, precision = DEFAULT_PRECISION)
-        new(lla_coord, precision: precision)
-      end
-
-      # All other conversions chain through LLA
-
-      def to_ecef(datum = WGS84)
-        to_lla(datum).to_ecef(datum)
-      end
-
-      def self.from_ecef(ecef_coord, datum = WGS84, precision = DEFAULT_PRECISION)
-        new(ecef_coord, precision: precision)
-      end
-
-      def to_utm(datum = WGS84)
-        to_lla(datum).to_utm(datum)
-      end
-
-      def self.from_utm(utm_coord, datum = WGS84, precision = DEFAULT_PRECISION)
-        new(utm_coord, precision: precision)
-      end
-
-      def to_enu(reference_lla, datum = WGS84)
-        to_lla(datum).to_enu(reference_lla)
-      end
-
-      def self.from_enu(enu_coord, reference_lla, datum = WGS84, precision = DEFAULT_PRECISION)
-        lla_coord = enu_coord.to_lla(reference_lla)
-        new(lla_coord, precision: precision)
-      end
-
-      def to_ned(reference_lla, datum = WGS84)
-        to_lla(datum).to_ned(reference_lla)
-      end
-
-      def self.from_ned(ned_coord, reference_lla, datum = WGS84, precision = DEFAULT_PRECISION)
-        lla_coord = ned_coord.to_lla(reference_lla)
-        new(lla_coord, precision: precision)
-      end
-
-      def to_mgrs(datum = WGS84, mgrs_precision = 5)
-        MGRS.from_lla(to_lla(datum), datum, mgrs_precision)
-      end
-
-      def self.from_mgrs(mgrs_coord, datum = WGS84, precision = DEFAULT_PRECISION)
-        new(mgrs_coord, precision: precision)
-      end
-
-      def to_usng(datum = WGS84, usng_precision = 5)
-        USNG.from_lla(to_lla(datum), datum, usng_precision)
-      end
-
-      def self.from_usng(usng_coord, datum = WGS84, precision = DEFAULT_PRECISION)
-        new(usng_coord, precision: precision)
-      end
-
-      def to_web_mercator(datum = WGS84)
-        WebMercator.from_lla(to_lla(datum), datum)
-      end
-
-      def self.from_web_mercator(wm_coord, datum = WGS84, precision = DEFAULT_PRECISION)
-        new(wm_coord, precision: precision)
-      end
-
-      def to_ups(datum = WGS84)
-        UPS.from_lla(to_lla(datum), datum)
-      end
-
-      def self.from_ups(ups_coord, datum = WGS84, precision = DEFAULT_PRECISION)
-        new(ups_coord, precision: precision)
-      end
-
-      def to_state_plane(zone_code, datum = WGS84)
-        StatePlane.from_lla(to_lla(datum), zone_code, datum)
-      end
-
-      def self.from_state_plane(sp_coord, datum = WGS84, precision = DEFAULT_PRECISION)
-        new(sp_coord, precision: precision)
-      end
-
-      def to_bng(datum = WGS84)
-        BNG.from_lla(to_lla(datum), datum)
-      end
-
-      def self.from_bng(bng_coord, datum = WGS84, precision = DEFAULT_PRECISION)
-        new(bng_coord, precision: precision)
-      end
-
-      def to_gh36(datum = WGS84, gh36_precision: 10)
-        GH36.new(to_lla(datum), precision: gh36_precision)
-      end
-
-      def self.from_gh36(gh36_coord, datum = WGS84, precision = DEFAULT_PRECISION)
-        new(gh36_coord, precision: precision)
-      end
-
-      def to_gh(datum = WGS84, gh_precision: 12)
-        GH.new(to_lla(datum), precision: gh_precision)
-      end
-
-      def self.from_gh(gh_coord, datum = WGS84, precision = DEFAULT_PRECISION)
-        new(gh_coord, precision: precision)
-      end
-
-      def to_olc(datum = WGS84, olc_precision: 10)
-        OLC.new(to_lla(datum), precision: olc_precision)
-      end
-
-      def self.from_olc(olc_coord, datum = WGS84, precision = DEFAULT_PRECISION)
-        new(olc_coord, precision: precision)
-      end
-
-      def ==(other)
-        return false unless other.is_a?(HAM)
-        @locator == other.locator
-      end
-
       def valid?
         @locator.length >= 2 &&
           @locator.length.even? &&
@@ -248,60 +74,35 @@ module Geodetic
           valid_characters?(@locator)
       end
 
-      # Returns all 8 neighboring grid cells as HAM instances
-      # Keys: :N, :S, :E, :W, :NE, :NW, :SE, :SW
-      def neighbors
-        bb = decode_bounds(@locator)
-        lat_step = bb[:max_lat] - bb[:min_lat]
-        lng_step = bb[:max_lng] - bb[:min_lng]
-        center_lat = (bb[:min_lat] + bb[:max_lat]) / 2.0
-        center_lng = (bb[:min_lng] + bb[:max_lng]) / 2.0
-        len = @locator.length
+      def code_value
+        @locator
+      end
 
-        DIRECTIONS.each_with_object({}) do |(dir, delta), result|
-          nlat = center_lat + delta[0] * lat_step
-          nlng = center_lng + delta[1] * lng_step
+      protected
 
-          # Clamp latitude to valid range
-          nlat = nlat.clamp(-89.99999999, 89.99999999)
-
-          # Wrap longitude
-          nlng += 360.0 if nlng < -180.0
-          nlng -= 360.0 if nlng > 180.0
-
-          result[dir] = self.class.new(LLA.new(lat: nlat, lng: nlng), precision: len)
+      def normalize(string)
+        result = String.new(capacity: string.length)
+        string.each_char.with_index do |ch, i|
+          pair = i / 2
+          case pair
+          when 0 then result << ch.upcase
+          when 1 then result << ch # digits, no case
+          when 2 then result << ch.downcase
+          when 3 then result << ch # digits, no case
+          else result << ch # preserve extra chars for validation to catch
+          end
         end
+        result
       end
 
-      # Returns the grid cell as an Areas::Rectangle
-      def to_area
-        bb = decode_bounds(@locator)
-        nw = LLA.new(lat: bb[:max_lat], lng: bb[:min_lng], alt: 0.0)
-        se = LLA.new(lat: bb[:min_lat], lng: bb[:max_lng], alt: 0.0)
-        Areas::Rectangle.new(nw: nw, se: se)
+      def set_code(value)
+        @locator = value
       end
-
-      # Returns precision in meters as {lat:, lng:}
-      def precision_in_meters
-        bb = decode_bounds(@locator)
-        lat_center = (bb[:min_lat] + bb[:max_lat]) / 2.0
-
-        lat_meters_per_deg = 111_320.0
-        lng_meters_per_deg = 111_320.0 * Math.cos(lat_center * Math::PI / 180.0)
-
-        lat_range = bb[:max_lat] - bb[:min_lat]
-        lng_range = bb[:max_lng] - bb[:min_lng]
-
-        { lat: lat_range * lat_meters_per_deg, lng: lng_range * lng_meters_per_deg }
-      end
-
-      # URL-friendly slug
-      alias_method :to_slug, :to_s
 
       private
 
       # Encode lat/lng to a Maidenhead locator string
-      def encode(lat, lng, length = DEFAULT_PRECISION)
+      def encode(lat, lng, length = self.class.default_precision)
         # Ensure even length, 2-8
         length = length.to_i
         length = [length, 2].max
@@ -392,21 +193,6 @@ module Geodetic
         }
       end
 
-      # Normalize locator: field uppercase, subsquare lowercase
-      def normalize(locator)
-        result = String.new(capacity: locator.length)
-        locator.each_char.with_index do |ch, i|
-          pair = i / 2
-          case pair
-          when 0 then result << ch.upcase
-          when 1 then result << ch # digits, no case
-          when 2 then result << ch.downcase
-          when 3 then result << ch # digits, no case
-          end
-        end
-        result
-      end
-
       def validate_locator!(locator)
         raise ArgumentError, "Maidenhead locator cannot be empty" if locator.empty?
         raise ArgumentError, "Maidenhead locator must have even length (got #{locator.length})" if locator.length.odd?
@@ -417,6 +203,8 @@ module Geodetic
           raise ArgumentError, "Invalid Maidenhead locator: #{locator}"
         end
       end
+
+      alias_method :validate_code!, :validate_locator!
 
       def valid_characters?(locator)
         locator.each_char.with_index.all? do |ch, i|
@@ -430,6 +218,9 @@ module Geodetic
           end
         end
       end
+
+      register_hash_system(:ham, self, default_precision: 6)
+      Coordinate.register_class(self)
     end
   end
 end

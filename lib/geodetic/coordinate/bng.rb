@@ -228,42 +228,6 @@ module Geodetic
         from_lla(lla_coord, datum)
       end
 
-      def to_gh36(datum = WGS84, precision: 10)
-        GH36.new(to_lla(datum), precision: precision)
-      end
-
-      def self.from_gh36(gh36_coord, datum = WGS84)
-        lla_coord = gh36_coord.to_lla(datum)
-        from_lla(lla_coord, datum)
-      end
-
-      def to_gh(datum = WGS84, precision: 12)
-        GH.new(to_lla(datum), precision: precision)
-      end
-
-      def self.from_gh(gh_coord, datum = WGS84)
-        lla_coord = gh_coord.to_lla(datum)
-        from_lla(lla_coord, datum)
-      end
-
-      def to_ham(datum = WGS84, precision: 6)
-        HAM.new(to_lla(datum), precision: precision)
-      end
-
-      def self.from_ham(ham_coord, datum = WGS84)
-        lla_coord = ham_coord.to_lla(datum)
-        from_lla(lla_coord, datum)
-      end
-
-      def to_olc(datum = WGS84, precision: 10)
-        OLC.new(to_lla(datum), precision: precision)
-      end
-
-      def self.from_olc(olc_coord, datum = WGS84)
-        lla_coord = olc_coord.to_lla(datum)
-        from_lla(lla_coord, datum)
-      end
-
       def ==(other)
         return false unless other.is_a?(BNG)
 
@@ -388,6 +352,8 @@ module Geodetic
 
         new(easting: easting, northing: northing)
       end
+
+      Coordinate.register_class(self)
     end
   end
 end

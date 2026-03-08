@@ -153,38 +153,6 @@ module Geodetic
         from_lla(bng_coord.to_lla, datum)
       end
 
-      def to_gh36(precision: 10)
-        GH36.new(to_lla, precision: precision)
-      end
-
-      def self.from_gh36(gh36_coord, datum = WGS84)
-        from_lla(gh36_coord.to_lla, datum)
-      end
-
-      def to_gh(precision: 12)
-        GH.new(to_lla, precision: precision)
-      end
-
-      def self.from_gh(gh_coord, datum = WGS84)
-        from_lla(gh_coord.to_lla, datum)
-      end
-
-      def to_ham(precision: 6)
-        HAM.new(to_lla, precision: precision)
-      end
-
-      def self.from_ham(ham_coord, datum = WGS84)
-        from_lla(ham_coord.to_lla, datum)
-      end
-
-      def to_olc(precision: 10)
-        OLC.new(to_lla, precision: precision)
-      end
-
-      def self.from_olc(olc_coord, datum = WGS84)
-        from_lla(olc_coord.to_lla, datum)
-      end
-
       # Tile coordinate methods for web mapping
       def to_tile_coordinates(zoom_level)
         lat_lng = to_lla
@@ -261,6 +229,8 @@ module Geodetic
           east: se.x
         }
       end
+
+      Coordinate.register_class(self)
     end
   end
 end

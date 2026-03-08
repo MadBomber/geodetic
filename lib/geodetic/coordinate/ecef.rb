@@ -184,38 +184,6 @@ module Geodetic
         bng_coord.to_ecef(datum)
       end
 
-      def to_gh36(precision: 10)
-        GH36.new(to_lla, precision: precision)
-      end
-
-      def self.from_gh36(gh36_coord, datum = WGS84)
-        gh36_coord.to_ecef(datum)
-      end
-
-      def to_gh(precision: 12)
-        GH.new(to_lla, precision: precision)
-      end
-
-      def self.from_gh(gh_coord, datum = WGS84)
-        gh_coord.to_ecef(datum)
-      end
-
-      def to_ham(precision: 6)
-        HAM.new(to_lla, precision: precision)
-      end
-
-      def self.from_ham(ham_coord, datum = WGS84)
-        ham_coord.to_ecef(datum)
-      end
-
-      def to_olc(precision: 10)
-        OLC.new(to_lla, precision: precision)
-      end
-
-      def self.from_olc(olc_coord, datum = WGS84)
-        olc_coord.to_ecef(datum)
-      end
-
       def to_s(precision = 2)
         precision = precision.to_i
         if precision == 0
@@ -248,6 +216,8 @@ module Geodetic
         delta_x <= 1e-6 && delta_y <= 1e-6 && delta_z <= 1e-6
       end
 
+
+      Coordinate.register_class(self)
     end
   end
 end

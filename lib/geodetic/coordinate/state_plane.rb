@@ -473,6 +473,8 @@ module Geodetic
 
         new(easting: x, northing: y, zone_code: zone_code, datum: datum)
       end
+
+      Coordinate.register_class(self)
     end
   end
 end

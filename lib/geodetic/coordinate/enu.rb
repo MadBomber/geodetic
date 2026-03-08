@@ -266,6 +266,8 @@ module Geodetic
       def horizontal_distance_to_origin
         Math.sqrt(@e**2 + @n**2)
       end
+
+      Coordinate.register_class(self)
     end
   end
 end
