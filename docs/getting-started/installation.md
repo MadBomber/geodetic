@@ -30,7 +30,7 @@ The simplest way to load Geodetic is to require the top-level module:
 require "geodetic"
 ```
 
-This loads the core module, the `Geodetic::Datum` class, and the `Geodetic::GeoidHeight` support. Coordinate types are loaded on demand when you first perform a conversion.
+This loads all modules, coordinate classes, and support classes eagerly.
 
 ## Requiring Specific Coordinate Types
 

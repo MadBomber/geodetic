@@ -175,29 +175,33 @@ Geodetic::Coordinates::StatePlane.from_array([2000000.0, 500000.0, "CA_I"])
 
 ## MGRS and USNG (String-Based Formats)
 
-MGRS and USNG use alphanumeric grid references rather than numeric arrays. They support `to_s` and `from_string` but do not provide `to_a` / `from_array`.
+MGRS and USNG use alphanumeric grid references rather than numeric arrays. They support all four serialization methods: `to_s`, `from_string`, `to_a`, and `from_array`.
 
 ### MGRS
 
 ```ruby
 mgrs = Geodetic::Coordinates::MGRS.new(mgrs_string: "18SUJ2034706880")
 mgrs.to_s    # => "18SUJ2034706880"
+mgrs.to_a    # => ["18S", "UJ", 20347.0, 6880.0, 5]
 
 Geodetic::Coordinates::MGRS.from_string("18SUJ2034706880")
+Geodetic::Coordinates::MGRS.from_array(["18S", "UJ", 20347, 6880, 5])
 ```
 
-The MGRS string format is: `{zone_number}{zone_letter}{square_id}{easting}{northing}` with no spaces. Precision varies based on the number of coordinate digits (0 to 5 pairs).
+The MGRS string format is: `{zone_number}{zone_letter}{square_id}{easting}{northing}` with no spaces. Precision varies based on the number of coordinate digits (0 to 5 pairs). The array format is `[grid_zone, square_id, easting, northing, precision]`.
 
 ### USNG
 
 ```ruby
 usng = Geodetic::Coordinates::USNG.new(usng_string: "18S UJ 20347 06880")
 usng.to_s    # => "18S UJ 20347 06880"
+usng.to_a    # => ["18S", "UJ", 20347.0, 6880.0, 5]
 
 Geodetic::Coordinates::USNG.from_string("18S UJ 20347 06880")
+Geodetic::Coordinates::USNG.from_array(["18S", "UJ", 20347, 6880, 5])
 ```
 
-USNG uses the same underlying format as MGRS but separates components with spaces for readability. Both spaced and non-spaced formats are accepted by `from_string`. USNG also provides:
+USNG uses the same underlying format as MGRS but separates components with spaces for readability. Both spaced and non-spaced formats are accepted by `from_string`. The array format is `[grid_zone, square_id, easting, northing, precision]`. USNG also provides:
 
 ```ruby
 usng.to_full_format        # => "18S UJ 20347 06880"
@@ -248,5 +252,5 @@ restored = Geodetic::Coordinates::LLA.from_dms(dms_string)
 | UPS | `easting, northing, hemisphere, zone` | 2 | `[easting, northing, hemisphere, zone]` | -- |
 | BNG | `easting, northing` | 2 | `[easting, northing]` | `to_grid_reference` / `grid_ref:` constructor |
 | StatePlane | `easting, northing, zone_code` | 2 | `[easting, northing, zone_code]` | -- |
-| MGRS | `grid_zone+square+coords` | n/a | (not available) | String-based only |
-| USNG | `grid_zone square coords` | n/a | (not available) | `to_full_format`, `to_abbreviated_format` |
+| MGRS | `grid_zone+square+coords` | n/a | `[grid_zone, square_id, easting, northing, precision]` | String-based |
+| USNG | `grid_zone square coords` | n/a | `[grid_zone, square_id, easting, northing, precision]` | `to_full_format`, `to_abbreviated_format` |

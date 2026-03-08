@@ -44,32 +44,25 @@ This constant is the default datum for all conversion methods throughout the gem
 
 #### `Datum.list`
 
-Prints all available datums to STDOUT and returns `nil`.
+Returns an Array of strings describing each available datum.
 
 ```ruby
 Geodetic::Datum.list
-# AIRY: Airy 1830
-# MODIFIED_AIRY: Modified Airy
-# ...
-# WGS84: World Geodetic System 1984
+# => ["AIRY: Airy 1830", "MODIFIED_AIRY: Modified Airy", ..., "WGS84: World Geodetic System 1984"]
 ```
 
 #### `Datum.get(name)`
 
-Returns a Hash with all datum parameters for the given name. The name is case-insensitive. Raises `NameError` if the datum is not found.
+Returns a `Datum` instance for the given name. The name is case-insensitive. Raises `NameError` if the datum is not found.
 
 ```ruby
-Geodetic::Datum.get('WGS84')
-# => {
-#   "name"  => "WGS84",
-#   "desc"  => "World Geodetic System 1984",
-#   "a"     => 6378137.0,
-#   "f_inv" => 298.257223563,
-#   "f"     => 0.0033528106647...,
-#   "b"     => 6356752.3142451793,
-#   "e2"    => 0.00669437999014132,
-#   "e"     => 0.08181919084...
-# }
+datum = Geodetic::Datum.get('WGS84')
+# => #<Geodetic::Datum name="WGS84", a=6378137.0, f_inv=298.257223563>
+datum.name   # => "WGS84"
+datum.desc   # => "World Geodetic System 1984"
+datum.a      # => 6378137.0
+datum.f_inv  # => 298.257223563
+datum.e2     # => 0.00669437999014132
 ```
 
 ### Available Datums

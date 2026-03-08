@@ -78,7 +78,7 @@ All coordinate systems also support universal bearing calculations via `bearing_
 
 See the [Conversions Reference](../reference/conversions.md#distance-calculations) for details on distances and [Bearing Calculations](../reference/conversions.md#bearing-calculations) for bearings.
 
-> **Note:** ENU and NED are relative systems and must be converted to an absolute system (e.g., LLA) before using universal distance and bearing methods. They retain `local_bearing_to` and `local_elevation_angle_to` for tangent-plane operations.
+> **Note:** ENU and NED are relative systems and must be converted to an absolute system (e.g., LLA) before using universal distance and bearing methods. They retain `local_bearing_to` and `horizontal_distance_to` for tangent-plane operations. NED additionally provides `local_elevation_angle_to`.
 
 ## Conversion Paths
 

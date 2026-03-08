@@ -95,10 +95,10 @@ LLA coordinates can be displayed and parsed in Degrees, Minutes, Seconds format.
 ```ruby
 # Convert to DMS string
 dms = space_needle.to_dms
-puts dms  #=> "47 37' 13.80\" N, 122 20' 57.48\" W, 184.00 m"
+puts dms  #=> "47° 37' 13.80\" N, 122° 20' 57.48\" W, 184.00 m"
 
 # Parse a DMS string back to LLA
-lla = Geodetic::Coordinates::LLA.from_dms("47 37' 13.80\" N, 122 20' 57.48\" W, 184.00 m")
+lla = Geodetic::Coordinates::LLA.from_dms("47° 37' 13.80\" N, 122° 20' 57.48\" W, 184.00 m")
 puts lla.lat  #=> 47.6205
 ```
 
@@ -145,9 +145,9 @@ puts clarke.b       #=> 6356583.7999989809 (semi-minor axis in meters)
 puts clarke.f       #=> flattening
 puts clarke.e2      #=> eccentricity squared
 
-# Look up datum info without creating an instance
+# Look up a datum by name
 info = Geodetic::Datum.get("WGS84")
-puts info["desc"]   #=> "World Geodetic System 1984"
+puts info.desc   #=> "World Geodetic System 1984"
 ```
 
 Available datums include: WGS84, WGS72, GRS_1980, CLARKE_1866, CLARKE_1880, AIRY, MODIFIED_AIRY, AUSTRALIAN_NATIONAL, BESSEL_1841, EVEREST_INDIA_1830, EVEREST_BRUNEI_E_MALAYSIA, EVEREST_W_MALAYSIA_SINGAPORE, HELMERT_1906, HOUGH_1960, INTERNATIONAL_1924, and SOUTH_AMERICAN_1969.
