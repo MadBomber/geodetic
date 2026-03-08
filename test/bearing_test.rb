@@ -216,4 +216,94 @@ class BearingTest < Minitest::Test
     assert_instance_of Float, elev
     assert elev > 80.0  # nearly straight up
   end
+
+  # ── Additional coverage ──────────────────────────────────────
+
+  def test_add_non_numeric_raises_argument_error
+    b = Bearing.new(90)
+    assert_raises(ArgumentError) { b + "hello" }
+    assert_raises(ArgumentError) { b + [1, 2] }
+  end
+
+  def test_subtract_non_numeric_non_bearing_raises_argument_error
+    b = Bearing.new(90)
+    assert_raises(ArgumentError) { b - "hello" }
+    assert_raises(ArgumentError) { b - [1, 2] }
+  end
+
+  def test_coerce_with_non_numeric_raises_type_error
+    b = Bearing.new(90)
+    assert_raises(TypeError) { b.coerce("hello") }
+    assert_raises(TypeError) { b.coerce([1, 2]) }
+  end
+
+  def test_spaceship_returns_nil_for_non_comparable_types
+    b = Bearing.new(90)
+    assert_nil b <=> "hello"
+    assert_nil b <=> [1, 2]
+    assert_nil b <=> nil
+  end
+
+  def test_to_radians_270_degrees
+    b = Bearing.new(270)
+    assert_in_delta 3.0 * Math::PI / 2.0, b.to_radians, 1e-10
+  end
+
+  def test_reverse_at_boundary_1_degree
+    b = Bearing.new(1)
+    assert_in_delta 181.0, b.reverse.degrees, 1e-10
+  end
+
+  def test_reverse_at_boundary_359_degrees
+    b = Bearing.new(359)
+    assert_in_delta 179.0, b.reverse.degrees, 1e-10
+  end
+
+  def test_numeric_minus_bearing_via_coerce
+    result = 100 - Bearing.new(90)
+    assert_in_delta 10.0, result, 1e-10
+  end
+
+  def test_numeric_minus_bearing_negative_result
+    result = 50 - Bearing.new(90)
+    assert_in_delta(-40.0, result, 1e-10)
+  end
+
+  def test_to_compass_boundary_359_degrees_4_points
+    b = Bearing.new(359)
+    assert_equal "N", b.to_compass(points: 4)
+  end
+
+  def test_to_compass_boundary_44_degrees_8_points
+    b = Bearing.new(44)
+    assert_equal "NE", b.to_compass(points: 8)
+  end
+
+  def test_to_compass_boundary_46_degrees_8_points
+    b = Bearing.new(46)
+    assert_equal "NE", b.to_compass(points: 8)
+  end
+
+  def test_to_compass_boundary_near_south_4_points
+    b = Bearing.new(224)
+    assert_equal "S", b.to_compass(points: 4)
+  end
+
+  def test_inspect_output
+    b = Bearing.new(45)
+    output = b.inspect
+    assert_match(/Geodetic::Bearing/, output)
+    assert_match(/45/, output)
+    assert_match(/NE/, output)
+  end
+
+  def test_to_s_default_precision
+    b = Bearing.new(123.4567)
+    assert_equal "123.4567°", b.to_s
+  end
+
+  def test_to_s_with_zero_degrees
+    b = Bearing.new(0)
+    assert_equal "0.0000°", b.to_s
+  end
 end

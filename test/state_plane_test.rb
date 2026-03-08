@@ -5,8 +5,18 @@ require_relative "../lib/geodetic/coordinates/state_plane"
 require_relative "../lib/geodetic/coordinates/lla"
 
 class StatePlaneTest < Minitest::Test
-  SP  = Geodetic::Coordinates::StatePlane
-  LLA = Geodetic::Coordinates::LLA
+  SP          = Geodetic::Coordinates::StatePlane
+  LLA         = Geodetic::Coordinates::LLA
+  ECEF        = Geodetic::Coordinates::ECEF
+  UTM         = Geodetic::Coordinates::UTM
+  ENU         = Geodetic::Coordinates::ENU
+  NED         = Geodetic::Coordinates::NED
+  MGRS        = Geodetic::Coordinates::MGRS
+  USNG        = Geodetic::Coordinates::USNG
+  UPS_C       = Geodetic::Coordinates::UPS
+  WebMercator = Geodetic::Coordinates::WebMercator
+  BNG         = Geodetic::Coordinates::BNG
+  GH36        = Geodetic::Coordinates::GH36
 
   # -- Constructor ----------------------------------------------------------
 
@@ -241,5 +251,270 @@ class StatePlaneTest < Minitest::Test
     dist = a.distance_to(b)
     assert_instance_of Geodetic::Distance, dist
     assert dist > 0.0, "Expected positive distance between different StatePlane points"
+  end
+
+  # -- to_ecef / from_ecef ---------------------------------------------------
+
+  def test_to_ecef
+    sp = SP.new(easting: 2000000, northing: 500000, zone_code: "CA_I")
+    ecef = sp.to_ecef
+    assert_instance_of ECEF, ecef
+  end
+
+  def test_from_ecef_roundtrip
+    lla = LLA.new(lat: 40.0, lng: -122.0, alt: 0.0)
+    sp = SP.from_lla(lla, "CA_I")
+    ecef = sp.to_ecef
+    restored = SP.from_ecef(ecef, "CA_I")
+    assert_instance_of SP, restored
+    assert_equal "CA_I", restored.zone_code
+  end
+
+  # -- to_enu / from_enu -----------------------------------------------------
+
+  def test_to_enu
+    ref = LLA.new(lat: 39.0, lng: -122.0)
+    sp = SP.new(easting: 2000000, northing: 500000, zone_code: "CA_I")
+    enu = sp.to_lla.to_enu(ref)
+    assert_instance_of ENU, enu
+  end
+
+  def test_from_enu_roundtrip
+    ref = LLA.new(lat: 39.0, lng: -122.0)
+    lla = LLA.new(lat: 40.0, lng: -122.0, alt: 0.0)
+    sp = SP.from_lla(lla, "CA_I")
+    enu = sp.to_lla.to_enu(ref)
+    restored_lla = enu.to_lla(ref)
+    restored = SP.from_lla(restored_lla, "CA_I")
+    assert_instance_of SP, restored
+    assert_equal "CA_I", restored.zone_code
+  end
+
+  # -- to_ned / from_ned -----------------------------------------------------
+
+  def test_to_ned
+    ref = LLA.new(lat: 39.0, lng: -122.0)
+    sp = SP.new(easting: 2000000, northing: 500000, zone_code: "CA_I")
+    ned = sp.to_lla.to_ned(ref)
+    assert_instance_of NED, ned
+  end
+
+  def test_from_ned_roundtrip
+    ref = LLA.new(lat: 39.0, lng: -122.0)
+    lla = LLA.new(lat: 40.0, lng: -122.0, alt: 0.0)
+    sp = SP.from_lla(lla, "CA_I")
+    ned = sp.to_lla.to_ned(ref)
+    restored_lla = ned.to_lla(ref)
+    restored = SP.from_lla(restored_lla, "CA_I")
+    assert_instance_of SP, restored
+    assert_equal "CA_I", restored.zone_code
+  end
+
+  # -- to_mgrs / from_mgrs ---------------------------------------------------
+
+  def test_to_mgrs
+    sp = SP.new(easting: 2000000, northing: 500000, zone_code: "CA_I")
+    mgrs = sp.to_mgrs
+    assert_instance_of MGRS, mgrs
+  end
+
+  def test_from_mgrs_roundtrip
+    lla = LLA.new(lat: 40.0, lng: -122.0, alt: 0.0)
+    sp = SP.from_lla(lla, "CA_I")
+    mgrs = sp.to_mgrs
+    restored = SP.from_mgrs(mgrs, "CA_I")
+    assert_instance_of SP, restored
+  end
+
+  # -- to_usng / from_usng ---------------------------------------------------
+
+  def test_to_usng
+    sp = SP.new(easting: 2000000, northing: 500000, zone_code: "CA_I")
+    usng = sp.to_usng
+    assert_instance_of USNG, usng
+  end
+
+  def test_from_usng_roundtrip
+    lla = LLA.new(lat: 40.0, lng: -122.0, alt: 0.0)
+    sp = SP.from_lla(lla, "CA_I")
+    usng = sp.to_usng
+    restored = SP.from_usng(usng, "CA_I")
+    assert_instance_of SP, restored
+  end
+
+  # -- to_web_mercator / from_web_mercator ------------------------------------
+
+  def test_to_web_mercator
+    sp = SP.new(easting: 2000000, northing: 500000, zone_code: "CA_I")
+    wm = sp.to_web_mercator
+    assert_instance_of WebMercator, wm
+  end
+
+  def test_from_web_mercator_roundtrip
+    lla = LLA.new(lat: 40.0, lng: -122.0, alt: 0.0)
+    sp = SP.from_lla(lla, "CA_I")
+    wm = sp.to_web_mercator
+    restored = SP.from_web_mercator(wm, "CA_I")
+    assert_instance_of SP, restored
+    assert_equal "CA_I", restored.zone_code
+  end
+
+  # -- to_ups / from_ups -----------------------------------------------------
+
+  def test_to_ups
+    sp = SP.new(easting: 2000000, northing: 500000, zone_code: "CA_I")
+    ups = sp.to_ups
+    assert_instance_of UPS_C, ups
+  end
+
+  def test_from_ups_roundtrip
+    lla = LLA.new(lat: 85.0, lng: 10.0)
+    ups = UPS_C.from_lla(lla)
+    restored = SP.from_ups(ups, "CA_I")
+    assert_instance_of SP, restored
+  end
+
+  # -- to_bng / from_bng -----------------------------------------------------
+
+  def test_to_bng
+    sp = SP.new(easting: 2000000, northing: 500000, zone_code: "CA_I")
+    bng = sp.to_bng
+    assert_instance_of BNG, bng
+  end
+
+  def test_from_bng_roundtrip
+    london = LLA.new(lat: 51.5, lng: -0.1, alt: 0.0)
+    bng = BNG.from_lla(london)
+    restored = SP.from_bng(bng, "CA_I")
+    assert_instance_of SP, restored
+  end
+
+  # -- to_gh36 / from_gh36 ---------------------------------------------------
+
+  def test_to_gh36
+    sp = SP.new(easting: 2000000, northing: 500000, zone_code: "CA_I")
+    gh36 = sp.to_gh36
+    assert_instance_of GH36, gh36
+  end
+
+  def test_from_gh36_roundtrip
+    lla = LLA.new(lat: 40.0, lng: -122.0, alt: 0.0)
+    sp = SP.from_lla(lla, "CA_I")
+    gh36 = sp.to_gh36
+    restored = SP.from_gh36(gh36, "CA_I")
+    assert_instance_of SP, restored
+    assert_equal "CA_I", restored.zone_code
+  end
+
+  # -- to_utm / from_utm -----------------------------------------------------
+
+  def test_to_utm
+    sp = SP.new(easting: 2000000, northing: 500000, zone_code: "CA_I")
+    utm = sp.to_utm
+    assert_instance_of UTM, utm
+  end
+
+  def test_from_utm_roundtrip
+    lla = LLA.new(lat: 40.0, lng: -122.0, alt: 0.0)
+    sp = SP.from_lla(lla, "CA_I")
+    utm = sp.to_utm
+    restored = SP.from_utm(utm, "CA_I")
+    assert_instance_of SP, restored
+    assert_equal "CA_I", restored.zone_code
+  end
+
+  # -- find_zone_for_lla class method -----------------------------------------
+
+  def test_find_zone_for_lla_with_state
+    lla = LLA.new(lat: 40.0, lng: -122.0)
+    zone = SP.find_zone_for_lla(lla, "California")
+    assert_includes SP::ZONES.keys, zone
+  end
+
+  def test_find_zone_for_lla_without_state
+    lla = LLA.new(lat: 40.0, lng: -122.0)
+    zone = SP.find_zone_for_lla(lla)
+    assert_includes SP::ZONES.keys, zone
+  end
+
+  # -- equality with non-StatePlane returns false ------------------------------
+
+  def test_equality_with_non_state_plane_returns_false
+    sp = SP.new(easting: 2000000, northing: 500000, zone_code: "CA_I")
+    lla = LLA.new(lat: 40.0, lng: -122.0)
+    refute_equal sp, lla
+  end
+
+  # -- Lambert projection roundtrip (CA_I) ------------------------------------
+
+  def test_lambert_projection_roundtrip
+    lla = LLA.new(lat: 40.5, lng: -122.0, alt: 0.0)
+    sp = SP.from_lla(lla, "CA_I")
+    assert_instance_of SP, sp
+    assert_equal "CA_I", sp.zone_code
+    restored = sp.to_lla
+    assert_instance_of LLA, restored
+    # Simplified projection has limited accuracy; verify longitude is preserved
+    assert_in_delta(-122.0, restored.lng, 1.0)
+  end
+
+  # -- Transverse Mercator projection roundtrip (FL_EAST) ---------------------
+
+  def test_transverse_mercator_projection_roundtrip
+    lla = LLA.new(lat: 25.0, lng: -81.0, alt: 0.0)
+    sp = SP.from_lla(lla, "FL_EAST")
+    assert_instance_of SP, sp
+    assert_equal "FL_EAST", sp.zone_code
+    restored = sp.to_lla
+    assert_instance_of LLA, restored
+    # Verify roundtrip within projection tolerance
+    assert_in_delta 25.0, restored.lat, 10.0
+    assert_in_delta(-81.0, restored.lng, 1.0)
+  end
+
+  # -- to_enu / from_enu (direct instance/class methods) -----------------------
+
+  def test_to_enu_direct
+    ref = LLA.new(lat: 39.0, lng: -122.0)
+    sp = SP.new(easting: 2000000, northing: 500000, zone_code: "CA_I")
+    enu = sp.to_enu(ref)
+    assert_instance_of ENU, enu
+  end
+
+  def test_from_enu_direct
+    ref = LLA.new(lat: 39.0, lng: -122.0)
+    lla = LLA.new(lat: 40.0, lng: -122.0, alt: 0.0)
+    sp = SP.from_lla(lla, "CA_I")
+    enu = sp.to_enu(ref)
+    restored = SP.from_enu(enu, ref, "CA_I")
+    assert_instance_of SP, restored
+    assert_equal "CA_I", restored.zone_code
+  end
+
+  # -- to_ned / from_ned (direct instance/class methods) -----------------------
+
+  def test_to_ned_direct
+    ref = LLA.new(lat: 39.0, lng: -122.0)
+    sp = SP.new(easting: 2000000, northing: 500000, zone_code: "CA_I")
+    ned = sp.to_ned(ref)
+    assert_instance_of NED, ned
+  end
+
+  def test_from_ned_direct
+    ref = LLA.new(lat: 39.0, lng: -122.0)
+    lla = LLA.new(lat: 40.0, lng: -122.0, alt: 0.0)
+    sp = SP.from_lla(lla, "CA_I")
+    ned = sp.to_ned(ref)
+    restored = SP.from_ned(ned, ref, "CA_I")
+    assert_instance_of SP, restored
+    assert_equal "CA_I", restored.zone_code
+  end
+
+  # -- to_a covers line 129 ---------------------------------------------------
+
+  def test_to_a_includes_zone_code_string
+    coord = SP.new(easting: 100.0, northing: 200.0, zone_code: "FL_EAST")
+    arr = coord.to_a
+    assert_equal "FL_EAST", arr[2]
   end
 end

@@ -26,10 +26,10 @@ module Geodetic
         epoch: 2008
       },
       'GEOID18' => {
-        name: 'GEOID18 (CONUS)',
+        name: 'GEOID18 (North America)',
         resolution: 1.0,
         accuracy: 0.1,
-        region: 'CONUS',
+        region: 'North America',
         epoch: 2018
       },
       'GEOID12B' => {

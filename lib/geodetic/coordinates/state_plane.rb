@@ -189,20 +189,20 @@ module Geodetic
       end
 
       def to_enu(reference_lla, datum = nil)
-        to_lla(datum).to_enu(reference_lla, datum || @datum)
+        to_lla(datum).to_enu(reference_lla)
       end
 
       def self.from_enu(enu_coord, reference_lla, zone_code, datum = WGS84)
-        lla_coord = enu_coord.to_lla(reference_lla, datum)
+        lla_coord = enu_coord.to_lla(reference_lla)
         from_lla(lla_coord, zone_code, datum)
       end
 
       def to_ned(reference_lla, datum = nil)
-        to_lla(datum).to_ned(reference_lla, datum || @datum)
+        to_lla(datum).to_ned(reference_lla)
       end
 
       def self.from_ned(ned_coord, reference_lla, zone_code, datum = WGS84)
-        lla_coord = ned_coord.to_lla(reference_lla, datum)
+        lla_coord = ned_coord.to_lla(reference_lla)
         from_lla(lla_coord, zone_code, datum)
       end
 
@@ -348,8 +348,8 @@ module Geodetic
 
         # Lambert Conformal Conic calculations (simplified)
         # This is a complex calculation - using simplified approximation
-        lat = lat0_rad + (y / a) * DEG_PER_RAD
-        lng = lon0_rad + (x / (a * Math.cos(lat0_rad))) * DEG_PER_RAD
+        lat = lat0_rad + (y / a)
+        lng = lon0_rad + (x / (a * Math.cos(lat0_rad)))
 
         lat = [[-90.0, lat * DEG_PER_RAD].max, 90.0].min
         lng = [[-180.0, lng * DEG_PER_RAD].max, 180.0].min

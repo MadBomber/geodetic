@@ -350,4 +350,254 @@ class LlaTest < Minitest::Test
     # Original value should be preserved
     assert_in_delta(-122.0, lla.lng, 1e-6)
   end
+
+  # ── NaN/Infinity validation in constructor ─────────────────
+
+  def test_constructor_rejects_nan_lat
+    error = assert_raises(ArgumentError) { LLA.new(lat: Float::NAN) }
+    assert_match(/Latitude/, error.message)
+  end
+
+  def test_constructor_rejects_infinity_lat
+    error = assert_raises(ArgumentError) { LLA.new(lat: Float::INFINITY) }
+    assert_match(/Latitude/, error.message)
+  end
+
+  def test_constructor_rejects_negative_infinity_lat
+    error = assert_raises(ArgumentError) { LLA.new(lat: -Float::INFINITY) }
+    assert_match(/Latitude/, error.message)
+  end
+
+  def test_constructor_rejects_nan_lng
+    error = assert_raises(ArgumentError) { LLA.new(lng: Float::NAN) }
+    assert_match(/Longitude/, error.message)
+  end
+
+  def test_constructor_rejects_infinity_lng
+    error = assert_raises(ArgumentError) { LLA.new(lng: Float::INFINITY) }
+    assert_match(/Longitude/, error.message)
+  end
+
+  def test_constructor_rejects_negative_infinity_lng
+    error = assert_raises(ArgumentError) { LLA.new(lng: -Float::INFINITY) }
+    assert_match(/Longitude/, error.message)
+  end
+
+  def test_constructor_rejects_nan_alt
+    error = assert_raises(ArgumentError) { LLA.new(alt: Float::NAN) }
+    assert_match(/Altitude/, error.message)
+  end
+
+  def test_constructor_rejects_infinity_alt
+    error = assert_raises(ArgumentError) { LLA.new(alt: Float::INFINITY) }
+    assert_match(/Altitude/, error.message)
+  end
+
+  # ── NaN/Infinity validation in setters ─────────────────────
+
+  def test_lat_setter_rejects_nan
+    lla = LLA.new(lat: 47.0, lng: -122.0, alt: 100.0)
+    error = assert_raises(ArgumentError) { lla.lat = Float::NAN }
+    assert_match(/Latitude/, error.message)
+    assert_in_delta 47.0, lla.lat, 1e-6
+  end
+
+  def test_lat_setter_rejects_infinity
+    lla = LLA.new(lat: 47.0, lng: -122.0, alt: 100.0)
+    error = assert_raises(ArgumentError) { lla.lat = Float::INFINITY }
+    assert_match(/Latitude/, error.message)
+    assert_in_delta 47.0, lla.lat, 1e-6
+  end
+
+  def test_lng_setter_rejects_nan
+    lla = LLA.new(lat: 47.0, lng: -122.0, alt: 100.0)
+    error = assert_raises(ArgumentError) { lla.lng = Float::NAN }
+    assert_match(/Longitude/, error.message)
+    assert_in_delta(-122.0, lla.lng, 1e-6)
+  end
+
+  def test_lng_setter_rejects_infinity
+    lla = LLA.new(lat: 47.0, lng: -122.0, alt: 100.0)
+    error = assert_raises(ArgumentError) { lla.lng = Float::INFINITY }
+    assert_match(/Longitude/, error.message)
+    assert_in_delta(-122.0, lla.lng, 1e-6)
+  end
+
+  def test_alt_setter_rejects_nan
+    lla = LLA.new(lat: 47.0, lng: -122.0, alt: 100.0)
+    error = assert_raises(ArgumentError) { lla.alt = Float::NAN }
+    assert_match(/Altitude/, error.message)
+    assert_in_delta 100.0, lla.alt, 1e-6
+  end
+
+  def test_alt_setter_rejects_infinity
+    lla = LLA.new(lat: 47.0, lng: -122.0, alt: 100.0)
+    error = assert_raises(ArgumentError) { lla.alt = Float::INFINITY }
+    assert_match(/Altitude/, error.message)
+    assert_in_delta 100.0, lla.alt, 1e-6
+  end
+
+  # ── to_gh36 / from_gh36 ───────────────────────────────────
+
+  GH36 = Geodetic::Coordinates::GH36
+
+  def test_to_gh36_returns_gh36_instance
+    lla = LLA.new(lat: 37.7749, lng: -122.4194, alt: 15.0)
+    gh36 = lla.to_gh36
+    assert_instance_of GH36, gh36
+  end
+
+  def test_to_gh36_with_precision
+    lla = LLA.new(lat: 37.7749, lng: -122.4194, alt: 15.0)
+    gh36 = lla.to_gh36(precision: 6)
+    assert_instance_of GH36, gh36
+  end
+
+  def test_gh36_roundtrip
+    original = LLA.new(lat: 37.7749, lng: -122.4194, alt: 0.0)
+    gh36 = original.to_gh36(precision: 10)
+    restored = LLA.from_gh36(gh36)
+    assert_in_delta original.lat, restored.lat, 1e-4
+    assert_in_delta original.lng, restored.lng, 1e-4
+  end
+
+  # ── from_ecef with invalid argument ────────────────────────
+
+  def test_from_ecef_rejects_non_ecef
+    assert_raises(ArgumentError) { LLA.from_ecef("not an ECEF") }
+  end
+
+  def test_from_ecef_rejects_lla
+    lla = LLA.new(lat: 47.0, lng: -122.0, alt: 0.0)
+    assert_raises(ArgumentError) { LLA.from_ecef(lla) }
+  end
+
+  # ── from_utm with invalid argument ─────────────────────────
+
+  def test_from_utm_rejects_non_utm
+    assert_raises(ArgumentError) { LLA.from_utm("not a UTM") }
+  end
+
+  def test_from_utm_rejects_lla
+    lla = LLA.new(lat: 47.0, lng: -122.0, alt: 0.0)
+    assert_raises(ArgumentError) { LLA.from_utm(lla) }
+  end
+
+  # ── from_enu with invalid arguments ────────────────────────
+
+  def test_from_enu_rejects_non_enu
+    ref = LLA.new(lat: 47.0, lng: -122.0, alt: 0.0)
+    assert_raises(ArgumentError) { LLA.from_enu("not an ENU", ref) }
+  end
+
+  def test_from_enu_rejects_non_lla_reference
+    enu = ENU.new(e: 100.0, n: 200.0, u: 50.0)
+    assert_raises(ArgumentError) { LLA.from_enu(enu, "not an LLA") }
+  end
+
+  # ── from_ned with invalid arguments ────────────────────────
+
+  def test_from_ned_rejects_non_ned
+    ref = LLA.new(lat: 47.0, lng: -122.0, alt: 0.0)
+    assert_raises(ArgumentError) { LLA.from_ned("not a NED", ref) }
+  end
+
+  def test_from_ned_rejects_non_lla_reference
+    ned = NED.new(n: 200.0, e: 100.0, d: -50.0)
+    assert_raises(ArgumentError) { LLA.from_ned(ned, "not an LLA") }
+  end
+
+  # ── to_enu with invalid reference ──────────────────────────
+
+  def test_to_enu_rejects_non_lla_reference
+    lla = LLA.new(lat: 47.0, lng: -122.0, alt: 100.0)
+    assert_raises(ArgumentError) { lla.to_enu("not an LLA") }
+  end
+
+  def test_to_enu_rejects_ecef_reference
+    lla = LLA.new(lat: 47.0, lng: -122.0, alt: 100.0)
+    ecef = lla.to_ecef
+    assert_raises(ArgumentError) { lla.to_enu(ecef) }
+  end
+
+  # ── to_ned with invalid reference ──────────────────────────
+
+  def test_to_ned_rejects_non_lla_reference
+    lla = LLA.new(lat: 47.0, lng: -122.0, alt: 100.0)
+    assert_raises(ArgumentError) { lla.to_ned("not an LLA") }
+  end
+
+  def test_to_ned_rejects_ecef_reference
+    lla = LLA.new(lat: 47.0, lng: -122.0, alt: 100.0)
+    ecef = lla.to_ecef
+    assert_raises(ArgumentError) { lla.to_ned(ecef) }
+  end
+
+  # ── from_dms with invalid format ───────────────────────────
+
+  def test_from_dms_rejects_invalid_format
+    assert_raises(ArgumentError) { LLA.from_dms("not a valid DMS string") }
+  end
+
+  def test_from_dms_rejects_empty_string
+    assert_raises(ArgumentError) { LLA.from_dms("") }
+  end
+
+  def test_from_dms_rejects_partial_format
+    assert_raises(ArgumentError) { LLA.from_dms("47° 37' 13.80\" N") }
+  end
+
+  # ── Southern hemisphere to_utm ─────────────────────────────
+
+  def test_to_utm_southern_hemisphere
+    lla = LLA.new(lat: -33.8688, lng: 151.2093, alt: 50.0)
+    utm = lla.to_utm
+    assert_instance_of UTM, utm
+    assert_equal "S", utm.hemisphere
+    assert_in_delta 50.0, utm.altitude, 1e-6
+    assert utm.easting > 0, "Easting should be positive"
+    assert utm.northing > 0, "Northing should be positive"
+    # Southern hemisphere adds 10_000_000 false northing
+    assert utm.northing > 5_000_000, "Southern hemisphere northing should include false northing offset"
+  end
+
+  def test_to_utm_southern_hemisphere_roundtrip
+    original = LLA.new(lat: -33.8688, lng: 151.2093, alt: 50.0)
+    utm = original.to_utm
+    restored = LLA.from_utm(utm)
+    assert_in_delta original.lat, restored.lat, 1e-4
+    assert_in_delta original.lng, restored.lng, 1e-4
+    assert_in_delta original.alt, restored.alt, 1e-4
+  end
+
+  # ── to_s altitude precision capping ────────────────────────
+
+  def test_to_s_caps_altitude_precision_at_2
+    coord = LLA.new(lat: 47.6205, lng: -122.3493, alt: 184.123456)
+    # With precision=6, lat/lng get 6 decimals but alt is capped at 2
+    result = coord.to_s(6)
+    parts = result.split(", ")
+    assert_equal 6, parts[0].split(".")[1].length  # lat has 6 decimals
+    assert_equal 6, parts[1].split(".")[1].length  # lng has 6 decimals
+    assert_equal 2, parts[2].split(".")[1].length  # alt capped at 2
+  end
+
+  def test_to_s_precision_1_caps_altitude_at_1
+    coord = LLA.new(lat: 47.6205, lng: -122.3493, alt: 184.123456)
+    # With precision=1, alt precision is min(1, 2) = 1
+    result = coord.to_s(1)
+    parts = result.split(", ")
+    assert_equal 1, parts[0].split(".")[1].length  # lat has 1 decimal
+    assert_equal 1, parts[1].split(".")[1].length  # lng has 1 decimal
+    assert_equal 1, parts[2].split(".")[1].length  # alt gets min(1, 2) = 1
+  end
+
+  def test_to_s_precision_10_still_caps_altitude_at_2
+    coord = LLA.new(lat: 47.6205, lng: -122.3493, alt: 184.123456)
+    result = coord.to_s(10)
+    parts = result.split(", ")
+    assert_equal 10, parts[0].split(".")[1].length  # lat has 10 decimals
+    assert_equal 10, parts[1].split(".")[1].length  # lng has 10 decimals
+    assert_equal 2, parts[2].split(".")[1].length   # alt still capped at 2
+  end
 end

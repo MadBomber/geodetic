@@ -7,10 +7,18 @@ require_relative "../lib/geodetic/coordinates/lla"
 require_relative "../lib/geodetic/coordinates/ecef"
 
 class NedTest < Minitest::Test
-  NED  = Geodetic::Coordinates::NED
-  ENU  = Geodetic::Coordinates::ENU
-  LLA  = Geodetic::Coordinates::LLA
-  ECEF = Geodetic::Coordinates::ECEF
+  NED   = Geodetic::Coordinates::NED
+  ENU   = Geodetic::Coordinates::ENU
+  LLA   = Geodetic::Coordinates::LLA
+  ECEF  = Geodetic::Coordinates::ECEF
+  UTM   = Geodetic::Coordinates::UTM
+  MGRS  = Geodetic::Coordinates::MGRS
+  USNG  = Geodetic::Coordinates::USNG
+  WM    = Geodetic::Coordinates::WebMercator
+  UPS_C = Geodetic::Coordinates::UPS
+  SP    = Geodetic::Coordinates::StatePlane
+  BNG   = Geodetic::Coordinates::BNG
+  GH36  = Geodetic::Coordinates::GH36
 
   # 1. Constructor
 
@@ -266,5 +274,177 @@ class NedTest < Minitest::Test
   def test_horizontal_distance_to_origin
     ned = NED.new(n: 3.0, e: 4.0, d: 999.0)
     assert_in_delta 5.0, ned.horizontal_distance_to_origin, 1e-10
+  end
+
+  # --- Cross-system conversions ---
+
+  def test_to_utm
+    ref = LLA.new(lat: 47.0, lng: -122.0, alt: 0.0)
+    ned = NED.new(n: 200.0, e: 100.0, d: -50.0)
+    utm = ned.to_utm(ref)
+    assert_instance_of UTM, utm
+  end
+
+  def test_from_utm_roundtrip
+    ref = LLA.new(lat: 47.0, lng: -122.0, alt: 0.0)
+    ned = NED.new(n: 200.0, e: 100.0, d: -50.0)
+    utm = ned.to_utm(ref)
+    restored = NED.from_utm(utm, ref)
+    assert_instance_of NED, restored
+    lla_orig = ned.to_lla(ref)
+    lla_rest = restored.to_lla(ref)
+    assert_in_delta lla_orig.lat, lla_rest.lat, 1.0
+    assert_in_delta lla_orig.lng, lla_rest.lng, 1.0
+  end
+
+  def test_to_mgrs
+    ref = LLA.new(lat: 47.0, lng: -122.0, alt: 0.0)
+    ned = NED.new(n: 200.0, e: 100.0, d: -50.0)
+    mgrs = ned.to_mgrs(ref)
+    assert_instance_of MGRS, mgrs
+  end
+
+  def test_from_mgrs_roundtrip
+    ref = LLA.new(lat: 47.0, lng: -122.0, alt: 0.0)
+    ned = NED.new(n: 200.0, e: 100.0, d: -50.0)
+    mgrs = ned.to_mgrs(ref)
+    restored = NED.from_mgrs(mgrs, ref)
+    assert_instance_of NED, restored
+    lla_orig = ned.to_lla(ref)
+    lla_rest = restored.to_lla(ref)
+    assert_in_delta lla_orig.lat, lla_rest.lat, 1.0
+    assert_in_delta lla_orig.lng, lla_rest.lng, 1.0
+  end
+
+  def test_to_usng
+    ref = LLA.new(lat: 47.0, lng: -122.0, alt: 0.0)
+    ned = NED.new(n: 200.0, e: 100.0, d: -50.0)
+    usng = ned.to_usng(ref)
+    assert_instance_of USNG, usng
+  end
+
+  def test_from_usng_roundtrip
+    ref = LLA.new(lat: 47.0, lng: -122.0, alt: 0.0)
+    ned = NED.new(n: 200.0, e: 100.0, d: -50.0)
+    usng = ned.to_usng(ref)
+    restored = NED.from_usng(usng, ref)
+    assert_instance_of NED, restored
+    lla_orig = ned.to_lla(ref)
+    lla_rest = restored.to_lla(ref)
+    assert_in_delta lla_orig.lat, lla_rest.lat, 1.0
+    assert_in_delta lla_orig.lng, lla_rest.lng, 1.0
+  end
+
+  def test_to_web_mercator
+    ref = LLA.new(lat: 47.0, lng: -122.0, alt: 0.0)
+    ned = NED.new(n: 200.0, e: 100.0, d: -50.0)
+    wm = ned.to_web_mercator(ref)
+    assert_instance_of WM, wm
+  end
+
+  def test_from_web_mercator_roundtrip
+    ref = LLA.new(lat: 47.0, lng: -122.0, alt: 0.0)
+    ned = NED.new(n: 200.0, e: 100.0, d: -50.0)
+    wm = ned.to_web_mercator(ref)
+    restored = NED.from_web_mercator(wm, ref)
+    assert_instance_of NED, restored
+    lla_orig = ned.to_lla(ref)
+    lla_rest = restored.to_lla(ref)
+    assert_in_delta lla_orig.lat, lla_rest.lat, 1.0
+    assert_in_delta lla_orig.lng, lla_rest.lng, 1.0
+  end
+
+  def test_to_ups
+    ref = LLA.new(lat: 47.0, lng: -122.0, alt: 0.0)
+    ned = NED.new(n: 200.0, e: 100.0, d: -50.0)
+    ups = ned.to_ups(ref)
+    assert_instance_of UPS_C, ups
+  end
+
+  def test_from_ups_roundtrip
+    ref = LLA.new(lat: 47.0, lng: -122.0, alt: 0.0)
+    ned = NED.new(n: 200.0, e: 100.0, d: -50.0)
+    ups = ned.to_ups(ref)
+    restored = NED.from_ups(ups, ref)
+    assert_instance_of NED, restored
+  end
+
+  def test_to_state_plane
+    ref = LLA.new(lat: 47.0, lng: -122.0, alt: 0.0)
+    ned = NED.new(n: 200.0, e: 100.0, d: -50.0)
+    sp = ned.to_state_plane(ref, "CA_I")
+    assert_instance_of SP, sp
+  end
+
+  def test_from_state_plane_roundtrip
+    ref = LLA.new(lat: 47.0, lng: -122.0, alt: 0.0)
+    ned = NED.new(n: 200.0, e: 100.0, d: -50.0)
+    sp = ned.to_state_plane(ref, "CA_I")
+    restored = NED.from_state_plane(sp, ref)
+    assert_instance_of NED, restored
+  end
+
+  def test_to_bng
+    ref = LLA.new(lat: 47.0, lng: -122.0, alt: 0.0)
+    ned = NED.new(n: 200.0, e: 100.0, d: -50.0)
+    bng = ned.to_bng(ref)
+    assert_instance_of BNG, bng
+  end
+
+  def test_from_bng_roundtrip
+    ref = LLA.new(lat: 47.0, lng: -122.0, alt: 0.0)
+    ned = NED.new(n: 200.0, e: 100.0, d: -50.0)
+    bng = ned.to_bng(ref)
+    restored = NED.from_bng(bng, ref)
+    assert_instance_of NED, restored
+    lla_orig = ned.to_lla(ref)
+    lla_rest = restored.to_lla(ref)
+    assert_in_delta lla_orig.lat, lla_rest.lat, 1.0
+    assert_in_delta lla_orig.lng, lla_rest.lng, 1.0
+  end
+
+  def test_to_gh36
+    ref = LLA.new(lat: 47.0, lng: -122.0, alt: 0.0)
+    ned = NED.new(n: 200.0, e: 100.0, d: -50.0)
+    gh36 = ned.to_gh36(ref)
+    assert_instance_of GH36, gh36
+  end
+
+  def test_from_gh36_roundtrip
+    ref = LLA.new(lat: 47.0, lng: -122.0, alt: 0.0)
+    ned = NED.new(n: 200.0, e: 100.0, d: -50.0)
+    gh36 = ned.to_gh36(ref)
+    restored = NED.from_gh36(gh36, ref)
+    assert_instance_of NED, restored
+    lla_orig = ned.to_lla(ref)
+    lla_rest = restored.to_lla(ref)
+    assert_in_delta lla_orig.lat, lla_rest.lat, 1.0
+    assert_in_delta lla_orig.lng, lla_rest.lng, 1.0
+  end
+
+  # ── NED <-> ECEF conversions ────────────────────────────────
+
+  def test_to_ecef_from_ned
+    ref_ecef = LLA.new(lat: 40.0, lng: -74.0, alt: 0.0).to_ecef
+    ned = NED.new(n: 100.0, e: 200.0, d: -50.0)
+    result = ned.to_ecef(ref_ecef)
+    assert_instance_of ECEF, result
+  end
+
+  def test_from_ecef_class_method
+    ref_ecef = LLA.new(lat: 40.0, lng: -74.0, alt: 0.0).to_ecef
+    target_ecef = LLA.new(lat: 40.001, lng: -74.001, alt: 0.0).to_ecef
+    ned = NED.from_ecef(target_ecef, ref_ecef)
+    assert_instance_of NED, ned
+  end
+
+  def test_ned_ecef_roundtrip
+    ref_ecef = LLA.new(lat: 40.0, lng: -74.0, alt: 0.0).to_ecef
+    ned = NED.new(n: 100.0, e: 200.0, d: -50.0)
+    ecef = ned.to_ecef(ref_ecef)
+    restored = NED.from_ecef(ecef, ref_ecef)
+    assert_in_delta ned.n, restored.n, 1e-3
+    assert_in_delta ned.e, restored.e, 1e-3
+    assert_in_delta ned.d, restored.d, 1e-3
   end
 end

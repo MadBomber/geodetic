@@ -303,4 +303,168 @@ class DistanceTest < Minitest::Test
     d = seattle.straight_line_distance_to(portland)
     assert_instance_of Distance, d
   end
+
+  # ── Additional coverage ──────────────────────────────────────
+
+  def test_to_inches
+    d = Distance.new(0.0254).to_inches
+    assert_in_delta 1.0, d.to_f, 1e-6
+    assert_equal :inches, d.unit
+    assert_in_delta 0.0254, d.meters, 1e-10
+  end
+
+  def test_to_yards_alias_to_yd
+    d = Distance.new(0.9144)
+    d_yd = d.to_yd
+    assert_in_delta 1.0, d_yd.to_f, 1e-6
+    assert_equal :yards, d_yd.unit
+
+    d_yards = d.to_yards
+    assert_in_delta d_yd.to_f, d_yards.to_f, 1e-10
+    assert_equal d_yd.unit, d_yards.unit
+  end
+
+  def test_to_meters_returns_same_meters_with_meters_unit
+    d = Distance.new(1234.5).to_km
+    d_m = d.to_meters
+    assert_equal :meters, d_m.unit
+    assert_in_delta 1234.5, d_m.meters, 1e-10
+    assert_in_delta 1234.5, d_m.to_f, 1e-10
+  end
+
+  def test_factory_inches
+    d = Distance.inches(12)
+    assert_in_delta 12.0 * 0.0254, d.meters, 1e-10
+    assert_equal :inches, d.unit
+  end
+
+  def test_factory_yards
+    d = Distance.yards(100)
+    assert_in_delta 100.0 * 0.9144, d.meters, 1e-10
+    assert_equal :yards, d.unit
+
+    d_yd = Distance.yd(100)
+    assert_in_delta d.meters, d_yd.meters, 1e-10
+  end
+
+  def test_factory_centimeters
+    d = Distance.centimeters(250)
+    assert_in_delta 2.5, d.meters, 1e-10
+    assert_equal :centimeters, d.unit
+
+    d_cm = Distance.cm(250)
+    assert_in_delta d.meters, d_cm.meters, 1e-10
+  end
+
+  def test_factory_millimeters
+    d = Distance.millimeters(5000)
+    assert_in_delta 5.0, d.meters, 1e-10
+    assert_equal :millimeters, d.unit
+
+    d_mm = Distance.mm(5000)
+    assert_in_delta d.meters, d_mm.meters, 1e-10
+  end
+
+  def test_to_s_for_feet
+    d = Distance.ft(100)
+    assert_match(/ft$/, d.to_s)
+    assert_equal "100.00 ft", d.to_s
+  end
+
+  def test_to_s_for_yards
+    d = Distance.yd(50)
+    assert_match(/yd$/, d.to_s)
+    assert_equal "50.00 yd", d.to_s
+  end
+
+  def test_to_s_for_inches
+    d = Distance.inches(24)
+    assert_match(/in$/, d.to_s)
+    assert_equal "24.00 in", d.to_s
+  end
+
+  def test_to_s_for_nautical_miles
+    d = Distance.nmi(3)
+    assert_match(/nmi$/, d.to_s)
+    assert_equal "3.00 nmi", d.to_s
+  end
+
+  def test_to_s_for_centimeters
+    d = Distance.cm(150)
+    assert_match(/cm$/, d.to_s)
+    assert_equal "150.00 cm", d.to_s
+  end
+
+  def test_to_s_for_millimeters
+    d = Distance.mm(2500)
+    assert_match(/mm$/, d.to_s)
+    assert_equal "2500.00 mm", d.to_s
+  end
+
+  def test_multiply_by_non_numeric_raises_argument_error
+    d = Distance.new(1000)
+    assert_raises(ArgumentError) { d * "hello" }
+    assert_raises(ArgumentError) { d * [1, 2] }
+  end
+
+  def test_divide_by_non_numeric_non_distance_raises_argument_error
+    d = Distance.new(1000)
+    assert_raises(ArgumentError) { d / "hello" }
+    assert_raises(ArgumentError) { d / [1, 2] }
+  end
+
+  def test_add_non_numeric_non_distance_raises_argument_error
+    d = Distance.new(1000)
+    assert_raises(ArgumentError) { d + "hello" }
+    assert_raises(ArgumentError) { d + [1, 2] }
+  end
+
+  def test_subtract_numeric_minus_distance_via_coerce
+    d = Distance.new(1000)
+    result = 5000 - d
+    assert_in_delta 4000.0, result, 1e-10
+  end
+
+  def test_equal_different_units_same_meters
+    d1 = Distance.new(1609.344).to_miles
+    d2 = Distance.new(1609.344).to_km
+    assert_equal d1, d2
+    assert_in_delta d1.meters, d2.meters, 1e-10
+  end
+
+  def test_spaceship_returns_nil_for_non_comparable_types
+    d = Distance.new(1000)
+    assert_nil d <=> "hello"
+    assert_nil d <=> [1, 2]
+    assert_nil d <=> nil
+  end
+
+  def test_inspect_includes_unit_abbreviation
+    d = Distance.new(5000).to_km
+    assert_match(/km/, d.inspect)
+    assert_match(/Geodetic::Distance/, d.inspect)
+    assert_match(/5\.00 km/, d.inspect)
+    assert_match(/5000/, d.inspect)
+  end
+
+  def test_zero_on_zero_value_distance
+    d = Distance.new(0)
+    assert d.zero?
+    assert Distance.km(0).zero?
+    assert Distance.mi(0).zero?
+    assert Distance.ft(0).zero?
+    refute Distance.new(0.001).zero?
+  end
+
+  def test_coerce_with_non_numeric_raises_type_error
+    d = Distance.new(100)
+    assert_raises(TypeError) { "hello" * d }
+  end
+
+  def test_coerce_direct_call_with_non_numeric_raises_type_error
+    d = Distance.new(100)
+    assert_raises(TypeError) { d.coerce("hello") }
+    assert_raises(TypeError) { d.coerce([1, 2]) }
+    assert_raises(TypeError) { d.coerce(nil) }
+  end
 end

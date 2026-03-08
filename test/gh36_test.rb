@@ -5,8 +5,18 @@ require_relative "../lib/geodetic/coordinates/gh36"
 require_relative "../lib/geodetic/coordinates/lla"
 
 class GH36Test < Minitest::Test
-  GH36 = Geodetic::Coordinates::GH36
-  LLA  = Geodetic::Coordinates::LLA
+  GH36        = Geodetic::Coordinates::GH36
+  LLA         = Geodetic::Coordinates::LLA
+  ECEF        = Geodetic::Coordinates::ECEF
+  UTM         = Geodetic::Coordinates::UTM
+  ENU         = Geodetic::Coordinates::ENU
+  NED         = Geodetic::Coordinates::NED
+  MGRS        = Geodetic::Coordinates::MGRS
+  USNG        = Geodetic::Coordinates::USNG
+  WM          = Geodetic::Coordinates::WebMercator
+  UPS_C       = Geodetic::Coordinates::UPS
+  SP          = Geodetic::Coordinates::StatePlane
+  BNG         = Geodetic::Coordinates::BNG
 
   # ── Constructor from String ────────────────────────────────
 
@@ -398,5 +408,231 @@ class GH36Test < Minitest::Test
     restored_lla = restored.to_lla
     assert_in_delta 40.689167, restored_lla.lat, 0.001
     assert_in_delta(-74.044444, restored_lla.lng, 0.001)
+  end
+
+  # ── to_enu / from_enu ────────────────────────────────────
+
+  def test_to_enu
+    ref = LLA.new(lat: 40.0, lng: -74.0)
+    gh36 = GH36.new(LLA.new(lat: 40.689167, lng: -74.044444))
+    enu = gh36.to_lla.to_enu(ref)
+    assert_instance_of ENU, enu
+  end
+
+  def test_from_enu_roundtrip
+    ref = LLA.new(lat: 40.0, lng: -74.0)
+    lla = LLA.new(lat: 40.689167, lng: -74.044444)
+    gh36 = GH36.new(lla)
+    enu = gh36.to_lla.to_enu(ref)
+    restored_lla = enu.to_lla(ref)
+    restored = GH36.new(restored_lla)
+    final_lla = restored.to_lla
+    assert_in_delta 40.689167, final_lla.lat, 0.01
+    assert_in_delta(-74.044444, final_lla.lng, 0.01)
+  end
+
+  # ── to_ned / from_ned ────────────────────────────────────
+
+  def test_to_ned
+    ref = LLA.new(lat: 40.0, lng: -74.0)
+    gh36 = GH36.new(LLA.new(lat: 40.689167, lng: -74.044444))
+    ned = gh36.to_lla.to_ned(ref)
+    assert_instance_of NED, ned
+  end
+
+  def test_from_ned_roundtrip
+    ref = LLA.new(lat: 40.0, lng: -74.0)
+    lla = LLA.new(lat: 40.689167, lng: -74.044444)
+    gh36 = GH36.new(lla)
+    ned = gh36.to_lla.to_ned(ref)
+    restored_lla = ned.to_lla(ref)
+    restored = GH36.new(restored_lla)
+    final_lla = restored.to_lla
+    assert_in_delta 40.689167, final_lla.lat, 0.01
+    assert_in_delta(-74.044444, final_lla.lng, 0.01)
+  end
+
+  # ── to_mgrs / from_mgrs ──────────────────────────────────
+
+  def test_to_mgrs
+    gh36 = GH36.new(LLA.new(lat: 40.689167, lng: -74.044444))
+    mgrs = gh36.to_mgrs
+    assert_instance_of MGRS, mgrs
+  end
+
+  def test_from_mgrs_roundtrip
+    lla = LLA.new(lat: 40.689167, lng: -74.044444)
+    gh36 = GH36.new(lla)
+    mgrs = gh36.to_mgrs
+    restored = GH36.from_mgrs(mgrs)
+    restored_lla = restored.to_lla
+    assert_in_delta 40.689167, restored_lla.lat, 0.01
+    assert_in_delta(-74.044444, restored_lla.lng, 0.01)
+  end
+
+  # ── to_usng / from_usng ──────────────────────────────────
+
+  def test_to_usng
+    gh36 = GH36.new(LLA.new(lat: 40.689167, lng: -74.044444))
+    usng = gh36.to_usng
+    assert_instance_of USNG, usng
+  end
+
+  def test_from_usng_roundtrip
+    lla = LLA.new(lat: 40.689167, lng: -74.044444)
+    gh36 = GH36.new(lla)
+    usng = gh36.to_usng
+    restored = GH36.from_usng(usng)
+    restored_lla = restored.to_lla
+    assert_in_delta 40.689167, restored_lla.lat, 0.01
+    assert_in_delta(-74.044444, restored_lla.lng, 0.01)
+  end
+
+  # ── to_ups / from_ups ────────────────────────────────────
+
+  def test_to_ups
+    gh36 = GH36.new(LLA.new(lat: 85.0, lng: 10.0))
+    ups = gh36.to_ups
+    assert_instance_of UPS_C, ups
+  end
+
+  def test_from_ups_roundtrip
+    lla = LLA.new(lat: 85.0, lng: 10.0)
+    ups = UPS_C.from_lla(lla)
+    restored = GH36.from_ups(ups)
+    restored_lla = restored.to_lla
+    assert_in_delta 85.0, restored_lla.lat, 6.0
+    assert_in_delta 10.0, restored_lla.lng, 6.0
+  end
+
+  # ── to_state_plane / from_state_plane ─────────────────────
+
+  def test_to_state_plane
+    gh36 = GH36.new(LLA.new(lat: 25.0, lng: -81.0))
+    sp = gh36.to_state_plane("FL_EAST")
+    assert_instance_of SP, sp
+  end
+
+  def test_from_state_plane_roundtrip
+    lla = LLA.new(lat: 25.0, lng: -81.0)
+    sp = SP.from_lla(lla, "FL_EAST")
+    restored = GH36.from_state_plane(sp)
+    restored_lla = restored.to_lla
+    assert_in_delta 25.0, restored_lla.lat, 10.0
+    assert_in_delta(-81.0, restored_lla.lng, 1.0)
+  end
+
+  # ── to_bng / from_bng ────────────────────────────────────
+
+  def test_to_bng
+    gh36 = GH36.new(LLA.new(lat: 51.5, lng: -0.1))
+    bng = gh36.to_bng
+    assert_instance_of BNG, bng
+  end
+
+  def test_from_bng_roundtrip
+    london = LLA.new(lat: 51.5, lng: -0.1)
+    bng = BNG.from_lla(london)
+    restored = GH36.from_bng(bng)
+    restored_lla = restored.to_lla
+    assert_in_delta 51.5, restored_lla.lat, 0.2
+    assert_in_delta(-0.1, restored_lla.lng, 0.2)
+  end
+
+  # ── to_s with precision 0 (edge case) ────────────────────
+
+  def test_to_s_with_precision_zero
+    gh36 = GH36.new("bdrdC26BqH")
+    result = gh36.to_s(0)
+    assert_equal "", result
+  end
+
+  # ── from_array with custom precision ─────────────────────
+
+  def test_from_array_with_custom_precision
+    coord = GH36.from_array([40.0, -74.0])
+    # Default precision is 10
+    assert_equal 10, coord.precision
+    assert_instance_of GH36, coord
+    restored_lla = coord.to_lla
+    assert_in_delta 40.0, restored_lla.lat, 0.01
+    assert_in_delta(-74.0, restored_lla.lng, 0.01)
+  end
+
+  # ── GH36 class methods for conversions ──────────────────────
+
+  def test_from_lla_class_method
+    lla = LLA.new(lat: 40.7128, lng: -74.0060)
+    gh = GH36.from_lla(lla)
+    assert_instance_of GH36, gh
+  end
+
+  def test_from_ecef_class_method
+    ecef = LLA.new(lat: 40.7128, lng: -74.0060).to_ecef
+    gh = GH36.from_ecef(ecef)
+    assert_instance_of GH36, gh
+  end
+
+  def test_from_utm_class_method
+    utm = UTM.new(easting: 583960.0, northing: 4507351.0, zone: 18, hemisphere: 'N')
+    gh = GH36.from_utm(utm)
+    assert_instance_of GH36, gh
+  end
+
+  def test_to_enu_direct
+    gh = GH36.new(LLA.new(lat: 40.7128, lng: -74.0060))
+    ref = LLA.new(lat: 40.0, lng: -74.0)
+    enu = gh.to_enu(ref)
+    assert_instance_of ENU, enu
+  end
+
+  def test_from_enu_class_method
+    ref = LLA.new(lat: 40.0, lng: -74.0)
+    enu = ENU.new(e: 100.0, n: 200.0, u: 0.0)
+    gh = GH36.from_enu(enu, ref)
+    assert_instance_of GH36, gh
+  end
+
+  def test_to_ned_direct
+    gh = GH36.new(LLA.new(lat: 40.7128, lng: -74.0060))
+    ref = LLA.new(lat: 40.0, lng: -74.0)
+    ned = gh.to_ned(ref)
+    assert_instance_of NED, ned
+  end
+
+  def test_from_ned_class_method
+    ref = LLA.new(lat: 40.0, lng: -74.0)
+    ned = NED.new(n: 200.0, e: 100.0, d: 0.0)
+    gh = GH36.from_ned(ned, ref)
+    assert_instance_of GH36, gh
+  end
+
+  def test_from_web_mercator_class_method
+    wm = WM.from_lla(LLA.new(lat: 40.7128, lng: -74.0060))
+    gh = GH36.from_web_mercator(wm)
+    assert_instance_of GH36, gh
+  end
+
+  # ── Neighbor overflow: row >= MATRIX_SIDE (south from row 5) ──
+
+  def test_neighbors_row_overflow_south
+    # 'X' is at row 5, col 5 in the GH36 matrix.
+    # Going south (row_delta=+1) from row 5 triggers new_row >= MATRIX_SIDE.
+    coord = GH36.new("bdrdC26BqX")
+    neighbors = coord.neighbors
+    assert_instance_of GH36, neighbors[:S]
+    assert_instance_of GH36, neighbors[:SE]
+  end
+
+  # ── Neighbor overflow: col < 0 (west from col 0) ──────────
+
+  def test_neighbors_col_underflow_west
+    # '2' is at row 0, col 0 in the GH36 matrix.
+    # Going west (col_delta=-1) from col 0 triggers new_col < 0.
+    coord = GH36.new("bdrdC26Bq2")
+    neighbors = coord.neighbors
+    assert_instance_of GH36, neighbors[:W]
+    assert_instance_of GH36, neighbors[:NW]
+    assert_instance_of GH36, neighbors[:SW]
   end
 end

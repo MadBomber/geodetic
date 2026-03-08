@@ -7,6 +7,16 @@ require_relative "../lib/geodetic/coordinates/lla"
 class WebMercatorTest < Minitest::Test
   WebMercator = Geodetic::Coordinates::WebMercator
   LLA         = Geodetic::Coordinates::LLA
+  ECEF        = Geodetic::Coordinates::ECEF
+  UTM         = Geodetic::Coordinates::UTM
+  ENU         = Geodetic::Coordinates::ENU
+  NED         = Geodetic::Coordinates::NED
+  MGRS        = Geodetic::Coordinates::MGRS
+  USNG        = Geodetic::Coordinates::USNG
+  UPS_C       = Geodetic::Coordinates::UPS
+  SP          = Geodetic::Coordinates::StatePlane
+  BNG         = Geodetic::Coordinates::BNG
+  GH36        = Geodetic::Coordinates::GH36
 
   # ── Constructor ──────────────────────────────────────────────
 
@@ -210,5 +220,252 @@ class WebMercatorTest < Minitest::Test
     restored_lla = restored.to_lla
     assert_in_delta 47.6205, restored_lla.lat, 0.01
     assert_in_delta(-122.3493, restored_lla.lng, 0.01)
+  end
+
+  # ── to_ecef / from_ecef ──────────────────────────────────
+
+  def test_to_ecef
+    wm = WebMercator.from_lla(LLA.new(lat: 47.6205, lng: -122.3493))
+    ecef = wm.to_ecef
+    assert_instance_of ECEF, ecef
+  end
+
+  def test_from_ecef_roundtrip
+    lla = LLA.new(lat: 47.6205, lng: -122.3493)
+    wm = WebMercator.from_lla(lla)
+    ecef = wm.to_ecef
+    restored = WebMercator.from_ecef(ecef)
+    restored_lla = restored.to_lla
+    assert_in_delta 47.6205, restored_lla.lat, 1e-4
+    assert_in_delta(-122.3493, restored_lla.lng, 1e-4)
+  end
+
+  # ── to_utm / from_utm ────────────────────────────────────
+
+  def test_to_utm
+    wm = WebMercator.from_lla(LLA.new(lat: 47.6205, lng: -122.3493))
+    utm = wm.to_utm
+    assert_instance_of UTM, utm
+  end
+
+  def test_from_utm_roundtrip
+    lla = LLA.new(lat: 47.6205, lng: -122.3493)
+    wm = WebMercator.from_lla(lla)
+    utm = wm.to_utm
+    restored = WebMercator.from_utm(utm)
+    restored_lla = restored.to_lla
+    assert_in_delta 47.6205, restored_lla.lat, 1e-4
+    assert_in_delta(-122.3493, restored_lla.lng, 1e-4)
+  end
+
+  # ── to_enu / from_enu ────────────────────────────────────
+
+  def test_to_enu
+    ref = LLA.new(lat: 47.0, lng: -122.0)
+    wm = WebMercator.from_lla(LLA.new(lat: 47.6205, lng: -122.3493))
+    enu = wm.to_lla.to_enu(ref)
+    assert_instance_of ENU, enu
+  end
+
+  def test_from_enu_roundtrip
+    ref = LLA.new(lat: 47.0, lng: -122.0)
+    lla = LLA.new(lat: 47.6205, lng: -122.3493)
+    wm = WebMercator.from_lla(lla)
+    enu = wm.to_lla.to_enu(ref)
+    restored_lla = enu.to_lla(ref)
+    restored = WebMercator.from_lla(restored_lla)
+    final_lla = restored.to_lla
+    assert_in_delta 47.6205, final_lla.lat, 1e-4
+    assert_in_delta(-122.3493, final_lla.lng, 1e-4)
+  end
+
+  # ── to_ned / from_ned ────────────────────────────────────
+
+  def test_to_ned
+    ref = LLA.new(lat: 47.0, lng: -122.0)
+    wm = WebMercator.from_lla(LLA.new(lat: 47.6205, lng: -122.3493))
+    ned = wm.to_lla.to_ned(ref)
+    assert_instance_of NED, ned
+  end
+
+  def test_from_ned_roundtrip
+    ref = LLA.new(lat: 47.0, lng: -122.0)
+    lla = LLA.new(lat: 47.6205, lng: -122.3493)
+    wm = WebMercator.from_lla(lla)
+    ned = wm.to_lla.to_ned(ref)
+    restored_lla = ned.to_lla(ref)
+    restored = WebMercator.from_lla(restored_lla)
+    final_lla = restored.to_lla
+    assert_in_delta 47.6205, final_lla.lat, 1e-4
+    assert_in_delta(-122.3493, final_lla.lng, 1e-4)
+  end
+
+  # ── to_mgrs / from_mgrs ──────────────────────────────────
+
+  def test_to_mgrs
+    wm = WebMercator.from_lla(LLA.new(lat: 47.6205, lng: -122.3493))
+    mgrs = wm.to_mgrs
+    assert_instance_of MGRS, mgrs
+  end
+
+  def test_from_mgrs_roundtrip
+    lla = LLA.new(lat: 47.6205, lng: -122.3493)
+    wm = WebMercator.from_lla(lla)
+    mgrs = wm.to_mgrs
+    restored = WebMercator.from_mgrs(mgrs)
+    restored_lla = restored.to_lla
+    assert_in_delta 47.6205, restored_lla.lat, 0.01
+    assert_in_delta(-122.3493, restored_lla.lng, 0.01)
+  end
+
+  # ── to_usng / from_usng ──────────────────────────────────
+
+  def test_to_usng
+    wm = WebMercator.from_lla(LLA.new(lat: 47.6205, lng: -122.3493))
+    usng = wm.to_usng
+    assert_instance_of USNG, usng
+  end
+
+  def test_from_usng_roundtrip
+    lla = LLA.new(lat: 47.6205, lng: -122.3493)
+    wm = WebMercator.from_lla(lla)
+    usng = wm.to_usng
+    restored = WebMercator.from_usng(usng)
+    restored_lla = restored.to_lla
+    assert_in_delta 47.6205, restored_lla.lat, 0.01
+    assert_in_delta(-122.3493, restored_lla.lng, 0.01)
+  end
+
+  # ── to_ups / from_ups ────────────────────────────────────
+
+  def test_to_ups
+    # Use a high-latitude point suitable for UPS
+    wm = WebMercator.from_lla(LLA.new(lat: 85.0, lng: 10.0))
+    ups = wm.to_ups
+    assert_instance_of UPS_C, ups
+  end
+
+  def test_from_ups_roundtrip
+    lla = LLA.new(lat: 85.0, lng: 10.0)
+    wm = WebMercator.from_lla(lla)
+    ups = wm.to_ups
+    restored = WebMercator.from_ups(ups)
+    restored_lla = restored.to_lla
+    assert_in_delta 85.0, restored_lla.lat, 0.1
+    assert_in_delta 10.0, restored_lla.lng, 0.1
+  end
+
+  # ── to_state_plane / from_state_plane ─────────────────────
+
+  def test_to_state_plane
+    wm = WebMercator.from_lla(LLA.new(lat: 40.0, lng: -122.0))
+    sp = wm.to_state_plane("CA_I")
+    assert_instance_of SP, sp
+  end
+
+  def test_from_state_plane_roundtrip
+    lla = LLA.new(lat: 40.0, lng: -122.0)
+    wm = WebMercator.from_lla(lla)
+    sp = wm.to_state_plane("CA_I")
+    restored = WebMercator.from_state_plane(sp)
+    assert_instance_of WebMercator, restored
+  end
+
+  # ── to_bng / from_bng ────────────────────────────────────
+
+  def test_to_bng
+    wm = WebMercator.from_lla(LLA.new(lat: 51.5, lng: -0.1))
+    bng = wm.to_bng
+    assert_instance_of BNG, bng
+  end
+
+  def test_from_bng_roundtrip
+    lla = LLA.new(lat: 51.5, lng: -0.1)
+    wm = WebMercator.from_lla(lla)
+    bng = wm.to_bng
+    restored = WebMercator.from_bng(bng)
+    restored_lla = restored.to_lla
+    assert_in_delta 51.5, restored_lla.lat, 0.2
+    assert_in_delta(-0.1, restored_lla.lng, 0.2)
+  end
+
+  # ── to_gh36 / from_gh36 ──────────────────────────────────
+
+  def test_to_gh36
+    wm = WebMercator.from_lla(LLA.new(lat: 47.6205, lng: -122.3493))
+    gh36 = wm.to_gh36
+    assert_instance_of GH36, gh36
+  end
+
+  def test_from_gh36_roundtrip
+    lla = LLA.new(lat: 47.6205, lng: -122.3493)
+    wm = WebMercator.from_lla(lla)
+    gh36 = wm.to_gh36
+    restored = WebMercator.from_gh36(gh36)
+    restored_lla = restored.to_lla
+    assert_in_delta 47.6205, restored_lla.lat, 0.001
+    assert_in_delta(-122.3493, restored_lla.lng, 0.001)
+  end
+
+  # ── tile_bounds class method ──────────────────────────────
+
+  def test_tile_bounds_returns_expected_keys
+    bounds = WebMercator.tile_bounds(0, 0, 1)
+    assert_instance_of Hash, bounds
+    assert bounds.key?(:north_west)
+    assert bounds.key?(:south_east)
+    assert bounds.key?(:north)
+    assert bounds.key?(:south)
+    assert bounds.key?(:west)
+    assert bounds.key?(:east)
+    assert_instance_of WebMercator, bounds[:north_west]
+    assert_instance_of WebMercator, bounds[:south_east]
+  end
+
+  # ── to_lla at origin ──────────────────────────────────────
+
+  def test_to_lla_at_origin
+    wm = WebMercator.new(x: 0.0, y: 0.0)
+    lla = wm.to_lla
+    assert_in_delta 0.0, lla.lat, 1e-6
+    assert_in_delta 0.0, lla.lng, 1e-6
+  end
+
+  # ── equality with non-WebMercator ─────────────────────────
+
+  def test_equality_with_lla_returns_false
+    wm = WebMercator.new(x: 1000.0, y: 2000.0)
+    lla = LLA.new(lat: 0.0, lng: 0.0)
+    refute_equal wm, lla
+  end
+
+  # ── Direct to_enu/from_enu and to_ned/from_ned ──────────────
+
+  def test_to_enu_direct
+    wm = WebMercator.from_lla(LLA.new(lat: 47.6205, lng: -122.3493))
+    ref = LLA.new(lat: 47.0, lng: -122.0)
+    enu = wm.to_enu(ref)
+    assert_instance_of ENU, enu
+  end
+
+  def test_from_enu_direct
+    ref = LLA.new(lat: 47.0, lng: -122.0)
+    enu = ENU.new(e: 100.0, n: 200.0, u: 0.0)
+    wm = WebMercator.from_enu(enu, ref)
+    assert_instance_of WebMercator, wm
+  end
+
+  def test_to_ned_direct
+    wm = WebMercator.from_lla(LLA.new(lat: 47.6205, lng: -122.3493))
+    ref = LLA.new(lat: 47.0, lng: -122.0)
+    ned = wm.to_ned(ref)
+    assert_instance_of NED, ned
+  end
+
+  def test_from_ned_direct
+    ref = LLA.new(lat: 47.0, lng: -122.0)
+    ned = NED.new(n: 200.0, e: 100.0, d: 0.0)
+    wm = WebMercator.from_ned(ned, ref)
+    assert_instance_of WebMercator, wm
   end
 end

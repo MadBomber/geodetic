@@ -145,20 +145,20 @@ module Geodetic
       end
 
       def to_enu(reference_lla, datum = WGS84)
-        to_lla(datum).to_enu(reference_lla, datum)
+        to_lla(datum).to_enu(reference_lla)
       end
 
       def self.from_enu(enu_coord, reference_lla, datum = WGS84, precision = DEFAULT_LENGTH)
-        lla_coord = enu_coord.to_lla(reference_lla, datum)
+        lla_coord = enu_coord.to_lla(reference_lla)
         new(lla_coord, precision: precision)
       end
 
       def to_ned(reference_lla, datum = WGS84)
-        to_lla(datum).to_ned(reference_lla, datum)
+        to_lla(datum).to_ned(reference_lla)
       end
 
       def self.from_ned(ned_coord, reference_lla, datum = WGS84, precision = DEFAULT_LENGTH)
-        lla_coord = ned_coord.to_lla(reference_lla, datum)
+        lla_coord = ned_coord.to_lla(reference_lla)
         new(lla_coord, precision: precision)
       end
 

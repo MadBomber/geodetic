@@ -5,8 +5,18 @@ require_relative "../lib/geodetic/coordinates/utm"
 require_relative "../lib/geodetic/coordinates/lla"
 
 class UtmTest < Minitest::Test
-  UTM = Geodetic::Coordinates::UTM
-  LLA = Geodetic::Coordinates::LLA
+  UTM   = Geodetic::Coordinates::UTM
+  LLA   = Geodetic::Coordinates::LLA
+  ECEF  = Geodetic::Coordinates::ECEF
+  MGRS  = Geodetic::Coordinates::MGRS
+  USNG  = Geodetic::Coordinates::USNG
+  WM    = Geodetic::Coordinates::WebMercator
+  UPS_C = Geodetic::Coordinates::UPS
+  SP    = Geodetic::Coordinates::StatePlane
+  BNG   = Geodetic::Coordinates::BNG
+  GH36  = Geodetic::Coordinates::GH36
+  ENU   = Geodetic::Coordinates::ENU
+  NED   = Geodetic::Coordinates::NED
 
   # --- Constructor ---
 
@@ -293,5 +303,178 @@ class UtmTest < Minitest::Test
     dist = a.distance_to(b)
     assert_instance_of Geodetic::Distance, dist
     assert dist > 0.0, "Expected positive distance between different zones"
+  end
+
+  # --- Cross-system conversions ---
+
+  def test_to_ecef
+    utm = UTM.new(easting: 500000.0, northing: 4500000.0, zone: 10, hemisphere: 'N')
+    ecef = utm.to_ecef
+    assert_instance_of ECEF, ecef
+  end
+
+  def test_from_ecef_roundtrip
+    utm = UTM.new(easting: 500000.0, northing: 4500000.0, zone: 10, hemisphere: 'N')
+    ecef = utm.to_ecef
+    restored = UTM.from_ecef(ecef)
+    assert_instance_of UTM, restored
+    lla_orig = utm.to_lla
+    lla_rest = restored.to_lla
+    assert_in_delta lla_orig.lat, lla_rest.lat, 1.0
+    assert_in_delta lla_orig.lng, lla_rest.lng, 1.0
+  end
+
+  def test_to_enu
+    utm = UTM.new(easting: 500000.0, northing: 4500000.0, zone: 10, hemisphere: 'N')
+    ref = utm.to_lla
+    enu = utm.to_enu(ref)
+    assert_instance_of ENU, enu
+  end
+
+  def test_from_enu_roundtrip
+    utm = UTM.new(easting: 500000.0, northing: 4500000.0, zone: 10, hemisphere: 'N')
+    ref = utm.to_lla
+    enu = utm.to_enu(ref)
+    restored = UTM.from_enu(enu, ref)
+    assert_instance_of UTM, restored
+    lla_orig = utm.to_lla
+    lla_rest = restored.to_lla
+    assert_in_delta lla_orig.lat, lla_rest.lat, 1.0
+    assert_in_delta lla_orig.lng, lla_rest.lng, 1.0
+  end
+
+  def test_to_ned
+    utm = UTM.new(easting: 500000.0, northing: 4500000.0, zone: 10, hemisphere: 'N')
+    ref = utm.to_lla
+    ned = utm.to_ned(ref)
+    assert_instance_of NED, ned
+  end
+
+  def test_from_ned_roundtrip
+    utm = UTM.new(easting: 500000.0, northing: 4500000.0, zone: 10, hemisphere: 'N')
+    ref = utm.to_lla
+    ned = utm.to_ned(ref)
+    restored = UTM.from_ned(ned, ref)
+    assert_instance_of UTM, restored
+    lla_orig = utm.to_lla
+    lla_rest = restored.to_lla
+    assert_in_delta lla_orig.lat, lla_rest.lat, 1.0
+    assert_in_delta lla_orig.lng, lla_rest.lng, 1.0
+  end
+
+  def test_to_mgrs
+    utm = UTM.new(easting: 500000.0, northing: 4500000.0, zone: 10, hemisphere: 'N')
+    mgrs = utm.to_mgrs
+    assert_instance_of MGRS, mgrs
+  end
+
+  def test_from_mgrs_roundtrip
+    utm = UTM.new(easting: 500000.0, northing: 4500000.0, zone: 10, hemisphere: 'N')
+    mgrs = utm.to_mgrs
+    restored = UTM.from_mgrs(mgrs)
+    assert_instance_of UTM, restored
+    lla_orig = utm.to_lla
+    lla_rest = restored.to_lla
+    assert_in_delta lla_orig.lat, lla_rest.lat, 1.0
+    assert_in_delta lla_orig.lng, lla_rest.lng, 1.0
+  end
+
+  def test_to_usng
+    utm = UTM.new(easting: 500000.0, northing: 4500000.0, zone: 10, hemisphere: 'N')
+    usng = utm.to_usng
+    assert_instance_of USNG, usng
+  end
+
+  def test_from_usng_roundtrip
+    utm = UTM.new(easting: 500000.0, northing: 4500000.0, zone: 10, hemisphere: 'N')
+    usng = utm.to_usng
+    restored = UTM.from_usng(usng)
+    assert_instance_of UTM, restored
+    lla_orig = utm.to_lla
+    lla_rest = restored.to_lla
+    assert_in_delta lla_orig.lat, lla_rest.lat, 1.0
+    assert_in_delta lla_orig.lng, lla_rest.lng, 1.0
+  end
+
+  def test_to_web_mercator
+    utm = UTM.new(easting: 500000.0, northing: 4500000.0, zone: 10, hemisphere: 'N')
+    wm = utm.to_web_mercator
+    assert_instance_of WM, wm
+  end
+
+  def test_from_web_mercator_roundtrip
+    utm = UTM.new(easting: 500000.0, northing: 4500000.0, zone: 10, hemisphere: 'N')
+    wm = utm.to_web_mercator
+    restored = UTM.from_web_mercator(wm)
+    assert_instance_of UTM, restored
+    lla_orig = utm.to_lla
+    lla_rest = restored.to_lla
+    assert_in_delta lla_orig.lat, lla_rest.lat, 1.0
+    assert_in_delta lla_orig.lng, lla_rest.lng, 1.0
+  end
+
+  def test_to_ups
+    utm = UTM.new(easting: 500000.0, northing: 4500000.0, zone: 10, hemisphere: 'N')
+    ups = utm.to_ups
+    assert_instance_of UPS_C, ups
+  end
+
+  def test_from_ups_roundtrip
+    utm = UTM.new(easting: 500000.0, northing: 4500000.0, zone: 10, hemisphere: 'N')
+    ups = utm.to_ups
+    restored = UTM.from_ups(ups)
+    assert_instance_of UTM, restored
+    # UPS is designed for polar regions; mid-latitude roundtrips have large distortion
+    lla_orig = utm.to_lla
+    lla_rest = restored.to_lla
+    assert_in_delta lla_orig.lat, lla_rest.lat, 50.0
+    assert_in_delta lla_orig.lng, lla_rest.lng, 50.0
+  end
+
+  def test_to_state_plane
+    utm = UTM.new(easting: 500000.0, northing: 4500000.0, zone: 10, hemisphere: 'N')
+    sp = utm.to_state_plane("CA_I")
+    assert_instance_of SP, sp
+  end
+
+  def test_from_state_plane_roundtrip
+    utm = UTM.new(easting: 500000.0, northing: 4500000.0, zone: 10, hemisphere: 'N')
+    sp = utm.to_state_plane("CA_I")
+    restored = UTM.from_state_plane(sp)
+    assert_instance_of UTM, restored
+  end
+
+  def test_to_bng
+    utm = UTM.new(easting: 500000.0, northing: 4500000.0, zone: 10, hemisphere: 'N')
+    bng = utm.to_bng
+    assert_instance_of BNG, bng
+  end
+
+  def test_from_bng_roundtrip
+    utm = UTM.new(easting: 500000.0, northing: 4500000.0, zone: 10, hemisphere: 'N')
+    bng = utm.to_bng
+    restored = UTM.from_bng(bng)
+    assert_instance_of UTM, restored
+    lla_orig = utm.to_lla
+    lla_rest = restored.to_lla
+    assert_in_delta lla_orig.lat, lla_rest.lat, 1.0
+    assert_in_delta lla_orig.lng, lla_rest.lng, 1.0
+  end
+
+  def test_to_gh36
+    utm = UTM.new(easting: 500000.0, northing: 4500000.0, zone: 10, hemisphere: 'N')
+    gh36 = utm.to_gh36
+    assert_instance_of GH36, gh36
+  end
+
+  def test_from_gh36_roundtrip
+    utm = UTM.new(easting: 500000.0, northing: 4500000.0, zone: 10, hemisphere: 'N')
+    gh36 = utm.to_gh36
+    restored = UTM.from_gh36(gh36)
+    assert_instance_of UTM, restored
+    lla_orig = utm.to_lla
+    lla_rest = restored.to_lla
+    assert_in_delta lla_orig.lat, lla_rest.lat, 1.0
+    assert_in_delta lla_orig.lng, lla_rest.lng, 1.0
   end
 end

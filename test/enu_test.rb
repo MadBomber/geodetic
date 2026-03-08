@@ -7,10 +7,18 @@ require_relative "../lib/geodetic/coordinates/lla"
 require_relative "../lib/geodetic/coordinates/ecef"
 
 class EnuTest < Minitest::Test
-  ENU  = Geodetic::Coordinates::ENU
-  NED  = Geodetic::Coordinates::NED
-  LLA  = Geodetic::Coordinates::LLA
-  ECEF = Geodetic::Coordinates::ECEF
+  ENU   = Geodetic::Coordinates::ENU
+  NED   = Geodetic::Coordinates::NED
+  LLA   = Geodetic::Coordinates::LLA
+  ECEF  = Geodetic::Coordinates::ECEF
+  UTM   = Geodetic::Coordinates::UTM
+  MGRS  = Geodetic::Coordinates::MGRS
+  USNG  = Geodetic::Coordinates::USNG
+  WM    = Geodetic::Coordinates::WebMercator
+  UPS_C = Geodetic::Coordinates::UPS
+  SP    = Geodetic::Coordinates::StatePlane
+  BNG   = Geodetic::Coordinates::BNG
+  GH36  = Geodetic::Coordinates::GH36
 
   # 1. Constructor
 
@@ -249,5 +257,161 @@ class EnuTest < Minitest::Test
   def test_horizontal_distance_to_origin
     enu = ENU.new(e: 3.0, n: 4.0, u: 999.0)
     assert_in_delta 5.0, enu.horizontal_distance_to_origin, 1e-10
+  end
+
+  # --- Cross-system conversions ---
+
+  def test_to_utm
+    ref = LLA.new(lat: 47.0, lng: -122.0, alt: 0.0)
+    enu = ENU.new(e: 100.0, n: 200.0, u: 50.0)
+    utm = enu.to_utm(ref)
+    assert_instance_of UTM, utm
+  end
+
+  def test_from_utm_roundtrip
+    ref = LLA.new(lat: 47.0, lng: -122.0, alt: 0.0)
+    enu = ENU.new(e: 100.0, n: 200.0, u: 50.0)
+    utm = enu.to_utm(ref)
+    restored = ENU.from_utm(utm, ref)
+    assert_instance_of ENU, restored
+    lla_orig = enu.to_lla(ref)
+    lla_rest = restored.to_lla(ref)
+    assert_in_delta lla_orig.lat, lla_rest.lat, 1.0
+    assert_in_delta lla_orig.lng, lla_rest.lng, 1.0
+  end
+
+  def test_to_mgrs
+    ref = LLA.new(lat: 47.0, lng: -122.0, alt: 0.0)
+    enu = ENU.new(e: 100.0, n: 200.0, u: 50.0)
+    mgrs = enu.to_mgrs(ref)
+    assert_instance_of MGRS, mgrs
+  end
+
+  def test_from_mgrs_roundtrip
+    ref = LLA.new(lat: 47.0, lng: -122.0, alt: 0.0)
+    enu = ENU.new(e: 100.0, n: 200.0, u: 50.0)
+    mgrs = enu.to_mgrs(ref)
+    restored = ENU.from_mgrs(mgrs, ref)
+    assert_instance_of ENU, restored
+    lla_orig = enu.to_lla(ref)
+    lla_rest = restored.to_lla(ref)
+    assert_in_delta lla_orig.lat, lla_rest.lat, 1.0
+    assert_in_delta lla_orig.lng, lla_rest.lng, 1.0
+  end
+
+  def test_to_usng
+    ref = LLA.new(lat: 47.0, lng: -122.0, alt: 0.0)
+    enu = ENU.new(e: 100.0, n: 200.0, u: 50.0)
+    usng = enu.to_usng(ref)
+    assert_instance_of USNG, usng
+  end
+
+  def test_from_usng_roundtrip
+    ref = LLA.new(lat: 47.0, lng: -122.0, alt: 0.0)
+    enu = ENU.new(e: 100.0, n: 200.0, u: 50.0)
+    usng = enu.to_usng(ref)
+    restored = ENU.from_usng(usng, ref)
+    assert_instance_of ENU, restored
+    lla_orig = enu.to_lla(ref)
+    lla_rest = restored.to_lla(ref)
+    assert_in_delta lla_orig.lat, lla_rest.lat, 1.0
+    assert_in_delta lla_orig.lng, lla_rest.lng, 1.0
+  end
+
+  def test_to_web_mercator
+    ref = LLA.new(lat: 47.0, lng: -122.0, alt: 0.0)
+    enu = ENU.new(e: 100.0, n: 200.0, u: 50.0)
+    wm = enu.to_web_mercator(ref)
+    assert_instance_of WM, wm
+  end
+
+  def test_from_web_mercator_roundtrip
+    ref = LLA.new(lat: 47.0, lng: -122.0, alt: 0.0)
+    enu = ENU.new(e: 100.0, n: 200.0, u: 50.0)
+    wm = enu.to_web_mercator(ref)
+    restored = ENU.from_web_mercator(wm, ref)
+    assert_instance_of ENU, restored
+    lla_orig = enu.to_lla(ref)
+    lla_rest = restored.to_lla(ref)
+    assert_in_delta lla_orig.lat, lla_rest.lat, 1.0
+    assert_in_delta lla_orig.lng, lla_rest.lng, 1.0
+  end
+
+  def test_to_ups
+    ref = LLA.new(lat: 47.0, lng: -122.0, alt: 0.0)
+    enu = ENU.new(e: 100.0, n: 200.0, u: 50.0)
+    ups = enu.to_ups(ref)
+    assert_instance_of UPS_C, ups
+  end
+
+  def test_from_ups_roundtrip
+    ref = LLA.new(lat: 47.0, lng: -122.0, alt: 0.0)
+    enu = ENU.new(e: 100.0, n: 200.0, u: 50.0)
+    ups = enu.to_ups(ref)
+    restored = ENU.from_ups(ups, ref)
+    assert_instance_of ENU, restored
+  end
+
+  def test_to_state_plane
+    ref = LLA.new(lat: 47.0, lng: -122.0, alt: 0.0)
+    enu = ENU.new(e: 100.0, n: 200.0, u: 50.0)
+    sp = enu.to_state_plane(ref, "CA_I")
+    assert_instance_of SP, sp
+  end
+
+  def test_from_state_plane_roundtrip
+    ref = LLA.new(lat: 47.0, lng: -122.0, alt: 0.0)
+    enu = ENU.new(e: 100.0, n: 200.0, u: 50.0)
+    sp = enu.to_state_plane(ref, "CA_I")
+    restored = ENU.from_state_plane(sp, ref)
+    assert_instance_of ENU, restored
+  end
+
+  def test_to_bng
+    ref = LLA.new(lat: 47.0, lng: -122.0, alt: 0.0)
+    enu = ENU.new(e: 100.0, n: 200.0, u: 50.0)
+    bng = enu.to_bng(ref)
+    assert_instance_of BNG, bng
+  end
+
+  def test_from_bng_roundtrip
+    ref = LLA.new(lat: 47.0, lng: -122.0, alt: 0.0)
+    enu = ENU.new(e: 100.0, n: 200.0, u: 50.0)
+    bng = enu.to_bng(ref)
+    restored = ENU.from_bng(bng, ref)
+    assert_instance_of ENU, restored
+    lla_orig = enu.to_lla(ref)
+    lla_rest = restored.to_lla(ref)
+    assert_in_delta lla_orig.lat, lla_rest.lat, 1.0
+    assert_in_delta lla_orig.lng, lla_rest.lng, 1.0
+  end
+
+  def test_to_gh36
+    ref = LLA.new(lat: 47.0, lng: -122.0, alt: 0.0)
+    enu = ENU.new(e: 100.0, n: 200.0, u: 50.0)
+    gh36 = enu.to_gh36(ref)
+    assert_instance_of GH36, gh36
+  end
+
+  def test_from_gh36_roundtrip
+    ref = LLA.new(lat: 47.0, lng: -122.0, alt: 0.0)
+    enu = ENU.new(e: 100.0, n: 200.0, u: 50.0)
+    gh36 = enu.to_gh36(ref)
+    restored = ENU.from_gh36(gh36, ref)
+    assert_instance_of ENU, restored
+    lla_orig = enu.to_lla(ref)
+    lla_rest = restored.to_lla(ref)
+    assert_in_delta lla_orig.lat, lla_rest.lat, 1.0
+    assert_in_delta lla_orig.lng, lla_rest.lng, 1.0
+  end
+
+  # ── ENU to_ecef without explicit reference_lla ──────────────
+
+  def test_to_ecef_without_reference_lla
+    ref_ecef = LLA.new(lat: 40.0, lng: -74.0, alt: 0.0).to_ecef
+    enu = ENU.new(e: 100.0, n: 200.0, u: 50.0)
+    # When reference_lla is nil, to_ecef derives it from reference_ecef
+    result = enu.to_ecef(ref_ecef)
+    assert_instance_of ECEF, result
   end
 end

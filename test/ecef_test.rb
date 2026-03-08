@@ -6,6 +6,13 @@ require_relative "../lib/geodetic/coordinates/lla"
 require_relative "../lib/geodetic/coordinates/utm"
 require_relative "../lib/geodetic/coordinates/enu"
 require_relative "../lib/geodetic/coordinates/ned"
+require_relative "../lib/geodetic/coordinates/mgrs"
+require_relative "../lib/geodetic/coordinates/usng"
+require_relative "../lib/geodetic/coordinates/web_mercator"
+require_relative "../lib/geodetic/coordinates/ups"
+require_relative "../lib/geodetic/coordinates/state_plane"
+require_relative "../lib/geodetic/coordinates/bng"
+require_relative "../lib/geodetic/coordinates/gh36"
 
 class EcefTest < Minitest::Test
   ECEF = Geodetic::Coordinates::ECEF
@@ -13,6 +20,13 @@ class EcefTest < Minitest::Test
   UTM  = Geodetic::Coordinates::UTM
   ENU  = Geodetic::Coordinates::ENU
   NED  = Geodetic::Coordinates::NED
+  MGRS = Geodetic::Coordinates::MGRS
+  USNG = Geodetic::Coordinates::USNG
+  WM   = Geodetic::Coordinates::WebMercator
+  UPS  = Geodetic::Coordinates::UPS
+  SP   = Geodetic::Coordinates::StatePlane
+  BNG  = Geodetic::Coordinates::BNG
+  GH36 = Geodetic::Coordinates::GH36
 
   # Known reference: Seattle Space Needle area
   # LLA: 47.6205, -122.3493, 184.0
@@ -218,5 +232,212 @@ class EcefTest < Minitest::Test
   def test_distance_to_raises_for_non_coordinate
     a = ECEF.new
     assert_raises(NoMethodError) { a.distance_to("not ecef") }
+  end
+
+  # --- from_lla class method ---
+
+  def test_from_lla_class_method
+    lla = LLA.new(lat: 47.6205, lng: -122.3493, alt: 184.0)
+    ecef = ECEF.from_lla(lla)
+    assert_instance_of ECEF, ecef
+    # Roundtrip back to LLA
+    lla2 = ecef.to_lla
+    assert_in_delta 47.6205, lla2.lat, 0.1
+    assert_in_delta(-122.3493, lla2.lng, 0.1)
+  end
+
+  # --- to_mgrs / from_mgrs ---
+
+  def test_to_mgrs
+    mgrs = SEATTLE_ECEF.to_mgrs
+    assert_instance_of MGRS, mgrs
+    # Roundtrip via LLA
+    lla = mgrs.to_lla
+    assert_in_delta 47.6205, lla.lat, 1.0
+    assert_in_delta(-122.3493, lla.lng, 1.0)
+  end
+
+  def test_from_mgrs
+    mgrs = SEATTLE_ECEF.to_mgrs
+    ecef = ECEF.from_mgrs(mgrs)
+    assert_instance_of ECEF, ecef
+    lla = ecef.to_lla
+    assert_in_delta 47.6205, lla.lat, 1.0
+    assert_in_delta(-122.3493, lla.lng, 1.0)
+  end
+
+  # --- to_usng / from_usng ---
+
+  def test_to_usng
+    usng = SEATTLE_ECEF.to_usng
+    assert_instance_of USNG, usng
+    lla = usng.to_lla
+    assert_in_delta 47.6205, lla.lat, 1.0
+    assert_in_delta(-122.3493, lla.lng, 1.0)
+  end
+
+  def test_from_usng
+    usng = SEATTLE_ECEF.to_usng
+    ecef = ECEF.from_usng(usng)
+    assert_instance_of ECEF, ecef
+    lla = ecef.to_lla
+    assert_in_delta 47.6205, lla.lat, 1.0
+    assert_in_delta(-122.3493, lla.lng, 1.0)
+  end
+
+  # --- to_web_mercator / from_web_mercator ---
+
+  def test_to_web_mercator
+    wm = SEATTLE_ECEF.to_web_mercator
+    assert_instance_of WM, wm
+    lla = wm.to_lla
+    assert_in_delta 47.6205, lla.lat, 0.1
+    assert_in_delta(-122.3493, lla.lng, 0.1)
+  end
+
+  def test_from_web_mercator
+    wm = SEATTLE_ECEF.to_web_mercator
+    ecef = ECEF.from_web_mercator(wm)
+    assert_instance_of ECEF, ecef
+    lla = ecef.to_lla
+    assert_in_delta 47.6205, lla.lat, 0.1
+    assert_in_delta(-122.3493, lla.lng, 0.1)
+  end
+
+  # --- to_ups / from_ups (high-latitude point) ---
+
+  def test_to_ups
+    # North pole area: lat 89, lng 0
+    polar_lla = LLA.new(lat: 89.0, lng: 0.0, alt: 0.0)
+    polar_ecef = polar_lla.to_ecef
+    ups = polar_ecef.to_ups
+    assert_instance_of UPS, ups
+    assert_equal "N", ups.hemisphere
+    # UPS is designed for polar regions; verify type and hemisphere
+    lla = ups.to_lla
+    assert_in_delta 0.0, lla.lng, 0.1
+    assert lla.lat > 84.0, "Expected polar latitude from UPS roundtrip"
+  end
+
+  def test_from_ups
+    polar_lla = LLA.new(lat: 89.0, lng: 0.0, alt: 0.0)
+    polar_ecef = polar_lla.to_ecef
+    ups = polar_ecef.to_ups
+    ecef = ECEF.from_ups(ups)
+    assert_instance_of ECEF, ecef
+    lla = ecef.to_lla
+    assert_in_delta 0.0, lla.lng, 0.1
+    assert lla.lat > 84.0, "Expected polar latitude from UPS roundtrip"
+  end
+
+  # --- to_state_plane / from_state_plane ---
+
+  def test_to_state_plane
+    # Use a point in Northern California for CA_I zone
+    ca_lla = LLA.new(lat: 40.5, lng: -122.0, alt: 0.0)
+    ca_ecef = ca_lla.to_ecef
+    sp = ca_ecef.to_state_plane("CA_I")
+    assert_instance_of SP, sp
+    assert_equal "CA_I", sp.zone_code
+    assert sp.easting > 0, "Expected positive easting"
+    assert sp.northing > 0, "Expected positive northing"
+  end
+
+  def test_from_state_plane
+    ca_lla = LLA.new(lat: 40.5, lng: -122.0, alt: 0.0)
+    ca_ecef = ca_lla.to_ecef
+    sp = ca_ecef.to_state_plane("CA_I")
+    ecef = ECEF.from_state_plane(sp)
+    assert_instance_of ECEF, ecef
+    # Verify we get a valid ECEF back (non-zero magnitude)
+    magnitude = Math.sqrt(ecef.x**2 + ecef.y**2 + ecef.z**2)
+    assert magnitude > 6_000_000, "Expected Earth-radius-scale ECEF magnitude"
+  end
+
+  # --- to_bng / from_bng (UK point) ---
+
+  def test_to_bng
+    uk_lla = LLA.new(lat: 51.5, lng: -0.1, alt: 0.0)
+    uk_ecef = uk_lla.to_ecef
+    bng = uk_ecef.to_bng
+    assert_instance_of BNG, bng
+    lla = bng.to_lla
+    assert_in_delta 51.5, lla.lat, 1.0
+    assert_in_delta(-0.1, lla.lng, 1.0)
+  end
+
+  def test_from_bng
+    uk_lla = LLA.new(lat: 51.5, lng: -0.1, alt: 0.0)
+    uk_ecef = uk_lla.to_ecef
+    bng = uk_ecef.to_bng
+    ecef = ECEF.from_bng(bng)
+    assert_instance_of ECEF, ecef
+    lla = ecef.to_lla
+    assert_in_delta 51.5, lla.lat, 1.0
+    assert_in_delta(-0.1, lla.lng, 1.0)
+  end
+
+  # --- to_gh36 / from_gh36 ---
+
+  def test_to_gh36
+    gh36 = SEATTLE_ECEF.to_gh36
+    assert_instance_of GH36, gh36
+    lla = gh36.to_lla
+    assert_in_delta 47.6205, lla.lat, 0.1
+    assert_in_delta(-122.3493, lla.lng, 0.1)
+  end
+
+  def test_from_gh36
+    gh36 = SEATTLE_ECEF.to_gh36
+    ecef = ECEF.from_gh36(gh36)
+    assert_instance_of ECEF, ecef
+    lla = ecef.to_lla
+    assert_in_delta 47.6205, lla.lat, 0.1
+    assert_in_delta(-122.3493, lla.lng, 0.1)
+  end
+
+  # --- Pole singularity ---
+
+  def test_pole_singularity_north
+    # ECEF at approximate north pole (x:0, y:0, z: semi-minor axis)
+    north_pole_ecef = ECEF.new(x: 0.0, y: 0.0, z: 6356752.0)
+    lla = north_pole_ecef.to_lla
+    assert_in_delta 90.0, lla.lat, 0.1
+  end
+
+  def test_pole_singularity_south
+    south_pole_ecef = ECEF.new(x: 0.0, y: 0.0, z: -6356752.0)
+    lla = south_pole_ecef.to_lla
+    assert_in_delta(-90.0, lla.lat, 0.1)
+  end
+
+  # ── ECEF-native ENU/NED conversions ────────────────────────
+
+  def test_from_enu_class_method
+    ref_ecef = LLA.new(lat: 40.0, lng: -74.0, alt: 0.0).to_ecef
+    enu = ref_ecef.to_enu(ref_ecef)
+    result = ECEF.from_enu(enu, ref_ecef)
+    assert_instance_of ECEF, result
+  end
+
+  def test_to_ned_via_ecef
+    ref_ecef = LLA.new(lat: 40.0, lng: -74.0, alt: 0.0).to_ecef
+    target_ecef = LLA.new(lat: 40.001, lng: -74.001, alt: 0.0).to_ecef
+    ned = target_ecef.to_ned(ref_ecef)
+    assert_instance_of NED, ned
+  end
+
+  def test_from_ned_class_method
+    ref_ecef = LLA.new(lat: 40.0, lng: -74.0, alt: 0.0).to_ecef
+    target_ecef = LLA.new(lat: 40.001, lng: -74.001, alt: 0.0).to_ecef
+    ned = target_ecef.to_ned(ref_ecef)
+    result = ECEF.from_ned(ned, ref_ecef)
+    assert_instance_of ECEF, result
+  end
+
+  def test_from_utm_class_method
+    utm = UTM.new(easting: 583960.0, northing: 4507351.0, zone: 18, hemisphere: 'N')
+    result = ECEF.from_utm(utm)
+    assert_instance_of ECEF, result
   end
 end
