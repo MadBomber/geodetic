@@ -13,7 +13,7 @@
 <td width="50%" valign="top">
 <strong>Key Features</strong><br>
 
-- <strong>13 Coordinate Systems</strong> - LLA, ECEF, UTM, ENU, NED, MGRS, USNG, Web Mercator, UPS, State Plane, BNG, GH36, GH<br>
+- <strong>14 Coordinate Systems</strong> - LLA, ECEF, UTM, ENU, NED, MGRS, USNG, Web Mercator, UPS, State Plane, BNG, GH36, GH, HAM<br>
 - <strong>Full Bidirectional Conversions</strong> - Every system converts to and from every other system<br>
 - <strong>Distance Calculations</strong> - Vincenty great-circle and straight-line with unit tracking<br>
 - <strong>Bearing Calculations</strong> - Forward azimuth, back azimuth, compass directions, elevation angles<br>
@@ -27,7 +27,7 @@
 </tr>
 </table>
 
-<p>Geodetic enables precise conversion between geodetic coordinate systems in Ruby. All 13 coordinate systems support complete bidirectional conversions with high precision. Review the <a href="https://madbomber.github.io/geodetic/">full documentation website</a> and explore the <a href="examples/">runnable examples</a>.</p>
+<p>Geodetic enables precise conversion between geodetic coordinate systems in Ruby. All 14 coordinate systems support complete bidirectional conversions with high precision. Review the <a href="https://madbomber.github.io/geodetic/">full documentation website</a> and explore the <a href="examples/">runnable examples</a>.</p>
 
 ## Installation
 
@@ -139,7 +139,7 @@ bng = Coordinates::BNG.new(easting: 530000, northing: 180000)
 bng.easting = 430000               # grid_ref automatically recalculated
 ```
 
-ECEF, ENU, NED, and WebMercator setters coerce to float with no range constraints. MGRS, USNG, GH36, GH, Distance, and Bearing are immutable.
+ECEF, ENU, NED, and WebMercator setters coerce to float with no range constraints. MGRS, USNG, GH36, GH, HAM, Distance, and Bearing are immutable.
 
 ### DMS (Degrees, Minutes, Seconds)
 
@@ -436,6 +436,33 @@ gh.precision              # => 6
 gh.precision_in_meters    # => { lat: 610.98, lng: 1221.97 }
 ```
 
+### Maidenhead Locator (HAM)
+
+The Maidenhead Locator System used worldwide in amateur radio for grid square identification:
+
+```ruby
+# From a Maidenhead locator string
+ham = Coordinates::HAM.new("FN31pr")
+
+# From any coordinate
+ham = Coordinates::HAM.new(lla)
+ham = lla.to_ham(precision: 8)
+
+# Decode back to LLA
+lla = ham.to_lla
+
+# Neighbor cells
+ham.neighbors  # => { N: HAM, S: HAM, E: HAM, W: HAM, NE: ..., NW: ..., SE: ..., SW: ... }
+
+# Bounding rectangle of the grid square
+area = ham.to_area    # => Areas::Rectangle
+area.includes?(ham.to_lla)  # => true
+
+# Precision info
+ham.precision              # => 6
+ham.precision_in_meters    # => { lat: 4631.0, lng: 9260.0 }
+```
+
 ### Geographic Areas
 
 ```ruby
@@ -488,7 +515,7 @@ The [`examples/`](examples/) directory contains runnable demo scripts showing pr
 | Script | Description |
 |--------|-------------|
 | [`01_basic_conversions.rb`](examples/01_basic_conversions.rb) | LLA, ECEF, UTM, ENU, NED conversions and roundtrips |
-| [`02_all_coordinate_systems.rb`](examples/02_all_coordinate_systems.rb) | All 13 coordinate systems, cross-system chains, and areas |
+| [`02_all_coordinate_systems.rb`](examples/02_all_coordinate_systems.rb) | All 14 coordinate systems, cross-system chains, and areas |
 | [`03_distance_calculations.rb`](examples/03_distance_calculations.rb) | Distance class features, unit conversions, and arithmetic |
 | [`04_bearing_calculations.rb`](examples/04_bearing_calculations.rb) | Bearing class, compass directions, elevation angles, and chain bearings |
 

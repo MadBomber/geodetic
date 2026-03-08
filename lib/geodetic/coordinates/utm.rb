@@ -212,6 +212,14 @@ module Geodetic
         from_lla(gh_coord.to_lla, datum)
       end
 
+      def to_ham(precision: 6)
+        HAM.new(to_lla, precision: precision)
+      end
+
+      def self.from_ham(ham_coord, datum = WGS84)
+        from_lla(ham_coord.to_lla, datum)
+      end
+
       def to_s(precision = 2)
         precision = precision.to_i
         if precision == 0

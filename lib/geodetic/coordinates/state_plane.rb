@@ -269,6 +269,15 @@ module Geodetic
         from_lla(lla_coord, zone_code, datum)
       end
 
+      def to_ham(datum = nil, precision: 6)
+        HAM.new(to_lla(datum), precision: precision)
+      end
+
+      def self.from_ham(ham_coord, zone_code, datum = WGS84)
+        lla_coord = ham_coord.to_lla(datum)
+        from_lla(lla_coord, zone_code, datum)
+      end
+
       # Unit conversion methods
       def to_meters
         zone_info = ZONES[@zone_code]

@@ -51,6 +51,7 @@ require "geodetic/coordinates/state_plane"
 require "geodetic/coordinates/bng"
 require "geodetic/coordinates/gh36"
 require "geodetic/coordinates/gh"
+require "geodetic/coordinates/ham"
 ```
 
 You only need to require the types you plan to construct directly. Conversion methods handle their own requires internally.

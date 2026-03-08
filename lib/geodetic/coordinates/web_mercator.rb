@@ -169,6 +169,14 @@ module Geodetic
         from_lla(gh_coord.to_lla, datum)
       end
 
+      def to_ham(precision: 6)
+        HAM.new(to_lla, precision: precision)
+      end
+
+      def self.from_ham(ham_coord, datum = WGS84)
+        from_lla(ham_coord.to_lla, datum)
+      end
+
       # Tile coordinate methods for web mapping
       def to_tile_coordinates(zoom_level)
         lat_lng = to_lla

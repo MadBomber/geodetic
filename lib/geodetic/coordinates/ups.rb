@@ -278,6 +278,15 @@ module Geodetic
         from_lla(lla_coord, datum)
       end
 
+      def to_ham(datum = WGS84, precision: 6)
+        HAM.new(to_lla(datum), precision: precision)
+      end
+
+      def self.from_ham(ham_coord, datum = WGS84)
+        lla_coord = ham_coord.to_lla(datum)
+        from_lla(lla_coord, datum)
+      end
+
       def ==(other)
         return false unless other.is_a?(UPS)
 

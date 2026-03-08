@@ -256,3 +256,4 @@ restored = Geodetic::Coordinates::LLA.from_dms(dms_string)
 | USNG | `grid_zone square coords` | n/a | `[grid_zone, square_id, easting, northing, precision]` | `to_full_format`, `to_abbreviated_format` |
 | GH36 | geohash string | n/a | `[lat, lng]` | `to_slug`, `to_area`, `neighbors` |
 | GH | geohash string | n/a | `[lat, lng]` | `to_slug`, `to_area`, `neighbors` |
+| HAM | locator string | n/a | `[lat, lng]` | `to_slug`, `to_area`, `neighbors` |

@@ -218,6 +218,14 @@ module Geodetic
         new(gh_coord, precision: precision)
       end
 
+      def to_ham(datum = WGS84, ham_precision: 6)
+        HAM.new(to_lla(datum), precision: ham_precision)
+      end
+
+      def self.from_ham(ham_coord, datum = WGS84, precision = DEFAULT_LENGTH)
+        new(ham_coord, precision: precision)
+      end
+
       def ==(other)
         return false unless other.is_a?(GH36)
         @geohash == other.geohash

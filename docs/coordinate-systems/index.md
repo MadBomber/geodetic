@@ -1,6 +1,6 @@
 # Coordinate Systems Overview
 
-The Geodetic gem supports 13 coordinate systems organized into six categories. All coordinate classes live under `Geodetic::Coordinates`.
+The Geodetic gem supports 14 coordinate systems organized into six categories. All coordinate classes live under `Geodetic::Coordinates`.
 
 ## Global Systems
 
@@ -42,6 +42,7 @@ The Geodetic gem supports 13 coordinate systems organized into six categories. A
 |--------|-------|-------------|
 | **GH36** | `Geodetic::Coordinates::GH36` | Geohash-36. A hierarchical spatial hashing algorithm that encodes latitude/longitude into a compact, URL-friendly string using a case-sensitive 36-character alphabet (radix-36). Each hash represents a rectangular cell; the coordinate value is the cell midpoint. Supports neighbor lookup, area extraction via `to_area`, and configurable precision (default 10 characters for sub-meter resolution). |
 | **GH** | `Geodetic::Coordinates::GH` | Geohash (base-32). The standard geohash algorithm by Gustavo Niemeyer using a 32-character alphabet (`0-9, b-z` excluding `a, i, l, o`). The de facto standard for spatial hashing, natively supported by Elasticsearch, Redis, PostGIS, and many geocoding services. Supports neighbor lookup, area extraction, and configurable precision (default 12 characters for sub-centimeter resolution). |
+| **HAM** | `Geodetic::Coordinates::HAM` | Maidenhead Locator System. A hierarchical grid system used worldwide in amateur radio that encodes positions using alternating letter/digit pairs (e.g., `FN31pr`). Four levels of precision: Field (18x18), Square (10x10), Subsquare (24x24), Extended (10x10). Supports neighbor lookup, area extraction, and configurable precision (default 6 characters for ~5 km resolution). |
 
 ## Regional Systems
 
@@ -56,21 +57,22 @@ The Geodetic gem supports 13 coordinate systems organized into six categories. A
 
 Every coordinate system can convert to every other coordinate system. The table below confirms full interoperability:
 
-| From \ To | LLA | ECEF | UTM | ENU | NED | MGRS | USNG | WebMercator | UPS | StatePlane | BNG | GH36 | GH |
-|-----------|-----|------|-----|-----|-----|------|------|-------------|-----|------------|-----|------|----|
-| **LLA**        | --  | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y |
-| **ECEF**       | Y | --  | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y |
-| **UTM**        | Y | Y | --  | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y |
-| **ENU**        | Y | Y | Y | --  | Y | Y | Y | Y | Y | Y | Y | Y | Y |
-| **NED**        | Y | Y | Y | Y | --  | Y | Y | Y | Y | Y | Y | Y | Y |
-| **MGRS**       | Y | Y | Y | Y | Y | --  | Y | Y | Y | Y | Y | Y | Y |
-| **USNG**       | Y | Y | Y | Y | Y | Y | --  | Y | Y | Y | Y | Y | Y |
-| **WebMercator**| Y | Y | Y | Y | Y | Y | Y | --  | Y | Y | Y | Y | Y |
-| **UPS**        | Y | Y | Y | Y | Y | Y | Y | Y | --  | Y | Y | Y | Y |
-| **StatePlane** | Y | Y | Y | Y | Y | Y | Y | Y | Y | --  | Y | Y | Y |
-| **BNG**        | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | --  | Y | Y |
-| **GH36**       | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | --  | Y |
-| **GH**         | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | -- |
+| From \ To | LLA | ECEF | UTM | ENU | NED | MGRS | USNG | WebMercator | UPS | StatePlane | BNG | GH36 | GH | HAM |
+|-----------|-----|------|-----|-----|-----|------|------|-------------|-----|------------|-----|------|----|----|
+| **LLA**        | --  | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y |
+| **ECEF**       | Y | --  | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y |
+| **UTM**        | Y | Y | --  | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y |
+| **ENU**        | Y | Y | Y | --  | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y |
+| **NED**        | Y | Y | Y | Y | --  | Y | Y | Y | Y | Y | Y | Y | Y | Y |
+| **MGRS**       | Y | Y | Y | Y | Y | --  | Y | Y | Y | Y | Y | Y | Y | Y |
+| **USNG**       | Y | Y | Y | Y | Y | Y | --  | Y | Y | Y | Y | Y | Y | Y |
+| **WebMercator**| Y | Y | Y | Y | Y | Y | Y | --  | Y | Y | Y | Y | Y | Y |
+| **UPS**        | Y | Y | Y | Y | Y | Y | Y | Y | --  | Y | Y | Y | Y | Y |
+| **StatePlane** | Y | Y | Y | Y | Y | Y | Y | Y | Y | --  | Y | Y | Y | Y |
+| **BNG**        | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | --  | Y | Y | Y |
+| **GH36**       | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | --  | Y | Y |
+| **GH**         | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | -- | Y |
+| **HAM**        | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | -- |
 
 ## Universal Distance and Bearing Calculations
 
@@ -90,6 +92,6 @@ Conversions typically route through **LLA** or **ECEF** as intermediate steps:
 - **ECEF** is the intermediate for local tangent plane systems (ENU, NED), since the rotation from global Cartesian to local frames is straightforward in ECEF.
 - **ENU and NED** convert between each other directly by reordering axes and inverting the vertical component.
 - **MGRS and USNG** route through UTM, which in turn routes through LLA.
-- **WebMercator, UPS, BNG, StatePlane, GH36, and GH** all convert through LLA.
+- **WebMercator, UPS, BNG, StatePlane, GH36, GH, and HAM** all convert through LLA.
 
 For example, converting from BNG to NED follows the chain: `BNG -> LLA -> ECEF -> ENU -> NED`. The gem handles this automatically when you call a conversion method.

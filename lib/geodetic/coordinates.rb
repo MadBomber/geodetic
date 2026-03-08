@@ -13,6 +13,7 @@ require_relative "coordinates/state_plane"
 require_relative "coordinates/bng"
 require_relative "coordinates/gh36"
 require_relative "coordinates/gh"
+require_relative "coordinates/ham"
 
 module Geodetic
   module Coordinates
@@ -251,6 +252,7 @@ ALL_COORD_CLASSES = [
   Geodetic::Coordinates::BNG,
   Geodetic::Coordinates::GH36,
   Geodetic::Coordinates::GH,
+  Geodetic::Coordinates::HAM,
 ].freeze
 
 ALL_COORD_CLASSES.each do |klass|
