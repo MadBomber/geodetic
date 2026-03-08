@@ -1,6 +1,6 @@
 # Areas Reference
 
-The `Geodetic::Areas` module provides two geometric area classes for point-in-area testing: `Circle` and `Polygon`. Both operate on `Geodetic::Coordinates::LLA` points.
+The `Geodetic::Areas` module provides three geometric area classes for point-in-area testing: `Circle`, `Polygon`, and `Rectangle`. All operate on `Geodetic::Coordinates::LLA` points.
 
 ---
 
@@ -51,10 +51,6 @@ circle.excludes?(point)  # => true or false
 |---------------|---------|
 | `includes?` | `include?`, `inside?` |
 | `excludes?` | `exclude?`, `outside?` |
-
-### Note
-
-The `includes?` method relies on `LLA#distance_to`, which is not yet implemented in the current codebase. This method must be added to LLA before Circle can function.
 
 ---
 
@@ -118,6 +114,82 @@ polygon.excludes?(point)  # => true or false
 | `includes?` | `include?`, `inside?` |
 | `excludes?` | `exclude?`, `outside?` |
 
-### Note
+---
 
-The `includes?` method relies on `LLA#heading_to`, which is not yet implemented in the current codebase. This method must be added to LLA before Polygon's point-in-polygon test can function.
+## Geodetic::Areas::Rectangle
+
+Defines an axis-aligned rectangle by its northwest and southeast corners.
+
+### Constructor
+
+```ruby
+nw = Geodetic::Coordinates::LLA.new(lat: 41.0, lng: -75.0)
+se = Geodetic::Coordinates::LLA.new(lat: 40.0, lng: -74.0)
+
+rectangle = Geodetic::Areas::Rectangle.new(nw: nw, se: se)
+```
+
+The constructor accepts any coordinate type that responds to `to_lla` -- coordinates are automatically converted to LLA.
+
+```ruby
+nw_wm = Geodetic::Coordinates::WebMercator.from_lla(nw)
+se_wm = Geodetic::Coordinates::WebMercator.from_lla(se)
+rectangle = Geodetic::Areas::Rectangle.new(nw: nw_wm, se: se_wm)
+```
+
+Raises `ArgumentError` if the NW corner has a lower latitude than the SE corner, or if the NW corner has a higher longitude than the SE corner.
+
+### Attributes
+
+| Attribute  | Type | Description |
+|------------|------|-------------|
+| `nw`       | LLA  | The northwest corner (max latitude, min longitude) |
+| `se`       | LLA  | The southeast corner (min latitude, max longitude) |
+| `centroid` | LLA  | The center point, computed automatically |
+
+All attributes are read-only.
+
+### Computed Corners
+
+```ruby
+rectangle.ne    # => LLA (nw.lat, se.lng)
+rectangle.sw    # => LLA (se.lat, nw.lng)
+```
+
+### Methods
+
+#### `includes?(a_point)` / `include?(a_point)` / `inside?(a_point)`
+
+Returns `true` if the given point falls within (or on the boundary of) the rectangle. Accepts any coordinate type that responds to `to_lla`.
+
+```ruby
+point = Geodetic::Coordinates::LLA.new(lat: 40.5, lng: -74.5)
+rectangle.includes?(point)  # => true
+```
+
+#### `excludes?(a_point)` / `exclude?(a_point)` / `outside?(a_point)`
+
+Returns `true` if the given point falls outside the rectangle.
+
+```ruby
+rectangle.excludes?(point)  # => true or false
+```
+
+### Alias Summary
+
+| Primary Method | Aliases |
+|---------------|---------|
+| `includes?` | `include?`, `inside?` |
+| `excludes?` | `exclude?`, `outside?` |
+
+### Integration with GH36
+
+`Geodetic::Coordinates::GH36#to_area` returns a `Rectangle` representing the geohash cell's bounding box:
+
+```ruby
+gh36 = Geodetic::Coordinates::GH36.new("bdrdC26BqH")
+area = gh36.to_area
+# => Geodetic::Areas::Rectangle
+
+area.includes?(gh36.to_lla)  # => true (midpoint is inside the cell)
+```

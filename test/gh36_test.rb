@@ -320,6 +320,57 @@ class GH36Test < Minitest::Test
     assert_in_delta 51.0, bearing.degrees, 5.0
   end
 
+  # ── Immutability ────────────────────────────────────────
+
+  def test_no_setter_for_geohash
+    coord = GH36.new("bdrdC26BqH")
+    assert_raises(NoMethodError) { coord.geohash = "xxx" }
+  end
+
+  # ── to_gh36 with precision ────────────────────────────
+
+  def test_lla_to_gh36_custom_precision
+    lla = LLA.new(lat: 40.0, lng: -74.0)
+    gh36 = lla.to_gh36(precision: 5)
+    assert_equal 5, gh36.precision
+  end
+
+  # ── from_array with precision ─────────────────────────
+
+  def test_from_array_default_precision
+    coord = GH36.from_array([40.0, -74.0])
+    assert_equal 10, coord.precision
+  end
+
+  # ── Diagonal neighbors ────────────────────────────────
+
+  def test_ne_neighbor_direction
+    coord = GH36.new(LLA.new(lat: 40.0, lng: -74.0))
+    ne = coord.neighbors[:NE]
+    assert ne.to_lla.lat > coord.to_lla.lat,
+      "NE neighbor should have higher latitude"
+    assert ne.to_lla.lng > coord.to_lla.lng,
+      "NE neighbor should have higher longitude"
+  end
+
+  def test_sw_neighbor_direction
+    coord = GH36.new(LLA.new(lat: 40.0, lng: -74.0))
+    sw = coord.neighbors[:SW]
+    assert sw.to_lla.lat < coord.to_lla.lat,
+      "SW neighbor should have lower latitude"
+    assert sw.to_lla.lng < coord.to_lla.lng,
+      "SW neighbor should have lower longitude"
+  end
+
+  # ── to_area dimensions ────────────────────────────────
+
+  def test_to_area_nw_is_north_and_west_of_se
+    coord = GH36.new(LLA.new(lat: 40.0, lng: -74.0))
+    area = coord.to_area
+    assert area.nw.lat > area.se.lat
+    assert area.nw.lng < area.se.lng
+  end
+
   # ── Cross-system conversion ─────────────────────────────
 
   def test_to_ecef_roundtrip

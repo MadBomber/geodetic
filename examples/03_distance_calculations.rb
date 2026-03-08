@@ -98,6 +98,10 @@ puts "UTM(Seattle) -> MGRS(Portland): #{d.to_km.to_f.round(2)} km"
 wm_sf = GCS::WebMercator.from_lla(sf)
 d = wm_sf.distance_to(utm_seattle)
 puts "WebMercator(SF) -> UTM(Seattle): #{d.to_mi.to_f.round(2)} mi"
+
+gh36_nyc = GCS::GH36.new(nyc)
+d = gh36_nyc.distance_to(utm_seattle)
+puts "GH36(NYC) -> UTM(Seattle): #{d.to_km.to_f.round(2)} km"
 puts
 
 # ── Distance class construction ─────────────────────────────────

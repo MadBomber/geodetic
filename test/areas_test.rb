@@ -328,6 +328,30 @@ class RectangleAreaTest < Minitest::Test
     assert rect.outside?(outside)
   end
 
+  def test_include_and_exclude_aliases
+    nw = LLA.new(lat: 41.0, lng: -75.0)
+    se = LLA.new(lat: 40.0, lng: -74.0)
+    rect = Rectangle.new(nw: nw, se: se)
+    inside = LLA.new(lat: 40.5, lng: -74.5)
+    outside = LLA.new(lat: 0.0, lng: 0.0)
+    assert rect.include?(inside)
+    assert rect.exclude?(outside)
+  end
+
+  def test_excludes_point_north_of_rectangle
+    nw = LLA.new(lat: 41.0, lng: -75.0)
+    se = LLA.new(lat: 40.0, lng: -74.0)
+    rect = Rectangle.new(nw: nw, se: se)
+    assert rect.excludes?(LLA.new(lat: 42.0, lng: -74.5))
+  end
+
+  def test_excludes_point_east_of_rectangle
+    nw = LLA.new(lat: 41.0, lng: -75.0)
+    se = LLA.new(lat: 40.0, lng: -74.0)
+    rect = Rectangle.new(nw: nw, se: se)
+    assert rect.excludes?(LLA.new(lat: 40.5, lng: -73.0))
+  end
+
   def test_attributes_are_read_only
     nw = LLA.new(lat: 41.0, lng: -75.0)
     se = LLA.new(lat: 40.0, lng: -74.0)

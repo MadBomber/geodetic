@@ -125,6 +125,10 @@ puts "  MGRS(Portland) -> WebMercator(SF):   #{b.to_s}  (#{b.to_compass})"
 
 b = wm_sf.bearing_to(utm_seattle)
 puts "  WebMercator(SF) -> UTM(Seattle):     #{b.to_s}  (#{b.to_compass})"
+
+gh36_nyc = GCS::GH36.new(nyc)
+b = gh36_nyc.bearing_to(utm_seattle)
+puts "  GH36(NYC) -> UTM(Seattle):           #{b.to_s}  (#{b.to_compass})"
 puts
 
 # ── Local bearings (ENU/NED) ─────────────────────────────────────

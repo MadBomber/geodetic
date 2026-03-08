@@ -14,6 +14,7 @@ require_relative '../lib/geodetic/coordinates/ups'
 require_relative '../lib/geodetic/coordinates/usng'
 require_relative '../lib/geodetic/coordinates/state_plane'
 require_relative '../lib/geodetic/coordinates/bng'
+require_relative '../lib/geodetic/coordinates/gh36'
 require_relative '../lib/geodetic/geoid_height'
 
 include Geodetic
@@ -28,6 +29,7 @@ WebMerc    = Coordinates::WebMercator
 UPS        = Coordinates::UPS
 StatePlane = Coordinates::StatePlane
 BNG        = Coordinates::BNG
+GH36       = Coordinates::GH36
 
 def demo_coordinate_systems
   puts "=" * 80
@@ -152,6 +154,39 @@ def demo_coordinate_systems
   end
   puts
 
+  # ========== Geohash-36 Conversion ==========
+  puts "Geohash-36 (GH36)"
+  gh36_coord = GH36.new(lla_coord)
+  puts "   GH36: #{gh36_coord.to_s}"
+  puts "   Precision: #{gh36_coord.precision} chars"
+  puts "   Precision in meters: lat=#{gh36_coord.precision_in_meters[:lat].round(3)}m, lng=#{gh36_coord.precision_in_meters[:lng].round(3)}m"
+
+  # URL slug
+  puts "   URL slug: #{gh36_coord.to_slug}"
+
+  # Reduced precision
+  gh36_short = GH36.new(lla_coord, precision: 5)
+  puts "   5-char precision: #{gh36_short.to_s}"
+
+  # Round-trip test
+  lla_from_gh36 = gh36_coord.to_lla
+  gh36_lat_error = (lla_from_gh36.lat - seattle_lat).abs
+  gh36_lng_error = (lla_from_gh36.lng - seattle_lng).abs
+  puts "   Round-trip error: Lat=#{gh36_lat_error.round(8)}, Lng=#{gh36_lng_error.round(8)}"
+
+  # Neighbors
+  neighbors = gh36_coord.neighbors
+  puts "   Neighbors:"
+  neighbors.each do |dir, neighbor|
+    puts "     #{dir}: #{neighbor.to_s}"
+  end
+
+  # Area (bounding rectangle)
+  area = gh36_coord.to_area
+  puts "   Cell area: NW=(#{area.nw.lat.round(6)}, #{area.nw.lng.round(6)}) SE=(#{area.se.lat.round(6)}, #{area.se.lng.round(6)})"
+  puts "   Midpoint inside cell? #{area.includes?(gh36_coord.to_lla)}"
+  puts
+
   # ========== British National Grid Conversion ==========
   puts "British National Grid (BNG)"
   london_lla = LLA.new(lat: 51.5007, lng: -0.1246, alt: 11.0)
@@ -221,6 +256,28 @@ def demo_coordinate_systems
   puts "   Lat/Lng error is from MGRS 1-meter grid precision truncation."
   puts
 
+  # ========== Rectangle Area ==========
+  puts "RECTANGLE AREA"
+  puts "-" * 50
+
+  nw = LLA.new(lat: 47.65, lng: -122.40)
+  se = LLA.new(lat: 47.60, lng: -122.30)
+  rect = Areas::Rectangle.new(nw: nw, se: se)
+  puts "   NW: (#{rect.nw.lat}, #{rect.nw.lng})"
+  puts "   SE: (#{rect.se.lat}, #{rect.se.lng})"
+  puts "   NE: (#{rect.ne.lat}, #{rect.ne.lng})"
+  puts "   SW: (#{rect.sw.lat}, #{rect.sw.lng})"
+  puts "   Centroid: (#{rect.centroid.lat}, #{rect.centroid.lng})"
+  puts "   Space Needle inside? #{rect.includes?(lla_coord)}"
+  puts "   London inside? #{rect.includes?(london_lla)}"
+
+  # Rectangle from non-LLA coordinates
+  nw_wm = WebMerc.from_lla(nw)
+  se_wm = WebMerc.from_lla(se)
+  rect_wm = Areas::Rectangle.new(nw: nw_wm, se: se_wm)
+  puts "   From WebMercator: NW=(#{rect_wm.nw.lat.round(4)}, #{rect_wm.nw.lng.round(4)})"
+  puts
+
   # ========== Summary ==========
   puts "COORDINATE SYSTEM SUMMARY"
   puts "-" * 50
@@ -235,11 +292,14 @@ def demo_coordinate_systems
   puts "UPS (Universal Polar Stereographic)"
   puts "State Plane Coordinates"
   puts "British National Grid (BNG)"
+  puts "Geohash-36 (GH36)"
   puts "Geoid Height Support"
   puts
+  puts "Areas: Circle, Polygon, Rectangle"
+  puts
   puts "All coordinate systems support complete bidirectional conversions!"
-  puts "Total coordinate systems implemented: 12"
-  puts "Total conversion paths available: 132 (12 x 11)"
+  puts "Total coordinate systems implemented: 13"
+  puts "Total conversion paths available: 156 (13 x 12)"
   puts
   puts "=" * 80
 end

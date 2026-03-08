@@ -1,10 +1,10 @@
 # Geodetic
 
-Geodetic is a Ruby gem for converting between geodetic coordinate systems. It provides a clean, consistent API for working with 11 coordinate systems, 16 geodetic datums, geoid height calculations, and geographic area computations.
+Geodetic is a Ruby gem for converting between geodetic coordinate systems. It provides a clean, consistent API for working with 12 coordinate systems, 16 geodetic datums, geoid height calculations, and geographic area computations.
 
 ## Coordinate Systems
 
-Geodetic supports full bidirectional conversion between all 11 coordinate systems:
+Geodetic supports full bidirectional conversion between all 12 coordinate systems:
 
 | System | Class | Description |
 |--------|-------|-------------|
@@ -19,12 +19,13 @@ Geodetic supports full bidirectional conversion between all 11 coordinate system
 | **UPS** | `Geodetic::Coordinates::UPS` | Universal Polar Stereographic |
 | **StatePlane** | `Geodetic::Coordinates::StatePlane` | State Plane Coordinate System |
 | **BNG** | `Geodetic::Coordinates::BNG` | British National Grid |
+| **GH36** | `Geodetic::Coordinates::GH36` | Geohash-36 (spatial hash, URL-friendly) |
 
 ## Additional Features
 
 - **16 geodetic datums** -- WGS84, GRS 1980, Clarke 1866, Airy 1830, Bessel 1841, and more. All conversion methods accept an optional datum parameter, defaulting to WGS84.
 - **Geoid height calculations** -- Convert between ellipsoidal and orthometric heights using models such as EGM96, EGM2008, GEOID18, and GEOID12B.
-- **Geographic areas** -- `Geodetic::Areas::Circle` and `Geodetic::Areas::Polygon` for point-in-area testing.
+- **Geographic areas** -- `Geodetic::Areas::Circle`, `Geodetic::Areas::Polygon`, and `Geodetic::Areas::Rectangle` for point-in-area testing.
 
 ## Design Principles
 

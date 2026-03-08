@@ -1,6 +1,6 @@
 # Geodetic
 
-A Ruby gem for converting between geodetic coordinate systems. Supports 11 coordinate systems with full bidirectional conversions, plus geoid height calculations and geographic area operations.
+A Ruby gem for converting between geodetic coordinate systems. Supports 12 coordinate systems with full bidirectional conversions, plus geoid height calculations and geographic area operations.
 
 ## Coordinate Systems
 
@@ -17,6 +17,7 @@ A Ruby gem for converting between geodetic coordinate systems. Supports 11 coord
 | `Coordinates::UPS` | Universal Polar Stereographic |
 | `Coordinates::StatePlane` | US State Plane Coordinate System |
 | `Coordinates::BNG` | British National Grid |
+| `Coordinates::GH36` | Geohash-36 (spatial hash, URL-friendly) |
 
 ## Installation
 
@@ -128,7 +129,7 @@ bng = Coordinates::BNG.new(easting: 530000, northing: 180000)
 bng.easting = 430000               # grid_ref automatically recalculated
 ```
 
-ECEF, ENU, NED, and WebMercator setters coerce to float with no range constraints. MGRS, USNG, Distance, and Bearing are immutable.
+ECEF, ENU, NED, and WebMercator setters coerce to float with no range constraints. MGRS, USNG, GH36, Distance, and Bearing are immutable.
 
 ### DMS (Degrees, Minutes, Seconds)
 
@@ -365,6 +366,36 @@ lla.geoid_height              # => geoid undulation in meters
 lla.orthometric_height        # => height above mean sea level
 ```
 
+### Geohash-36 (GH36)
+
+A spatial hashing coordinate that encodes lat/lng into a compact, URL-friendly string:
+
+```ruby
+# From a geohash string
+gh36 = Coordinates::GH36.new("bdrdC26BqH")
+
+# From any coordinate
+gh36 = Coordinates::GH36.new(lla)
+gh36 = lla.to_gh36(precision: 8)
+
+# Decode back to LLA
+lla = gh36.to_lla
+
+# URL slug (the hash itself is URL-safe)
+gh36.to_slug    # => "bdrdC26BqH"
+
+# Neighbor cells
+gh36.neighbors  # => { N: GH36, S: GH36, E: GH36, W: GH36, NE: ..., NW: ..., SE: ..., SW: ... }
+
+# Bounding rectangle of the geohash cell
+area = gh36.to_area    # => Areas::Rectangle
+area.includes?(gh36.to_lla)  # => true
+
+# Precision info
+gh36.precision              # => 10
+gh36.precision_in_meters    # => { lat: 0.31, lng: 0.62 }
+```
+
 ### Geographic Areas
 
 ```ruby
@@ -381,6 +412,15 @@ points = [
 ]
 polygon = Areas::Polygon.new(boundary: points)
 polygon.centroid    # => computed centroid as LLA
+
+# Rectangle area (accepts any coordinate type)
+nw = Coordinates::LLA.new(lat: 41.0, lng: -75.0)
+se = Coordinates::LLA.new(lat: 40.0, lng: -74.0)
+rect = Areas::Rectangle.new(nw: nw, se: se)
+rect.centroid       # => LLA at center
+rect.ne             # => computed NE corner
+rect.sw             # => computed SW corner
+rect.includes?(point)  # => true/false
 ```
 
 ### Web Mercator Tile Coordinates

@@ -1,6 +1,6 @@
 # Coordinate Systems Overview
 
-The Geodetic gem supports 11 coordinate systems organized into five categories. All coordinate classes live under `Geodetic::Coordinates`.
+The Geodetic gem supports 12 coordinate systems organized into six categories. All coordinate classes live under `Geodetic::Coordinates`.
 
 ## Global Systems
 
@@ -36,6 +36,12 @@ The Geodetic gem supports 11 coordinate systems organized into five categories. 
 |--------|-------|-------------|
 | **UPS** | `Geodetic::Coordinates::UPS` | Universal Polar Stereographic. Covers the polar regions not handled by UTM (north of 84N and south of 80S). Uses a stereographic projection centered on each pole with zones Y/Z (north) and A/B (south). |
 
+## Spatial Hashing
+
+| System | Class | Description |
+|--------|-------|-------------|
+| **GH36** | `Geodetic::Coordinates::GH36` | Geohash-36. A hierarchical spatial hashing algorithm that encodes latitude/longitude into a compact, URL-friendly string using a case-sensitive 36-character alphabet (radix-36). Each hash represents a rectangular cell; the coordinate value is the cell midpoint. Supports neighbor lookup, area extraction via `to_area`, and configurable precision (default 10 characters for sub-meter resolution). |
+
 ## Regional Systems
 
 | System | Class | Description |
@@ -49,19 +55,20 @@ The Geodetic gem supports 11 coordinate systems organized into five categories. 
 
 Every coordinate system can convert to every other coordinate system. The table below confirms full interoperability:
 
-| From \ To | LLA | ECEF | UTM | ENU | NED | MGRS | USNG | WebMercator | UPS | StatePlane | BNG |
-|-----------|-----|------|-----|-----|-----|------|------|-------------|-----|------------|-----|
-| **LLA**        | --  | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y |
-| **ECEF**       | Y | --  | Y | Y | Y | Y | Y | Y | Y | Y | Y |
-| **UTM**        | Y | Y | --  | Y | Y | Y | Y | Y | Y | Y | Y |
-| **ENU**        | Y | Y | Y | --  | Y | Y | Y | Y | Y | Y | Y |
-| **NED**        | Y | Y | Y | Y | --  | Y | Y | Y | Y | Y | Y |
-| **MGRS**       | Y | Y | Y | Y | Y | --  | Y | Y | Y | Y | Y |
-| **USNG**       | Y | Y | Y | Y | Y | Y | --  | Y | Y | Y | Y |
-| **WebMercator**| Y | Y | Y | Y | Y | Y | Y | --  | Y | Y | Y |
-| **UPS**        | Y | Y | Y | Y | Y | Y | Y | Y | --  | Y | Y |
-| **StatePlane** | Y | Y | Y | Y | Y | Y | Y | Y | Y | --  | Y |
-| **BNG**        | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | --  |
+| From \ To | LLA | ECEF | UTM | ENU | NED | MGRS | USNG | WebMercator | UPS | StatePlane | BNG | GH36 |
+|-----------|-----|------|-----|-----|-----|------|------|-------------|-----|------------|-----|------|
+| **LLA**        | --  | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y |
+| **ECEF**       | Y | --  | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y |
+| **UTM**        | Y | Y | --  | Y | Y | Y | Y | Y | Y | Y | Y | Y |
+| **ENU**        | Y | Y | Y | --  | Y | Y | Y | Y | Y | Y | Y | Y |
+| **NED**        | Y | Y | Y | Y | --  | Y | Y | Y | Y | Y | Y | Y |
+| **MGRS**       | Y | Y | Y | Y | Y | --  | Y | Y | Y | Y | Y | Y |
+| **USNG**       | Y | Y | Y | Y | Y | Y | --  | Y | Y | Y | Y | Y |
+| **WebMercator**| Y | Y | Y | Y | Y | Y | Y | --  | Y | Y | Y | Y |
+| **UPS**        | Y | Y | Y | Y | Y | Y | Y | Y | --  | Y | Y | Y |
+| **StatePlane** | Y | Y | Y | Y | Y | Y | Y | Y | Y | --  | Y | Y |
+| **BNG**        | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | --  | Y |
+| **GH36**       | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | -- |
 
 ## Universal Distance and Bearing Calculations
 
@@ -81,6 +88,6 @@ Conversions typically route through **LLA** or **ECEF** as intermediate steps:
 - **ECEF** is the intermediate for local tangent plane systems (ENU, NED), since the rotation from global Cartesian to local frames is straightforward in ECEF.
 - **ENU and NED** convert between each other directly by reordering axes and inverting the vertical component.
 - **MGRS and USNG** route through UTM, which in turn routes through LLA.
-- **WebMercator, UPS, BNG, and StatePlane** all convert through LLA.
+- **WebMercator, UPS, BNG, StatePlane, and GH36** all convert through LLA.
 
 For example, converting from BNG to NED follows the chain: `BNG -> LLA -> ECEF -> ENU -> NED`. The gem handles this automatically when you call a conversion method.

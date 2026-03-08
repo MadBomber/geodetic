@@ -184,6 +184,24 @@ a == b
 # => true
 ```
 
+### to_gh36(precision: 10)
+
+Converts to Geohash-36 coordinates with configurable precision.
+
+```ruby
+gh36 = lla.to_gh36
+gh36 = lla.to_gh36(precision: 5)    # coarser precision
+# => Geodetic::Coordinates::GH36
+```
+
+### LLA.from_gh36(gh36_coord, datum = WGS84)
+
+Creates an LLA from a GH36 instance. Returns the midpoint of the geohash cell.
+
+```ruby
+lla = Geodetic::Coordinates::LLA.from_gh36(gh36)
+```
+
 ## GeoidHeightSupport Mixin
 
 LLA includes the `Geodetic::GeoidHeightSupport` module, which provides methods for working with geoid heights and vertical datum conversions.
