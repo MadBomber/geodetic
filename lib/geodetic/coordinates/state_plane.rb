@@ -143,8 +143,6 @@ module Geodetic
       end
 
       def to_lla(datum = nil)
-        require_relative 'lla'
-
         datum ||= @datum
         zone_info = ZONES[@zone_code]
 
@@ -209,7 +207,6 @@ module Geodetic
       end
 
       def to_mgrs(datum = nil, precision = 5)
-        require_relative 'mgrs'
         MGRS.from_lla(to_lla(datum), datum || @datum, precision)
       end
 
@@ -219,7 +216,6 @@ module Geodetic
       end
 
       def to_usng(datum = nil, precision = 5)
-        require_relative 'usng'
         USNG.from_lla(to_lla(datum), datum || @datum, precision)
       end
 
@@ -229,7 +225,6 @@ module Geodetic
       end
 
       def to_web_mercator(datum = nil)
-        require_relative 'web_mercator'
         WebMercator.from_lla(to_lla(datum), datum || @datum)
       end
 
@@ -239,7 +234,6 @@ module Geodetic
       end
 
       def to_ups(datum = nil)
-        require_relative 'ups'
         UPS.from_lla(to_lla(datum), datum || @datum)
       end
 

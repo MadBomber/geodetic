@@ -44,8 +44,6 @@ module Geodetic
       end
 
       def to_utm
-        require_relative 'utm'
-
         # Extract zone number and hemisphere from grid zone designator
         zone_number = @grid_zone_designator[0..-2].to_i
         zone_letter = @grid_zone_designator[-1]
@@ -85,7 +83,6 @@ module Geodetic
       end
 
       def self.from_lla(lla_coord, datum = WGS84, precision = 5)
-        require_relative 'utm'
         utm_coord = UTM.from_lla(lla_coord, datum)
         from_utm(utm_coord, precision)
       end
@@ -115,6 +112,24 @@ module Geodetic
       def self.from_ned(ned_coord, reference_lla, datum = WGS84, precision = 5)
         lla_coord = ned_coord.to_lla(reference_lla, datum)
         from_lla(lla_coord, datum, precision)
+      end
+
+      def ==(other)
+        return false unless other.is_a?(MGRS)
+
+        @grid_zone_designator == other.grid_zone_designator &&
+        @square_identifier == other.square_identifier &&
+        (@easting - other.easting).abs <= 1e-6 &&
+        (@northing - other.northing).abs <= 1e-6 &&
+        @precision == other.precision
+      end
+
+      def to_a
+        [@grid_zone_designator, @square_identifier, @easting, @northing, @precision]
+      end
+
+      def self.from_array(array)
+        new(grid_zone: array[0], square_id: array[1], easting: array[2].to_f, northing: array[3].to_f, precision: (array[4] || 5).to_i)
       end
 
       def utm_to_square(zone_number, easting, northing)
@@ -149,7 +164,7 @@ module Geodetic
           @grid_zone_designator = $1
           remainder = mgrs[($1.length)..-1]
         else
-          raise "Invalid MGRS format: #{mgrs_string}"
+          raise ArgumentError, "Invalid MGRS format: #{mgrs_string}"
         end
 
         # Extract 100km square identifier (next 2 characters)
@@ -157,7 +172,7 @@ module Geodetic
           @square_identifier = remainder[0..1]
           coords = remainder[2..-1]
         else
-          raise "Invalid MGRS format: missing square identifier"
+          raise ArgumentError, "Invalid MGRS format: missing square identifier"
         end
 
         # Extract coordinates (remaining characters, split evenly)
@@ -171,7 +186,7 @@ module Geodetic
           @easting = coords[0...@precision].to_i * coord_multiplier
           @northing = coords[@precision..-1].to_i * coord_multiplier
         else
-          raise "Invalid MGRS format: uneven coordinate length"
+          raise ArgumentError, "Invalid MGRS format: uneven coordinate length"
         end
       end
 

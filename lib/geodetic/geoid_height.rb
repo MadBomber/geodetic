@@ -85,7 +85,7 @@ module Geodetic
       when 'GEOID12B'
         calculate_geoid12b_height(lat, lng)
       else
-        raise "Unsupported geoid model: #{@geoid_model}"
+        raise ArgumentError, "Unsupported geoid model: #{@geoid_model}"
       end
     end
 
@@ -103,8 +103,8 @@ module Geodetic
       from_info = VERTICAL_DATUMS[from_datum]
       to_info = VERTICAL_DATUMS[to_datum]
 
-      raise "Unknown vertical datum: #{from_datum}" unless from_info
-      raise "Unknown vertical datum: #{to_datum}" unless to_info
+      raise ArgumentError, "Unknown vertical datum: #{from_datum}" unless from_info
+      raise ArgumentError, "Unknown vertical datum: #{to_datum}" unless to_info
 
       if from_info[:type] == 'orthometric'
         geoid_model = GeoidHeight.new(geoid_model: from_info[:reference_geoid])
@@ -191,7 +191,7 @@ module Geodetic
 
     def validate_model
       unless GEOID_MODELS.key?(@geoid_model)
-        raise "Unknown geoid model: #{@geoid_model}"
+        raise ArgumentError, "Unknown geoid model: #{@geoid_model}"
       end
     end
 

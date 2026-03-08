@@ -106,7 +106,6 @@ module Geodetic
       end
 
       def to_ups(datum = WGS84)
-        require_relative 'ups'
         UPS.from_lla(to_lla(datum), datum)
       end
 
@@ -116,13 +115,30 @@ module Geodetic
       end
 
       def to_web_mercator(datum = WGS84)
-        require_relative 'web_mercator'
         WebMercator.from_lla(to_lla(datum), datum)
       end
 
       def self.from_web_mercator(web_mercator_coord, datum = WGS84, precision = 5)
         lla_coord = web_mercator_coord.to_lla(datum)
         from_lla(lla_coord, datum, precision)
+      end
+
+      def ==(other)
+        return false unless other.is_a?(USNG)
+
+        @grid_zone_designator == other.grid_zone_designator &&
+        @square_identifier == other.square_identifier &&
+        (@easting - other.easting).abs <= 1e-6 &&
+        (@northing - other.northing).abs <= 1e-6 &&
+        @precision == other.precision
+      end
+
+      def to_a
+        [@grid_zone_designator, @square_identifier, @easting, @northing, @precision]
+      end
+
+      def self.from_array(array)
+        new(grid_zone: array[0], square_id: array[1], easting: array[2].to_f, northing: array[3].to_f, precision: (array[4] || 5).to_i)
       end
 
       # USNG-specific formatting methods
@@ -143,11 +159,6 @@ module Geodetic
       # Get adjacent grid squares
       def adjacent_squares
         squares = {}
-        mgrs = to_mgrs
-
-        # Calculate adjacent 100km squares (simplified)
-        base_easting = (@easting / 100000).floor * 100000
-        base_northing = (@northing / 100000).floor * 100000
 
         # This is a simplified version - real implementation would need
         # to handle zone boundaries and square identifier cycling
@@ -203,7 +214,7 @@ module Geodetic
           parts = usng.split(/\s+/)
 
           if parts.length < 2
-            raise "Invalid USNG format: #{usng_string}"
+            raise ArgumentError, "Invalid USNG format: #{usng_string}"
           end
 
           @grid_zone_designator = parts[0]

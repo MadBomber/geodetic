@@ -26,7 +26,7 @@ class GeoidHeightTest < Minitest::Test
   end
 
   def test_constructor_invalid_model_raises
-    assert_raises(RuntimeError) do
+    assert_raises(ArgumentError) do
       Geodetic::GeoidHeight.new(geoid_model: 'INVALID')
     end
   end
@@ -101,13 +101,13 @@ class GeoidHeightTest < Minitest::Test
 
   # 9. convert_vertical_datum: invalid datum raises
   def test_convert_vertical_datum_invalid_from_raises
-    assert_raises(RuntimeError) do
+    assert_raises(ArgumentError) do
       @geoid.convert_vertical_datum(LAT, LNG, 100.0, 'BOGUS', 'NAVD88')
     end
   end
 
   def test_convert_vertical_datum_invalid_to_raises
-    assert_raises(RuntimeError) do
+    assert_raises(ArgumentError) do
       @geoid.convert_vertical_datum(LAT, LNG, 100.0, 'HAE', 'BOGUS')
     end
   end

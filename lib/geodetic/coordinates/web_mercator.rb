@@ -52,8 +52,6 @@ module Geodetic
       end
 
       def to_lla(datum = WGS84)
-        require_relative 'lla'
-
         # Convert from Web Mercator to WGS84 lat/lng
         lng = (@x / EARTH_RADIUS) * DEG_PER_RAD
         lat = (2.0 * Math.atan(Math.exp(@y / EARTH_RADIUS)) - Math::PI / 2.0) * DEG_PER_RAD
@@ -115,13 +113,52 @@ module Geodetic
       end
 
       def to_mgrs(datum = WGS84, precision = 5)
-        require_relative 'mgrs'
         MGRS.from_lla(to_lla(datum), datum, precision)
       end
 
       def self.from_mgrs(mgrs_coord, datum = WGS84)
         lla_coord = mgrs_coord.to_lla(datum)
         from_lla(lla_coord, datum)
+      end
+
+      def to_usng(datum = WGS84, precision = 5)
+        USNG.from_lla(to_lla(datum), datum, precision)
+      end
+
+      def self.from_usng(usng_coord, datum = WGS84)
+        from_lla(usng_coord.to_lla(datum), datum)
+      end
+
+      def to_ups(datum = WGS84)
+        UPS.from_lla(to_lla(datum), datum)
+      end
+
+      def self.from_ups(ups_coord, datum = WGS84)
+        from_lla(ups_coord.to_lla(datum), datum)
+      end
+
+      def to_state_plane(zone_code, datum = WGS84)
+        StatePlane.from_lla(to_lla(datum), zone_code, datum)
+      end
+
+      def self.from_state_plane(sp_coord, datum = WGS84)
+        from_lla(sp_coord.to_lla(datum), datum)
+      end
+
+      def to_bng(datum = WGS84)
+        BNG.from_lla(to_lla(datum))
+      end
+
+      def self.from_bng(bng_coord, datum = WGS84)
+        from_lla(bng_coord.to_lla, datum)
+      end
+
+      def to_gh36(precision: 10)
+        GH36.new(to_lla, precision: precision)
+      end
+
+      def self.from_gh36(gh36_coord, datum = WGS84)
+        from_lla(gh36_coord.to_lla, datum)
       end
 
       # Tile coordinate methods for web mapping
@@ -142,7 +179,6 @@ module Geodetic
         lat_rad = Math.atan(Math.sinh(Math::PI * (1 - 2 * y_tile.to_f / n)))
         lat = lat_rad * DEG_PER_RAD
 
-        require_relative 'lla'
         lla = LLA.new(lat: lat, lng: lng, alt: 0.0)
         from_lla(lla)
       end
@@ -165,7 +201,6 @@ module Geodetic
         lat_rad = Math.atan(Math.sinh(Math::PI * (1 - 2 * y_pixel.to_f / (n * tile_size))))
         lat = lat_rad * DEG_PER_RAD
 
-        require_relative 'lla'
         lla = LLA.new(lat: lat, lng: lng, alt: 0.0)
         from_lla(lla)
       end

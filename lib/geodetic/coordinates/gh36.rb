@@ -109,7 +109,6 @@ module Geodetic
       end
 
       def self.from_array(array)
-        require_relative 'lla'
         new(LLA.new(lat: array[0].to_f, lng: array[1].to_f))
       end
 
@@ -119,7 +118,6 @@ module Geodetic
 
       # Decode to LLA (altitude is always 0.0 since GH36 is 2D)
       def to_lla(datum = WGS84)
-        require_relative 'lla'
         coords = decode(@geohash)
         LLA.new(lat: coords[:lat], lng: coords[:lng], alt: 0.0)
       end
@@ -165,7 +163,6 @@ module Geodetic
       end
 
       def to_mgrs(datum = WGS84, mgrs_precision = 5)
-        require_relative 'mgrs'
         MGRS.from_lla(to_lla(datum), datum, mgrs_precision)
       end
 
@@ -174,7 +171,6 @@ module Geodetic
       end
 
       def to_usng(datum = WGS84, usng_precision = 5)
-        require_relative 'usng'
         USNG.from_lla(to_lla(datum), datum, usng_precision)
       end
 
@@ -183,7 +179,6 @@ module Geodetic
       end
 
       def to_web_mercator(datum = WGS84)
-        require_relative 'web_mercator'
         WebMercator.from_lla(to_lla(datum), datum)
       end
 
@@ -192,7 +187,6 @@ module Geodetic
       end
 
       def to_ups(datum = WGS84)
-        require_relative 'ups'
         UPS.from_lla(to_lla(datum), datum)
       end
 
@@ -201,7 +195,6 @@ module Geodetic
       end
 
       def to_state_plane(zone_code, datum = WGS84)
-        require_relative 'state_plane'
         StatePlane.from_lla(to_lla(datum), zone_code, datum)
       end
 
@@ -210,7 +203,6 @@ module Geodetic
       end
 
       def to_bng(datum = WGS84)
-        require_relative 'bng'
         BNG.from_lla(to_lla(datum), datum)
       end
 
@@ -238,7 +230,6 @@ module Geodetic
 
       # Returns the geohash cell as an Areas::Rectangle
       def to_area
-        require_relative '../areas/rectangle'
         bb = self.class.send(:decode_bounds, @geohash)
         nw = LLA.new(lat: bb[:max_lat], lng: bb[:min_lng], alt: 0.0)
         se = LLA.new(lat: bb[:min_lat], lng: bb[:max_lng], alt: 0.0)

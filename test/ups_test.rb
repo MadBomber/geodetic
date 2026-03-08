@@ -27,8 +27,8 @@ class UpsTest < Minitest::Test
   end
 
   def test_invalid_zone_raises
-    assert_raises(RuntimeError) { UPS.new(hemisphere: "N", zone: "A") }
-    assert_raises(RuntimeError) { UPS.new(hemisphere: "S", zone: "Y") }
+    assert_raises(ArgumentError) { UPS.new(hemisphere: "N", zone: "A") }
+    assert_raises(ArgumentError) { UPS.new(hemisphere: "S", zone: "Y") }
   end
 
   def test_upcases_hemisphere_and_zone

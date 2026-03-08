@@ -26,8 +26,6 @@ module Geodetic
       end
 
       def to_lla(datum = WGS84)
-        require_relative 'lla'
-
         a  = datum.a
         e2 = datum.e2
 
@@ -43,6 +41,14 @@ module Geodetic
 
         max_iterations = 100
         iteration = 0
+
+        # Special case: at or near poles, cos(lat) ≈ 0 causes division instability
+        if p < 1e-10
+          latitude_deg = @z >= 0 ? 90.0 : -90.0
+          n = a / Math.sqrt(1 - e2)
+          altitude = @z.abs - n * (1 - e2)
+          return LLA.new(lat: latitude_deg, lng: longitude_deg, alt: altitude)
+        end
 
         loop do
           iteration += 1
@@ -68,18 +74,15 @@ module Geodetic
       end
 
       def self.from_lla(lla, datum = WGS84)
-        require_relative 'lla'
         raise ArgumentError, "Expected LLA" unless lla.is_a?(LLA)
 
         lla.to_ecef(datum)
       end
 
       def to_enu(reference_ecef, reference_lla = nil)
-        require_relative 'enu'
         raise ArgumentError, "Expected ECEF" unless reference_ecef.is_a?(ECEF)
 
         if reference_lla.nil?
-          require_relative 'lla'
           reference_lla = reference_ecef.to_lla
         end
 
@@ -103,7 +106,6 @@ module Geodetic
       end
 
       def self.from_enu(enu, reference_ecef, reference_lla = nil)
-        require_relative 'enu'
         raise ArgumentError, "Expected ENU" unless enu.is_a?(ENU)
         raise ArgumentError, "Expected ECEF" unless reference_ecef.is_a?(ECEF)
 
@@ -111,15 +113,11 @@ module Geodetic
       end
 
       def to_ned(reference_ecef, reference_lla = nil)
-        require_relative 'ned'
-        require_relative 'enu'
-
         enu = self.to_enu(reference_ecef, reference_lla)
         enu.to_ned
       end
 
       def self.from_ned(ned, reference_ecef, reference_lla = nil)
-        require_relative 'ned'
         raise ArgumentError, "Expected NED" unless ned.is_a?(NED)
         raise ArgumentError, "Expected ECEF" unless reference_ecef.is_a?(ECEF)
 
@@ -127,18 +125,71 @@ module Geodetic
       end
 
       def to_utm(datum = WGS84)
-        require_relative 'utm'
-
         lla = self.to_lla(datum)
         lla.to_utm(datum)
       end
 
       def self.from_utm(utm, datum = WGS84)
-        require_relative 'utm'
         raise ArgumentError, "Expected UTM" unless utm.is_a?(UTM)
 
         lla = utm.to_lla(datum)
         lla.to_ecef(datum)
+      end
+
+      def to_mgrs(datum = WGS84, precision = 5)
+        MGRS.from_lla(to_lla(datum), datum, precision)
+      end
+
+      def self.from_mgrs(mgrs_coord, datum = WGS84)
+        mgrs_coord.to_ecef(datum)
+      end
+
+      def to_usng(datum = WGS84, precision = 5)
+        USNG.from_lla(to_lla(datum), datum, precision)
+      end
+
+      def self.from_usng(usng_coord, datum = WGS84)
+        usng_coord.to_ecef(datum)
+      end
+
+      def to_web_mercator(datum = WGS84)
+        WebMercator.from_lla(to_lla(datum), datum)
+      end
+
+      def self.from_web_mercator(wm_coord, datum = WGS84)
+        wm_coord.to_ecef(datum)
+      end
+
+      def to_ups(datum = WGS84)
+        UPS.from_lla(to_lla(datum), datum)
+      end
+
+      def self.from_ups(ups_coord, datum = WGS84)
+        ups_coord.to_ecef(datum)
+      end
+
+      def to_state_plane(zone_code, datum = WGS84)
+        StatePlane.from_lla(to_lla(datum), zone_code, datum)
+      end
+
+      def self.from_state_plane(sp_coord, datum = WGS84)
+        sp_coord.to_ecef(datum)
+      end
+
+      def to_bng(datum = WGS84)
+        BNG.from_lla(to_lla(datum))
+      end
+
+      def self.from_bng(bng_coord, datum = WGS84)
+        bng_coord.to_ecef(datum)
+      end
+
+      def to_gh36(precision: 10)
+        GH36.new(to_lla, precision: precision)
+      end
+
+      def self.from_gh36(gh36_coord, datum = WGS84)
+        gh36_coord.to_ecef(datum)
       end
 
       def to_s(precision = 2)

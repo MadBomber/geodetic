@@ -79,8 +79,6 @@ module Geodetic
       end
 
       def to_lla(datum = WGS84)
-        require_relative 'lla'
-
         a = datum.a
         e = datum.e
         e2 = datum.e2
@@ -218,7 +216,6 @@ module Geodetic
       end
 
       def to_mgrs(datum = WGS84, precision = 5)
-        require_relative 'mgrs'
         MGRS.from_lla(to_lla(datum), datum, precision)
       end
 
@@ -228,7 +225,6 @@ module Geodetic
       end
 
       def to_web_mercator(datum = WGS84)
-        require_relative 'web_mercator'
         WebMercator.from_lla(to_lla(datum), datum)
       end
 
@@ -285,7 +281,7 @@ module Geodetic
 
       def validate_zone
         unless valid?
-          raise "Invalid UPS zone '#{@zone}' for hemisphere '#{@hemisphere}'"
+          raise ArgumentError, "Invalid UPS zone '#{@zone}' for hemisphere '#{@hemisphere}'"
         end
       end
     end

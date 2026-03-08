@@ -29,6 +29,7 @@ module Geodetic
 
       def lat=(value)
         value = value.to_f
+        raise ArgumentError, "Latitude must be a finite number" if value.nan? || value.infinite?
         raise ArgumentError, "Latitude must be between -90 and 90 degrees" if value < -90 || value > 90
         @lat = value
       end
@@ -36,19 +37,20 @@ module Geodetic
 
       def lng=(value)
         value = value.to_f
+        raise ArgumentError, "Longitude must be a finite number" if value.nan? || value.infinite?
         raise ArgumentError, "Longitude must be between -180 and 180 degrees" if value < -180 || value > 180
         @lng = value
       end
       alias_method :longitude=, :lng=
 
       def alt=(value)
-        @alt = value.to_f
+        value = value.to_f
+        raise ArgumentError, "Altitude must be a finite number" if value.nan? || value.infinite?
+        @alt = value
       end
       alias_method :altitude=, :alt=
 
       def to_ecef(datum = WGS84)
-        require_relative 'ecef'
-
         latitude_rad  = @lat * RAD_PER_DEG
         longitude_rad = @lng * RAD_PER_DEG
 
@@ -70,15 +72,12 @@ module Geodetic
       end
 
       def self.from_ecef(ecef, datum = WGS84)
-        require_relative 'ecef'
         raise ArgumentError, "Expected ECEF" unless ecef.is_a?(ECEF)
 
         ecef.to_lla(datum)
       end
 
       def to_utm(datum = WGS84)
-        require_relative 'utm'
-
         lat_rad = @lat * RAD_PER_DEG
         lon_rad = @lng * RAD_PER_DEG
 
@@ -129,14 +128,12 @@ module Geodetic
       end
 
       def self.from_utm(utm, datum = WGS84)
-        require_relative 'utm'
         raise ArgumentError, "Expected UTM" unless utm.is_a?(UTM)
 
         utm.to_lla(datum)
       end
 
       def to_ned(reference_lla)
-        require_relative 'ned'
         raise ArgumentError, "Expected LLA" unless reference_lla.is_a?(LLA)
 
         ecef = self.to_ecef
@@ -146,7 +143,6 @@ module Geodetic
       end
 
       def self.from_ned(ned, reference_lla)
-        require_relative 'ned'
         raise ArgumentError, "Expected NED" unless ned.is_a?(NED)
         raise ArgumentError, "Expected LLA" unless reference_lla.is_a?(LLA)
 
@@ -154,7 +150,6 @@ module Geodetic
       end
 
       def to_enu(reference_lla)
-        require_relative 'enu'
         raise ArgumentError, "Expected LLA" unless reference_lla.is_a?(LLA)
 
         ecef = self.to_ecef
@@ -164,7 +159,6 @@ module Geodetic
       end
 
       def self.from_enu(enu, reference_lla)
-        require_relative 'enu'
         raise ArgumentError, "Expected ENU" unless enu.is_a?(ENU)
         raise ArgumentError, "Expected LLA" unless reference_lla.is_a?(LLA)
 
@@ -220,7 +214,6 @@ module Geodetic
       end
 
       def to_gh36(precision: 10)
-        require_relative 'gh36'
         GH36.new(self, precision: precision)
       end
 
@@ -264,6 +257,9 @@ module Geodetic
       private
 
       def validate_coordinates!
+        raise ArgumentError, "Latitude must be a finite number" if @lat.nan? || @lat.infinite?
+        raise ArgumentError, "Longitude must be a finite number" if @lng.nan? || @lng.infinite?
+        raise ArgumentError, "Altitude must be a finite number" if @alt.nan? || @alt.infinite?
         raise ArgumentError, "Latitude must be between -90 and 90 degrees" if @lat < -90 || @lat > 90
         raise ArgumentError, "Longitude must be between -180 and 180 degrees" if @lng < -180 || @lng > 180
       end

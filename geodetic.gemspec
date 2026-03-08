@@ -9,13 +9,14 @@ Gem::Specification.new do |spec|
   spec.email = ["dewayne@vanhoozer.me"]
 
   spec.summary = "Convert between geodetic coordinate systems with distance calculations"
-  spec.description = "A Ruby gem for converting between 11 geodetic coordinate systems (LLA, ECEF, UTM, ENU, NED, MGRS, USNG, Web Mercator, UPS, State Plane, BNG) with Vincenty great-circle and ECEF Euclidean distance calculations, unit-aware Distance class, geoid height support, and geographic area operations."
+  spec.description = "A Ruby gem for converting between 12 geodetic coordinate systems (LLA, ECEF, UTM, ENU, NED, MGRS, USNG, Web Mercator, UPS, State Plane, BNG, GH36) with Vincenty great-circle and ECEF Euclidean distance calculations, unit-aware Distance and Bearing classes, geoid height support, and geographic area operations."
   spec.homepage = "https://github.com/madbomber/geodetic"
   spec.license = "MIT"
   spec.required_ruby_version = ">= 3.2.0"
   spec.metadata["homepage_uri"] = spec.homepage
   spec.metadata["source_code_uri"] = "https://github.com/madbomber/geodetic"
   spec.metadata["changelog_uri"] = "https://github.com/madbomber/geodetic/blob/main/CHANGELOG.md"
+  spec.metadata["documentation_uri"] = "https://madbomber.github.io/geodetic/"
 
   # Specify which files should be added to the gem when it is released.
   # The `git ls-files -z` loads the files in the RubyGem that have been added into git.

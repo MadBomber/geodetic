@@ -49,8 +49,6 @@ module Geodetic
       end
 
       def to_lla(datum = WGS84)
-        require_relative 'lla'
-
         k0 = 0.9996
         false_easting = 500000.0
         false_northing = @hemisphere == 'S' ? 10000000.0 : 0.0
@@ -106,29 +104,23 @@ module Geodetic
       end
 
       def self.from_lla(lla, datum = WGS84)
-        require_relative 'lla'
         raise ArgumentError, "Expected LLA" unless lla.is_a?(LLA)
 
         lla.to_utm(datum)
       end
 
       def to_ecef(datum = WGS84)
-        require_relative 'ecef'
-
         lla = self.to_lla(datum)
         lla.to_ecef(datum)
       end
 
       def self.from_ecef(ecef, datum = WGS84)
-        require_relative 'ecef'
         raise ArgumentError, "Expected ECEF" unless ecef.is_a?(ECEF)
 
         ecef.to_utm(datum)
       end
 
       def to_enu(reference_lla, datum = WGS84)
-        require_relative 'enu'
-        require_relative 'lla'
         raise ArgumentError, "Expected LLA" unless reference_lla.is_a?(LLA)
 
         lla = self.to_lla(datum)
@@ -136,8 +128,6 @@ module Geodetic
       end
 
       def self.from_enu(enu, reference_lla, datum = WGS84)
-        require_relative 'enu'
-        require_relative 'lla'
         raise ArgumentError, "Expected ENU" unless enu.is_a?(ENU)
         raise ArgumentError, "Expected LLA" unless reference_lla.is_a?(LLA)
 
@@ -145,8 +135,6 @@ module Geodetic
       end
 
       def to_ned(reference_lla, datum = WGS84)
-        require_relative 'ned'
-        require_relative 'lla'
         raise ArgumentError, "Expected LLA" unless reference_lla.is_a?(LLA)
 
         lla = self.to_lla(datum)
@@ -154,12 +142,66 @@ module Geodetic
       end
 
       def self.from_ned(ned, reference_lla, datum = WGS84)
-        require_relative 'ned'
-        require_relative 'lla'
         raise ArgumentError, "Expected NED" unless ned.is_a?(NED)
         raise ArgumentError, "Expected LLA" unless reference_lla.is_a?(LLA)
 
         ned.to_utm(reference_lla, datum)
+      end
+
+      def to_mgrs(datum = WGS84, precision = 5)
+        MGRS.from_utm(self, precision)
+      end
+
+      def self.from_mgrs(mgrs_coord, datum = WGS84)
+        mgrs_coord.to_utm
+      end
+
+      def to_usng(datum = WGS84, precision = 5)
+        USNG.from_utm(self, precision)
+      end
+
+      def self.from_usng(usng_coord, datum = WGS84)
+        usng_coord.to_utm
+      end
+
+      def to_web_mercator(datum = WGS84)
+        WebMercator.from_lla(to_lla(datum), datum)
+      end
+
+      def self.from_web_mercator(wm_coord, datum = WGS84)
+        from_lla(wm_coord.to_lla(datum), datum)
+      end
+
+      def to_ups(datum = WGS84)
+        UPS.from_lla(to_lla(datum), datum)
+      end
+
+      def self.from_ups(ups_coord, datum = WGS84)
+        from_lla(ups_coord.to_lla(datum), datum)
+      end
+
+      def to_state_plane(zone_code, datum = WGS84)
+        StatePlane.from_lla(to_lla(datum), zone_code, datum)
+      end
+
+      def self.from_state_plane(sp_coord, datum = WGS84)
+        from_lla(sp_coord.to_lla(datum), datum)
+      end
+
+      def to_bng(datum = WGS84)
+        BNG.from_lla(to_lla(datum))
+      end
+
+      def self.from_bng(bng_coord, datum = WGS84)
+        from_lla(bng_coord.to_lla, datum)
+      end
+
+      def to_gh36(precision: 10)
+        GH36.new(to_lla, precision: precision)
+      end
+
+      def self.from_gh36(gh36_coord, datum = WGS84)
+        from_lla(gh36_coord.to_lla, datum)
       end
 
       def to_s(precision = 2)

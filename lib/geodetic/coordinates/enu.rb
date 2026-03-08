@@ -32,11 +32,9 @@ module Geodetic
       alias_method :up=, :u=
 
       def to_ecef(reference_ecef, reference_lla = nil)
-        require_relative 'ecef'
         raise ArgumentError, "Expected ECEF" unless reference_ecef.is_a?(ECEF)
 
         if reference_lla.nil?
-          require_relative 'lla'
           reference_lla = reference_ecef.to_lla
         end
 
@@ -60,7 +58,6 @@ module Geodetic
       end
 
       def self.from_ecef(ecef, reference_ecef, reference_lla = nil)
-        require_relative 'ecef'
         raise ArgumentError, "Expected ECEF" unless ecef.is_a?(ECEF)
         raise ArgumentError, "Expected ECEF" unless reference_ecef.is_a?(ECEF)
 
@@ -68,20 +65,16 @@ module Geodetic
       end
 
       def to_ned
-        require_relative 'ned'
-
         NED.new(n: @n, e: @e, d: -@u)
       end
 
       def self.from_ned(ned)
-        require_relative 'ned'
         raise ArgumentError, "Expected NED" unless ned.is_a?(NED)
 
         ned.to_enu
       end
 
       def to_lla(reference_lla)
-        require_relative 'lla'
         raise ArgumentError, "Expected LLA" unless reference_lla.is_a?(LLA)
 
         reference_ecef = reference_lla.to_ecef
@@ -90,7 +83,6 @@ module Geodetic
       end
 
       def self.from_lla(lla, reference_lla)
-        require_relative 'lla'
         raise ArgumentError, "Expected LLA" unless lla.is_a?(LLA)
         raise ArgumentError, "Expected LLA" unless reference_lla.is_a?(LLA)
 
@@ -98,8 +90,6 @@ module Geodetic
       end
 
       def to_utm(reference_lla, datum = WGS84)
-        require_relative 'utm'
-        require_relative 'lla'
         raise ArgumentError, "Expected LLA" unless reference_lla.is_a?(LLA)
 
         lla = self.to_lla(reference_lla)
@@ -107,13 +97,74 @@ module Geodetic
       end
 
       def self.from_utm(utm, reference_lla, datum = WGS84)
-        require_relative 'utm'
-        require_relative 'lla'
         raise ArgumentError, "Expected UTM" unless utm.is_a?(UTM)
         raise ArgumentError, "Expected LLA" unless reference_lla.is_a?(LLA)
 
         lla = utm.to_lla(datum)
         lla.to_enu(reference_lla)
+      end
+
+      def to_mgrs(reference_lla, datum = WGS84, precision = 5)
+        MGRS.from_lla(to_lla(reference_lla), datum, precision)
+      end
+
+      def self.from_mgrs(mgrs_coord, reference_lla, datum = WGS84)
+        lla = mgrs_coord.to_lla(datum)
+        from_lla(lla, reference_lla)
+      end
+
+      def to_usng(reference_lla, datum = WGS84, precision = 5)
+        USNG.from_lla(to_lla(reference_lla), datum, precision)
+      end
+
+      def self.from_usng(usng_coord, reference_lla, datum = WGS84)
+        lla = usng_coord.to_lla(datum)
+        from_lla(lla, reference_lla)
+      end
+
+      def to_web_mercator(reference_lla, datum = WGS84)
+        WebMercator.from_lla(to_lla(reference_lla), datum)
+      end
+
+      def self.from_web_mercator(wm_coord, reference_lla, datum = WGS84)
+        lla = wm_coord.to_lla(datum)
+        from_lla(lla, reference_lla)
+      end
+
+      def to_ups(reference_lla, datum = WGS84)
+        UPS.from_lla(to_lla(reference_lla), datum)
+      end
+
+      def self.from_ups(ups_coord, reference_lla, datum = WGS84)
+        lla = ups_coord.to_lla(datum)
+        from_lla(lla, reference_lla)
+      end
+
+      def to_state_plane(reference_lla, zone_code, datum = WGS84)
+        StatePlane.from_lla(to_lla(reference_lla), zone_code, datum)
+      end
+
+      def self.from_state_plane(sp_coord, reference_lla, datum = WGS84)
+        lla = sp_coord.to_lla(datum)
+        from_lla(lla, reference_lla)
+      end
+
+      def to_bng(reference_lla)
+        BNG.from_lla(to_lla(reference_lla))
+      end
+
+      def self.from_bng(bng_coord, reference_lla)
+        lla = bng_coord.to_lla
+        from_lla(lla, reference_lla)
+      end
+
+      def to_gh36(reference_lla, precision: 10)
+        GH36.new(to_lla(reference_lla), precision: precision)
+      end
+
+      def self.from_gh36(gh36_coord, reference_lla)
+        lla = gh36_coord.to_lla
+        from_lla(lla, reference_lla)
       end
 
       def to_s(precision = 2)
