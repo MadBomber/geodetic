@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative '../coordinates/lla'
+require_relative '../coordinate/lla'
 
 module Geodetic
   module Areas
@@ -15,13 +15,13 @@ module Geodetic
       #     se: LLA.new(lat: 40.0, lng: -74.0)
       #   )
       def initialize(nw:, se:)
-        @nw = nw.is_a?(Coordinates::LLA) ? nw : nw.to_lla
-        @se = se.is_a?(Coordinates::LLA) ? se : se.to_lla
+        @nw = nw.is_a?(Coordinate::LLA) ? nw : nw.to_lla
+        @se = se.is_a?(Coordinate::LLA) ? se : se.to_lla
 
         raise ArgumentError, "NW corner must have higher latitude than SE corner" if @nw.lat < @se.lat
         raise ArgumentError, "NW corner must have lower longitude than SE corner" if @nw.lng > @se.lng
 
-        @centroid = Coordinates::LLA.new(
+        @centroid = Coordinate::LLA.new(
           lat: (@nw.lat + @se.lat) / 2.0,
           lng: (@nw.lng + @se.lng) / 2.0,
           alt: 0.0
@@ -29,11 +29,11 @@ module Geodetic
       end
 
       def ne
-        Coordinates::LLA.new(lat: @nw.lat, lng: @se.lng, alt: 0.0)
+        Coordinate::LLA.new(lat: @nw.lat, lng: @se.lng, alt: 0.0)
       end
 
       def sw
-        Coordinates::LLA.new(lat: @se.lat, lng: @nw.lng, alt: 0.0)
+        Coordinate::LLA.new(lat: @se.lat, lng: @nw.lng, alt: 0.0)
       end
 
       def includes?(a_point)

@@ -3,7 +3,7 @@
 require_relative '../datum'
 
 module Geodetic
-  module Coordinates
+  module Coordinate
     class NED
       attr_reader :n, :e, :d
       alias_method :north, :n

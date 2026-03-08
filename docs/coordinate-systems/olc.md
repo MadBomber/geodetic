@@ -1,4 +1,4 @@
-# Geodetic::Coordinates::OLC
+# Geodetic::Coordinate::OLC
 
 ## Open Location Code (Plus Codes)
 
@@ -19,11 +19,11 @@ OLC is a **2D coordinate system** (no altitude). Conversions to/from other syste
 
 ```ruby
 # From a plus code string
-coord = Geodetic::Coordinates::OLC.new("849VCWC8+R9")
+coord = Geodetic::Coordinate::OLC.new("849VCWC8+R9")
 
 # From any coordinate (converts via LLA)
-coord = Geodetic::Coordinates::OLC.new(lla_coord)
-coord = Geodetic::Coordinates::OLC.new(utm_coord, precision: 11)
+coord = Geodetic::Coordinate::OLC.new(lla_coord)
+coord = Geodetic::Coordinate::OLC.new(utm_coord, precision: 11)
 ```
 
 | Parameter   | Type              | Default | Description                                    |
@@ -102,11 +102,11 @@ OLC.from_ham(ham_coord)
 ### LLA Convenience Methods
 
 ```ruby
-lla = Geodetic::Coordinates::LLA.new(lat: 37.4220, lng: -122.0841)
+lla = Geodetic::Coordinate::LLA.new(lat: 37.4220, lng: -122.0841)
 olc = lla.to_olc                    # default precision 10
 olc = lla.to_olc(precision: 11)     # grid refinement precision
 
-lla = Geodetic::Coordinates::LLA.from_olc(olc)
+lla = Geodetic::Coordinate::LLA.from_olc(olc)
 ```
 
 ## Serialization

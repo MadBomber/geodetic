@@ -20,7 +20,7 @@
 #   HAM.new(utm_coord, precision: 8)     # with extended precision
 
 module Geodetic
-  module Coordinates
+  module Coordinate
     class HAM
       require_relative '../datum'
 

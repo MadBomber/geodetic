@@ -1,4 +1,4 @@
-# Geodetic::Coordinates::WebMercator
+# Geodetic::Coordinate::WebMercator
 
 ## Web Mercator (EPSG:3857)
 
@@ -7,7 +7,7 @@ Web Mercator is the de facto standard projection used by major web mapping platf
 ## Constructor
 
 ```ruby
-point = Geodetic::Coordinates::WebMercator.new(x: 0.0, y: 0.0)
+point = Geodetic::Coordinate::WebMercator.new(x: 0.0, y: 0.0)
 ```
 
 Parameters `x` and `y` are specified in **meters** from the projection origin (the intersection of the Equator and the Prime Meridian).
@@ -27,7 +27,7 @@ Convert between Web Mercator coordinates and map tile indices at a given zoom le
 ```ruby
 tile_x, tile_y = point.to_tile_coordinates(zoom)
 
-point = Geodetic::Coordinates::WebMercator.from_tile_coordinates(x, y, zoom)
+point = Geodetic::Coordinate::WebMercator.from_tile_coordinates(x, y, zoom)
 ```
 
 ## Pixel Coordinate Methods
@@ -37,7 +37,7 @@ Convert between Web Mercator coordinates and pixel positions at a given zoom lev
 ```ruby
 pixel_x, pixel_y = point.to_pixel_coordinates(zoom, tile_size)
 
-point = Geodetic::Coordinates::WebMercator.from_pixel_coordinates(x, y, zoom, tile_size)
+point = Geodetic::Coordinate::WebMercator.from_pixel_coordinates(x, y, zoom, tile_size)
 ```
 
 ## Tile Bounds
@@ -45,7 +45,7 @@ point = Geodetic::Coordinates::WebMercator.from_pixel_coordinates(x, y, zoom, ti
 Retrieve the bounding box of a specific tile.
 
 ```ruby
-bounds = Geodetic::Coordinates::WebMercator.tile_bounds(tile_x, tile_y, zoom)
+bounds = Geodetic::Coordinate::WebMercator.tile_bounds(tile_x, tile_y, zoom)
 ```
 
 ## Validation and Utility Methods
@@ -60,8 +60,8 @@ bounds = Geodetic::Coordinates::WebMercator.tile_bounds(tile_x, tile_y, zoom)
 The universal `distance_to` method computes the Vincenty great-circle distance (in meters) to any other coordinate type. The `straight_line_distance_to` method computes the Euclidean distance in ECEF space. Both accept single or multiple targets.
 
 ```ruby
-wm_a = Geodetic::Coordinates::WebMercator.new(x: -13627665.0, y: 6044499.0)
-wm_b = Geodetic::Coordinates::WebMercator.new(x: -13631157.0, y: 5694043.0)
+wm_a = Geodetic::Coordinate::WebMercator.new(x: -13627665.0, y: 6044499.0)
+wm_b = Geodetic::Coordinate::WebMercator.new(x: -13631157.0, y: 5694043.0)
 wm_a.distance_to(wm_b)                # => Distance (meters, great-circle)
 wm_a.straight_line_distance_to(wm_b)  # => Distance (meters, Euclidean)
 ```

@@ -3,11 +3,11 @@
 require "test_helper"
 
 class CoordinatesTest < Minitest::Test
-  LLA  = Geodetic::Coordinates::LLA
-  ECEF = Geodetic::Coordinates::ECEF
-  ENU  = Geodetic::Coordinates::ENU
-  NED  = Geodetic::Coordinates::NED
-  UTM  = Geodetic::Coordinates::UTM
+  LLA  = Geodetic::Coordinate::LLA
+  ECEF = Geodetic::Coordinate::ECEF
+  ENU  = Geodetic::Coordinate::ENU
+  NED  = Geodetic::Coordinate::NED
+  UTM  = Geodetic::Coordinate::UTM
 
   SEATTLE = LLA.new(lat: 47.6205, lng: -122.3493, alt: 184.0)
   SF      = LLA.new(lat: 37.7749, lng: -122.4194, alt: 0.0)

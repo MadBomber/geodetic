@@ -5,7 +5,7 @@ require "geodetic"
 
 class OLCTest < Minitest::Test
   include Geodetic
-  include Geodetic::Coordinates
+  include Geodetic::Coordinate
 
   # ── Constructor from String ────────────────────────────────────
 

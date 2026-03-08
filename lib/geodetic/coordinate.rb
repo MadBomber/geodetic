@@ -1,23 +1,23 @@
 # frozen_string_literal: true
 
-require_relative "coordinates/lla"
-require_relative "coordinates/ecef"
-require_relative "coordinates/utm"
-require_relative "coordinates/enu"
-require_relative "coordinates/ned"
-require_relative "coordinates/mgrs"
-require_relative "coordinates/usng"
-require_relative "coordinates/web_mercator"
-require_relative "coordinates/ups"
-require_relative "coordinates/state_plane"
-require_relative "coordinates/bng"
-require_relative "coordinates/gh36"
-require_relative "coordinates/gh"
-require_relative "coordinates/ham"
-require_relative "coordinates/olc"
+require_relative "coordinate/lla"
+require_relative "coordinate/ecef"
+require_relative "coordinate/utm"
+require_relative "coordinate/enu"
+require_relative "coordinate/ned"
+require_relative "coordinate/mgrs"
+require_relative "coordinate/usng"
+require_relative "coordinate/web_mercator"
+require_relative "coordinate/ups"
+require_relative "coordinate/state_plane"
+require_relative "coordinate/bng"
+require_relative "coordinate/gh36"
+require_relative "coordinate/gh"
+require_relative "coordinate/ham"
+require_relative "coordinate/olc"
 
 module Geodetic
-  module Coordinates
+  module Coordinate
     # Vincenty great-circle distance between two LLA points (meters)
     def self.vincenty_distance(lla_a, lla_b)
       a   = WGS84.a
@@ -204,7 +204,7 @@ module Geodetic
       # Single target returns a Distance; multiple returns an Array of Distances.
       def distance_to(*others)
         list = others.length == 1 && others[0].is_a?(Array) ? others[0] : others
-        distances = list.map { |other| Coordinates.distance_between(self, other) }
+        distances = list.map { |other| Coordinate.distance_between(self, other) }
         distances.length == 1 ? distances[0] : distances
       end
 
@@ -212,7 +212,7 @@ module Geodetic
       # Single target returns a Distance; multiple returns an Array of Distances.
       def straight_line_distance_to(*others)
         list = others.length == 1 && others[0].is_a?(Array) ? others[0] : others
-        distances = list.map { |other| Coordinates.straight_line_distance_between(self, other) }
+        distances = list.map { |other| Coordinate.straight_line_distance_between(self, other) }
         distances.length == 1 ? distances[0] : distances
       end
     end
@@ -222,17 +222,17 @@ module Geodetic
       # Great-circle forward azimuth from this coordinate to another.
       # Returns a Bearing (degrees 0-360).
       def bearing_to(other)
-        Coordinates.bearing_between(self, other)
+        Coordinate.bearing_between(self, other)
       end
 
       # Elevation angle from this coordinate to another.
       # Returns Float degrees (-90 to +90). Positive means target is above.
       def elevation_to(other)
-        lla_self  = Coordinates.send(:to_lla, self)
-        ecef_self = Coordinates.send(:to_ecef, self)
-        ecef_other = Coordinates.send(:to_ecef, other)
+        lla_self  = Coordinate.send(:to_lla, self)
+        ecef_self = Coordinate.send(:to_ecef, self)
+        ecef_other = Coordinate.send(:to_ecef, other)
 
-        Coordinates.elevation_angle(lla_self, ecef_self, ecef_other)
+        Coordinate.elevation_angle(lla_self, ecef_self, ecef_other)
       end
     end
   end
@@ -240,27 +240,27 @@ end
 
 # Include mixins in all coordinate classes
 ALL_COORD_CLASSES = [
-  Geodetic::Coordinates::LLA,
-  Geodetic::Coordinates::ECEF,
-  Geodetic::Coordinates::UTM,
-  Geodetic::Coordinates::ENU,
-  Geodetic::Coordinates::NED,
-  Geodetic::Coordinates::MGRS,
-  Geodetic::Coordinates::USNG,
-  Geodetic::Coordinates::WebMercator,
-  Geodetic::Coordinates::UPS,
-  Geodetic::Coordinates::StatePlane,
-  Geodetic::Coordinates::BNG,
-  Geodetic::Coordinates::GH36,
-  Geodetic::Coordinates::GH,
-  Geodetic::Coordinates::HAM,
-  Geodetic::Coordinates::OLC,
+  Geodetic::Coordinate::LLA,
+  Geodetic::Coordinate::ECEF,
+  Geodetic::Coordinate::UTM,
+  Geodetic::Coordinate::ENU,
+  Geodetic::Coordinate::NED,
+  Geodetic::Coordinate::MGRS,
+  Geodetic::Coordinate::USNG,
+  Geodetic::Coordinate::WebMercator,
+  Geodetic::Coordinate::UPS,
+  Geodetic::Coordinate::StatePlane,
+  Geodetic::Coordinate::BNG,
+  Geodetic::Coordinate::GH36,
+  Geodetic::Coordinate::GH,
+  Geodetic::Coordinate::HAM,
+  Geodetic::Coordinate::OLC,
 ].freeze
 
 ALL_COORD_CLASSES.each do |klass|
-  klass.include(Geodetic::Coordinates::DistanceMethods)
-  klass.include(Geodetic::Coordinates::BearingMethods)
+  klass.include(Geodetic::Coordinate::DistanceMethods)
+  klass.include(Geodetic::Coordinate::BearingMethods)
 end
 
-# GCS is a convenience alias for Geodetic::Coordinates, available after require "geodetic"
-GCS = Geodetic::Coordinates
+# GCS is a convenience alias for Geodetic::Coordinate, available after require "geodetic"
+GCS = Geodetic::Coordinate

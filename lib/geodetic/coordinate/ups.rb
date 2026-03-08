@@ -4,7 +4,7 @@
 # Used for polar regions not covered by UTM (north of 84°N and south of 80°S)
 
 module Geodetic
-  module Coordinates
+  module Coordinate
     class UPS
       require_relative '../datum'
 

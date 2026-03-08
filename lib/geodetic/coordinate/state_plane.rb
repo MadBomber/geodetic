@@ -5,7 +5,7 @@
 # Each state has one or more zones with specific parameters
 
 module Geodetic
-  module Coordinates
+  module Coordinate
     class StatePlane
       require_relative '../datum'
 

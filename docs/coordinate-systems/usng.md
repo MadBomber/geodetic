@@ -1,4 +1,4 @@
-# Geodetic::Coordinates::USNG - US National Grid
+# Geodetic::Coordinate::USNG - US National Grid
 
 ## Overview
 
@@ -59,7 +59,7 @@ USNG <-> MGRS <-> UTM <-> LLA
 ## Example
 
 ```ruby
-usng = Geodetic::Coordinates::USNG.new(usng_string: "18T WL 12345 67890")
+usng = Geodetic::Coordinate::USNG.new(usng_string: "18T WL 12345 67890")
 
 usng.grid_zone  # => "18T"
 usng.square_id  # => "WL"

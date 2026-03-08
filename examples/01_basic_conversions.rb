@@ -4,18 +4,18 @@
 # Shows all coordinate systems converting to/from each other
 
 require_relative '../lib/geodetic'
-require_relative '../lib/geodetic/coordinates/lla'
-require_relative '../lib/geodetic/coordinates/ecef'
-require_relative '../lib/geodetic/coordinates/enu'
-require_relative '../lib/geodetic/coordinates/ned'
-require_relative '../lib/geodetic/coordinates/utm'
+require_relative '../lib/geodetic/coordinate/lla'
+require_relative '../lib/geodetic/coordinate/ecef'
+require_relative '../lib/geodetic/coordinate/enu'
+require_relative '../lib/geodetic/coordinate/ned'
+require_relative '../lib/geodetic/coordinate/utm'
 
 include Geodetic
-LLA  = Coordinates::LLA
-ECEF = Coordinates::ECEF
-ENU  = Coordinates::ENU
-NED  = Coordinates::NED
-UTM  = Coordinates::UTM
+LLA  = Coordinate::LLA
+ECEF = Coordinate::ECEF
+ENU  = Coordinate::ENU
+NED  = Coordinate::NED
+UTM  = Coordinate::UTM
 
 puts "=== Orthogonal Coordinate System Conversions Demo ==="
 puts

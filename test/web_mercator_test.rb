@@ -1,22 +1,22 @@
 # frozen_string_literal: true
 
 require "test_helper"
-require_relative "../lib/geodetic/coordinates/web_mercator"
-require_relative "../lib/geodetic/coordinates/lla"
+require_relative "../lib/geodetic/coordinate/web_mercator"
+require_relative "../lib/geodetic/coordinate/lla"
 
 class WebMercatorTest < Minitest::Test
-  WebMercator = Geodetic::Coordinates::WebMercator
-  LLA         = Geodetic::Coordinates::LLA
-  ECEF        = Geodetic::Coordinates::ECEF
-  UTM         = Geodetic::Coordinates::UTM
-  ENU         = Geodetic::Coordinates::ENU
-  NED         = Geodetic::Coordinates::NED
-  MGRS        = Geodetic::Coordinates::MGRS
-  USNG        = Geodetic::Coordinates::USNG
-  UPS_C       = Geodetic::Coordinates::UPS
-  SP          = Geodetic::Coordinates::StatePlane
-  BNG         = Geodetic::Coordinates::BNG
-  GH36        = Geodetic::Coordinates::GH36
+  WebMercator = Geodetic::Coordinate::WebMercator
+  LLA         = Geodetic::Coordinate::LLA
+  ECEF        = Geodetic::Coordinate::ECEF
+  UTM         = Geodetic::Coordinate::UTM
+  ENU         = Geodetic::Coordinate::ENU
+  NED         = Geodetic::Coordinate::NED
+  MGRS        = Geodetic::Coordinate::MGRS
+  USNG        = Geodetic::Coordinate::USNG
+  UPS_C       = Geodetic::Coordinate::UPS
+  SP          = Geodetic::Coordinate::StatePlane
+  BNG         = Geodetic::Coordinate::BNG
+  GH36        = Geodetic::Coordinate::GH36
 
   # ── Constructor ──────────────────────────────────────────────
 

@@ -3,7 +3,7 @@
 require_relative '../datum'
 
 module Geodetic
-  module Coordinates
+  module Coordinate
     class UTM
       attr_reader :easting, :northing, :altitude, :zone, :hemisphere
       alias_method :x, :easting

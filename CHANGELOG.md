@@ -15,10 +15,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - **4 new coordinate systems** bringing the total from 11 to 15:
-  - `Geodetic::Coordinates::GH36` — Geohash-36 (radix-36 spatial hash, URL-friendly)
-  - `Geodetic::Coordinates::GH` — Geohash base-32 (standard geohash, supported by Elasticsearch, Redis, PostGIS)
-  - `Geodetic::Coordinates::HAM` — Maidenhead Locator System (amateur radio grid squares)
-  - `Geodetic::Coordinates::OLC` — Open Location Code / Plus Codes (Google's location encoding)
+  - `Geodetic::Coordinate::GH36` — Geohash-36 (radix-36 spatial hash, URL-friendly)
+  - `Geodetic::Coordinate::GH` — Geohash base-32 (standard geohash, supported by Elasticsearch, Redis, PostGIS)
+  - `Geodetic::Coordinate::HAM` — Maidenhead Locator System (amateur radio grid squares)
+  - `Geodetic::Coordinate::OLC` — Open Location Code / Plus Codes (Google's location encoding)
 - **Full cross-system conversions** — all 15 coordinate systems convert to/from every other system (225 conversion paths)
 - **Spatial hash features** for GH36, GH, HAM, and OLC:
   - `neighbors` — returns all 8 adjacent grid cells

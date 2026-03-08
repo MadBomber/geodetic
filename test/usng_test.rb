@@ -1,15 +1,15 @@
 # frozen_string_literal: true
 
 require "test_helper"
-require_relative "../lib/geodetic/coordinates/usng"
-require_relative "../lib/geodetic/coordinates/mgrs"
-require_relative "../lib/geodetic/coordinates/utm"
-require_relative "../lib/geodetic/coordinates/lla"
+require_relative "../lib/geodetic/coordinate/usng"
+require_relative "../lib/geodetic/coordinate/mgrs"
+require_relative "../lib/geodetic/coordinate/utm"
+require_relative "../lib/geodetic/coordinate/lla"
 
 class UsngTest < Minitest::Test
-  USNG = Geodetic::Coordinates::USNG
-  MGRS = Geodetic::Coordinates::MGRS
-  LLA  = Geodetic::Coordinates::LLA
+  USNG = Geodetic::Coordinate::USNG
+  MGRS = Geodetic::Coordinate::MGRS
+  LLA  = Geodetic::Coordinate::LLA
 
   # ── Constructor from string ────────────────────────────────
 
@@ -159,15 +159,15 @@ class UsngTest < Minitest::Test
   end
 
   # ── Additional coordinate type constants ─────────────────
-  UTM   = Geodetic::Coordinates::UTM
-  ECEF  = Geodetic::Coordinates::ECEF
-  WM    = Geodetic::Coordinates::WebMercator
-  UPS_C = Geodetic::Coordinates::UPS
-  SP    = Geodetic::Coordinates::StatePlane
-  BNG   = Geodetic::Coordinates::BNG
-  GH36  = Geodetic::Coordinates::GH36
-  ENU   = Geodetic::Coordinates::ENU
-  NED   = Geodetic::Coordinates::NED
+  UTM   = Geodetic::Coordinate::UTM
+  ECEF  = Geodetic::Coordinate::ECEF
+  WM    = Geodetic::Coordinate::WebMercator
+  UPS_C = Geodetic::Coordinate::UPS
+  SP    = Geodetic::Coordinate::StatePlane
+  BNG   = Geodetic::Coordinate::BNG
+  GH36  = Geodetic::Coordinate::GH36
+  ENU   = Geodetic::Coordinate::ENU
+  NED   = Geodetic::Coordinate::NED
 
   # ── to_utm / from_utm roundtrip ──────────────────────────
 

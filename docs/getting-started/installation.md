@@ -38,21 +38,21 @@ If you want to use a coordinate class directly without going through a conversio
 
 ```ruby
 require "geodetic"
-require "geodetic/coordinates/lla"
-require "geodetic/coordinates/ecef"
-require "geodetic/coordinates/utm"
-require "geodetic/coordinates/enu"
-require "geodetic/coordinates/ned"
-require "geodetic/coordinates/mgrs"
-require "geodetic/coordinates/usng"
-require "geodetic/coordinates/web_mercator"
-require "geodetic/coordinates/ups"
-require "geodetic/coordinates/state_plane"
-require "geodetic/coordinates/bng"
-require "geodetic/coordinates/gh36"
-require "geodetic/coordinates/gh"
-require "geodetic/coordinates/ham"
-require "geodetic/coordinates/olc"
+require "geodetic/coordinate/lla"
+require "geodetic/coordinate/ecef"
+require "geodetic/coordinate/utm"
+require "geodetic/coordinate/enu"
+require "geodetic/coordinate/ned"
+require "geodetic/coordinate/mgrs"
+require "geodetic/coordinate/usng"
+require "geodetic/coordinate/web_mercator"
+require "geodetic/coordinate/ups"
+require "geodetic/coordinate/state_plane"
+require "geodetic/coordinate/bng"
+require "geodetic/coordinate/gh36"
+require "geodetic/coordinate/gh"
+require "geodetic/coordinate/ham"
+require "geodetic/coordinate/olc"
 ```
 
 You only need to require the types you plan to construct directly. Conversion methods handle their own requires internally.
@@ -61,9 +61,9 @@ You only need to require the types you plan to construct directly. Conversion me
 
 ```ruby
 require "geodetic"
-require "geodetic/coordinates/lla"
+require "geodetic/coordinate/lla"
 
-lla = Geodetic::Coordinates::LLA.new(lat: 47.6205, lng: -122.3493, alt: 184.0)
+lla = Geodetic::Coordinate::LLA.new(lat: 47.6205, lng: -122.3493, alt: 184.0)
 puts lla.to_s
 #=> "47.6205, -122.3493, 184.0"
 ```

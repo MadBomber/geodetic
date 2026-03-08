@@ -3,7 +3,7 @@
 require_relative '../datum'
 
 module Geodetic
-  module Coordinates
+  module Coordinate
     class ECEF
       attr_reader :x, :y, :z
 

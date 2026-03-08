@@ -63,12 +63,12 @@ ned = Coordinates::NED.new(n: 200.0, e: 100.0, d: -50.0)
 
 ### GCS Shorthand
 
-`GCS` is a top-level alias for `Geodetic::Coordinates`, providing a concise way to create and work with coordinates:
+`GCS` is a top-level alias for `Geodetic::Coordinate`, providing a concise way to create and work with coordinates:
 
 ```ruby
 require "geodetic"
 
-# Use GCS as a shorthand for Geodetic::Coordinates
+# Use GCS as a shorthand for Geodetic::Coordinate
 seattle = GCS::LLA.new(lat: 47.6205, lng: -122.3493, alt: 184.0)
 ecef = GCS::ECEF.new(x: -2304643.57, y: -3638650.07, z: 4688674.43)
 ```

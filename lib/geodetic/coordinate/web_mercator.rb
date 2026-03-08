@@ -5,7 +5,7 @@
 # Used by Google Maps, OpenStreetMap, Bing Maps, and most web mapping services
 
 module Geodetic
-  module Coordinates
+  module Coordinate
     class WebMercator
       require_relative '../datum'
 

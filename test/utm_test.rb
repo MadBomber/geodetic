@@ -1,22 +1,22 @@
 # frozen_string_literal: true
 
 require "test_helper"
-require_relative "../lib/geodetic/coordinates/utm"
-require_relative "../lib/geodetic/coordinates/lla"
+require_relative "../lib/geodetic/coordinate/utm"
+require_relative "../lib/geodetic/coordinate/lla"
 
 class UtmTest < Minitest::Test
-  UTM   = Geodetic::Coordinates::UTM
-  LLA   = Geodetic::Coordinates::LLA
-  ECEF  = Geodetic::Coordinates::ECEF
-  MGRS  = Geodetic::Coordinates::MGRS
-  USNG  = Geodetic::Coordinates::USNG
-  WM    = Geodetic::Coordinates::WebMercator
-  UPS_C = Geodetic::Coordinates::UPS
-  SP    = Geodetic::Coordinates::StatePlane
-  BNG   = Geodetic::Coordinates::BNG
-  GH36  = Geodetic::Coordinates::GH36
-  ENU   = Geodetic::Coordinates::ENU
-  NED   = Geodetic::Coordinates::NED
+  UTM   = Geodetic::Coordinate::UTM
+  LLA   = Geodetic::Coordinate::LLA
+  ECEF  = Geodetic::Coordinate::ECEF
+  MGRS  = Geodetic::Coordinate::MGRS
+  USNG  = Geodetic::Coordinate::USNG
+  WM    = Geodetic::Coordinate::WebMercator
+  UPS_C = Geodetic::Coordinate::UPS
+  SP    = Geodetic::Coordinate::StatePlane
+  BNG   = Geodetic::Coordinate::BNG
+  GH36  = Geodetic::Coordinate::GH36
+  ENU   = Geodetic::Coordinate::ENU
+  NED   = Geodetic::Coordinate::NED
 
   # --- Constructor ---
 

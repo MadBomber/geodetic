@@ -1,4 +1,4 @@
-# Geodetic::Coordinates::ECEF
+# Geodetic::Coordinate::ECEF
 
 Earth-Centered, Earth-Fixed -- a Cartesian coordinate system with its origin at the center of mass of the Earth. The X axis points toward the intersection of the Prime Meridian and the Equator, the Y axis points toward 90 degrees East longitude on the Equator, and the Z axis points toward the North Pole. All values are in meters.
 
@@ -7,7 +7,7 @@ ECEF is useful for satellite positioning, radar tracking, and any application re
 ## Constructor
 
 ```ruby
-Geodetic::Coordinates::ECEF.new(x: 0.0, y: 0.0, z: 0.0)
+Geodetic::Coordinate::ECEF.new(x: 0.0, y: 0.0, z: 0.0)
 ```
 
 | Parameter | Type  | Default | Description                     |
@@ -35,9 +35,9 @@ All conversion methods accept an optional `datum` parameter (defaults to `Geodet
 Converts to geodetic Latitude, Longitude, Altitude coordinates using an iterative algorithm. The iteration converges when both latitude and altitude changes are below `1e-12`, with a maximum of 100 iterations.
 
 ```ruby
-ecef = Geodetic::Coordinates::ECEF.new(x: 1130730.0, y: -4828583.0, z: 3991570.0)
+ecef = Geodetic::Coordinate::ECEF.new(x: 1130730.0, y: -4828583.0, z: 3991570.0)
 lla = ecef.to_lla
-# => Geodetic::Coordinates::LLA
+# => Geodetic::Coordinate::LLA
 ```
 
 ### ECEF.from_lla(lla, datum = WGS84)
@@ -45,7 +45,7 @@ lla = ecef.to_lla
 Creates an ECEF from an LLA instance. Raises `ArgumentError` if the argument is not an `LLA`.
 
 ```ruby
-ecef = Geodetic::Coordinates::ECEF.from_lla(lla)
+ecef = Geodetic::Coordinate::ECEF.from_lla(lla)
 ```
 
 ### to_utm(datum = WGS84)
@@ -54,7 +54,7 @@ Converts to Universal Transverse Mercator coordinates. Internally converts to LL
 
 ```ruby
 utm = ecef.to_utm
-# => Geodetic::Coordinates::UTM
+# => Geodetic::Coordinate::UTM
 ```
 
 ### ECEF.from_utm(utm, datum = WGS84)
@@ -66,10 +66,10 @@ Creates an ECEF from a UTM instance. Raises `ArgumentError` if the argument is n
 Converts to East-North-Up local tangent plane coordinates relative to a reference ECEF position. If `reference_lla` is not provided, it is computed from `reference_ecef` via `to_lla`.
 
 ```ruby
-ref_ecef = Geodetic::Coordinates::ECEF.new(x: 1130730.0, y: -4828583.0, z: 3991570.0)
-point_ecef = Geodetic::Coordinates::ECEF.new(x: 1130740.0, y: -4828573.0, z: 3991580.0)
+ref_ecef = Geodetic::Coordinate::ECEF.new(x: 1130730.0, y: -4828583.0, z: 3991570.0)
+point_ecef = Geodetic::Coordinate::ECEF.new(x: 1130740.0, y: -4828573.0, z: 3991580.0)
 enu = point_ecef.to_enu(ref_ecef)
-# => Geodetic::Coordinates::ENU
+# => Geodetic::Coordinate::ENU
 ```
 
 Raises `ArgumentError` if `reference_ecef` is not an `ECEF`.
@@ -84,7 +84,7 @@ Converts to North-East-Down local tangent plane coordinates. Internally converts
 
 ```ruby
 ned = point_ecef.to_ned(ref_ecef)
-# => Geodetic::Coordinates::NED
+# => Geodetic::Coordinate::NED
 ```
 
 ### ECEF.from_ned(ned, reference_ecef, reference_lla = nil)
@@ -98,7 +98,7 @@ Creates an ECEF from a NED instance and a reference ECEF origin. Raises `Argumen
 Returns a comma-separated string of `x, y, z`.
 
 ```ruby
-ecef = Geodetic::Coordinates::ECEF.new(x: 1130730.0, y: -4828583.0, z: 3991570.0)
+ecef = Geodetic::Coordinate::ECEF.new(x: 1130730.0, y: -4828583.0, z: 3991570.0)
 ecef.to_s
 # => "1130730.0, -4828583.0, 3991570.0"
 ```
@@ -117,7 +117,7 @@ ecef.to_a
 Parses a comma-separated string into an ECEF.
 
 ```ruby
-ecef = Geodetic::Coordinates::ECEF.from_string("1130730.0, -4828583.0, 3991570.0")
+ecef = Geodetic::Coordinate::ECEF.from_string("1130730.0, -4828583.0, 3991570.0")
 ```
 
 ### ECEF.from_array(array)
@@ -125,7 +125,7 @@ ecef = Geodetic::Coordinates::ECEF.from_string("1130730.0, -4828583.0, 3991570.0
 Creates an ECEF from a three-element array `[x, y, z]`.
 
 ```ruby
-ecef = Geodetic::Coordinates::ECEF.from_array([1130730.0, -4828583.0, 3991570.0])
+ecef = Geodetic::Coordinate::ECEF.from_array([1130730.0, -4828583.0, 3991570.0])
 ```
 
 ## Additional Methods
@@ -135,8 +135,8 @@ ecef = Geodetic::Coordinates::ECEF.from_array([1130730.0, -4828583.0, 3991570.0]
 Compares two ECEF instances for approximate equality. Returns `true` if the absolute difference for each of `x`, `y`, and `z` is `<= 1e-6` meters. Returns `false` if `other` is not an `ECEF`.
 
 ```ruby
-a = Geodetic::Coordinates::ECEF.new(x: 1130730.0, y: -4828583.0, z: 3991570.0)
-b = Geodetic::Coordinates::ECEF.new(x: 1130730.0, y: -4828583.0, z: 3991570.0)
+a = Geodetic::Coordinate::ECEF.new(x: 1130730.0, y: -4828583.0, z: 3991570.0)
+b = Geodetic::Coordinate::ECEF.new(x: 1130730.0, y: -4828583.0, z: 3991570.0)
 a == b
 # => true
 ```
@@ -146,8 +146,8 @@ a == b
 Computes the Vincenty great-circle distance to one or more other coordinates. Accepts any coordinate type (coordinates are converted to LLA internally). Returns a `Distance` for a single target or an Array of `Distance` objects for multiple targets (radial distances from the receiver).
 
 ```ruby
-a = Geodetic::Coordinates::ECEF.new(x: 1130730.0, y: -4828583.0, z: 3991570.0)
-b = Geodetic::Coordinates::ECEF.new(x: 1130740.0, y: -4828573.0, z: 3991580.0)
+a = Geodetic::Coordinate::ECEF.new(x: 1130730.0, y: -4828583.0, z: 3991570.0)
+b = Geodetic::Coordinate::ECEF.new(x: 1130740.0, y: -4828573.0, z: 3991580.0)
 a.distance_to(b)
 # => Distance (meters, great-circle distance)
 ```
@@ -169,7 +169,7 @@ a.straight_line_distance_to(b)
 require 'geodetic'
 
 # Create an ECEF coordinate
-ecef = Geodetic::Coordinates::ECEF.new(x: 1130730.0, y: -4828583.0, z: 3991570.0)
+ecef = Geodetic::Coordinate::ECEF.new(x: 1130730.0, y: -4828583.0, z: 3991570.0)
 
 # Convert to LLA and back
 lla = ecef.to_lla
@@ -181,8 +181,8 @@ ecef == ecef_roundtrip
 ### Distance between two points
 
 ```ruby
-station_a = Geodetic::Coordinates::ECEF.new(x: 1130730.0, y: -4828583.0, z: 3991570.0)
-station_b = Geodetic::Coordinates::ECEF.new(x: 1131000.0, y: -4828300.0, z: 3991800.0)
+station_a = Geodetic::Coordinate::ECEF.new(x: 1130730.0, y: -4828583.0, z: 3991570.0)
+station_b = Geodetic::Coordinate::ECEF.new(x: 1131000.0, y: -4828300.0, z: 3991800.0)
 
 # Great-circle distance (Vincenty)
 distance = station_a.distance_to(station_b)
@@ -196,8 +196,8 @@ puts "Straight-line distance: #{straight.meters} meters"
 ### Local tangent plane from ECEF
 
 ```ruby
-origin = Geodetic::Coordinates::ECEF.new(x: 1130730.0, y: -4828583.0, z: 3991570.0)
-target = Geodetic::Coordinates::ECEF.new(x: 1130740.0, y: -4828573.0, z: 3991580.0)
+origin = Geodetic::Coordinate::ECEF.new(x: 1130730.0, y: -4828583.0, z: 3991570.0)
+target = Geodetic::Coordinate::ECEF.new(x: 1130740.0, y: -4828573.0, z: 3991580.0)
 
 # Provide reference LLA to avoid recomputing it
 ref_lla = origin.to_lla
@@ -210,6 +210,6 @@ ned = target.to_ned(origin, ref_lla)
 
 ```ruby
 clarke66 = Geodetic::Datum.new(name: 'CLARKE_1866')
-ecef = Geodetic::Coordinates::ECEF.new(x: 1130730.0, y: -4828583.0, z: 3991570.0)
+ecef = Geodetic::Coordinate::ECEF.new(x: 1130730.0, y: -4828583.0, z: 3991570.0)
 lla = ecef.to_lla(clarke66)
 ```

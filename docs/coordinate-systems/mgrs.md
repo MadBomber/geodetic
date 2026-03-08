@@ -1,4 +1,4 @@
-# Geodetic::Coordinates::MGRS - Military Grid Reference System
+# Geodetic::Coordinate::MGRS - Military Grid Reference System
 
 ## Overview
 
@@ -34,7 +34,7 @@ MGRS.new(
 ### Example
 
 ```ruby
-mgrs = Geodetic::Coordinates::MGRS.new(mgrs_string: "18SUJ2337006519")
+mgrs = Geodetic::Coordinate::MGRS.new(mgrs_string: "18SUJ2337006519")
 mgrs.to_s  # => "18SUJ2337006519"
 ```
 
@@ -70,7 +70,7 @@ MGRS converts to other coordinate systems via **UTM** and **LLA**:
 ## Example
 
 ```ruby
-mgrs = Geodetic::Coordinates::MGRS.new(mgrs_string: "18SUJ2337006519")
+mgrs = Geodetic::Coordinate::MGRS.new(mgrs_string: "18SUJ2337006519")
 
 mgrs.grid_zone  # => "18S"
 mgrs.square_id  # => "UJ"

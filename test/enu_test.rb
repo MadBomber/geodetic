@@ -1,24 +1,24 @@
 # frozen_string_literal: true
 
 require "test_helper"
-require_relative "../lib/geodetic/coordinates/enu"
-require_relative "../lib/geodetic/coordinates/ned"
-require_relative "../lib/geodetic/coordinates/lla"
-require_relative "../lib/geodetic/coordinates/ecef"
+require_relative "../lib/geodetic/coordinate/enu"
+require_relative "../lib/geodetic/coordinate/ned"
+require_relative "../lib/geodetic/coordinate/lla"
+require_relative "../lib/geodetic/coordinate/ecef"
 
 class EnuTest < Minitest::Test
-  ENU   = Geodetic::Coordinates::ENU
-  NED   = Geodetic::Coordinates::NED
-  LLA   = Geodetic::Coordinates::LLA
-  ECEF  = Geodetic::Coordinates::ECEF
-  UTM   = Geodetic::Coordinates::UTM
-  MGRS  = Geodetic::Coordinates::MGRS
-  USNG  = Geodetic::Coordinates::USNG
-  WM    = Geodetic::Coordinates::WebMercator
-  UPS_C = Geodetic::Coordinates::UPS
-  SP    = Geodetic::Coordinates::StatePlane
-  BNG   = Geodetic::Coordinates::BNG
-  GH36  = Geodetic::Coordinates::GH36
+  ENU   = Geodetic::Coordinate::ENU
+  NED   = Geodetic::Coordinate::NED
+  LLA   = Geodetic::Coordinate::LLA
+  ECEF  = Geodetic::Coordinate::ECEF
+  UTM   = Geodetic::Coordinate::UTM
+  MGRS  = Geodetic::Coordinate::MGRS
+  USNG  = Geodetic::Coordinate::USNG
+  WM    = Geodetic::Coordinate::WebMercator
+  UPS_C = Geodetic::Coordinate::UPS
+  SP    = Geodetic::Coordinate::StatePlane
+  BNG   = Geodetic::Coordinate::BNG
+  GH36  = Geodetic::Coordinate::GH36
 
   # 1. Constructor
 

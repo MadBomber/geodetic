@@ -1,4 +1,4 @@
-# Geodetic::Coordinates::HAM
+# Geodetic::Coordinate::HAM
 
 ## Maidenhead Locator System
 
@@ -21,11 +21,11 @@ HAM is a **2D coordinate system** (no altitude). Conversions to/from other syste
 
 ```ruby
 # From a Maidenhead locator string
-coord = Geodetic::Coordinates::HAM.new("FN31pr")
+coord = Geodetic::Coordinate::HAM.new("FN31pr")
 
 # From any coordinate (converts via LLA)
-coord = Geodetic::Coordinates::HAM.new(lla_coord)
-coord = Geodetic::Coordinates::HAM.new(utm_coord, precision: 8)
+coord = Geodetic::Coordinate::HAM.new(lla_coord)
+coord = Geodetic::Coordinate::HAM.new(utm_coord, precision: 8)
 ```
 
 | Parameter   | Type              | Default | Description                                    |
@@ -98,11 +98,11 @@ HAM.from_olc(olc_coord)
 ### LLA Convenience Methods
 
 ```ruby
-lla = Geodetic::Coordinates::LLA.new(lat: 40.689167, lng: -74.044444)
+lla = Geodetic::Coordinate::LLA.new(lat: 40.689167, lng: -74.044444)
 ham = lla.to_ham                    # default precision 6
 ham = lla.to_ham(precision: 8)      # extended precision
 
-lla = Geodetic::Coordinates::LLA.from_ham(ham)
+lla = Geodetic::Coordinate::LLA.from_ham(ham)
 ```
 
 ## Serialization

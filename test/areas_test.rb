@@ -4,11 +4,11 @@ require "test_helper"
 require_relative "../lib/geodetic/areas/circle"
 require_relative "../lib/geodetic/areas/polygon"
 require_relative "../lib/geodetic/areas/rectangle"
-require_relative "../lib/geodetic/coordinates/lla"
+require_relative "../lib/geodetic/coordinate/lla"
 
 class CircleAreaTest < Minitest::Test
   Circle = Geodetic::Areas::Circle
-  LLA    = Geodetic::Coordinates::LLA
+  LLA    = Geodetic::Coordinate::LLA
 
   # -- Constructor ----------------------------------------------------------
 
@@ -68,7 +68,7 @@ end
 
 class PolygonAreaTest < Minitest::Test
   Polygon = Geodetic::Areas::Polygon
-  LLA     = Geodetic::Coordinates::LLA
+  LLA     = Geodetic::Coordinate::LLA
 
   # -- Constructor ----------------------------------------------------------
 
@@ -207,7 +207,7 @@ end
 
 class RectangleAreaTest < Minitest::Test
   Rectangle = Geodetic::Areas::Rectangle
-  LLA       = Geodetic::Coordinates::LLA
+  LLA       = Geodetic::Coordinate::LLA
 
   # -- Constructor ----------------------------------------------------------
 
@@ -233,8 +233,8 @@ class RectangleAreaTest < Minitest::Test
   def test_constructor_converts_non_lla_coordinates
     nw_lla = LLA.new(lat: 41.0, lng: -75.0)
     se_lla = LLA.new(lat: 40.0, lng: -74.0)
-    nw_wm = Geodetic::Coordinates::WebMercator.from_lla(nw_lla)
-    se_wm = Geodetic::Coordinates::WebMercator.from_lla(se_lla)
+    nw_wm = Geodetic::Coordinate::WebMercator.from_lla(nw_lla)
+    se_wm = Geodetic::Coordinate::WebMercator.from_lla(se_lla)
     rect = Rectangle.new(nw: nw_wm, se: se_wm)
     assert_instance_of Rectangle, rect
     assert_instance_of LLA, rect.nw
@@ -314,7 +314,7 @@ class RectangleAreaTest < Minitest::Test
     nw = LLA.new(lat: 41.0, lng: -75.0)
     se = LLA.new(lat: 40.0, lng: -74.0)
     rect = Rectangle.new(nw: nw, se: se)
-    wm = Geodetic::Coordinates::WebMercator.from_lla(LLA.new(lat: 40.5, lng: -74.5))
+    wm = Geodetic::Coordinate::WebMercator.from_lla(LLA.new(lat: 40.5, lng: -74.5))
     assert rect.includes?(wm)
   end
 

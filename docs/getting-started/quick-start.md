@@ -8,9 +8,9 @@ LLA (Latitude, Longitude, Altitude) is the most common starting point. All const
 
 ```ruby
 require "geodetic"
-require "geodetic/coordinates/lla"
+require "geodetic/coordinate/lla"
 
-space_needle = Geodetic::Coordinates::LLA.new(
+space_needle = Geodetic::Coordinate::LLA.new(
   lat: 47.6205,
   lng: -122.3493,
   alt: 184.0
@@ -60,7 +60,7 @@ Local tangent plane coordinate systems require a reference point. ENU (East, Nor
 
 ```ruby
 # Define a reference point (e.g., a nearby base station)
-reference = Geodetic::Coordinates::LLA.new(
+reference = Geodetic::Coordinate::LLA.new(
   lat: 47.6062,
   lng: -122.3321,
   alt: 0.0
@@ -98,7 +98,7 @@ dms = space_needle.to_dms
 puts dms  #=> "47° 37' 13.80\" N, 122° 20' 57.48\" W, 184.00 m"
 
 # Parse a DMS string back to LLA
-lla = Geodetic::Coordinates::LLA.from_dms("47° 37' 13.80\" N, 122° 20' 57.48\" W, 184.00 m")
+lla = Geodetic::Coordinate::LLA.from_dms("47° 37' 13.80\" N, 122° 20' 57.48\" W, 184.00 m")
 puts lla.lat  #=> 47.6205
 ```
 
@@ -112,15 +112,15 @@ str = space_needle.to_s    #=> "47.6205, -122.3493, 184.0"
 arr = space_needle.to_a    #=> [47.6205, -122.3493, 184.0]
 
 # Deserialize
-lla_from_str = Geodetic::Coordinates::LLA.from_string(str)
-lla_from_arr = Geodetic::Coordinates::LLA.from_array(arr)
+lla_from_str = Geodetic::Coordinate::LLA.from_string(str)
+lla_from_arr = Geodetic::Coordinate::LLA.from_array(arr)
 
 # Works the same for all coordinate types
 ecef = space_needle.to_ecef
 ecef_str = ecef.to_s
 ecef_arr = ecef.to_a
-ecef_restored = Geodetic::Coordinates::ECEF.from_string(ecef_str)
-ecef_restored = Geodetic::Coordinates::ECEF.from_array(ecef_arr)
+ecef_restored = Geodetic::Coordinate::ECEF.from_string(ecef_str)
+ecef_restored = Geodetic::Coordinate::ECEF.from_array(ecef_arr)
 ```
 
 ## 7. Work with Datums

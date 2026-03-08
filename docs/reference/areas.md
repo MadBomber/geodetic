@@ -1,6 +1,6 @@
 # Areas Reference
 
-The `Geodetic::Areas` module provides three geometric area classes for point-in-area testing: `Circle`, `Polygon`, and `Rectangle`. All operate on `Geodetic::Coordinates::LLA` points.
+The `Geodetic::Areas` module provides three geometric area classes for point-in-area testing: `Circle`, `Polygon`, and `Rectangle`. All operate on `Geodetic::Coordinate::LLA` points.
 
 ---
 
@@ -11,7 +11,7 @@ Defines a circular area on the Earth's surface.
 ### Constructor
 
 ```ruby
-center = Geodetic::Coordinates::LLA.new(lat: 38.8977, lng: -77.0365, alt: 0.0)
+center = Geodetic::Coordinate::LLA.new(lat: 38.8977, lng: -77.0365, alt: 0.0)
 
 circle = Geodetic::Areas::Circle.new(
   centroid: center,   # LLA point at the center
@@ -33,7 +33,7 @@ circle = Geodetic::Areas::Circle.new(
 Returns `true` if the given LLA point falls within (or on the boundary of) the circle. The distance from centroid to the point is compared against the radius.
 
 ```ruby
-point = Geodetic::Coordinates::LLA.new(lat: 38.898, lng: -77.036, alt: 0.0)
+point = Geodetic::Coordinate::LLA.new(lat: 38.898, lng: -77.036, alt: 0.0)
 circle.includes?(point)  # => true or false
 ```
 
@@ -62,10 +62,10 @@ Defines an arbitrary polygon area on the Earth's surface.
 
 ```ruby
 boundary = [
-  Geodetic::Coordinates::LLA.new(lat: 38.90, lng: -77.04, alt: 0.0),
-  Geodetic::Coordinates::LLA.new(lat: 38.90, lng: -77.03, alt: 0.0),
-  Geodetic::Coordinates::LLA.new(lat: 38.89, lng: -77.03, alt: 0.0),
-  Geodetic::Coordinates::LLA.new(lat: 38.89, lng: -77.04, alt: 0.0)
+  Geodetic::Coordinate::LLA.new(lat: 38.90, lng: -77.04, alt: 0.0),
+  Geodetic::Coordinate::LLA.new(lat: 38.90, lng: -77.03, alt: 0.0),
+  Geodetic::Coordinate::LLA.new(lat: 38.89, lng: -77.03, alt: 0.0),
+  Geodetic::Coordinate::LLA.new(lat: 38.89, lng: -77.04, alt: 0.0)
 ]
 
 polygon = Geodetic::Areas::Polygon.new(boundary: boundary)
@@ -95,7 +95,7 @@ Returns `true` if the given LLA point falls within the polygon. Uses the winding
 Also returns `true` if the point is exactly equal to any boundary vertex.
 
 ```ruby
-point = Geodetic::Coordinates::LLA.new(lat: 38.895, lng: -77.035, alt: 0.0)
+point = Geodetic::Coordinate::LLA.new(lat: 38.895, lng: -77.035, alt: 0.0)
 polygon.includes?(point)  # => true or false
 ```
 
@@ -123,8 +123,8 @@ Defines an axis-aligned rectangle by its northwest and southeast corners.
 ### Constructor
 
 ```ruby
-nw = Geodetic::Coordinates::LLA.new(lat: 41.0, lng: -75.0)
-se = Geodetic::Coordinates::LLA.new(lat: 40.0, lng: -74.0)
+nw = Geodetic::Coordinate::LLA.new(lat: 41.0, lng: -75.0)
+se = Geodetic::Coordinate::LLA.new(lat: 40.0, lng: -74.0)
 
 rectangle = Geodetic::Areas::Rectangle.new(nw: nw, se: se)
 ```
@@ -132,8 +132,8 @@ rectangle = Geodetic::Areas::Rectangle.new(nw: nw, se: se)
 The constructor accepts any coordinate type that responds to `to_lla` -- coordinates are automatically converted to LLA.
 
 ```ruby
-nw_wm = Geodetic::Coordinates::WebMercator.from_lla(nw)
-se_wm = Geodetic::Coordinates::WebMercator.from_lla(se)
+nw_wm = Geodetic::Coordinate::WebMercator.from_lla(nw)
+se_wm = Geodetic::Coordinate::WebMercator.from_lla(se)
 rectangle = Geodetic::Areas::Rectangle.new(nw: nw_wm, se: se_wm)
 ```
 
@@ -163,7 +163,7 @@ rectangle.sw    # => LLA (se.lat, nw.lng)
 Returns `true` if the given point falls within (or on the boundary of) the rectangle. Accepts any coordinate type that responds to `to_lla`.
 
 ```ruby
-point = Geodetic::Coordinates::LLA.new(lat: 40.5, lng: -74.5)
+point = Geodetic::Coordinate::LLA.new(lat: 40.5, lng: -74.5)
 rectangle.includes?(point)  # => true
 ```
 
@@ -184,10 +184,10 @@ rectangle.excludes?(point)  # => true or false
 
 ### Integration with GH36
 
-`Geodetic::Coordinates::GH36#to_area` returns a `Rectangle` representing the geohash cell's bounding box:
+`Geodetic::Coordinate::GH36#to_area` returns a `Rectangle` representing the geohash cell's bounding box:
 
 ```ruby
-gh36 = Geodetic::Coordinates::GH36.new("bdrdC26BqH")
+gh36 = Geodetic::Coordinate::GH36.new("bdrdC26BqH")
 area = gh36.to_area
 # => Geodetic::Areas::Rectangle
 

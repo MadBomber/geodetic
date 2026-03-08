@@ -3,33 +3,33 @@
 # Shows complete orthogonal conversions between all implemented coordinate systems
 
 require_relative '../lib/geodetic'
-require_relative '../lib/geodetic/coordinates/lla'
-require_relative '../lib/geodetic/coordinates/ecef'
-require_relative '../lib/geodetic/coordinates/utm'
-require_relative '../lib/geodetic/coordinates/enu'
-require_relative '../lib/geodetic/coordinates/ned'
-require_relative '../lib/geodetic/coordinates/mgrs'
-require_relative '../lib/geodetic/coordinates/web_mercator'
-require_relative '../lib/geodetic/coordinates/ups'
-require_relative '../lib/geodetic/coordinates/usng'
-require_relative '../lib/geodetic/coordinates/state_plane'
-require_relative '../lib/geodetic/coordinates/bng'
-require_relative '../lib/geodetic/coordinates/gh36'
+require_relative '../lib/geodetic/coordinate/lla'
+require_relative '../lib/geodetic/coordinate/ecef'
+require_relative '../lib/geodetic/coordinate/utm'
+require_relative '../lib/geodetic/coordinate/enu'
+require_relative '../lib/geodetic/coordinate/ned'
+require_relative '../lib/geodetic/coordinate/mgrs'
+require_relative '../lib/geodetic/coordinate/web_mercator'
+require_relative '../lib/geodetic/coordinate/ups'
+require_relative '../lib/geodetic/coordinate/usng'
+require_relative '../lib/geodetic/coordinate/state_plane'
+require_relative '../lib/geodetic/coordinate/bng'
+require_relative '../lib/geodetic/coordinate/gh36'
 require_relative '../lib/geodetic/geoid_height'
 
 include Geodetic
-LLA        = Coordinates::LLA
-ECEF       = Coordinates::ECEF
-UTM_Coord  = Coordinates::UTM
-ENU        = Coordinates::ENU
-NED        = Coordinates::NED
-MGRS       = Coordinates::MGRS
-USNG       = Coordinates::USNG
-WebMerc    = Coordinates::WebMercator
-UPS        = Coordinates::UPS
-StatePlane = Coordinates::StatePlane
-BNG        = Coordinates::BNG
-GH36       = Coordinates::GH36
+LLA        = Coordinate::LLA
+ECEF       = Coordinate::ECEF
+UTM_Coord  = Coordinate::UTM
+ENU        = Coordinate::ENU
+NED        = Coordinate::NED
+MGRS       = Coordinate::MGRS
+USNG       = Coordinate::USNG
+WebMerc    = Coordinate::WebMercator
+UPS        = Coordinate::UPS
+StatePlane = Coordinate::StatePlane
+BNG        = Coordinate::BNG
+GH36       = Coordinate::GH36
 
 def demo_coordinate_systems
   puts "=" * 80

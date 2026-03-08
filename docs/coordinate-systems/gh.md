@@ -1,4 +1,4 @@
-# Geodetic::Coordinates::GH
+# Geodetic::Coordinate::GH
 
 ## Geohash (Base-32)
 
@@ -15,11 +15,11 @@ GH is a **2D coordinate system** (no altitude). Conversions to/from other system
 
 ```ruby
 # From a geohash string
-coord = Geodetic::Coordinates::GH.new("dr5ru7")
+coord = Geodetic::Coordinate::GH.new("dr5ru7")
 
 # From any coordinate (converts via LLA)
-coord = Geodetic::Coordinates::GH.new(lla_coord)
-coord = Geodetic::Coordinates::GH.new(utm_coord, precision: 8)
+coord = Geodetic::Coordinate::GH.new(lla_coord)
+coord = Geodetic::Coordinate::GH.new(utm_coord, precision: 8)
 ```
 
 | Parameter   | Type              | Default | Description                                  |
@@ -91,11 +91,11 @@ GH.from_gh36(gh36_coord)
 ### LLA Convenience Methods
 
 ```ruby
-lla = Geodetic::Coordinates::LLA.new(lat: 40.689167, lng: -74.044444)
+lla = Geodetic::Coordinate::LLA.new(lat: 40.689167, lng: -74.044444)
 gh = lla.to_gh                    # default precision 12
 gh = lla.to_gh(precision: 6)      # custom precision
 
-lla = Geodetic::Coordinates::LLA.from_gh(gh)
+lla = Geodetic::Coordinate::LLA.from_gh(gh)
 ```
 
 ## Serialization
@@ -270,7 +270,7 @@ GH (base-32) is the de facto standard. Virtually all spatial databases and servi
 ### Converting Between GH and GH36
 
 ```ruby
-gh = Geodetic::Coordinates::GH.new("dr5ru7")
+gh = Geodetic::Coordinate::GH.new("dr5ru7")
 gh36 = gh.to_gh36                    # => GH36 instance
 gh_back = gh36.to_gh                 # => GH instance
 

@@ -5,7 +5,7 @@
 # MGRS is based on UTM but uses a more compact alphanumeric format
 
 module Geodetic
-  module Coordinates
+  module Coordinate
     class MGRS
       require_relative '../datum'
 

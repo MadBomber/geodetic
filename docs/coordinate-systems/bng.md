@@ -1,4 +1,4 @@
-# Geodetic::Coordinates::BNG
+# Geodetic::Coordinate::BNG
 
 ## British National Grid
 
@@ -9,13 +9,13 @@ The British National Grid (BNG) is the official coordinate system for Great Brit
 Create a BNG coordinate from numeric easting/northing values:
 
 ```ruby
-point = Geodetic::Coordinates::BNG.new(easting: 530000.0, northing: 180000.0)
+point = Geodetic::Coordinate::BNG.new(easting: 530000.0, northing: 180000.0)
 ```
 
 Alternatively, create from an alphanumeric grid reference string:
 
 ```ruby
-point = Geodetic::Coordinates::BNG.new(grid_ref: "TQ 300000 800000")
+point = Geodetic::Coordinate::BNG.new(grid_ref: "TQ 300000 800000")
 ```
 
 ## Grid References
@@ -52,8 +52,8 @@ point.valid?  # => true if within Great Britain bounds
 The universal `distance_to` method computes the Vincenty great-circle distance to any other coordinate type, returning a `Distance` object. The `straight_line_distance_to` method computes the Euclidean distance in ECEF space. The universal `bearing_to` method computes the great-circle forward azimuth, returning a `Bearing` object. All accept single or multiple targets.
 
 ```ruby
-bng_a = Geodetic::Coordinates::BNG.new(easting: 530000.0, northing: 180000.0)
-bng_b = Geodetic::Coordinates::BNG.new(easting: 540000.0, northing: 190000.0)
+bng_a = Geodetic::Coordinate::BNG.new(easting: 530000.0, northing: 180000.0)
+bng_b = Geodetic::Coordinate::BNG.new(easting: 540000.0, northing: 190000.0)
 bng_a.distance_to(bng_b)                # => Distance (great-circle)
 bng_a.straight_line_distance_to(bng_b)  # => Distance (Euclidean)
 bng_a.bearing_to(bng_b)                 # => Bearing (great-circle forward azimuth)

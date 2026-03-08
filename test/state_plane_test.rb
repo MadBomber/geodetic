@@ -1,22 +1,22 @@
 # frozen_string_literal: true
 
 require "test_helper"
-require_relative "../lib/geodetic/coordinates/state_plane"
-require_relative "../lib/geodetic/coordinates/lla"
+require_relative "../lib/geodetic/coordinate/state_plane"
+require_relative "../lib/geodetic/coordinate/lla"
 
 class StatePlaneTest < Minitest::Test
-  SP          = Geodetic::Coordinates::StatePlane
-  LLA         = Geodetic::Coordinates::LLA
-  ECEF        = Geodetic::Coordinates::ECEF
-  UTM         = Geodetic::Coordinates::UTM
-  ENU         = Geodetic::Coordinates::ENU
-  NED         = Geodetic::Coordinates::NED
-  MGRS        = Geodetic::Coordinates::MGRS
-  USNG        = Geodetic::Coordinates::USNG
-  UPS_C       = Geodetic::Coordinates::UPS
-  WebMercator = Geodetic::Coordinates::WebMercator
-  BNG         = Geodetic::Coordinates::BNG
-  GH36        = Geodetic::Coordinates::GH36
+  SP          = Geodetic::Coordinate::StatePlane
+  LLA         = Geodetic::Coordinate::LLA
+  ECEF        = Geodetic::Coordinate::ECEF
+  UTM         = Geodetic::Coordinate::UTM
+  ENU         = Geodetic::Coordinate::ENU
+  NED         = Geodetic::Coordinate::NED
+  MGRS        = Geodetic::Coordinate::MGRS
+  USNG        = Geodetic::Coordinate::USNG
+  UPS_C       = Geodetic::Coordinate::UPS
+  WebMercator = Geodetic::Coordinate::WebMercator
+  BNG         = Geodetic::Coordinate::BNG
+  GH36        = Geodetic::Coordinate::GH36
 
   # -- Constructor ----------------------------------------------------------
 

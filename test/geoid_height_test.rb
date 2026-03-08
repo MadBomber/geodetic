@@ -2,7 +2,7 @@
 
 require "test_helper"
 require_relative "../lib/geodetic/geoid_height"
-require_relative "../lib/geodetic/coordinates/lla"
+require_relative "../lib/geodetic/coordinate/lla"
 
 class GeoidHeightTest < Minitest::Test
   LAT = 47.6205
@@ -452,7 +452,7 @@ end
 
 class GeoidHeightSupportTest < Minitest::Test
   def setup
-    @lla = Geodetic::Coordinates::LLA.new(lat: 47.6205, lng: -122.3493, alt: 100.0)
+    @lla = Geodetic::Coordinate::LLA.new(lat: 47.6205, lng: -122.3493, alt: 100.0)
   end
 
   # 15. geoid_height: returns Float for LLA coordinate
@@ -470,7 +470,7 @@ class GeoidHeightSupportTest < Minitest::Test
   # 17. convert_height_datum: returns modified coordinate
   def test_convert_height_datum_returns_modified_coordinate
     result = @lla.convert_height_datum('HAE', 'NAVD88')
-    assert_kind_of Geodetic::Coordinates::LLA, result
+    assert_kind_of Geodetic::Coordinate::LLA, result
     refute_equal @lla.alt, result.alt, "Converted altitude should differ from original"
     assert_in_delta @lla.lat, result.lat, 1e-10
     assert_in_delta @lla.lng, result.lng, 1e-10
@@ -479,7 +479,7 @@ class GeoidHeightSupportTest < Minitest::Test
   # ── with_geoid_height class method (lines 261-263) ──
 
   def test_with_geoid_height_class_method
-    klass = Geodetic::Coordinates::LLA.with_geoid_height('EGM96')
+    klass = Geodetic::Coordinate::LLA.with_geoid_height('EGM96')
     assert_equal 'EGM96', klass.geoid_model
   end
 
@@ -514,7 +514,7 @@ class GeoidHeightSupportTest < Minitest::Test
 
   def test_convert_height_datum_with_explicit_geoid_model
     result = @lla.convert_height_datum('HAE', 'NAVD88', 'EGM96')
-    assert_kind_of Geodetic::Coordinates::LLA, result
+    assert_kind_of Geodetic::Coordinate::LLA, result
     assert_in_delta @lla.lat, result.lat, 1e-10
     assert_in_delta @lla.lng, result.lng, 1e-10
   end

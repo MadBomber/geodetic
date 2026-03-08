@@ -32,21 +32,21 @@ Geodetic supports full bidirectional conversion between all 15 coordinate system
 
 | System | Class | Description |
 |--------|-------|-------------|
-| **LLA** | `Geodetic::Coordinates::LLA` | Latitude, Longitude, Altitude |
-| **ECEF** | `Geodetic::Coordinates::ECEF` | Earth-Centered, Earth-Fixed (X, Y, Z) |
-| **UTM** | `Geodetic::Coordinates::UTM` | Universal Transverse Mercator |
-| **ENU** | `Geodetic::Coordinates::ENU` | East, North, Up (local tangent plane) |
-| **NED** | `Geodetic::Coordinates::NED` | North, East, Down (local tangent plane) |
-| **MGRS** | `Geodetic::Coordinates::MGRS` | Military Grid Reference System |
-| **USNG** | `Geodetic::Coordinates::USNG` | United States National Grid |
-| **WebMercator** | `Geodetic::Coordinates::WebMercator` | Web Mercator projection (EPSG:3857) |
-| **UPS** | `Geodetic::Coordinates::UPS` | Universal Polar Stereographic |
-| **StatePlane** | `Geodetic::Coordinates::StatePlane` | State Plane Coordinate System |
-| **BNG** | `Geodetic::Coordinates::BNG` | British National Grid |
-| **GH36** | `Geodetic::Coordinates::GH36` | Geohash-36 (spatial hash, URL-friendly) |
-| **GH** | `Geodetic::Coordinates::GH` | Geohash base-32 (standard geohash, widely supported) |
-| **HAM** | `Geodetic::Coordinates::HAM` | Maidenhead Locator System (amateur radio grid squares) |
-| **OLC** | `Geodetic::Coordinates::OLC` | Open Location Code / Plus Codes (Google's location encoding) |
+| **LLA** | `Geodetic::Coordinate::LLA` | Latitude, Longitude, Altitude |
+| **ECEF** | `Geodetic::Coordinate::ECEF` | Earth-Centered, Earth-Fixed (X, Y, Z) |
+| **UTM** | `Geodetic::Coordinate::UTM` | Universal Transverse Mercator |
+| **ENU** | `Geodetic::Coordinate::ENU` | East, North, Up (local tangent plane) |
+| **NED** | `Geodetic::Coordinate::NED` | North, East, Down (local tangent plane) |
+| **MGRS** | `Geodetic::Coordinate::MGRS` | Military Grid Reference System |
+| **USNG** | `Geodetic::Coordinate::USNG` | United States National Grid |
+| **WebMercator** | `Geodetic::Coordinate::WebMercator` | Web Mercator projection (EPSG:3857) |
+| **UPS** | `Geodetic::Coordinate::UPS` | Universal Polar Stereographic |
+| **StatePlane** | `Geodetic::Coordinate::StatePlane` | State Plane Coordinate System |
+| **BNG** | `Geodetic::Coordinate::BNG` | British National Grid |
+| **GH36** | `Geodetic::Coordinate::GH36` | Geohash-36 (spatial hash, URL-friendly) |
+| **GH** | `Geodetic::Coordinate::GH` | Geohash base-32 (standard geohash, widely supported) |
+| **HAM** | `Geodetic::Coordinate::HAM` | Maidenhead Locator System (amateur radio grid squares) |
+| **OLC** | `Geodetic::Coordinate::OLC` | Open Location Code / Plus Codes (Google's location encoding) |
 
 ## Additional Features
 
@@ -66,7 +66,7 @@ Geodetic supports full bidirectional conversion between all 15 coordinate system
 require "geodetic"
 
 # Create an LLA coordinate (Seattle Space Needle)
-lla = Geodetic::Coordinates::LLA.new(lat: 47.6205, lng: -122.3493, alt: 184.0)
+lla = Geodetic::Coordinate::LLA.new(lat: 47.6205, lng: -122.3493, alt: 184.0)
 
 # Convert to ECEF
 ecef = lla.to_ecef

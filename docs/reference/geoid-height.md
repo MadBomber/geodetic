@@ -141,7 +141,7 @@ Geodetic::GeoidHeight.available_vertical_datums
 
 ## Geodetic::GeoidHeightSupport (Mixin)
 
-The `GeoidHeightSupport` module is included in `Geodetic::Coordinates::LLA`, adding geoid-related methods directly to LLA instances.
+The `GeoidHeightSupport` module is included in `Geodetic::Coordinate::LLA`, adding geoid-related methods directly to LLA instances.
 
 ### Mixin Methods
 
@@ -150,7 +150,7 @@ The `GeoidHeightSupport` module is included in `Geodetic::Coordinates::LLA`, add
 Returns the geoid undulation at the LLA position.
 
 ```ruby
-point = Geodetic::Coordinates::LLA.new(lat: 38.8977, lng: -77.0365, alt: 100.0)
+point = Geodetic::Coordinate::LLA.new(lat: 38.8977, lng: -77.0365, alt: 100.0)
 point.geoid_height              # Uses EGM2008
 point.geoid_height('GEOID18')   # Uses GEOID18
 ```
@@ -168,7 +168,7 @@ point.orthometric_height  # alt minus geoid undulation
 Returns a new LLA with the altitude converted between vertical datums. The original object is not modified.
 
 ```ruby
-wgs84_point = Geodetic::Coordinates::LLA.new(lat: 40.0, lng: -100.0, alt: 300.0)
+wgs84_point = Geodetic::Coordinate::LLA.new(lat: 40.0, lng: -100.0, alt: 300.0)
 navd88_point = wgs84_point.convert_height_datum('HAE', 'NAVD88')
 ```
 
@@ -177,6 +177,6 @@ navd88_point = wgs84_point.convert_height_datum('HAE', 'NAVD88')
 The mixin also extends the including class with a `with_geoid_height` class method and a `geoid_model` reader, though these are primarily for internal use:
 
 ```ruby
-Geodetic::Coordinates::LLA.with_geoid_height('GEOID18')
-Geodetic::Coordinates::LLA.geoid_model  # => 'GEOID18'
+Geodetic::Coordinate::LLA.with_geoid_height('GEOID18')
+Geodetic::Coordinate::LLA.geoid_model  # => 'GEOID18'
 ```

@@ -1,4 +1,4 @@
-# Geodetic::Coordinates::NED - North, East, Down
+# Geodetic::Coordinate::NED - North, East, Down
 
 ## Overview
 
@@ -57,7 +57,7 @@ The one exception is the conversion between NED and ENU, which does not require 
 NED is a relative coordinate system. The universal `distance_to`, `straight_line_distance_to`, `bearing_to`, and `elevation_to` methods raise `ArgumentError` because NED cannot be converted to an absolute system without a reference point. Convert to an absolute system first:
 
 ```ruby
-ref = Geodetic::Coordinates::LLA.new(lat: 47.62, lng: -122.35, alt: 0.0)
+ref = Geodetic::Coordinate::LLA.new(lat: 47.62, lng: -122.35, alt: 0.0)
 lla = ned.to_lla(ref)
 lla.distance_to(other_lla)   # Vincenty great-circle distance
 lla.bearing_to(other_lla)    # Great-circle forward azimuth (Bearing object)
@@ -70,7 +70,7 @@ Bearing is measured in **degrees from north**, clockwise, in the range **0-360**
 ## Example
 
 ```ruby
-point = Geodetic::Coordinates::NED.new(n: 200.0, e: 100.0, d: -50.0)
+point = Geodetic::Coordinate::NED.new(n: 200.0, e: 100.0, d: -50.0)
 
 point.north  # => 200.0
 point.east   # => 100.0

@@ -1,4 +1,4 @@
-# Geodetic::Coordinates::StatePlane
+# Geodetic::Coordinate::StatePlane
 
 ## US State Plane Coordinate System
 
@@ -7,7 +7,7 @@ The State Plane Coordinate System (SPCS) is a set of 124 geographic zones used a
 ## Constructor
 
 ```ruby
-point = Geodetic::Coordinates::StatePlane.new(
+point = Geodetic::Coordinate::StatePlane.new(
   easting:   0.0,
   northing:  0.0,
   zone_code: 'CA_I',

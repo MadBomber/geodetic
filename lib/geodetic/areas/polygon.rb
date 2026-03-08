@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative '../coordinates/lla'
+require_relative '../coordinate/lla'
 
 module Geodetic
   module Areas
@@ -27,7 +27,7 @@ module Geodetic
         centroid_lng /= (6.0 * area)
         centroid_lat /= (6.0 * area)
 
-        @centroid = Coordinates::LLA.new(lat: centroid_lat, lng: centroid_lng, alt: 0.0)
+        @centroid = Coordinate::LLA.new(lat: centroid_lat, lng: centroid_lng, alt: 0.0)
       end
 
       def includes?(a_point)

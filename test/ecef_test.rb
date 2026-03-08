@@ -1,32 +1,32 @@
 # frozen_string_literal: true
 
 require "test_helper"
-require_relative "../lib/geodetic/coordinates/ecef"
-require_relative "../lib/geodetic/coordinates/lla"
-require_relative "../lib/geodetic/coordinates/utm"
-require_relative "../lib/geodetic/coordinates/enu"
-require_relative "../lib/geodetic/coordinates/ned"
-require_relative "../lib/geodetic/coordinates/mgrs"
-require_relative "../lib/geodetic/coordinates/usng"
-require_relative "../lib/geodetic/coordinates/web_mercator"
-require_relative "../lib/geodetic/coordinates/ups"
-require_relative "../lib/geodetic/coordinates/state_plane"
-require_relative "../lib/geodetic/coordinates/bng"
-require_relative "../lib/geodetic/coordinates/gh36"
+require_relative "../lib/geodetic/coordinate/ecef"
+require_relative "../lib/geodetic/coordinate/lla"
+require_relative "../lib/geodetic/coordinate/utm"
+require_relative "../lib/geodetic/coordinate/enu"
+require_relative "../lib/geodetic/coordinate/ned"
+require_relative "../lib/geodetic/coordinate/mgrs"
+require_relative "../lib/geodetic/coordinate/usng"
+require_relative "../lib/geodetic/coordinate/web_mercator"
+require_relative "../lib/geodetic/coordinate/ups"
+require_relative "../lib/geodetic/coordinate/state_plane"
+require_relative "../lib/geodetic/coordinate/bng"
+require_relative "../lib/geodetic/coordinate/gh36"
 
 class EcefTest < Minitest::Test
-  ECEF = Geodetic::Coordinates::ECEF
-  LLA  = Geodetic::Coordinates::LLA
-  UTM  = Geodetic::Coordinates::UTM
-  ENU  = Geodetic::Coordinates::ENU
-  NED  = Geodetic::Coordinates::NED
-  MGRS = Geodetic::Coordinates::MGRS
-  USNG = Geodetic::Coordinates::USNG
-  WM   = Geodetic::Coordinates::WebMercator
-  UPS  = Geodetic::Coordinates::UPS
-  SP   = Geodetic::Coordinates::StatePlane
-  BNG  = Geodetic::Coordinates::BNG
-  GH36 = Geodetic::Coordinates::GH36
+  ECEF = Geodetic::Coordinate::ECEF
+  LLA  = Geodetic::Coordinate::LLA
+  UTM  = Geodetic::Coordinate::UTM
+  ENU  = Geodetic::Coordinate::ENU
+  NED  = Geodetic::Coordinate::NED
+  MGRS = Geodetic::Coordinate::MGRS
+  USNG = Geodetic::Coordinate::USNG
+  WM   = Geodetic::Coordinate::WebMercator
+  UPS  = Geodetic::Coordinate::UPS
+  SP   = Geodetic::Coordinate::StatePlane
+  BNG  = Geodetic::Coordinate::BNG
+  GH36 = Geodetic::Coordinate::GH36
 
   # Known reference: Seattle Space Needle area
   # LLA: 47.6205, -122.3493, 184.0

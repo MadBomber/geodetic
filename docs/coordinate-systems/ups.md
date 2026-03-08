@@ -1,4 +1,4 @@
-# Geodetic::Coordinates::UPS
+# Geodetic::Coordinate::UPS
 
 ## Universal Polar Stereographic
 
@@ -7,7 +7,7 @@ The Universal Polar Stereographic (UPS) coordinate system covers the polar regio
 ## Constructor
 
 ```ruby
-point = Geodetic::Coordinates::UPS.new(
+point = Geodetic::Coordinate::UPS.new(
   easting:    0.0,
   northing:   0.0,
   hemisphere: 'N',
@@ -46,8 +46,8 @@ Both easting and northing use a **false origin of 2,000,000 meters** to ensure a
 The universal `distance_to` method computes the Vincenty great-circle distance (in meters) to any other coordinate type. The `straight_line_distance_to` method computes the Euclidean distance in ECEF space. Both accept single or multiple targets.
 
 ```ruby
-ups_a = Geodetic::Coordinates::UPS.new(easting: 2000000.0, northing: 2000000.0, hemisphere: 'N', zone: 'Z')
-ups_b = Geodetic::Coordinates::UPS.new(easting: 2100000.0, northing: 2100000.0, hemisphere: 'N', zone: 'Z')
+ups_a = Geodetic::Coordinate::UPS.new(easting: 2000000.0, northing: 2000000.0, hemisphere: 'N', zone: 'Z')
+ups_b = Geodetic::Coordinate::UPS.new(easting: 2100000.0, northing: 2100000.0, hemisphere: 'N', zone: 'Z')
 ups_a.distance_to(ups_b)                # => Distance (meters, great-circle)
 ups_a.straight_line_distance_to(ups_b)  # => Distance (meters, Euclidean)
 ```

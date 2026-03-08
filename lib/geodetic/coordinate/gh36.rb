@@ -18,7 +18,7 @@
 #   GH36.new(utm_coord, precision: 8)   # with custom precision
 
 module Geodetic
-  module Coordinates
+  module Coordinate
     class GH36
       require_relative '../datum'
 

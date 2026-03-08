@@ -1,4 +1,4 @@
-# Geodetic::Coordinates::LLA
+# Geodetic::Coordinate::LLA
 
 Latitude, Longitude, Altitude -- the most common geodetic coordinate system. Represents a position on (or above/below) the Earth's surface using angular degrees and a height in meters above the WGS84 reference ellipsoid.
 
@@ -11,7 +11,7 @@ LLA is the **hub class** in the Geodetic library. It can convert directly to all
 ## Constructor
 
 ```ruby
-Geodetic::Coordinates::LLA.new(lat: 0.0, lng: 0.0, alt: 0.0)
+Geodetic::Coordinate::LLA.new(lat: 0.0, lng: 0.0, alt: 0.0)
 ```
 
 | Parameter | Type  | Default | Description                                |
@@ -48,9 +48,9 @@ All conversion methods accept an optional `datum` parameter (defaults to `Geodet
 Converts to Earth-Centered, Earth-Fixed Cartesian coordinates.
 
 ```ruby
-lla = Geodetic::Coordinates::LLA.new(lat: 38.8977, lng: -77.0365, alt: 17.0)
+lla = Geodetic::Coordinate::LLA.new(lat: 38.8977, lng: -77.0365, alt: 17.0)
 ecef = lla.to_ecef
-# => Geodetic::Coordinates::ECEF
+# => Geodetic::Coordinate::ECEF
 ```
 
 ### LLA.from_ecef(ecef, datum = WGS84)
@@ -63,7 +63,7 @@ Converts to Universal Transverse Mercator coordinates. The UTM zone and hemisphe
 
 ```ruby
 utm = lla.to_utm
-# => Geodetic::Coordinates::UTM
+# => Geodetic::Coordinate::UTM
 ```
 
 ### LLA.from_utm(utm, datum = WGS84)
@@ -75,10 +75,10 @@ Creates an LLA from a UTM instance. Raises `ArgumentError` if the argument is no
 Converts to East-North-Up local tangent plane coordinates relative to a reference LLA position.
 
 ```ruby
-origin = Geodetic::Coordinates::LLA.new(lat: 38.8977, lng: -77.0365, alt: 17.0)
-point  = Geodetic::Coordinates::LLA.new(lat: 38.8987, lng: -77.0355, alt: 20.0)
+origin = Geodetic::Coordinate::LLA.new(lat: 38.8977, lng: -77.0365, alt: 17.0)
+point  = Geodetic::Coordinate::LLA.new(lat: 38.8987, lng: -77.0355, alt: 20.0)
 enu = point.to_enu(origin)
-# => Geodetic::Coordinates::ENU
+# => Geodetic::Coordinate::ENU
 ```
 
 Raises `ArgumentError` if `reference_lla` is not an `LLA`.
@@ -93,7 +93,7 @@ Converts to North-East-Down local tangent plane coordinates relative to a refere
 
 ```ruby
 ned = point.to_ned(origin)
-# => Geodetic::Coordinates::NED
+# => Geodetic::Coordinate::NED
 ```
 
 Raises `ArgumentError` if `reference_lla` is not an `LLA`.
@@ -109,7 +109,7 @@ Creates an LLA from a NED instance and a reference LLA origin. Raises `ArgumentE
 Returns a comma-separated string of `lat, lng, alt`.
 
 ```ruby
-lla = Geodetic::Coordinates::LLA.new(lat: 38.8977, lng: -77.0365, alt: 17.0)
+lla = Geodetic::Coordinate::LLA.new(lat: 38.8977, lng: -77.0365, alt: 17.0)
 lla.to_s
 # => "38.8977, -77.0365, 17.0"
 ```
@@ -128,7 +128,7 @@ lla.to_a
 Parses a comma-separated string into an LLA.
 
 ```ruby
-lla = Geodetic::Coordinates::LLA.from_string("38.8977, -77.0365, 17.0")
+lla = Geodetic::Coordinate::LLA.from_string("38.8977, -77.0365, 17.0")
 ```
 
 ### LLA.from_array(array)
@@ -136,7 +136,7 @@ lla = Geodetic::Coordinates::LLA.from_string("38.8977, -77.0365, 17.0")
 Creates an LLA from a three-element array `[lat, lng, alt]`.
 
 ```ruby
-lla = Geodetic::Coordinates::LLA.from_array([38.8977, -77.0365, 17.0])
+lla = Geodetic::Coordinate::LLA.from_array([38.8977, -77.0365, 17.0])
 ```
 
 ### to_dms
@@ -144,7 +144,7 @@ lla = Geodetic::Coordinates::LLA.from_array([38.8977, -77.0365, 17.0])
 Converts to a Degrees-Minutes-Seconds string with hemisphere indicators and altitude.
 
 ```ruby
-lla = Geodetic::Coordinates::LLA.new(lat: 38.8977, lng: -77.0365, alt: 17.0)
+lla = Geodetic::Coordinate::LLA.new(lat: 38.8977, lng: -77.0365, alt: 17.0)
 lla.to_dms
 # => "38° 53' 51.72\" N, 77° 2' 11.40\" W, 17.00 m"
 ```
@@ -160,7 +160,7 @@ DD° MM' SS.ss" N/S, DDD° MM' SS.ss" E/W[, altitude m]
 The altitude portion is optional and defaults to `0.0`.
 
 ```ruby
-lla = Geodetic::Coordinates::LLA.from_dms("38° 53' 51.72\" N, 77° 2' 11.40\" W, 17.0 m")
+lla = Geodetic::Coordinate::LLA.from_dms("38° 53' 51.72\" N, 77° 2' 11.40\" W, 17.0 m")
 ```
 
 Raises `ArgumentError` if the string does not match the expected format.
@@ -178,8 +178,8 @@ Compares two LLA instances for approximate equality. Returns `true` if:
 Returns `false` if `other` is not an `LLA`.
 
 ```ruby
-a = Geodetic::Coordinates::LLA.new(lat: 38.8977, lng: -77.0365, alt: 17.0)
-b = Geodetic::Coordinates::LLA.new(lat: 38.8977, lng: -77.0365, alt: 17.0)
+a = Geodetic::Coordinate::LLA.new(lat: 38.8977, lng: -77.0365, alt: 17.0)
+b = Geodetic::Coordinate::LLA.new(lat: 38.8977, lng: -77.0365, alt: 17.0)
 a == b
 # => true
 ```
@@ -191,7 +191,7 @@ Converts to Geohash-36 coordinates with configurable precision.
 ```ruby
 gh36 = lla.to_gh36
 gh36 = lla.to_gh36(precision: 5)    # coarser precision
-# => Geodetic::Coordinates::GH36
+# => Geodetic::Coordinate::GH36
 ```
 
 ### LLA.from_gh36(gh36_coord, datum = WGS84)
@@ -199,7 +199,7 @@ gh36 = lla.to_gh36(precision: 5)    # coarser precision
 Creates an LLA from a GH36 instance. Returns the midpoint of the geohash cell.
 
 ```ruby
-lla = Geodetic::Coordinates::LLA.from_gh36(gh36)
+lla = Geodetic::Coordinate::LLA.from_gh36(gh36)
 ```
 
 ## GeoidHeightSupport Mixin
@@ -211,7 +211,7 @@ LLA includes the `Geodetic::GeoidHeightSupport` module, which provides methods f
 Returns the geoid undulation (in meters) at the coordinate's lat/lng for the specified geoid model.
 
 ```ruby
-lla = Geodetic::Coordinates::LLA.new(lat: 38.8977, lng: -77.0365, alt: 17.0)
+lla = Geodetic::Coordinate::LLA.new(lat: 38.8977, lng: -77.0365, alt: 17.0)
 lla.geoid_height
 # => Float (geoid undulation in meters)
 ```
@@ -242,7 +242,7 @@ Supported vertical datums: `'NAVD88'`, `'NGVD29'`, `'MSL'`, `'HAE'`.
 Sets the default geoid model for the class. Returns the class for chaining.
 
 ```ruby
-Geodetic::Coordinates::LLA.with_geoid_height('EGM96')
+Geodetic::Coordinate::LLA.with_geoid_height('EGM96')
 ```
 
 ## Code Examples
@@ -253,7 +253,7 @@ Geodetic::Coordinates::LLA.with_geoid_height('EGM96')
 require 'geodetic'
 
 # Create an LLA coordinate
-lla = Geodetic::Coordinates::LLA.new(lat: 40.7128, lng: -74.0060, alt: 10.0)
+lla = Geodetic::Coordinate::LLA.new(lat: 40.7128, lng: -74.0060, alt: 10.0)
 
 # Convert to ECEF and back
 ecef = lla.to_ecef
@@ -269,8 +269,8 @@ lla_roundtrip = utm.to_lla
 ### Local tangent plane
 
 ```ruby
-origin = Geodetic::Coordinates::LLA.new(lat: 40.7128, lng: -74.0060, alt: 10.0)
-target = Geodetic::Coordinates::LLA.new(lat: 40.7138, lng: -74.0050, alt: 15.0)
+origin = Geodetic::Coordinate::LLA.new(lat: 40.7128, lng: -74.0060, alt: 10.0)
+target = Geodetic::Coordinate::LLA.new(lat: 40.7138, lng: -74.0050, alt: 15.0)
 
 enu = target.to_enu(origin)
 ned = target.to_ned(origin)
@@ -279,17 +279,17 @@ ned = target.to_ned(origin)
 ### DMS formatting
 
 ```ruby
-lla = Geodetic::Coordinates::LLA.new(lat: -33.8688, lng: 151.2093, alt: 58.0)
+lla = Geodetic::Coordinate::LLA.new(lat: -33.8688, lng: 151.2093, alt: 58.0)
 puts lla.to_dms
 # => "33° 52' 7.68" S, 151° 12' 33.48" E, 58.00 m"
 
-restored = Geodetic::Coordinates::LLA.from_dms(lla.to_dms)
+restored = Geodetic::Coordinate::LLA.from_dms(lla.to_dms)
 ```
 
 ### Geoid height operations
 
 ```ruby
-lla = Geodetic::Coordinates::LLA.new(lat: 38.8977, lng: -77.0365, alt: 50.0)
+lla = Geodetic::Coordinate::LLA.new(lat: 38.8977, lng: -77.0365, alt: 50.0)
 
 # Get geoid undulation at this location
 puts lla.geoid_height           # EGM2008 (default)

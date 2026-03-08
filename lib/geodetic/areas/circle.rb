@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative '../coordinates/lla'
+require_relative '../coordinate/lla'
 
 module Geodetic
   module Areas

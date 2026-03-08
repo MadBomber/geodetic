@@ -5,7 +5,7 @@
 # Uses Transverse Mercator projection with specific parameters
 
 module Geodetic
-  module Coordinates
+  module Coordinate
     class BNG
       require_relative '../datum'
 

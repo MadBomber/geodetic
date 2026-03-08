@@ -3,7 +3,7 @@
 require_relative '../datum'
 
 module Geodetic
-  module Coordinates
+  module Coordinate
     class ENU
       attr_reader :e, :n, :u
       alias_method :east, :e

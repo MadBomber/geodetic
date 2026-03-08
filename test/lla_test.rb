@@ -1,18 +1,18 @@
 # frozen_string_literal: true
 
 require "test_helper"
-require "geodetic/coordinates/lla"
-require "geodetic/coordinates/ecef"
-require "geodetic/coordinates/utm"
-require "geodetic/coordinates/enu"
-require "geodetic/coordinates/ned"
+require "geodetic/coordinate/lla"
+require "geodetic/coordinate/ecef"
+require "geodetic/coordinate/utm"
+require "geodetic/coordinate/enu"
+require "geodetic/coordinate/ned"
 
 class LlaTest < Minitest::Test
-  LLA  = Geodetic::Coordinates::LLA
-  ECEF = Geodetic::Coordinates::ECEF
-  UTM  = Geodetic::Coordinates::UTM
-  ENU  = Geodetic::Coordinates::ENU
-  NED  = Geodetic::Coordinates::NED
+  LLA  = Geodetic::Coordinate::LLA
+  ECEF = Geodetic::Coordinate::ECEF
+  UTM  = Geodetic::Coordinate::UTM
+  ENU  = Geodetic::Coordinate::ENU
+  NED  = Geodetic::Coordinate::NED
 
   # ── Constructor ──────────────────────────────────────────────
 
@@ -439,7 +439,7 @@ class LlaTest < Minitest::Test
 
   # ── to_gh36 / from_gh36 ───────────────────────────────────
 
-  GH36 = Geodetic::Coordinates::GH36
+  GH36 = Geodetic::Coordinate::GH36
 
   def test_to_gh36_returns_gh36_instance
     lla = LLA.new(lat: 37.7749, lng: -122.4194, alt: 15.0)

@@ -5,7 +5,7 @@
 # Used primarily within the United States for emergency services and land management
 
 module Geodetic
-  module Coordinates
+  module Coordinate
     class USNG
       require_relative '../datum'
       require_relative 'mgrs'

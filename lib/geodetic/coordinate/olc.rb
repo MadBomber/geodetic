@@ -23,7 +23,7 @@
 #   OLC.new(utm_coord, precision: 11)   # with custom precision
 
 module Geodetic
-  module Coordinates
+  module Coordinate
     class OLC
       require_relative '../datum'
 

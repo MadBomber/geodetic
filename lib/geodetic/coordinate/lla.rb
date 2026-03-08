@@ -11,7 +11,7 @@ require_relative '../datum'
 require_relative '../geoid_height'
 
 module Geodetic
-  module Coordinates
+  module Coordinate
     class LLA
       include GeoidHeightSupport
       attr_reader :lat, :lng, :alt

@@ -34,11 +34,11 @@ TargetClass.from_<source>(source_object, datum = WGS84)
 Examples:
 
 ```ruby
-Geodetic::Coordinates::ECEF.from_lla(lla)
-Geodetic::Coordinates::LLA.from_ecef(ecef)
-Geodetic::Coordinates::UTM.from_lla(lla)
-Geodetic::Coordinates::LLA.from_utm(utm)
-Geodetic::Coordinates::WebMercator.from_ecef(ecef)
+Geodetic::Coordinate::ECEF.from_lla(lla)
+Geodetic::Coordinate::LLA.from_ecef(ecef)
+Geodetic::Coordinate::UTM.from_lla(lla)
+Geodetic::Coordinate::LLA.from_utm(utm)
+Geodetic::Coordinate::WebMercator.from_ecef(ecef)
 ```
 
 ---
@@ -50,7 +50,7 @@ ENU and NED are local tangent plane systems that require a **reference LLA** poi
 ### Instance Methods
 
 ```ruby
-ref = Geodetic::Coordinates::LLA.new(lat: 38.8977, lng: -77.0365, alt: 0.0)
+ref = Geodetic::Coordinate::LLA.new(lat: 38.8977, lng: -77.0365, alt: 0.0)
 
 # LLA to local
 lla.to_enu(ref)
@@ -80,24 +80,24 @@ ned.to_ecef(reference_ecef, reference_lla)
 ### Class Methods
 
 ```ruby
-ref = Geodetic::Coordinates::LLA.new(lat: 38.8977, lng: -77.0365, alt: 0.0)
+ref = Geodetic::Coordinate::LLA.new(lat: 38.8977, lng: -77.0365, alt: 0.0)
 
-Geodetic::Coordinates::ENU.from_lla(lla, ref)
-Geodetic::Coordinates::NED.from_lla(lla, ref)
-Geodetic::Coordinates::LLA.from_enu(enu, ref)
-Geodetic::Coordinates::LLA.from_ned(ned, ref)
+Geodetic::Coordinate::ENU.from_lla(lla, ref)
+Geodetic::Coordinate::NED.from_lla(lla, ref)
+Geodetic::Coordinate::LLA.from_enu(enu, ref)
+Geodetic::Coordinate::LLA.from_ned(ned, ref)
 
 # From other systems via reference
-Geodetic::Coordinates::ENU.from_utm(utm, ref)
-Geodetic::Coordinates::NED.from_utm(utm, ref)
-Geodetic::Coordinates::UTM.from_enu(enu, ref)
-Geodetic::Coordinates::UTM.from_ned(ned, ref)
+Geodetic::Coordinate::ENU.from_utm(utm, ref)
+Geodetic::Coordinate::NED.from_utm(utm, ref)
+Geodetic::Coordinate::UTM.from_enu(enu, ref)
+Geodetic::Coordinate::UTM.from_ned(ned, ref)
 
 # ECEF-based
-Geodetic::Coordinates::ENU.from_ecef(ecef, ref_ecef, ref_lla)
-Geodetic::Coordinates::NED.from_ecef(ecef, ref_ecef, ref_lla)
-Geodetic::Coordinates::ECEF.from_enu(enu, ref_ecef, ref_lla)
-Geodetic::Coordinates::ECEF.from_ned(ned, ref_ecef, ref_lla)
+Geodetic::Coordinate::ENU.from_ecef(ecef, ref_ecef, ref_lla)
+Geodetic::Coordinate::NED.from_ecef(ecef, ref_ecef, ref_lla)
+Geodetic::Coordinate::ECEF.from_enu(enu, ref_ecef, ref_lla)
+Geodetic::Coordinate::ECEF.from_ned(ned, ref_ecef, ref_lla)
 ```
 
 When `reference_lla` is omitted in ECEF-based conversions, it is computed automatically from `reference_ecef` via `reference_ecef.to_lla`.
@@ -118,17 +118,17 @@ MGRS and USNG accept an optional `precision` parameter (1-5, default 5) controll
 
 ```ruby
 # LLA to MGRS with precision
-Geodetic::Coordinates::MGRS.from_lla(lla, datum, precision)
+Geodetic::Coordinate::MGRS.from_lla(lla, datum, precision)
 lla_point.to_mgrs(datum, precision)      # available on UPS, WebMercator, BNG, StatePlane
 
 # LLA to USNG with precision
-Geodetic::Coordinates::USNG.from_lla(lla, datum, precision)
+Geodetic::Coordinate::USNG.from_lla(lla, datum, precision)
 
 # MGRS <-> USNG (direct conversion)
 mgrs.to_usng   # implicit via component transfer
-Geodetic::Coordinates::USNG.from_mgrs(mgrs)
+Geodetic::Coordinate::USNG.from_mgrs(mgrs)
 usng.to_mgrs
-Geodetic::Coordinates::MGRS.from_usng(usng)  # implicit via string
+Geodetic::Coordinate::MGRS.from_usng(usng)  # implicit via string
 ```
 
 ---
@@ -139,11 +139,11 @@ StatePlane requires a **zone code** when converting into the system:
 
 ```ruby
 # To StatePlane (zone_code required)
-Geodetic::Coordinates::StatePlane.from_lla(lla, 'CA_I')
-Geodetic::Coordinates::StatePlane.from_ecef(ecef, 'CA_I')
-Geodetic::Coordinates::StatePlane.from_utm(utm, 'CA_I')
-Geodetic::Coordinates::StatePlane.from_enu(enu, ref_lla, 'CA_I')
-Geodetic::Coordinates::StatePlane.from_ned(ned, ref_lla, 'CA_I')
+Geodetic::Coordinate::StatePlane.from_lla(lla, 'CA_I')
+Geodetic::Coordinate::StatePlane.from_ecef(ecef, 'CA_I')
+Geodetic::Coordinate::StatePlane.from_utm(utm, 'CA_I')
+Geodetic::Coordinate::StatePlane.from_enu(enu, ref_lla, 'CA_I')
+Geodetic::Coordinate::StatePlane.from_ned(ned, ref_lla, 'CA_I')
 
 # From StatePlane (zone is stored in the object)
 state_plane.to_lla
@@ -178,7 +178,7 @@ utm.to_lla(clarke)
 StatePlane stores its datum internally and uses it when no datum argument is provided:
 
 ```ruby
-sp = Geodetic::Coordinates::StatePlane.new(
+sp = Geodetic::Coordinate::StatePlane.new(
   easting: 2000000.0, northing: 500000.0,
   zone_code: 'CA_I', datum: clarke
 )
@@ -240,7 +240,7 @@ Universal distance methods are available on all coordinate types and work across
 ### Great-Circle Distance (Vincenty)
 
 - **`distance_to(other, *others)`** — Instance method. Computes the Vincenty great-circle distance from the receiver to one or more target coordinates. Returns a `Distance` for a single target, or an Array of `Distance` objects for multiple targets (radial distances from the receiver).
-- **`GCS.distance_between(*coords)`** — Class method on `Geodetic::Coordinates` (aliased as `GCS`). Computes consecutive chain distances between an ordered sequence of coordinates. Returns a `Distance` for two coordinates, or an Array of `Distance` objects for three or more.
+- **`GCS.distance_between(*coords)`** — Class method on `Geodetic::Coordinate` (aliased as `GCS`). Computes consecutive chain distances between an ordered sequence of coordinates. Returns a `Distance` for two coordinates, or an Array of `Distance` objects for three or more.
 
 > **`Distance` objects** wrap a distance value and provide unit-aware access. Call `.meters` to get the raw Float value in meters, or `.to_f` to get the value in the current display unit.
 
@@ -299,7 +299,7 @@ Universal bearing methods are available on all coordinate types and work across 
 
 - **`bearing_to(other)`** — Instance method. Computes the great-circle forward azimuth from the receiver to the target coordinate. Returns a `Bearing` object.
 - **`elevation_to(other)`** — Instance method. Computes the vertical look angle (elevation) from the receiver to the target. Returns a Float in degrees (-90 to +90).
-- **`GCS.bearing_between(*coords)`** — Class method on `Geodetic::Coordinates` (aliased as `GCS`). Computes consecutive chain bearings between an ordered sequence of coordinates. Returns a `Bearing` for two coordinates, or an Array of `Bearing` objects for three or more.
+- **`GCS.bearing_between(*coords)`** — Class method on `Geodetic::Coordinate` (aliased as `GCS`). Computes consecutive chain bearings between an ordered sequence of coordinates. Returns a `Bearing` for two coordinates, or an Array of `Bearing` objects for three or more.
 
 ```ruby
 seattle = GCS::LLA.new(lat: 47.6205, lng: -122.3493, alt: 0.0)

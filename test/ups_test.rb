@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 
 require "test_helper"
-require_relative "../lib/geodetic/coordinates/ups"
-require_relative "../lib/geodetic/coordinates/lla"
+require_relative "../lib/geodetic/coordinate/ups"
+require_relative "../lib/geodetic/coordinate/lla"
 
 class UpsTest < Minitest::Test
-  UPS = Geodetic::Coordinates::UPS
-  LLA = Geodetic::Coordinates::LLA
+  UPS = Geodetic::Coordinate::UPS
+  LLA = Geodetic::Coordinate::LLA
 
   # ── Constructor ──────────────────────────────────────────────
 
@@ -232,16 +232,16 @@ class UpsTest < Minitest::Test
   end
 
   # ── Additional coordinate type constants ─────────────────
-  UTM   = Geodetic::Coordinates::UTM
-  ECEF  = Geodetic::Coordinates::ECEF
-  MGRS  = Geodetic::Coordinates::MGRS
-  USNG  = Geodetic::Coordinates::USNG
-  WM    = Geodetic::Coordinates::WebMercator
-  SP    = Geodetic::Coordinates::StatePlane
-  BNG   = Geodetic::Coordinates::BNG
-  GH36  = Geodetic::Coordinates::GH36
-  ENU   = Geodetic::Coordinates::ENU
-  NED   = Geodetic::Coordinates::NED
+  UTM   = Geodetic::Coordinate::UTM
+  ECEF  = Geodetic::Coordinate::ECEF
+  MGRS  = Geodetic::Coordinate::MGRS
+  USNG  = Geodetic::Coordinate::USNG
+  WM    = Geodetic::Coordinate::WebMercator
+  SP    = Geodetic::Coordinate::StatePlane
+  BNG   = Geodetic::Coordinate::BNG
+  GH36  = Geodetic::Coordinate::GH36
+  ENU   = Geodetic::Coordinate::ENU
+  NED   = Geodetic::Coordinate::NED
 
   # Helper: create a UPS point from a high-latitude LLA
   def polar_ups(lat: 87.0, lng: 45.0)
