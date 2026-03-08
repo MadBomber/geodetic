@@ -9,7 +9,7 @@ Gem::Specification.new do |spec|
   spec.email = ["dewayne@vanhoozer.me"]
 
   spec.summary = "Convert between geodetic coordinate systems with distance calculations"
-  spec.description = "A Ruby gem for converting between 12 geodetic coordinate systems (LLA, ECEF, UTM, ENU, NED, MGRS, USNG, Web Mercator, UPS, State Plane, BNG, GH36) with Vincenty great-circle and ECEF Euclidean distance calculations, unit-aware Distance and Bearing classes, geoid height support, and geographic area operations."
+  spec.description = "A Ruby gem for converting between 13 geodetic coordinate systems (LLA, ECEF, UTM, ENU, NED, MGRS, USNG, Web Mercator, UPS, State Plane, BNG, GH36, GH) with Vincenty great-circle and ECEF Euclidean distance calculations, unit-aware Distance and Bearing classes, geoid height support, and geographic area operations."
   spec.homepage = "https://github.com/madbomber/geodetic"
   spec.license = "MIT"
   spec.required_ruby_version = ">= 3.2.0"

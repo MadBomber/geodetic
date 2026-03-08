@@ -9,7 +9,7 @@
 <td width="50%" valign="top">
 <h2>Key Features</h2>
 <lu>
-<li><strong>12 Coordinate Systems</strong> - LLA, ECEF, UTM, ENU, NED, MGRS, USNG, Web Mercator, UPS, State Plane, BNG, GH36<br>
+<li><strong>13 Coordinate Systems</strong> - LLA, ECEF, UTM, ENU, NED, MGRS, USNG, Web Mercator, UPS, State Plane, BNG, GH36, GH<br>
 <li><strong>Full Bidirectional Conversions</strong> - Every system converts to and from every other system<br>
 <li><strong>Distance Calculations</strong> - Vincenty great-circle and straight-line with unit tracking<br>
 <li><strong>Bearing Calculations</strong> - Forward azimuth, back azimuth, compass directions, elevation angles<br>
@@ -24,11 +24,11 @@
 </tr>
 </table>
 
-Geodetic is a Ruby gem for converting between geodetic coordinate systems. It provides a clean, consistent API for working with 12 coordinate systems, 16 geodetic datums, geoid height calculations, and geographic area computations.
+Geodetic is a Ruby gem for converting between geodetic coordinate systems. It provides a clean, consistent API for working with 13 coordinate systems, 16 geodetic datums, geoid height calculations, and geographic area computations.
 
 ## Coordinate Systems
 
-Geodetic supports full bidirectional conversion between all 12 coordinate systems:
+Geodetic supports full bidirectional conversion between all 13 coordinate systems:
 
 | System | Class | Description |
 |--------|-------|-------------|
@@ -44,6 +44,7 @@ Geodetic supports full bidirectional conversion between all 12 coordinate system
 | **StatePlane** | `Geodetic::Coordinates::StatePlane` | State Plane Coordinate System |
 | **BNG** | `Geodetic::Coordinates::BNG` | British National Grid |
 | **GH36** | `Geodetic::Coordinates::GH36` | Geohash-36 (spatial hash, URL-friendly) |
+| **GH** | `Geodetic::Coordinates::GH` | Geohash base-32 (standard geohash, widely supported) |
 
 ## Additional Features
 

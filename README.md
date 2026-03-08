@@ -13,7 +13,7 @@
 <td width="50%" valign="top">
 <strong>Key Features</strong><br>
 
-- <strong>12 Coordinate Systems</strong> - LLA, ECEF, UTM, ENU, NED, MGRS, USNG, Web Mercator, UPS, State Plane, BNG, GH36<br>
+- <strong>13 Coordinate Systems</strong> - LLA, ECEF, UTM, ENU, NED, MGRS, USNG, Web Mercator, UPS, State Plane, BNG, GH36, GH<br>
 - <strong>Full Bidirectional Conversions</strong> - Every system converts to and from every other system<br>
 - <strong>Distance Calculations</strong> - Vincenty great-circle and straight-line with unit tracking<br>
 - <strong>Bearing Calculations</strong> - Forward azimuth, back azimuth, compass directions, elevation angles<br>
@@ -27,7 +27,7 @@
 </tr>
 </table>
 
-<p>Geodetic enables precise conversion between geodetic coordinate systems in Ruby. All 12 coordinate systems support complete bidirectional conversions with high precision. Review the <a href="https://madbomber.github.io/geodetic/">full documentation website</a> and explore the <a href="examples/">runnable examples</a>.</p>
+<p>Geodetic enables precise conversion between geodetic coordinate systems in Ruby. All 13 coordinate systems support complete bidirectional conversions with high precision. Review the <a href="https://madbomber.github.io/geodetic/">full documentation website</a> and explore the <a href="examples/">runnable examples</a>.</p>
 
 ## Installation
 
@@ -139,7 +139,7 @@ bng = Coordinates::BNG.new(easting: 530000, northing: 180000)
 bng.easting = 430000               # grid_ref automatically recalculated
 ```
 
-ECEF, ENU, NED, and WebMercator setters coerce to float with no range constraints. MGRS, USNG, GH36, Distance, and Bearing are immutable.
+ECEF, ENU, NED, and WebMercator setters coerce to float with no range constraints. MGRS, USNG, GH36, GH, Distance, and Bearing are immutable.
 
 ### DMS (Degrees, Minutes, Seconds)
 
@@ -406,6 +406,36 @@ gh36.precision              # => 10
 gh36.precision_in_meters    # => { lat: 0.31, lng: 0.62 }
 ```
 
+### Geohash (GH)
+
+The standard Geohash (base-32) algorithm by Gustavo Niemeyer, widely supported by Elasticsearch, Redis, PostGIS, and geocoding services:
+
+```ruby
+# From a geohash string
+gh = Coordinates::GH.new("dr5ru7")
+
+# From any coordinate
+gh = Coordinates::GH.new(lla)
+gh = lla.to_gh(precision: 8)
+
+# Decode back to LLA
+lla = gh.to_lla
+
+# URL slug (the hash itself is URL-safe)
+gh.to_slug    # => "dr5ru7"
+
+# Neighbor cells
+gh.neighbors  # => { N: GH, S: GH, E: GH, W: GH, NE: ..., NW: ..., SE: ..., SW: ... }
+
+# Bounding rectangle of the geohash cell
+area = gh.to_area    # => Areas::Rectangle
+area.includes?(gh.to_lla)  # => true
+
+# Precision info
+gh.precision              # => 6
+gh.precision_in_meters    # => { lat: 610.98, lng: 1221.97 }
+```
+
 ### Geographic Areas
 
 ```ruby
@@ -458,7 +488,7 @@ The [`examples/`](examples/) directory contains runnable demo scripts showing pr
 | Script | Description |
 |--------|-------------|
 | [`01_basic_conversions.rb`](examples/01_basic_conversions.rb) | LLA, ECEF, UTM, ENU, NED conversions and roundtrips |
-| [`02_all_coordinate_systems.rb`](examples/02_all_coordinate_systems.rb) | All 12 coordinate systems, cross-system chains, and areas |
+| [`02_all_coordinate_systems.rb`](examples/02_all_coordinate_systems.rb) | All 13 coordinate systems, cross-system chains, and areas |
 | [`03_distance_calculations.rb`](examples/03_distance_calculations.rb) | Distance class features, unit conversions, and arithmetic |
 | [`04_bearing_calculations.rb`](examples/04_bearing_calculations.rb) | Bearing class, compass directions, elevation angles, and chain bearings |
 

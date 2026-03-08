@@ -208,6 +208,7 @@ Most conversions are not direct but route through intermediate systems. The gem 
 | BNG <-> LLA | BNG -> OSGB36 LLA -> WGS84 LLA (with datum shift) |
 | StatePlane <-> LLA | Direct projection (Lambert or Transverse Mercator) |
 | GH36 <-> LLA | Encode/decode via 6x6 matrix subdivision |
+| GH <-> LLA | Encode/decode via bit-interleaved base-32 |
 | Any <-> Any | Routes through LLA as the universal hub |
 
 ---
@@ -223,7 +224,8 @@ Most conversions are not direct but route through intermediate systems. The gem 
 - **BNG**: Uses a simplified datum transformation between OSGB36 and WGS84 (approximate offset). A full Helmert 7-parameter transformation would provide higher accuracy.
 - **StatePlane**: Uses simplified projection formulas. Production applications may require the full NOAA/NGS projection equations for survey-grade accuracy.
 - **GH36**: Precision depends on hash length. Default 10 characters gives sub-meter resolution. Altitude information is lost (always 0.0).
-- **Equality comparisons**: All classes use tolerance-based equality. Coordinates (in meters) use 1e-6 m tolerance. LLA uses 1e-10 degrees for lat/lng and 1e-6 m for altitude. GH36 uses exact string comparison.
+- **GH**: Precision depends on hash length. Default 12 characters gives sub-centimeter resolution. Altitude information is lost (always 0.0).
+- **Equality comparisons**: All classes use tolerance-based equality. Coordinates (in meters) use 1e-6 m tolerance. LLA uses 1e-10 degrees for lat/lng and 1e-6 m for altitude. GH36 and GH use exact string comparison.
 
 ---
 
