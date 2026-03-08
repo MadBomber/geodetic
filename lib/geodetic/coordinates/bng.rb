@@ -228,6 +228,15 @@ module Geodetic
         from_lla(lla_coord, datum)
       end
 
+      def to_gh36(datum = WGS84, precision: 10)
+        GH36.new(to_lla(datum), precision: precision)
+      end
+
+      def self.from_gh36(gh36_coord, datum = WGS84)
+        lla_coord = gh36_coord.to_lla(datum)
+        from_lla(lla_coord, datum)
+      end
+
       def ==(other)
         return false unless other.is_a?(BNG)
 
@@ -267,7 +276,7 @@ module Geodetic
             break if grid_x
           end
 
-          raise "Invalid grid square: #{letters}" unless grid_x
+          raise ArgumentError, "Invalid grid square: #{letters}" unless grid_x
 
           # Calculate coordinates
           precision = east_digits.length
@@ -294,13 +303,13 @@ module Geodetic
             break if grid_x
           end
 
-          raise "Invalid grid square: #{letters}" unless grid_x
+          raise ArgumentError, "Invalid grid square: #{letters}" unless grid_x
 
           @easting = grid_x * 100000 + 50000  # Center of square
           @northing = grid_y * 100000 + 50000  # Center of square
           @grid_ref = grid_ref
         else
-          raise "Invalid BNG grid reference format: #{grid_ref}"
+          raise ArgumentError, "Invalid BNG grid reference format: #{grid_ref}"
         end
       end
 

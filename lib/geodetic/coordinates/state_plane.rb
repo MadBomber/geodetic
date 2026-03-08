@@ -152,13 +152,13 @@ module Geodetic
         when 'transverse_mercator'
           transverse_mercator_to_lla(zone_info, datum)
         else
-          raise "Unsupported projection: #{zone_info[:projection]}"
+          raise ArgumentError, "Unsupported projection: #{zone_info[:projection]}"
         end
       end
 
       def self.from_lla(lla_coord, zone_code, datum = WGS84)
         zone_info = ZONES[zone_code.to_s.upcase]
-        raise "Unknown zone: #{zone_code}" unless zone_info
+        raise ArgumentError, "Unknown zone: #{zone_code}" unless zone_info
 
         case zone_info[:projection]
         when 'lambert_conformal_conic'
@@ -166,7 +166,7 @@ module Geodetic
         when 'transverse_mercator'
           from_lla_transverse_mercator(lla_coord, zone_code, zone_info, datum)
         else
-          raise "Unsupported projection: #{zone_info[:projection]}"
+          raise ArgumentError, "Unsupported projection: #{zone_info[:projection]}"
         end
       end
 
@@ -242,6 +242,24 @@ module Geodetic
         from_lla(lla_coord, zone_code, datum)
       end
 
+      def to_bng(datum = nil)
+        BNG.from_lla(to_lla(datum), datum || @datum)
+      end
+
+      def self.from_bng(bng_coord, zone_code, datum = WGS84)
+        lla_coord = bng_coord.to_lla(datum)
+        from_lla(lla_coord, zone_code, datum)
+      end
+
+      def to_gh36(datum = nil, precision: 10)
+        GH36.new(to_lla(datum), precision: precision)
+      end
+
+      def self.from_gh36(gh36_coord, zone_code, datum = WGS84)
+        lla_coord = gh36_coord.to_lla(datum)
+        from_lla(lla_coord, zone_code, datum)
+      end
+
       # Unit conversion methods
       def to_meters
         zone_info = ZONES[@zone_code]
@@ -299,7 +317,7 @@ module Geodetic
 
       def validate_zone
         unless ZONES.key?(@zone_code)
-          raise "Unknown State Plane zone: #{@zone_code}"
+          raise ArgumentError, "Unknown State Plane zone: #{@zone_code}"
         end
       end
 

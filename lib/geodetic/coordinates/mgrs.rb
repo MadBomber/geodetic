@@ -114,6 +114,54 @@ module Geodetic
         from_lla(lla_coord, datum, precision)
       end
 
+      def to_web_mercator(datum = WGS84)
+        WebMercator.from_lla(to_lla(datum), datum)
+      end
+
+      def self.from_web_mercator(wm_coord, datum = WGS84, precision = 5)
+        from_lla(wm_coord.to_lla(datum), datum, precision)
+      end
+
+      def to_ups(datum = WGS84)
+        UPS.from_lla(to_lla(datum), datum)
+      end
+
+      def self.from_ups(ups_coord, datum = WGS84, precision = 5)
+        from_lla(ups_coord.to_lla(datum), datum, precision)
+      end
+
+      def to_usng
+        USNG.from_mgrs(self)
+      end
+
+      def self.from_usng(usng_coord)
+        usng_coord.to_mgrs
+      end
+
+      def to_state_plane(zone_code, datum = WGS84)
+        StatePlane.from_lla(to_lla(datum), zone_code, datum)
+      end
+
+      def self.from_state_plane(sp_coord, datum = WGS84, precision = 5)
+        from_lla(sp_coord.to_lla(datum), datum, precision)
+      end
+
+      def to_bng(datum = WGS84)
+        BNG.from_lla(to_lla(datum), datum)
+      end
+
+      def self.from_bng(bng_coord, datum = WGS84, precision = 5)
+        from_lla(bng_coord.to_lla(datum), datum, precision)
+      end
+
+      def to_gh36(datum = WGS84, precision: 10)
+        GH36.new(to_lla(datum), precision: precision)
+      end
+
+      def self.from_gh36(gh36_coord, datum = WGS84, precision = 5)
+        from_lla(gh36_coord.to_lla(datum), datum, precision)
+      end
+
       def ==(other)
         return false unless other.is_a?(MGRS)
 

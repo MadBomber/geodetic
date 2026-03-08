@@ -233,6 +233,42 @@ module Geodetic
         from_lla(lla_coord, datum)
       end
 
+      def to_usng(datum = WGS84, precision = 5)
+        USNG.from_lla(to_lla(datum), datum, precision)
+      end
+
+      def self.from_usng(usng_coord, datum = WGS84)
+        lla_coord = usng_coord.to_lla(datum)
+        from_lla(lla_coord, datum)
+      end
+
+      def to_bng(datum = WGS84)
+        BNG.from_lla(to_lla(datum), datum)
+      end
+
+      def self.from_bng(bng_coord, datum = WGS84)
+        lla_coord = bng_coord.to_lla(datum)
+        from_lla(lla_coord, datum)
+      end
+
+      def to_state_plane(zone_code, datum = WGS84)
+        StatePlane.from_lla(to_lla(datum), zone_code, datum)
+      end
+
+      def self.from_state_plane(sp_coord, datum = WGS84)
+        lla_coord = sp_coord.to_lla(datum)
+        from_lla(lla_coord, datum)
+      end
+
+      def to_gh36(datum = WGS84, precision: 10)
+        GH36.new(to_lla(datum), precision: precision)
+      end
+
+      def self.from_gh36(gh36_coord, datum = WGS84)
+        lla_coord = gh36_coord.to_lla(datum)
+        from_lla(lla_coord, datum)
+      end
+
       def ==(other)
         return false unless other.is_a?(UPS)
 

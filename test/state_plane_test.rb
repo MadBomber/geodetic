@@ -25,7 +25,7 @@ class StatePlaneTest < Minitest::Test
   end
 
   def test_invalid_zone_raises
-    assert_raises(RuntimeError) { SP.new(zone_code: "INVALID_ZONE") }
+    assert_raises(ArgumentError) { SP.new(zone_code: "INVALID_ZONE") }
   end
 
   # -- Accessors ------------------------------------------------------------
