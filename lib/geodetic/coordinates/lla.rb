@@ -246,6 +246,14 @@ module Geodetic
         ham_coord.to_lla(datum)
       end
 
+      def to_olc(precision: 10)
+        OLC.new(self, precision: precision)
+      end
+
+      def self.from_olc(olc_coord, datum = WGS84)
+        olc_coord.to_lla(datum)
+      end
+
       def to_s(precision = 6)
         precision = precision.to_i
         if precision == 0

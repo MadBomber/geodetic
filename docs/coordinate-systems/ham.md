@@ -79,6 +79,7 @@ coord.to_state_plane(zone_code)
 coord.to_bng
 coord.to_gh36
 coord.to_gh
+coord.to_olc
 ```
 
 ### Class Methods
@@ -90,6 +91,7 @@ HAM.from_utm(utm_coord)
 HAM.from_web_mercator(wm_coord)
 HAM.from_gh(gh_coord)
 HAM.from_gh36(gh36_coord)
+HAM.from_olc(olc_coord)
 # ... and all other coordinate systems
 ```
 

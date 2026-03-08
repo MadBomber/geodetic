@@ -163,6 +163,14 @@ module Geodetic
         from_lla(ham_coord.to_lla(datum), datum, precision)
       end
 
+      def to_olc(datum = WGS84, precision: 10)
+        OLC.new(to_lla(datum), precision: precision)
+      end
+
+      def self.from_olc(olc_coord, datum = WGS84, precision = 5)
+        from_lla(olc_coord.to_lla(datum), datum, precision)
+      end
+
       def ==(other)
         return false unless other.is_a?(USNG)
 

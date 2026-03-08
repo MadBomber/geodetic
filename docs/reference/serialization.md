@@ -257,3 +257,4 @@ restored = Geodetic::Coordinates::LLA.from_dms(dms_string)
 | GH36 | geohash string | n/a | `[lat, lng]` | `to_slug`, `to_area`, `neighbors` |
 | GH | geohash string | n/a | `[lat, lng]` | `to_slug`, `to_area`, `neighbors` |
 | HAM | locator string | n/a | `[lat, lng]` | `to_slug`, `to_area`, `neighbors` |
+| OLC | plus code string | n/a | `[lat, lng]` | `to_slug`, `to_area`, `neighbors` |

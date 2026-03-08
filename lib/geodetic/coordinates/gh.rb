@@ -203,6 +203,14 @@ module Geodetic
         new(ham_coord, precision: precision)
       end
 
+      def to_olc(datum = WGS84, olc_precision: 10)
+        OLC.new(to_lla(datum), precision: olc_precision)
+      end
+
+      def self.from_olc(olc_coord, datum = WGS84, precision = DEFAULT_LENGTH)
+        new(olc_coord, precision: precision)
+      end
+
       def ==(other)
         return false unless other.is_a?(GH)
         @geohash == other.geohash

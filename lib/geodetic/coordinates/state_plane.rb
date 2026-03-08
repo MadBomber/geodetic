@@ -278,6 +278,15 @@ module Geodetic
         from_lla(lla_coord, zone_code, datum)
       end
 
+      def to_olc(datum = nil, precision: 10)
+        OLC.new(to_lla(datum), precision: precision)
+      end
+
+      def self.from_olc(olc_coord, zone_code, datum = WGS84)
+        lla_coord = olc_coord.to_lla(datum)
+        from_lla(lla_coord, zone_code, datum)
+      end
+
       # Unit conversion methods
       def to_meters
         zone_info = ZONES[@zone_code]

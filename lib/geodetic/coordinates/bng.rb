@@ -255,6 +255,15 @@ module Geodetic
         from_lla(lla_coord, datum)
       end
 
+      def to_olc(datum = WGS84, precision: 10)
+        OLC.new(to_lla(datum), precision: precision)
+      end
+
+      def self.from_olc(olc_coord, datum = WGS84)
+        lla_coord = olc_coord.to_lla(datum)
+        from_lla(lla_coord, datum)
+      end
+
       def ==(other)
         return false unless other.is_a?(BNG)
 

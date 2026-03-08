@@ -13,7 +13,7 @@
 <td width="50%" valign="top">
 <strong>Key Features</strong><br>
 
-- <strong>14 Coordinate Systems</strong> - LLA, ECEF, UTM, ENU, NED, MGRS, USNG, Web Mercator, UPS, State Plane, BNG, GH36, GH, HAM<br>
+- <strong>15 Coordinate Systems</strong> - LLA, ECEF, UTM, ENU, NED, MGRS, USNG, Web Mercator, UPS, State Plane, BNG, GH36, GH, HAM, OLC<br>
 - <strong>Full Bidirectional Conversions</strong> - Every system converts to and from every other system<br>
 - <strong>Distance Calculations</strong> - Vincenty great-circle and straight-line with unit tracking<br>
 - <strong>Bearing Calculations</strong> - Forward azimuth, back azimuth, compass directions, elevation angles<br>
@@ -27,7 +27,7 @@
 </tr>
 </table>
 
-<p>Geodetic enables precise conversion between geodetic coordinate systems in Ruby. All 14 coordinate systems support complete bidirectional conversions with high precision. Review the <a href="https://madbomber.github.io/geodetic/">full documentation website</a> and explore the <a href="examples/">runnable examples</a>.</p>
+<p>Geodetic enables precise conversion between geodetic coordinate systems in Ruby. All 15 coordinate systems support complete bidirectional conversions with high precision. Review the <a href="https://madbomber.github.io/geodetic/">full documentation website</a> and explore the <a href="examples/">runnable examples</a>.</p>
 
 ## Installation
 
@@ -139,7 +139,7 @@ bng = Coordinates::BNG.new(easting: 530000, northing: 180000)
 bng.easting = 430000               # grid_ref automatically recalculated
 ```
 
-ECEF, ENU, NED, and WebMercator setters coerce to float with no range constraints. MGRS, USNG, GH36, GH, HAM, Distance, and Bearing are immutable.
+ECEF, ENU, NED, and WebMercator setters coerce to float with no range constraints. MGRS, USNG, GH36, GH, HAM, OLC, Distance, and Bearing are immutable.
 
 ### DMS (Degrees, Minutes, Seconds)
 
@@ -463,6 +463,33 @@ ham.precision              # => 6
 ham.precision_in_meters    # => { lat: 4631.0, lng: 9260.0 }
 ```
 
+### Open Location Code / Plus Codes (OLC)
+
+Google's open system for encoding locations into short, URL-friendly codes:
+
+```ruby
+# From a plus code string
+olc = Coordinates::OLC.new("849VCWC8+R9")
+
+# From any coordinate
+olc = Coordinates::OLC.new(lla)
+olc = lla.to_olc(precision: 11)
+
+# Decode back to LLA
+lla = olc.to_lla
+
+# Neighbor cells
+olc.neighbors  # => { N: OLC, S: OLC, E: OLC, W: OLC, NE: ..., NW: ..., SE: ..., SW: ... }
+
+# Bounding rectangle of the plus code cell
+area = olc.to_area    # => Areas::Rectangle
+area.includes?(olc.to_lla)  # => true
+
+# Precision info
+olc.precision              # => 10
+olc.precision_in_meters    # => { lat: 13.9, lng: 13.9 }
+```
+
 ### Geographic Areas
 
 ```ruby
@@ -515,7 +542,7 @@ The [`examples/`](examples/) directory contains runnable demo scripts showing pr
 | Script | Description |
 |--------|-------------|
 | [`01_basic_conversions.rb`](examples/01_basic_conversions.rb) | LLA, ECEF, UTM, ENU, NED conversions and roundtrips |
-| [`02_all_coordinate_systems.rb`](examples/02_all_coordinate_systems.rb) | All 14 coordinate systems, cross-system chains, and areas |
+| [`02_all_coordinate_systems.rb`](examples/02_all_coordinate_systems.rb) | All 15 coordinate systems, cross-system chains, and areas |
 | [`03_distance_calculations.rb`](examples/03_distance_calculations.rb) | Distance class features, unit conversions, and arithmetic |
 | [`04_bearing_calculations.rb`](examples/04_bearing_calculations.rb) | Bearing class, compass directions, elevation angles, and chain bearings |
 

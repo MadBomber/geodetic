@@ -166,6 +166,15 @@ module Geodetic
         from_lla(lla, reference_lla)
       end
 
+      def to_olc(reference_lla, precision: 10)
+        OLC.new(to_lla(reference_lla), precision: precision)
+      end
+
+      def self.from_olc(olc_coord, reference_lla)
+        lla = olc_coord.to_lla
+        from_lla(lla, reference_lla)
+      end
+
       def to_s(precision = 2)
         precision = precision.to_i
         if precision == 0

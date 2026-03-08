@@ -210,6 +210,7 @@ Most conversions are not direct but route through intermediate systems. The gem 
 | GH36 <-> LLA | Encode/decode via 6x6 matrix subdivision |
 | GH <-> LLA | Encode/decode via bit-interleaved base-32 |
 | HAM <-> LLA | Encode/decode via hierarchical letter/digit pairs |
+| OLC <-> LLA | Encode/decode via base-20 pair encoding with grid refinement |
 | Any <-> Any | Routes through LLA as the universal hub |
 
 ---
@@ -227,7 +228,8 @@ Most conversions are not direct but route through intermediate systems. The gem 
 - **GH36**: Precision depends on hash length. Default 10 characters gives sub-meter resolution. Altitude information is lost (always 0.0).
 - **GH**: Precision depends on hash length. Default 12 characters gives sub-centimeter resolution. Altitude information is lost (always 0.0).
 - **HAM**: Precision depends on locator length (2, 4, 6, or 8 characters). Default 6 characters gives ~5 km resolution. Altitude information is lost (always 0.0).
-- **Equality comparisons**: All classes use tolerance-based equality. Coordinates (in meters) use 1e-6 m tolerance. LLA uses 1e-10 degrees for lat/lng and 1e-6 m for altitude. GH36, GH, and HAM use exact string comparison.
+- **OLC**: Precision depends on code length. Default 10 characters gives ~14 m resolution. Codes longer than 10 use 5x4 grid refinement for sub-meter resolution. Altitude information is lost (always 0.0).
+- **Equality comparisons**: All classes use tolerance-based equality. Coordinates (in meters) use 1e-6 m tolerance. LLA uses 1e-10 degrees for lat/lng and 1e-6 m for altitude. GH36, GH, HAM, and OLC use exact string comparison.
 
 ---
 
