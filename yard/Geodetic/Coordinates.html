@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  Module: Geodetic::Coordinates
+  
+    &mdash; Documentation by YARD 0.9.38
+  
+</title>
+
+  <link rel="stylesheet" href="../css/style.css" type="text/css" />
+
+  <link rel="stylesheet" href="../css/common.css" type="text/css" />
+
+<script type="text/javascript">
+  pathId = "Geodetic::Coordinates";
+  relpath = '../';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div class="nav_wrap">
+      <iframe id="nav" src="../class_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="../_index.html">Index (C)</a> &raquo;
+    <span class='title'><span class='object_link'><a href="../Geodetic.html" title="Geodetic (module)">Geodetic</a></span></span>
+     &raquo; 
+    <span class="title">Coordinates</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="../class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><h1>Module: Geodetic::Coordinates
+  
+  
+  
+</h1>
+<div class="box_info">
+  
+
+  
+  
+  
+  
+  
+
+  
+
+  
+  <dl>
+    <dt>Defined in:</dt>
+    <dd>lib/geodetic/coordinates.rb<span class="defines">,<br />
+  lib/geodetic/coordinates/bng.rb,<br /> lib/geodetic/coordinates/enu.rb,<br /> lib/geodetic/coordinates/lla.rb,<br /> lib/geodetic/coordinates/ned.rb,<br /> lib/geodetic/coordinates/ups.rb,<br /> lib/geodetic/coordinates/utm.rb,<br /> lib/geodetic/coordinates/ecef.rb,<br /> lib/geodetic/coordinates/gh36.rb,<br /> lib/geodetic/coordinates/mgrs.rb,<br /> lib/geodetic/coordinates/usng.rb,<br /> lib/geodetic/coordinates/state_plane.rb,<br /> lib/geodetic/coordinates/web_mercator.rb</span>
+</dd>
+  </dl>
+  
+</div>
+
+<h2>Defined Under Namespace</h2>
+<p class="children">
+  
+    
+      <strong class="modules">Modules:</strong> <span class='object_link'><a href="Coordinates/BearingMethods.html" title="Geodetic::Coordinates::BearingMethods (module)">BearingMethods</a></span>, <span class='object_link'><a href="Coordinates/DistanceMethods.html" title="Geodetic::Coordinates::DistanceMethods (module)">DistanceMethods</a></span>
+    
+  
+    
+      <strong class="classes">Classes:</strong> <span class='object_link'><a href="Coordinates/BNG.html" title="Geodetic::Coordinates::BNG (class)">BNG</a></span>, <span class='object_link'><a href="Coordinates/ECEF.html" title="Geodetic::Coordinates::ECEF (class)">ECEF</a></span>, <span class='object_link'><a href="Coordinates/ENU.html" title="Geodetic::Coordinates::ENU (class)">ENU</a></span>, <span class='object_link'><a href="Coordinates/GH36.html" title="Geodetic::Coordinates::GH36 (class)">GH36</a></span>, <span class='object_link'><a href="Coordinates/LLA.html" title="Geodetic::Coordinates::LLA (class)">LLA</a></span>, <span class='object_link'><a href="Coordinates/MGRS.html" title="Geodetic::Coordinates::MGRS (class)">MGRS</a></span>, <span class='object_link'><a href="Coordinates/NED.html" title="Geodetic::Coordinates::NED (class)">NED</a></span>, <span class='object_link'><a href="Coordinates/StatePlane.html" title="Geodetic::Coordinates::StatePlane (class)">StatePlane</a></span>, <span class='object_link'><a href="Coordinates/UPS.html" title="Geodetic::Coordinates::UPS (class)">UPS</a></span>, <span class='object_link'><a href="Coordinates/USNG.html" title="Geodetic::Coordinates::USNG (class)">USNG</a></span>, <span class='object_link'><a href="Coordinates/UTM.html" title="Geodetic::Coordinates::UTM (class)">UTM</a></span>, <span class='object_link'><a href="Coordinates/WebMercator.html" title="Geodetic::Coordinates::WebMercator (class)">WebMercator</a></span>
+    
+  
+</p>
+
+
+
+
+
+
+
+  
+    <h2>
+      Class Method Summary
+      <small><a href="#" class="summary_toggle">collapse</a></small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#bearing_between-class_method" title="bearing_between (class method)">.<strong>bearing_between</strong>(*coords)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Great-circle bearing between consecutive pairs.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#distance_between-class_method" title="distance_between (class method)">.<strong>distance_between</strong>(*coords)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Great-circle distance along consecutive pairs.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#ecef_distance-class_method" title="ecef_distance (class method)">.<strong>ecef_distance</strong>(ecef_a, ecef_b)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>ECEF Euclidean straight-line distance between two coordinates (meters).</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#elevation_angle-class_method" title="elevation_angle (class method)">.<strong>elevation_angle</strong>(lla_observer, ecef_observer, ecef_target)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Elevation angle from observer to target using ECEF and local vertical.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#great_circle_bearing-class_method" title="great_circle_bearing (class method)">.<strong>great_circle_bearing</strong>(lla_a, lla_b)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Great-circle forward azimuth from lla_a to lla_b (degrees, 0-360).</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#straight_line_distance_between-class_method" title="straight_line_distance_between (class method)">.<strong>straight_line_distance_between</strong>(*coords)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>ECEF Euclidean distance along consecutive pairs.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#vincenty_distance-class_method" title="vincenty_distance (class method)">.<strong>vincenty_distance</strong>(lla_a, lla_b)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Vincenty great-circle distance between two LLA points (meters).</p>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+
+  <div id="class_method_details" class="method_details_list">
+    <h2>Class Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="bearing_between-class_method">
+  
+    .<strong>bearing_between</strong>(*coords)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Great-circle bearing between consecutive pairs. Two coordinates returns a Bearing; more returns an Array of Bearings.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>ArgumentError</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+188
+189
+190
+191
+192
+193
+194
+195
+196</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/geodetic/coordinates.rb', line 188</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_bearing_between'>bearing_between</span><span class='lparen'>(</span><span class='op'>*</span><span class='id identifier rubyid_coords'>coords</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_list'>list</span> <span class='op'>=</span> <span class='id identifier rubyid_normalize_coords'>normalize_coords</span><span class='lparen'>(</span><span class='op'>*</span><span class='id identifier rubyid_coords'>coords</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_raise'>raise</span> <span class='const'>ArgumentError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>At least 2 coordinates required</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>if</span> <span class='id identifier rubyid_list'>list</span><span class='period'>.</span><span class='id identifier rubyid_length'>length</span> <span class='op'>&lt;</span> <span class='int'>2</span>
+
+  <span class='id identifier rubyid_llas'>llas</span> <span class='op'>=</span> <span class='id identifier rubyid_list'>list</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_c'>c</span><span class='op'>|</span> <span class='id identifier rubyid_to_lla'>to_lla</span><span class='lparen'>(</span><span class='id identifier rubyid_c'>c</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
+  <span class='id identifier rubyid_bearings'>bearings</span> <span class='op'>=</span> <span class='id identifier rubyid_llas'>llas</span><span class='period'>.</span><span class='id identifier rubyid_each_cons'>each_cons</span><span class='lparen'>(</span><span class='int'>2</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_a'>a</span><span class='comma'>,</span> <span class='id identifier rubyid_b'>b</span><span class='op'>|</span> <span class='const'><span class='object_link'><a href="Bearing.html" title="Geodetic::Bearing (class)">Bearing</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="Bearing.html#initialize-instance_method" title="Geodetic::Bearing#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_great_circle_bearing'>great_circle_bearing</span><span class='lparen'>(</span><span class='id identifier rubyid_a'>a</span><span class='comma'>,</span> <span class='id identifier rubyid_b'>b</span><span class='rparen'>)</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
+
+  <span class='id identifier rubyid_bearings'>bearings</span><span class='period'>.</span><span class='id identifier rubyid_length'>length</span> <span class='op'>==</span> <span class='int'>1</span> <span class='op'>?</span> <span class='id identifier rubyid_bearings'>bearings</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span> <span class='op'>:</span> <span class='id identifier rubyid_bearings'>bearings</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="distance_between-class_method">
+  
+    .<strong>distance_between</strong>(*coords)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Great-circle distance along consecutive pairs. Two coordinates returns a Distance; more returns an Array of Distances.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>ArgumentError</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+123
+124
+125
+126
+127
+128
+129
+130
+131</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/geodetic/coordinates.rb', line 123</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_distance_between'>distance_between</span><span class='lparen'>(</span><span class='op'>*</span><span class='id identifier rubyid_coords'>coords</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_list'>list</span> <span class='op'>=</span> <span class='id identifier rubyid_normalize_coords'>normalize_coords</span><span class='lparen'>(</span><span class='op'>*</span><span class='id identifier rubyid_coords'>coords</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_raise'>raise</span> <span class='const'>ArgumentError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>At least 2 coordinates required</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>if</span> <span class='id identifier rubyid_list'>list</span><span class='period'>.</span><span class='id identifier rubyid_length'>length</span> <span class='op'>&lt;</span> <span class='int'>2</span>
+
+  <span class='id identifier rubyid_llas'>llas</span> <span class='op'>=</span> <span class='id identifier rubyid_list'>list</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_c'>c</span><span class='op'>|</span> <span class='id identifier rubyid_to_lla'>to_lla</span><span class='lparen'>(</span><span class='id identifier rubyid_c'>c</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
+  <span class='id identifier rubyid_distances'>distances</span> <span class='op'>=</span> <span class='id identifier rubyid_llas'>llas</span><span class='period'>.</span><span class='id identifier rubyid_each_cons'>each_cons</span><span class='lparen'>(</span><span class='int'>2</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_a'>a</span><span class='comma'>,</span> <span class='id identifier rubyid_b'>b</span><span class='op'>|</span> <span class='const'><span class='object_link'><a href="Distance.html" title="Geodetic::Distance (class)">Distance</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="Distance.html#initialize-instance_method" title="Geodetic::Distance#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_vincenty_distance'>vincenty_distance</span><span class='lparen'>(</span><span class='id identifier rubyid_a'>a</span><span class='comma'>,</span> <span class='id identifier rubyid_b'>b</span><span class='rparen'>)</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
+
+  <span class='id identifier rubyid_distances'>distances</span><span class='period'>.</span><span class='id identifier rubyid_length'>length</span> <span class='op'>==</span> <span class='int'>1</span> <span class='op'>?</span> <span class='id identifier rubyid_distances'>distances</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span> <span class='op'>:</span> <span class='id identifier rubyid_distances'>distances</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="ecef_distance-class_method">
+  
+    .<strong>ecef_distance</strong>(ecef_a, ecef_b)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>ECEF Euclidean straight-line distance between two coordinates (meters)</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+79
+80
+81</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/geodetic/coordinates.rb', line 79</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_ecef_distance'>ecef_distance</span><span class='lparen'>(</span><span class='id identifier rubyid_ecef_a'>ecef_a</span><span class='comma'>,</span> <span class='id identifier rubyid_ecef_b'>ecef_b</span><span class='rparen'>)</span>
+  <span class='const'>Math</span><span class='period'>.</span><span class='id identifier rubyid_sqrt'>sqrt</span><span class='lparen'>(</span><span class='lparen'>(</span><span class='id identifier rubyid_ecef_a'>ecef_a</span><span class='period'>.</span><span class='id identifier rubyid_x'>x</span> <span class='op'>-</span> <span class='id identifier rubyid_ecef_b'>ecef_b</span><span class='period'>.</span><span class='id identifier rubyid_x'>x</span><span class='rparen'>)</span><span class='op'>**</span><span class='int'>2</span> <span class='op'>+</span> <span class='lparen'>(</span><span class='id identifier rubyid_ecef_a'>ecef_a</span><span class='period'>.</span><span class='id identifier rubyid_y'>y</span> <span class='op'>-</span> <span class='id identifier rubyid_ecef_b'>ecef_b</span><span class='period'>.</span><span class='id identifier rubyid_y'>y</span><span class='rparen'>)</span><span class='op'>**</span><span class='int'>2</span> <span class='op'>+</span> <span class='lparen'>(</span><span class='id identifier rubyid_ecef_a'>ecef_a</span><span class='period'>.</span><span class='id identifier rubyid_z'>z</span> <span class='op'>-</span> <span class='id identifier rubyid_ecef_b'>ecef_b</span><span class='period'>.</span><span class='id identifier rubyid_z'>z</span><span class='rparen'>)</span><span class='op'>**</span><span class='int'>2</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="elevation_angle-class_method">
+  
+    .<strong>elevation_angle</strong>(lla_observer, ecef_observer, ecef_target)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Elevation angle from observer to target using ECEF and local vertical. Returns degrees (-90 to +90). Positive means target is above observer.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/geodetic/coordinates.rb', line 159</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_elevation_angle'>elevation_angle</span><span class='lparen'>(</span><span class='id identifier rubyid_lla_observer'>lla_observer</span><span class='comma'>,</span> <span class='id identifier rubyid_ecef_observer'>ecef_observer</span><span class='comma'>,</span> <span class='id identifier rubyid_ecef_target'>ecef_target</span><span class='rparen'>)</span>
+  <span class='comment'># Vector from observer to target
+</span>  <span class='id identifier rubyid_vx'>vx</span> <span class='op'>=</span> <span class='id identifier rubyid_ecef_target'>ecef_target</span><span class='period'>.</span><span class='id identifier rubyid_x'>x</span> <span class='op'>-</span> <span class='id identifier rubyid_ecef_observer'>ecef_observer</span><span class='period'>.</span><span class='id identifier rubyid_x'>x</span>
+  <span class='id identifier rubyid_vy'>vy</span> <span class='op'>=</span> <span class='id identifier rubyid_ecef_target'>ecef_target</span><span class='period'>.</span><span class='id identifier rubyid_y'>y</span> <span class='op'>-</span> <span class='id identifier rubyid_ecef_observer'>ecef_observer</span><span class='period'>.</span><span class='id identifier rubyid_y'>y</span>
+  <span class='id identifier rubyid_vz'>vz</span> <span class='op'>=</span> <span class='id identifier rubyid_ecef_target'>ecef_target</span><span class='period'>.</span><span class='id identifier rubyid_z'>z</span> <span class='op'>-</span> <span class='id identifier rubyid_ecef_observer'>ecef_observer</span><span class='period'>.</span><span class='id identifier rubyid_z'>z</span>
+
+  <span class='comment'># Local up direction (geodetic surface normal)
+</span>  <span class='id identifier rubyid_lat_rad'>lat_rad</span> <span class='op'>=</span> <span class='id identifier rubyid_lla_observer'>lla_observer</span><span class='period'>.</span><span class='id identifier rubyid_lat'>lat</span> <span class='op'>*</span> <span class='const'><span class='object_link'><a href="../Geodetic.html#RAD_PER_DEG-constant" title="Geodetic::RAD_PER_DEG (constant)">RAD_PER_DEG</a></span></span>
+  <span class='id identifier rubyid_lng_rad'>lng_rad</span> <span class='op'>=</span> <span class='id identifier rubyid_lla_observer'>lla_observer</span><span class='period'>.</span><span class='id identifier rubyid_lng'>lng</span> <span class='op'>*</span> <span class='const'><span class='object_link'><a href="../Geodetic.html#RAD_PER_DEG-constant" title="Geodetic::RAD_PER_DEG (constant)">RAD_PER_DEG</a></span></span>
+  <span class='id identifier rubyid_cos_lat'>cos_lat</span> <span class='op'>=</span> <span class='const'>Math</span><span class='period'>.</span><span class='id identifier rubyid_cos'>cos</span><span class='lparen'>(</span><span class='id identifier rubyid_lat_rad'>lat_rad</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_up_x'>up_x</span> <span class='op'>=</span> <span class='id identifier rubyid_cos_lat'>cos_lat</span> <span class='op'>*</span> <span class='const'>Math</span><span class='period'>.</span><span class='id identifier rubyid_cos'>cos</span><span class='lparen'>(</span><span class='id identifier rubyid_lng_rad'>lng_rad</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_up_y'>up_y</span> <span class='op'>=</span> <span class='id identifier rubyid_cos_lat'>cos_lat</span> <span class='op'>*</span> <span class='const'>Math</span><span class='period'>.</span><span class='id identifier rubyid_sin'>sin</span><span class='lparen'>(</span><span class='id identifier rubyid_lng_rad'>lng_rad</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_up_z'>up_z</span> <span class='op'>=</span> <span class='const'>Math</span><span class='period'>.</span><span class='id identifier rubyid_sin'>sin</span><span class='lparen'>(</span><span class='id identifier rubyid_lat_rad'>lat_rad</span><span class='rparen'>)</span>
+
+  <span class='comment'># Vertical component (dot product with up)
+</span>  <span class='id identifier rubyid_vertical'>vertical</span> <span class='op'>=</span> <span class='id identifier rubyid_vx'>vx</span> <span class='op'>*</span> <span class='id identifier rubyid_up_x'>up_x</span> <span class='op'>+</span> <span class='id identifier rubyid_vy'>vy</span> <span class='op'>*</span> <span class='id identifier rubyid_up_y'>up_y</span> <span class='op'>+</span> <span class='id identifier rubyid_vz'>vz</span> <span class='op'>*</span> <span class='id identifier rubyid_up_z'>up_z</span>
+
+  <span class='comment'># Total distance
+</span>  <span class='id identifier rubyid_dist'>dist</span> <span class='op'>=</span> <span class='const'>Math</span><span class='period'>.</span><span class='id identifier rubyid_sqrt'>sqrt</span><span class='lparen'>(</span><span class='id identifier rubyid_vx'>vx</span><span class='op'>**</span><span class='int'>2</span> <span class='op'>+</span> <span class='id identifier rubyid_vy'>vy</span><span class='op'>**</span><span class='int'>2</span> <span class='op'>+</span> <span class='id identifier rubyid_vz'>vz</span><span class='op'>**</span><span class='int'>2</span><span class='rparen'>)</span>
+  <span class='kw'>return</span> <span class='float'>0.0</span> <span class='kw'>if</span> <span class='id identifier rubyid_dist'>dist</span> <span class='op'>==</span> <span class='float'>0.0</span>
+
+  <span class='comment'># Horizontal component
+</span>  <span class='id identifier rubyid_horizontal'>horizontal</span> <span class='op'>=</span> <span class='const'>Math</span><span class='period'>.</span><span class='id identifier rubyid_sqrt'>sqrt</span><span class='lparen'>(</span><span class='lbracket'>[</span><span class='id identifier rubyid_dist'>dist</span><span class='op'>**</span><span class='int'>2</span> <span class='op'>-</span> <span class='id identifier rubyid_vertical'>vertical</span><span class='op'>**</span><span class='int'>2</span><span class='comma'>,</span> <span class='float'>0.0</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_max'>max</span><span class='rparen'>)</span>
+
+  <span class='const'>Math</span><span class='period'>.</span><span class='id identifier rubyid_atan2'>atan2</span><span class='lparen'>(</span><span class='id identifier rubyid_vertical'>vertical</span><span class='comma'>,</span> <span class='id identifier rubyid_horizontal'>horizontal</span><span class='rparen'>)</span> <span class='op'>*</span> <span class='const'><span class='object_link'><a href="../Geodetic.html#DEG_PER_RAD-constant" title="Geodetic::DEG_PER_RAD (constant)">DEG_PER_RAD</a></span></span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="great_circle_bearing-class_method">
+  
+    .<strong>great_circle_bearing</strong>(lla_a, lla_b)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Great-circle forward azimuth from lla_a to lla_b (degrees, 0-360)</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/geodetic/coordinates.rb', line 146</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_great_circle_bearing'>great_circle_bearing</span><span class='lparen'>(</span><span class='id identifier rubyid_lla_a'>lla_a</span><span class='comma'>,</span> <span class='id identifier rubyid_lla_b'>lla_b</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_lat1'>lat1</span> <span class='op'>=</span> <span class='id identifier rubyid_lla_a'>lla_a</span><span class='period'>.</span><span class='id identifier rubyid_lat'>lat</span> <span class='op'>*</span> <span class='const'><span class='object_link'><a href="../Geodetic.html#RAD_PER_DEG-constant" title="Geodetic::RAD_PER_DEG (constant)">RAD_PER_DEG</a></span></span>
+  <span class='id identifier rubyid_lat2'>lat2</span> <span class='op'>=</span> <span class='id identifier rubyid_lla_b'>lla_b</span><span class='period'>.</span><span class='id identifier rubyid_lat'>lat</span> <span class='op'>*</span> <span class='const'><span class='object_link'><a href="../Geodetic.html#RAD_PER_DEG-constant" title="Geodetic::RAD_PER_DEG (constant)">RAD_PER_DEG</a></span></span>
+  <span class='id identifier rubyid_delta_lng'>delta_lng</span> <span class='op'>=</span> <span class='lparen'>(</span><span class='id identifier rubyid_lla_b'>lla_b</span><span class='period'>.</span><span class='id identifier rubyid_lng'>lng</span> <span class='op'>-</span> <span class='id identifier rubyid_lla_a'>lla_a</span><span class='period'>.</span><span class='id identifier rubyid_lng'>lng</span><span class='rparen'>)</span> <span class='op'>*</span> <span class='const'><span class='object_link'><a href="../Geodetic.html#RAD_PER_DEG-constant" title="Geodetic::RAD_PER_DEG (constant)">RAD_PER_DEG</a></span></span>
+
+  <span class='id identifier rubyid_x'>x</span> <span class='op'>=</span> <span class='const'>Math</span><span class='period'>.</span><span class='id identifier rubyid_sin'>sin</span><span class='lparen'>(</span><span class='id identifier rubyid_delta_lng'>delta_lng</span><span class='rparen'>)</span> <span class='op'>*</span> <span class='const'>Math</span><span class='period'>.</span><span class='id identifier rubyid_cos'>cos</span><span class='lparen'>(</span><span class='id identifier rubyid_lat2'>lat2</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_y'>y</span> <span class='op'>=</span> <span class='const'>Math</span><span class='period'>.</span><span class='id identifier rubyid_cos'>cos</span><span class='lparen'>(</span><span class='id identifier rubyid_lat1'>lat1</span><span class='rparen'>)</span> <span class='op'>*</span> <span class='const'>Math</span><span class='period'>.</span><span class='id identifier rubyid_sin'>sin</span><span class='lparen'>(</span><span class='id identifier rubyid_lat2'>lat2</span><span class='rparen'>)</span> <span class='op'>-</span> <span class='const'>Math</span><span class='period'>.</span><span class='id identifier rubyid_sin'>sin</span><span class='lparen'>(</span><span class='id identifier rubyid_lat1'>lat1</span><span class='rparen'>)</span> <span class='op'>*</span> <span class='const'>Math</span><span class='period'>.</span><span class='id identifier rubyid_cos'>cos</span><span class='lparen'>(</span><span class='id identifier rubyid_lat2'>lat2</span><span class='rparen'>)</span> <span class='op'>*</span> <span class='const'>Math</span><span class='period'>.</span><span class='id identifier rubyid_cos'>cos</span><span class='lparen'>(</span><span class='id identifier rubyid_delta_lng'>delta_lng</span><span class='rparen'>)</span>
+
+  <span class='const'>Math</span><span class='period'>.</span><span class='id identifier rubyid_atan2'>atan2</span><span class='lparen'>(</span><span class='id identifier rubyid_x'>x</span><span class='comma'>,</span> <span class='id identifier rubyid_y'>y</span><span class='rparen'>)</span> <span class='op'>*</span> <span class='const'><span class='object_link'><a href="../Geodetic.html#DEG_PER_RAD-constant" title="Geodetic::DEG_PER_RAD (constant)">DEG_PER_RAD</a></span></span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="straight_line_distance_between-class_method">
+  
+    .<strong>straight_line_distance_between</strong>(*coords)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>ECEF Euclidean distance along consecutive pairs. Two coordinates returns a Distance; more returns an Array of Distances.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>ArgumentError</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+135
+136
+137
+138
+139
+140
+141
+142
+143</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/geodetic/coordinates.rb', line 135</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_straight_line_distance_between'>straight_line_distance_between</span><span class='lparen'>(</span><span class='op'>*</span><span class='id identifier rubyid_coords'>coords</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_list'>list</span> <span class='op'>=</span> <span class='id identifier rubyid_normalize_coords'>normalize_coords</span><span class='lparen'>(</span><span class='op'>*</span><span class='id identifier rubyid_coords'>coords</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_raise'>raise</span> <span class='const'>ArgumentError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>At least 2 coordinates required</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>if</span> <span class='id identifier rubyid_list'>list</span><span class='period'>.</span><span class='id identifier rubyid_length'>length</span> <span class='op'>&lt;</span> <span class='int'>2</span>
+
+  <span class='id identifier rubyid_ecefs'>ecefs</span> <span class='op'>=</span> <span class='id identifier rubyid_list'>list</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_c'>c</span><span class='op'>|</span> <span class='id identifier rubyid_to_ecef'>to_ecef</span><span class='lparen'>(</span><span class='id identifier rubyid_c'>c</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
+  <span class='id identifier rubyid_distances'>distances</span> <span class='op'>=</span> <span class='id identifier rubyid_ecefs'>ecefs</span><span class='period'>.</span><span class='id identifier rubyid_each_cons'>each_cons</span><span class='lparen'>(</span><span class='int'>2</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_a'>a</span><span class='comma'>,</span> <span class='id identifier rubyid_b'>b</span><span class='op'>|</span> <span class='const'><span class='object_link'><a href="Distance.html" title="Geodetic::Distance (class)">Distance</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="Distance.html#initialize-instance_method" title="Geodetic::Distance#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_ecef_distance'>ecef_distance</span><span class='lparen'>(</span><span class='id identifier rubyid_a'>a</span><span class='comma'>,</span> <span class='id identifier rubyid_b'>b</span><span class='rparen'>)</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
+
+  <span class='id identifier rubyid_distances'>distances</span><span class='period'>.</span><span class='id identifier rubyid_length'>length</span> <span class='op'>==</span> <span class='int'>1</span> <span class='op'>?</span> <span class='id identifier rubyid_distances'>distances</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span> <span class='op'>:</span> <span class='id identifier rubyid_distances'>distances</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="vincenty_distance-class_method">
+  
+    .<strong>vincenty_distance</strong>(lla_a, lla_b)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Vincenty great-circle distance between two LLA points (meters)</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/geodetic/coordinates.rb', line 19</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_vincenty_distance'>vincenty_distance</span><span class='lparen'>(</span><span class='id identifier rubyid_lla_a'>lla_a</span><span class='comma'>,</span> <span class='id identifier rubyid_lla_b'>lla_b</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_a'>a</span>   <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Geodetic.html#WGS84-constant" title="Geodetic::WGS84 (constant)">WGS84</a></span></span><span class='period'>.</span><span class='id identifier rubyid_a'>a</span>
+  <span class='id identifier rubyid_f'>f</span>   <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Geodetic.html#WGS84-constant" title="Geodetic::WGS84 (constant)">WGS84</a></span></span><span class='period'>.</span><span class='id identifier rubyid_f'>f</span>
+  <span class='id identifier rubyid_b'>b</span>   <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Geodetic.html#WGS84-constant" title="Geodetic::WGS84 (constant)">WGS84</a></span></span><span class='period'>.</span><span class='id identifier rubyid_b'>b</span>
+
+  <span class='id identifier rubyid_lat1'>lat1</span> <span class='op'>=</span> <span class='id identifier rubyid_lla_a'>lla_a</span><span class='period'>.</span><span class='id identifier rubyid_lat'>lat</span> <span class='op'>*</span> <span class='const'><span class='object_link'><a href="../Geodetic.html#RAD_PER_DEG-constant" title="Geodetic::RAD_PER_DEG (constant)">RAD_PER_DEG</a></span></span>
+  <span class='id identifier rubyid_lat2'>lat2</span> <span class='op'>=</span> <span class='id identifier rubyid_lla_b'>lla_b</span><span class='period'>.</span><span class='id identifier rubyid_lat'>lat</span> <span class='op'>*</span> <span class='const'><span class='object_link'><a href="../Geodetic.html#RAD_PER_DEG-constant" title="Geodetic::RAD_PER_DEG (constant)">RAD_PER_DEG</a></span></span>
+  <span class='id identifier rubyid_l'>l</span>    <span class='op'>=</span> <span class='lparen'>(</span><span class='id identifier rubyid_lla_b'>lla_b</span><span class='period'>.</span><span class='id identifier rubyid_lng'>lng</span> <span class='op'>-</span> <span class='id identifier rubyid_lla_a'>lla_a</span><span class='period'>.</span><span class='id identifier rubyid_lng'>lng</span><span class='rparen'>)</span> <span class='op'>*</span> <span class='const'><span class='object_link'><a href="../Geodetic.html#RAD_PER_DEG-constant" title="Geodetic::RAD_PER_DEG (constant)">RAD_PER_DEG</a></span></span>
+
+  <span class='id identifier rubyid_u1'>u1</span> <span class='op'>=</span> <span class='const'>Math</span><span class='period'>.</span><span class='id identifier rubyid_atan'>atan</span><span class='lparen'>(</span><span class='lparen'>(</span><span class='int'>1</span> <span class='op'>-</span> <span class='id identifier rubyid_f'>f</span><span class='rparen'>)</span> <span class='op'>*</span> <span class='const'>Math</span><span class='period'>.</span><span class='id identifier rubyid_tan'>tan</span><span class='lparen'>(</span><span class='id identifier rubyid_lat1'>lat1</span><span class='rparen'>)</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_u2'>u2</span> <span class='op'>=</span> <span class='const'>Math</span><span class='period'>.</span><span class='id identifier rubyid_atan'>atan</span><span class='lparen'>(</span><span class='lparen'>(</span><span class='int'>1</span> <span class='op'>-</span> <span class='id identifier rubyid_f'>f</span><span class='rparen'>)</span> <span class='op'>*</span> <span class='const'>Math</span><span class='period'>.</span><span class='id identifier rubyid_tan'>tan</span><span class='lparen'>(</span><span class='id identifier rubyid_lat2'>lat2</span><span class='rparen'>)</span><span class='rparen'>)</span>
+
+  <span class='id identifier rubyid_sin_u1'>sin_u1</span> <span class='op'>=</span> <span class='const'>Math</span><span class='period'>.</span><span class='id identifier rubyid_sin'>sin</span><span class='lparen'>(</span><span class='id identifier rubyid_u1'>u1</span><span class='rparen'>)</span><span class='semicolon'>;</span> <span class='id identifier rubyid_cos_u1'>cos_u1</span> <span class='op'>=</span> <span class='const'>Math</span><span class='period'>.</span><span class='id identifier rubyid_cos'>cos</span><span class='lparen'>(</span><span class='id identifier rubyid_u1'>u1</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_sin_u2'>sin_u2</span> <span class='op'>=</span> <span class='const'>Math</span><span class='period'>.</span><span class='id identifier rubyid_sin'>sin</span><span class='lparen'>(</span><span class='id identifier rubyid_u2'>u2</span><span class='rparen'>)</span><span class='semicolon'>;</span> <span class='id identifier rubyid_cos_u2'>cos_u2</span> <span class='op'>=</span> <span class='const'>Math</span><span class='period'>.</span><span class='id identifier rubyid_cos'>cos</span><span class='lparen'>(</span><span class='id identifier rubyid_u2'>u2</span><span class='rparen'>)</span>
+
+  <span class='id identifier rubyid_lambda_val'>lambda_val</span>  <span class='op'>=</span> <span class='id identifier rubyid_l'>l</span>
+  <span class='id identifier rubyid_sin_sigma'>sin_sigma</span>   <span class='op'>=</span> <span class='float'>0.0</span>
+  <span class='id identifier rubyid_cos_sigma'>cos_sigma</span>   <span class='op'>=</span> <span class='float'>0.0</span>
+  <span class='id identifier rubyid_sigma'>sigma</span>       <span class='op'>=</span> <span class='float'>0.0</span>
+  <span class='id identifier rubyid_cos2_alpha'>cos2_alpha</span>  <span class='op'>=</span> <span class='float'>0.0</span>
+  <span class='id identifier rubyid_cos_2sigma_m'>cos_2sigma_m</span> <span class='op'>=</span> <span class='float'>0.0</span>
+
+  <span class='int'>100</span><span class='period'>.</span><span class='id identifier rubyid_times'>times</span> <span class='kw'>do</span>
+    <span class='id identifier rubyid_sin_lambda'>sin_lambda</span> <span class='op'>=</span> <span class='const'>Math</span><span class='period'>.</span><span class='id identifier rubyid_sin'>sin</span><span class='lparen'>(</span><span class='id identifier rubyid_lambda_val'>lambda_val</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_cos_lambda'>cos_lambda</span> <span class='op'>=</span> <span class='const'>Math</span><span class='period'>.</span><span class='id identifier rubyid_cos'>cos</span><span class='lparen'>(</span><span class='id identifier rubyid_lambda_val'>lambda_val</span><span class='rparen'>)</span>
+
+    <span class='id identifier rubyid_sin_sigma'>sin_sigma</span> <span class='op'>=</span> <span class='const'>Math</span><span class='period'>.</span><span class='id identifier rubyid_sqrt'>sqrt</span><span class='lparen'>(</span>
+      <span class='lparen'>(</span><span class='id identifier rubyid_cos_u2'>cos_u2</span> <span class='op'>*</span> <span class='id identifier rubyid_sin_lambda'>sin_lambda</span><span class='rparen'>)</span><span class='op'>**</span><span class='int'>2</span> <span class='op'>+</span>
+      <span class='lparen'>(</span><span class='id identifier rubyid_cos_u1'>cos_u1</span> <span class='op'>*</span> <span class='id identifier rubyid_sin_u2'>sin_u2</span> <span class='op'>-</span> <span class='id identifier rubyid_sin_u1'>sin_u1</span> <span class='op'>*</span> <span class='id identifier rubyid_cos_u2'>cos_u2</span> <span class='op'>*</span> <span class='id identifier rubyid_cos_lambda'>cos_lambda</span><span class='rparen'>)</span><span class='op'>**</span><span class='int'>2</span>
+    <span class='rparen'>)</span>
+
+    <span class='kw'>return</span> <span class='float'>0.0</span> <span class='kw'>if</span> <span class='id identifier rubyid_sin_sigma'>sin_sigma</span> <span class='op'>==</span> <span class='float'>0.0</span>
+
+    <span class='id identifier rubyid_cos_sigma'>cos_sigma</span>    <span class='op'>=</span> <span class='id identifier rubyid_sin_u1'>sin_u1</span> <span class='op'>*</span> <span class='id identifier rubyid_sin_u2'>sin_u2</span> <span class='op'>+</span> <span class='id identifier rubyid_cos_u1'>cos_u1</span> <span class='op'>*</span> <span class='id identifier rubyid_cos_u2'>cos_u2</span> <span class='op'>*</span> <span class='id identifier rubyid_cos_lambda'>cos_lambda</span>
+    <span class='id identifier rubyid_sigma'>sigma</span>        <span class='op'>=</span> <span class='const'>Math</span><span class='period'>.</span><span class='id identifier rubyid_atan2'>atan2</span><span class='lparen'>(</span><span class='id identifier rubyid_sin_sigma'>sin_sigma</span><span class='comma'>,</span> <span class='id identifier rubyid_cos_sigma'>cos_sigma</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_sin_alpha'>sin_alpha</span>    <span class='op'>=</span> <span class='id identifier rubyid_cos_u1'>cos_u1</span> <span class='op'>*</span> <span class='id identifier rubyid_cos_u2'>cos_u2</span> <span class='op'>*</span> <span class='id identifier rubyid_sin_lambda'>sin_lambda</span> <span class='op'>/</span> <span class='id identifier rubyid_sin_sigma'>sin_sigma</span>
+    <span class='id identifier rubyid_cos2_alpha'>cos2_alpha</span>   <span class='op'>=</span> <span class='int'>1</span> <span class='op'>-</span> <span class='id identifier rubyid_sin_alpha'>sin_alpha</span><span class='op'>**</span><span class='int'>2</span>
+    <span class='id identifier rubyid_cos_2sigma_m'>cos_2sigma_m</span> <span class='op'>=</span> <span class='id identifier rubyid_cos2_alpha'>cos2_alpha</span> <span class='op'>==</span> <span class='float'>0.0</span> <span class='op'>?</span> <span class='float'>0.0</span> <span class='op'>:</span> <span class='id identifier rubyid_cos_sigma'>cos_sigma</span> <span class='op'>-</span> <span class='int'>2</span> <span class='op'>*</span> <span class='id identifier rubyid_sin_u1'>sin_u1</span> <span class='op'>*</span> <span class='id identifier rubyid_sin_u2'>sin_u2</span> <span class='op'>/</span> <span class='id identifier rubyid_cos2_alpha'>cos2_alpha</span>
+
+    <span class='id identifier rubyid_c'>c</span> <span class='op'>=</span> <span class='id identifier rubyid_f'>f</span> <span class='op'>/</span> <span class='int'>16</span> <span class='op'>*</span> <span class='id identifier rubyid_cos2_alpha'>cos2_alpha</span> <span class='op'>*</span> <span class='lparen'>(</span><span class='int'>4</span> <span class='op'>+</span> <span class='id identifier rubyid_f'>f</span> <span class='op'>*</span> <span class='lparen'>(</span><span class='int'>4</span> <span class='op'>-</span> <span class='int'>3</span> <span class='op'>*</span> <span class='id identifier rubyid_cos2_alpha'>cos2_alpha</span><span class='rparen'>)</span><span class='rparen'>)</span>
+
+    <span class='id identifier rubyid_lambda_prev'>lambda_prev</span> <span class='op'>=</span> <span class='id identifier rubyid_lambda_val'>lambda_val</span>
+    <span class='id identifier rubyid_lambda_val'>lambda_val</span> <span class='op'>=</span> <span class='id identifier rubyid_l'>l</span> <span class='op'>+</span> <span class='lparen'>(</span><span class='int'>1</span> <span class='op'>-</span> <span class='id identifier rubyid_c'>c</span><span class='rparen'>)</span> <span class='op'>*</span> <span class='id identifier rubyid_f'>f</span> <span class='op'>*</span> <span class='id identifier rubyid_sin_alpha'>sin_alpha</span> <span class='op'>*</span>
+      <span class='lparen'>(</span><span class='id identifier rubyid_sigma'>sigma</span> <span class='op'>+</span> <span class='id identifier rubyid_c'>c</span> <span class='op'>*</span> <span class='id identifier rubyid_sin_sigma'>sin_sigma</span> <span class='op'>*</span> <span class='lparen'>(</span><span class='id identifier rubyid_cos_2sigma_m'>cos_2sigma_m</span> <span class='op'>+</span> <span class='id identifier rubyid_c'>c</span> <span class='op'>*</span> <span class='id identifier rubyid_cos_sigma'>cos_sigma</span> <span class='op'>*</span> <span class='lparen'>(</span><span class='op'>-</span><span class='int'>1</span> <span class='op'>+</span> <span class='int'>2</span> <span class='op'>*</span> <span class='id identifier rubyid_cos_2sigma_m'>cos_2sigma_m</span><span class='op'>**</span><span class='int'>2</span><span class='rparen'>)</span><span class='rparen'>)</span><span class='rparen'>)</span>
+
+    <span class='kw'>break</span> <span class='kw'>if</span> <span class='lparen'>(</span><span class='id identifier rubyid_lambda_val'>lambda_val</span> <span class='op'>-</span> <span class='id identifier rubyid_lambda_prev'>lambda_prev</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_abs'>abs</span> <span class='op'>&lt;</span> <span class='float'>1e-12</span>
+  <span class='kw'>end</span>
+
+  <span class='id identifier rubyid_u_sq'>u_sq</span> <span class='op'>=</span> <span class='id identifier rubyid_cos2_alpha'>cos2_alpha</span> <span class='op'>*</span> <span class='lparen'>(</span><span class='id identifier rubyid_a'>a</span><span class='op'>**</span><span class='int'>2</span> <span class='op'>-</span> <span class='id identifier rubyid_b'>b</span><span class='op'>**</span><span class='int'>2</span><span class='rparen'>)</span> <span class='op'>/</span> <span class='id identifier rubyid_b'>b</span><span class='op'>**</span><span class='int'>2</span>
+  <span class='id identifier rubyid_aa'>aa</span> <span class='op'>=</span> <span class='int'>1</span> <span class='op'>+</span> <span class='id identifier rubyid_u_sq'>u_sq</span> <span class='op'>/</span> <span class='int'>16384</span> <span class='op'>*</span> <span class='lparen'>(</span><span class='int'>4096</span> <span class='op'>+</span> <span class='id identifier rubyid_u_sq'>u_sq</span> <span class='op'>*</span> <span class='lparen'>(</span><span class='op'>-</span><span class='int'>768</span> <span class='op'>+</span> <span class='id identifier rubyid_u_sq'>u_sq</span> <span class='op'>*</span> <span class='lparen'>(</span><span class='int'>320</span> <span class='op'>-</span> <span class='int'>175</span> <span class='op'>*</span> <span class='id identifier rubyid_u_sq'>u_sq</span><span class='rparen'>)</span><span class='rparen'>)</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_bb'>bb</span> <span class='op'>=</span> <span class='id identifier rubyid_u_sq'>u_sq</span> <span class='op'>/</span> <span class='int'>1024</span> <span class='op'>*</span> <span class='lparen'>(</span><span class='int'>256</span> <span class='op'>+</span> <span class='id identifier rubyid_u_sq'>u_sq</span> <span class='op'>*</span> <span class='lparen'>(</span><span class='op'>-</span><span class='int'>128</span> <span class='op'>+</span> <span class='id identifier rubyid_u_sq'>u_sq</span> <span class='op'>*</span> <span class='lparen'>(</span><span class='int'>74</span> <span class='op'>-</span> <span class='int'>47</span> <span class='op'>*</span> <span class='id identifier rubyid_u_sq'>u_sq</span><span class='rparen'>)</span><span class='rparen'>)</span><span class='rparen'>)</span>
+
+  <span class='id identifier rubyid_delta_sigma'>delta_sigma</span> <span class='op'>=</span> <span class='id identifier rubyid_bb'>bb</span> <span class='op'>*</span> <span class='id identifier rubyid_sin_sigma'>sin_sigma</span> <span class='op'>*</span> <span class='lparen'>(</span><span class='id identifier rubyid_cos_2sigma_m'>cos_2sigma_m</span> <span class='op'>+</span> <span class='id identifier rubyid_bb'>bb</span> <span class='op'>/</span> <span class='int'>4</span> <span class='op'>*</span>
+    <span class='lparen'>(</span><span class='id identifier rubyid_cos_sigma'>cos_sigma</span> <span class='op'>*</span> <span class='lparen'>(</span><span class='op'>-</span><span class='int'>1</span> <span class='op'>+</span> <span class='int'>2</span> <span class='op'>*</span> <span class='id identifier rubyid_cos_2sigma_m'>cos_2sigma_m</span><span class='op'>**</span><span class='int'>2</span><span class='rparen'>)</span> <span class='op'>-</span>
+     <span class='id identifier rubyid_bb'>bb</span> <span class='op'>/</span> <span class='int'>6</span> <span class='op'>*</span> <span class='id identifier rubyid_cos_2sigma_m'>cos_2sigma_m</span> <span class='op'>*</span> <span class='lparen'>(</span><span class='op'>-</span><span class='int'>3</span> <span class='op'>+</span> <span class='int'>4</span> <span class='op'>*</span> <span class='id identifier rubyid_sin_sigma'>sin_sigma</span><span class='op'>**</span><span class='int'>2</span><span class='rparen'>)</span> <span class='op'>*</span> <span class='lparen'>(</span><span class='op'>-</span><span class='int'>3</span> <span class='op'>+</span> <span class='int'>4</span> <span class='op'>*</span> <span class='id identifier rubyid_cos_2sigma_m'>cos_2sigma_m</span><span class='op'>**</span><span class='int'>2</span><span class='rparen'>)</span><span class='rparen'>)</span><span class='rparen'>)</span>
+
+  <span class='id identifier rubyid_b'>b</span> <span class='op'>*</span> <span class='id identifier rubyid_aa'>aa</span> <span class='op'>*</span> <span class='lparen'>(</span><span class='id identifier rubyid_sigma'>sigma</span> <span class='op'>-</span> <span class='id identifier rubyid_delta_sigma'>delta_sigma</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+      <div id="footer">
+  Generated on Sun Mar  8 00:45:27 2026 by
+  <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.38 (ruby-3.3.10).
+</div>
+
+    </div>
+  </body>
+</html>
