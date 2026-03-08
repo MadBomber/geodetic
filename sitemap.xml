@@ -2,82 +2,86 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://madbomber.github.io/geodetic/</loc>
-         <lastmod>2026-03-07</lastmod>
+         <lastmod>2026-03-08</lastmod>
     </url>
     <url>
          <loc>https://madbomber.github.io/geodetic/coordinate-systems/</loc>
-         <lastmod>2026-03-07</lastmod>
+         <lastmod>2026-03-08</lastmod>
     </url>
     <url>
          <loc>https://madbomber.github.io/geodetic/coordinate-systems/bng/</loc>
-         <lastmod>2026-03-07</lastmod>
+         <lastmod>2026-03-08</lastmod>
     </url>
     <url>
          <loc>https://madbomber.github.io/geodetic/coordinate-systems/ecef/</loc>
-         <lastmod>2026-03-07</lastmod>
+         <lastmod>2026-03-08</lastmod>
     </url>
     <url>
          <loc>https://madbomber.github.io/geodetic/coordinate-systems/enu/</loc>
-         <lastmod>2026-03-07</lastmod>
+         <lastmod>2026-03-08</lastmod>
+    </url>
+    <url>
+         <loc>https://madbomber.github.io/geodetic/coordinate-systems/gh36/</loc>
+         <lastmod>2026-03-08</lastmod>
     </url>
     <url>
          <loc>https://madbomber.github.io/geodetic/coordinate-systems/lla/</loc>
-         <lastmod>2026-03-07</lastmod>
+         <lastmod>2026-03-08</lastmod>
     </url>
     <url>
          <loc>https://madbomber.github.io/geodetic/coordinate-systems/mgrs/</loc>
-         <lastmod>2026-03-07</lastmod>
+         <lastmod>2026-03-08</lastmod>
     </url>
     <url>
          <loc>https://madbomber.github.io/geodetic/coordinate-systems/ned/</loc>
-         <lastmod>2026-03-07</lastmod>
+         <lastmod>2026-03-08</lastmod>
     </url>
     <url>
          <loc>https://madbomber.github.io/geodetic/coordinate-systems/state-plane/</loc>
-         <lastmod>2026-03-07</lastmod>
+         <lastmod>2026-03-08</lastmod>
     </url>
     <url>
          <loc>https://madbomber.github.io/geodetic/coordinate-systems/ups/</loc>
-         <lastmod>2026-03-07</lastmod>
+         <lastmod>2026-03-08</lastmod>
     </url>
     <url>
          <loc>https://madbomber.github.io/geodetic/coordinate-systems/usng/</loc>
-         <lastmod>2026-03-07</lastmod>
+         <lastmod>2026-03-08</lastmod>
     </url>
     <url>
          <loc>https://madbomber.github.io/geodetic/coordinate-systems/utm/</loc>
-         <lastmod>2026-03-07</lastmod>
+         <lastmod>2026-03-08</lastmod>
     </url>
     <url>
          <loc>https://madbomber.github.io/geodetic/coordinate-systems/web-mercator/</loc>
-         <lastmod>2026-03-07</lastmod>
+         <lastmod>2026-03-08</lastmod>
     </url>
     <url>
          <loc>https://madbomber.github.io/geodetic/getting-started/installation/</loc>
-         <lastmod>2026-03-07</lastmod>
+         <lastmod>2026-03-08</lastmod>
     </url>
     <url>
          <loc>https://madbomber.github.io/geodetic/getting-started/quick-start/</loc>
-         <lastmod>2026-03-07</lastmod>
+         <lastmod>2026-03-08</lastmod>
     </url>
     <url>
          <loc>https://madbomber.github.io/geodetic/reference/areas/</loc>
-         <lastmod>2026-03-07</lastmod>
+         <lastmod>2026-03-08</lastmod>
     </url>
     <url>
          <loc>https://madbomber.github.io/geodetic/reference/conversions/</loc>
-         <lastmod>2026-03-07</lastmod>
+         <lastmod>2026-03-08</lastmod>
     </url>
     <url>
          <loc>https://madbomber.github.io/geodetic/reference/datums/</loc>
-         <lastmod>2026-03-07</lastmod>
+         <lastmod>2026-03-08</lastmod>
     </url>
     <url>
          <loc>https://madbomber.github.io/geodetic/reference/geoid-height/</loc>
-         <lastmod>2026-03-07</lastmod>
+         <lastmod>2026-03-08</lastmod>
     </url>
     <url>
          <loc>https://madbomber.github.io/geodetic/reference/serialization/</loc>
-         <lastmod>2026-03-07</lastmod>
+         <lastmod>2026-03-08</lastmod>
     </url>
 </urlset>

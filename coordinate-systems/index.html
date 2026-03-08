@@ -1244,6 +1244,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#spatial-hashing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Spatial Hashing
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#regional-systems" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1314,7 +1325,7 @@
 
 
 <h1 id="coordinate-systems-overview">Coordinate Systems Overview<a class="headerlink" href="#coordinate-systems-overview" title="Permanent link">&para;</a></h1>
-<p>The Geodetic gem supports 11 coordinate systems organized into five categories. All coordinate classes live under <code>Geodetic::Coordinates</code>.</p>
+<p>The Geodetic gem supports 12 coordinate systems organized into six categories. All coordinate classes live under <code>Geodetic::Coordinates</code>.</p>
 <h2 id="global-systems">Global Systems<a class="headerlink" href="#global-systems" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
@@ -1420,6 +1431,23 @@
 </tr>
 </tbody>
 </table>
+<h2 id="spatial-hashing">Spatial Hashing<a class="headerlink" href="#spatial-hashing" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>System</th>
+<th>Class</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>GH36</strong></td>
+<td><code>Geodetic::Coordinates::GH36</code></td>
+<td>Geohash-36. A hierarchical spatial hashing algorithm that encodes latitude/longitude into a compact, URL-friendly string using a case-sensitive 36-character alphabet (radix-36). Each hash represents a rectangular cell; the coordinate value is the cell midpoint. Supports neighbor lookup, area extraction via <code>to_area</code>, and configurable precision (default 10 characters for sub-meter resolution).</td>
+</tr>
+</tbody>
+</table>
 <h2 id="regional-systems">Regional Systems<a class="headerlink" href="#regional-systems" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
@@ -1460,12 +1488,14 @@
 <th>UPS</th>
 <th>StatePlane</th>
 <th>BNG</th>
+<th>GH36</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td><strong>LLA</strong></td>
 <td>--</td>
+<td>Y</td>
 <td>Y</td>
 <td>Y</td>
 <td>Y</td>
@@ -1490,12 +1520,14 @@
 <td>Y</td>
 <td>Y</td>
 <td>Y</td>
+<td>Y</td>
 </tr>
 <tr>
 <td><strong>UTM</strong></td>
 <td>Y</td>
 <td>Y</td>
 <td>--</td>
+<td>Y</td>
 <td>Y</td>
 <td>Y</td>
 <td>Y</td>
@@ -1518,6 +1550,7 @@
 <td>Y</td>
 <td>Y</td>
 <td>Y</td>
+<td>Y</td>
 </tr>
 <tr>
 <td><strong>NED</strong></td>
@@ -1526,6 +1559,7 @@
 <td>Y</td>
 <td>Y</td>
 <td>--</td>
+<td>Y</td>
 <td>Y</td>
 <td>Y</td>
 <td>Y</td>
@@ -1546,6 +1580,7 @@
 <td>Y</td>
 <td>Y</td>
 <td>Y</td>
+<td>Y</td>
 </tr>
 <tr>
 <td><strong>USNG</strong></td>
@@ -1556,6 +1591,7 @@
 <td>Y</td>
 <td>Y</td>
 <td>--</td>
+<td>Y</td>
 <td>Y</td>
 <td>Y</td>
 <td>Y</td>
@@ -1574,6 +1610,7 @@
 <td>Y</td>
 <td>Y</td>
 <td>Y</td>
+<td>Y</td>
 </tr>
 <tr>
 <td><strong>UPS</strong></td>
@@ -1586,6 +1623,7 @@
 <td>Y</td>
 <td>Y</td>
 <td>--</td>
+<td>Y</td>
 <td>Y</td>
 <td>Y</td>
 </tr>
@@ -1602,9 +1640,26 @@
 <td>Y</td>
 <td>--</td>
 <td>Y</td>
+<td>Y</td>
 </tr>
 <tr>
 <td><strong>BNG</strong></td>
+<td>Y</td>
+<td>Y</td>
+<td>Y</td>
+<td>Y</td>
+<td>Y</td>
+<td>Y</td>
+<td>Y</td>
+<td>Y</td>
+<td>Y</td>
+<td>Y</td>
+<td>--</td>
+<td>Y</td>
+</tr>
+<tr>
+<td><strong>GH36</strong></td>
+<td>Y</td>
 <td>Y</td>
 <td>Y</td>
 <td>Y</td>
@@ -1633,7 +1688,7 @@
 <li><strong>ECEF</strong> is the intermediate for local tangent plane systems (ENU, NED), since the rotation from global Cartesian to local frames is straightforward in ECEF.</li>
 <li><strong>ENU and NED</strong> convert between each other directly by reordering axes and inverting the vertical component.</li>
 <li><strong>MGRS and USNG</strong> route through UTM, which in turn routes through LLA.</li>
-<li><strong>WebMercator, UPS, BNG, and StatePlane</strong> all convert through LLA.</li>
+<li><strong>WebMercator, UPS, BNG, StatePlane, and GH36</strong> all convert through LLA.</li>
 </ul>
 <p>For example, converting from BNG to NED follows the chain: <code>BNG -&gt; LLA -&gt; ECEF -&gt; ENU -&gt; NED</code>. The gem handles this automatically when you call a conversion method.</p>
 

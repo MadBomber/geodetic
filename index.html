@@ -1268,9 +1268,9 @@
 
 
 <h1 id="geodetic">Geodetic<a class="headerlink" href="#geodetic" title="Permanent link">&para;</a></h1>
-<p>Geodetic is a Ruby gem for converting between geodetic coordinate systems. It provides a clean, consistent API for working with 11 coordinate systems, 16 geodetic datums, geoid height calculations, and geographic area computations.</p>
+<p>Geodetic is a Ruby gem for converting between geodetic coordinate systems. It provides a clean, consistent API for working with 12 coordinate systems, 16 geodetic datums, geoid height calculations, and geographic area computations.</p>
 <h2 id="coordinate-systems">Coordinate Systems<a class="headerlink" href="#coordinate-systems" title="Permanent link">&para;</a></h2>
-<p>Geodetic supports full bidirectional conversion between all 11 coordinate systems:</p>
+<p>Geodetic supports full bidirectional conversion between all 12 coordinate systems:</p>
 <table>
 <thead>
 <tr>
@@ -1335,13 +1335,18 @@
 <td><code>Geodetic::Coordinates::BNG</code></td>
 <td>British National Grid</td>
 </tr>
+<tr>
+<td><strong>GH36</strong></td>
+<td><code>Geodetic::Coordinates::GH36</code></td>
+<td>Geohash-36 (spatial hash, URL-friendly)</td>
+</tr>
 </tbody>
 </table>
 <h2 id="additional-features">Additional Features<a class="headerlink" href="#additional-features" title="Permanent link">&para;</a></h2>
 <ul>
 <li><strong>16 geodetic datums</strong> -- WGS84, GRS 1980, Clarke 1866, Airy 1830, Bessel 1841, and more. All conversion methods accept an optional datum parameter, defaulting to WGS84.</li>
 <li><strong>Geoid height calculations</strong> -- Convert between ellipsoidal and orthometric heights using models such as EGM96, EGM2008, GEOID18, and GEOID12B.</li>
-<li><strong>Geographic areas</strong> -- <code>Geodetic::Areas::Circle</code> and <code>Geodetic::Areas::Polygon</code> for point-in-area testing.</li>
+<li><strong>Geographic areas</strong> -- <code>Geodetic::Areas::Circle</code>, <code>Geodetic::Areas::Polygon</code>, and <code>Geodetic::Areas::Rectangle</code> for point-in-area testing.</li>
 </ul>
 <h2 id="design-principles">Design Principles<a class="headerlink" href="#design-principles" title="Permanent link">&para;</a></h2>
 <ul>
