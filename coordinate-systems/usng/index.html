@@ -80,7 +80,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#geodeticcoordinatesusng-us-national-grid" class="md-skip">
+        <a href="#geodeticcoordinateusng-us-national-grid" class="md-skip">
           Skip to content
         </a>
       
@@ -1473,7 +1473,7 @@
   
 
 
-<h1 id="geodeticcoordinatesusng-us-national-grid">Geodetic::Coordinates::USNG - US National Grid<a class="headerlink" href="#geodeticcoordinatesusng-us-national-grid" title="Permanent link">&para;</a></h1>
+<h1 id="geodeticcoordinateusng-us-national-grid">Geodetic::Coordinate::USNG - US National Grid<a class="headerlink" href="#geodeticcoordinateusng-us-national-grid" title="Permanent link">&para;</a></h1>
 <h2 id="overview">Overview<a class="headerlink" href="#overview" title="Permanent link">&para;</a></h2>
 <p>USNG (US National Grid) is a coordinate system based on MGRS, adopted for use by US emergency services and civilian agencies. It provides a consistent, interoperable grid reference system across the United States.</p>
 <h2 id="constructor">Constructor<a class="headerlink" href="#constructor" title="Permanent link">&para;</a></h2>
@@ -1556,7 +1556,7 @@
 <div class="language-text highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>USNG &lt;-&gt; MGRS &lt;-&gt; UTM &lt;-&gt; LLA
 </span></code></pre></div>
 <h2 id="example">Example<a class="headerlink" href="#example" title="Permanent link">&para;</a></h2>
-<div class="language-ruby highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="n">usng</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">Geodetic</span><span class="o">::</span><span class="no">Coordinates</span><span class="o">::</span><span class="no">USNG</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">usng_string</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;18T WL 12345 67890&quot;</span><span class="p">)</span>
+<div class="language-ruby highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="n">usng</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">Geodetic</span><span class="o">::</span><span class="no">Coordinate</span><span class="o">::</span><span class="no">USNG</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">usng_string</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;18T WL 12345 67890&quot;</span><span class="p">)</span>
 </span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>
 </span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="n">usng</span><span class="o">.</span><span class="n">grid_zone</span><span class="w">  </span><span class="c1"># =&gt; &quot;18T&quot;</span>
 </span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="n">usng</span><span class="o">.</span><span class="n">square_id</span><span class="w">  </span><span class="c1"># =&gt; &quot;WL&quot;</span>

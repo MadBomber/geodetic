@@ -25,7 +25,7 @@
     
     
       
-        <title>Geodetic::Coordinates::GH - Geodetic</title>
+        <title>Geodetic::Coordinate::GH - Geodetic</title>
       
     
     
@@ -76,7 +76,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#geodeticcoordinatesgh" class="md-skip">
+        <a href="#geodeticcoordinategh" class="md-skip">
           Skip to content
         </a>
       
@@ -112,7 +112,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Geodetic::Coordinates::GH
+              Geodetic::Coordinate::GH
             
           </span>
         </div>
@@ -1485,7 +1485,7 @@
   
 
 
-<h1 id="geodeticcoordinatesgh">Geodetic::Coordinates::GH<a class="headerlink" href="#geodeticcoordinatesgh" title="Permanent link">&para;</a></h1>
+<h1 id="geodeticcoordinategh">Geodetic::Coordinate::GH<a class="headerlink" href="#geodeticcoordinategh" title="Permanent link">&para;</a></h1>
 <h2 id="geohash-base-32">Geohash (Base-32)<a class="headerlink" href="#geohash-base-32" title="Permanent link">&para;</a></h2>
 <p>The standard geohash algorithm by Gustavo Niemeyer that encodes latitude/longitude into a compact string using a 32-character alphabet. It uses interleaved longitude and latitude bits, with each 5-bit group mapped to a base-32 character.</p>
 <p>Character set: <code>0123456789bcdefghjkmnpqrstuvwxyz</code>
@@ -1494,11 +1494,11 @@
 <p>GH is a <strong>2D coordinate system</strong> (no altitude). Conversions to/from other systems go through LLA as the intermediary. Each geohash string represents a rectangular cell; the coordinate's point value is the cell's midpoint.</p>
 <h2 id="constructor">Constructor<a class="headerlink" href="#constructor" title="Permanent link">&para;</a></h2>
 <div class="language-ruby highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># From a geohash string</span>
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="n">coord</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">Geodetic</span><span class="o">::</span><span class="no">Coordinates</span><span class="o">::</span><span class="no">GH</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;dr5ru7&quot;</span><span class="p">)</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="n">coord</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">Geodetic</span><span class="o">::</span><span class="no">Coordinate</span><span class="o">::</span><span class="no">GH</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;dr5ru7&quot;</span><span class="p">)</span>
 </span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
 </span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="c1"># From any coordinate (converts via LLA)</span>
-</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="n">coord</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">Geodetic</span><span class="o">::</span><span class="no">Coordinates</span><span class="o">::</span><span class="no">GH</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">lla_coord</span><span class="p">)</span>
-</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="n">coord</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">Geodetic</span><span class="o">::</span><span class="no">Coordinates</span><span class="o">::</span><span class="no">GH</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">utm_coord</span><span class="p">,</span><span class="w"> </span><span class="ss">precision</span><span class="p">:</span><span class="w"> </span><span class="mi">8</span><span class="p">)</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="n">coord</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">Geodetic</span><span class="o">::</span><span class="no">Coordinate</span><span class="o">::</span><span class="no">GH</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">lla_coord</span><span class="p">)</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="n">coord</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">Geodetic</span><span class="o">::</span><span class="no">Coordinate</span><span class="o">::</span><span class="no">GH</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">utm_coord</span><span class="p">,</span><span class="w"> </span><span class="ss">precision</span><span class="p">:</span><span class="w"> </span><span class="mi">8</span><span class="p">)</span>
 </span></code></pre></div>
 <table>
 <thead>
@@ -1606,11 +1606,11 @@
 </span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="c1"># ... and all other coordinate systems</span>
 </span></code></pre></div>
 <h3 id="lla-convenience-methods">LLA Convenience Methods<a class="headerlink" href="#lla-convenience-methods" title="Permanent link">&para;</a></h3>
-<div class="language-ruby highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="n">lla</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">Geodetic</span><span class="o">::</span><span class="no">Coordinates</span><span class="o">::</span><span class="no">LLA</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">lat</span><span class="p">:</span><span class="w"> </span><span class="mi">40</span><span class="o">.</span><span class="mi">689167</span><span class="p">,</span><span class="w"> </span><span class="ss">lng</span><span class="p">:</span><span class="w"> </span><span class="o">-</span><span class="mi">74</span><span class="o">.</span><span class="mo">044444</span><span class="p">)</span>
+<div class="language-ruby highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="n">lla</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">Geodetic</span><span class="o">::</span><span class="no">Coordinate</span><span class="o">::</span><span class="no">LLA</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">lat</span><span class="p">:</span><span class="w"> </span><span class="mi">40</span><span class="o">.</span><span class="mi">689167</span><span class="p">,</span><span class="w"> </span><span class="ss">lng</span><span class="p">:</span><span class="w"> </span><span class="o">-</span><span class="mi">74</span><span class="o">.</span><span class="mo">044444</span><span class="p">)</span>
 </span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="n">gh</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">lla</span><span class="o">.</span><span class="n">to_gh</span><span class="w">                    </span><span class="c1"># default precision 12</span>
 </span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="n">gh</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">lla</span><span class="o">.</span><span class="n">to_gh</span><span class="p">(</span><span class="ss">precision</span><span class="p">:</span><span class="w"> </span><span class="mi">6</span><span class="p">)</span><span class="w">      </span><span class="c1"># custom precision</span>
 </span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>
-</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="n">lla</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">Geodetic</span><span class="o">::</span><span class="no">Coordinates</span><span class="o">::</span><span class="no">LLA</span><span class="o">.</span><span class="n">from_gh</span><span class="p">(</span><span class="n">gh</span><span class="p">)</span>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="n">lla</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">Geodetic</span><span class="o">::</span><span class="no">Coordinate</span><span class="o">::</span><span class="no">LLA</span><span class="o">.</span><span class="n">from_gh</span><span class="p">(</span><span class="n">gh</span><span class="p">)</span>
 </span></code></pre></div>
 <h2 id="serialization">Serialization<a class="headerlink" href="#serialization" title="Permanent link">&para;</a></h2>
 <h3 id="to_struncate_to-nil"><code>to_s(truncate_to = nil)</code><a class="headerlink" href="#to_struncate_to-nil" title="Permanent link">&para;</a></h3>
@@ -1847,7 +1847,7 @@
 - You want to avoid vowels and ambiguous characters in user-facing strings
 - Slightly better resolution per character matters</p>
 <h3 id="converting-between-gh-and-gh36">Converting Between GH and GH36<a class="headerlink" href="#converting-between-gh-and-gh36" title="Permanent link">&para;</a></h3>
-<div class="language-ruby highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="n">gh</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">Geodetic</span><span class="o">::</span><span class="no">Coordinates</span><span class="o">::</span><span class="no">GH</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;dr5ru7&quot;</span><span class="p">)</span>
+<div class="language-ruby highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="n">gh</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">Geodetic</span><span class="o">::</span><span class="no">Coordinate</span><span class="o">::</span><span class="no">GH</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;dr5ru7&quot;</span><span class="p">)</span>
 </span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="n">gh36</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">gh</span><span class="o">.</span><span class="n">to_gh36</span><span class="w">                    </span><span class="c1"># =&gt; GH36 instance</span>
 </span><span id="__span-14-3"><a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="n">gh_back</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">gh36</span><span class="o">.</span><span class="n">to_gh</span><span class="w">                 </span><span class="c1"># =&gt; GH instance</span>
 </span><span id="__span-14-4"><a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a>

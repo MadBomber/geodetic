@@ -1325,7 +1325,7 @@
 
 
 <h1 id="coordinate-systems-overview">Coordinate Systems Overview<a class="headerlink" href="#coordinate-systems-overview" title="Permanent link">&para;</a></h1>
-<p>The Geodetic gem supports 15 coordinate systems organized into six categories. All coordinate classes live under <code>Geodetic::Coordinates</code>.</p>
+<p>The Geodetic gem supports 15 coordinate systems organized into six categories. All coordinate classes live under <code>Geodetic::Coordinate</code>.</p>
 <h2 id="global-systems">Global Systems<a class="headerlink" href="#global-systems" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
@@ -1338,17 +1338,17 @@
 <tbody>
 <tr>
 <td><strong>LLA</strong></td>
-<td><code>Geodetic::Coordinates::LLA</code></td>
+<td><code>Geodetic::Coordinate::LLA</code></td>
 <td>Latitude, Longitude, Altitude. The most common geographic coordinate system, expressing positions in decimal degrees with altitude in meters. Negative longitude is the Western hemisphere; negative latitude is the Southern hemisphere.</td>
 </tr>
 <tr>
 <td><strong>ECEF</strong></td>
-<td><code>Geodetic::Coordinates::ECEF</code></td>
+<td><code>Geodetic::Coordinate::ECEF</code></td>
 <td>Earth-Centered, Earth-Fixed. A Cartesian coordinate system with the origin at the Earth's center of mass. Positions are expressed as X, Y, Z in meters. Commonly used in satellite navigation and aerospace applications.</td>
 </tr>
 <tr>
 <td><strong>UTM</strong></td>
-<td><code>Geodetic::Coordinates::UTM</code></td>
+<td><code>Geodetic::Coordinate::UTM</code></td>
 <td>Universal Transverse Mercator. Divides the Earth into 60 zones (each 6 degrees of longitude), projecting positions as easting/northing in meters within a zone and hemisphere. Covers latitudes 80S to 84N.</td>
 </tr>
 </tbody>
@@ -1365,12 +1365,12 @@
 <tbody>
 <tr>
 <td><strong>ENU</strong></td>
-<td><code>Geodetic::Coordinates::ENU</code></td>
+<td><code>Geodetic::Coordinate::ENU</code></td>
 <td>East, North, Up. A local tangent plane coordinate system centered on a reference point. Axes point East, North, and Up relative to the reference. Distances are in meters. Used in robotics, surveying, and local navigation.</td>
 </tr>
 <tr>
 <td><strong>NED</strong></td>
-<td><code>Geodetic::Coordinates::NED</code></td>
+<td><code>Geodetic::Coordinate::NED</code></td>
 <td>North, East, Down. A local tangent plane coordinate system centered on a reference point. Axes point North, East, and Down. Used extensively in aerospace and aviation applications. Mathematically related to ENU by axis reordering and sign inversion.</td>
 </tr>
 </tbody>
@@ -1387,12 +1387,12 @@
 <tbody>
 <tr>
 <td><strong>MGRS</strong></td>
-<td><code>Geodetic::Coordinates::MGRS</code></td>
+<td><code>Geodetic::Coordinate::MGRS</code></td>
 <td>Military Grid Reference System. An alphanumeric system based on UTM that identifies positions using grid zone designator, 100km square identifier, and numeric easting/northing. Variable precision from 10km down to 1m.</td>
 </tr>
 <tr>
 <td><strong>USNG</strong></td>
-<td><code>Geodetic::Coordinates::USNG</code></td>
+<td><code>Geodetic::Coordinate::USNG</code></td>
 <td>United States National Grid. Based on MGRS but formatted with spaces for readability. Used primarily within the United States for emergency services and land management.</td>
 </tr>
 </tbody>
@@ -1409,7 +1409,7 @@
 <tbody>
 <tr>
 <td><strong>WebMercator</strong></td>
-<td><code>Geodetic::Coordinates::WebMercator</code></td>
+<td><code>Geodetic::Coordinate::WebMercator</code></td>
 <td>Web Mercator (EPSG:3857). Also known as Pseudo-Mercator or Spherical Mercator. The projection used by Google Maps, OpenStreetMap, and Bing Maps. Positions are X/Y in meters. Latitude is clamped to approximately &plusmn;85.05 degrees. Includes tile and pixel coordinate methods for web mapping applications.</td>
 </tr>
 </tbody>
@@ -1426,7 +1426,7 @@
 <tbody>
 <tr>
 <td><strong>UPS</strong></td>
-<td><code>Geodetic::Coordinates::UPS</code></td>
+<td><code>Geodetic::Coordinate::UPS</code></td>
 <td>Universal Polar Stereographic. Covers the polar regions not handled by UTM (north of 84N and south of 80S). Uses a stereographic projection centered on each pole with zones Y/Z (north) and A/B (south).</td>
 </tr>
 </tbody>
@@ -1443,22 +1443,22 @@
 <tbody>
 <tr>
 <td><strong>GH36</strong></td>
-<td><code>Geodetic::Coordinates::GH36</code></td>
+<td><code>Geodetic::Coordinate::GH36</code></td>
 <td>Geohash-36. A hierarchical spatial hashing algorithm that encodes latitude/longitude into a compact, URL-friendly string using a case-sensitive 36-character alphabet (radix-36). Each hash represents a rectangular cell; the coordinate value is the cell midpoint. Supports neighbor lookup, area extraction via <code>to_area</code>, and configurable precision (default 10 characters for sub-meter resolution).</td>
 </tr>
 <tr>
 <td><strong>GH</strong></td>
-<td><code>Geodetic::Coordinates::GH</code></td>
+<td><code>Geodetic::Coordinate::GH</code></td>
 <td>Geohash (base-32). The standard geohash algorithm by Gustavo Niemeyer using a 32-character alphabet (<code>0-9, b-z</code> excluding <code>a, i, l, o</code>). The de facto standard for spatial hashing, natively supported by Elasticsearch, Redis, PostGIS, and many geocoding services. Supports neighbor lookup, area extraction, and configurable precision (default 12 characters for sub-centimeter resolution).</td>
 </tr>
 <tr>
 <td><strong>HAM</strong></td>
-<td><code>Geodetic::Coordinates::HAM</code></td>
+<td><code>Geodetic::Coordinate::HAM</code></td>
 <td>Maidenhead Locator System. A hierarchical grid system used worldwide in amateur radio that encodes positions using alternating letter/digit pairs (e.g., <code>FN31pr</code>). Four levels of precision: Field (18x18), Square (10x10), Subsquare (24x24), Extended (10x10). Supports neighbor lookup, area extraction, and configurable precision (default 6 characters for ~5 km resolution).</td>
 </tr>
 <tr>
 <td><strong>OLC</strong></td>
-<td><code>Geodetic::Coordinates::OLC</code></td>
+<td><code>Geodetic::Coordinate::OLC</code></td>
 <td>Open Location Code (Plus Codes). Google's open system for encoding locations into short codes like <code>849VCWC8+R9</code>. Uses a 20-character alphabet with 5 paired levels of base-20 encoding plus optional grid refinement. Includes a <code>+</code> separator at position 8. Supports neighbor lookup, area extraction, and configurable precision (default 10 characters for ~14 m resolution).</td>
 </tr>
 </tbody>
@@ -1475,12 +1475,12 @@
 <tbody>
 <tr>
 <td><strong>StatePlane</strong></td>
-<td><code>Geodetic::Coordinates::StatePlane</code></td>
+<td><code>Geodetic::Coordinate::StatePlane</code></td>
 <td>State Plane Coordinate System. US state-based coordinate systems using Lambert Conformal Conic or Transverse Mercator projections. Each state has one or more zones with specific parameters. Coordinates are typically in US Survey Feet.</td>
 </tr>
 <tr>
 <td><strong>BNG</strong></td>
-<td><code>Geodetic::Coordinates::BNG</code></td>
+<td><code>Geodetic::Coordinate::BNG</code></td>
 <td>British National Grid. The official coordinate system for Great Britain, based on the OSGB36 datum with the Airy 1830 ellipsoid. Uses a Transverse Mercator projection and an alphanumeric grid reference system (e.g., "TQ 30 80").</td>
 </tr>
 </tbody>

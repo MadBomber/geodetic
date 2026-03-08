@@ -80,7 +80,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#geodeticcoordinatesmgrs-military-grid-reference-system" class="md-skip">
+        <a href="#geodeticcoordinatemgrs-military-grid-reference-system" class="md-skip">
           Skip to content
         </a>
       
@@ -1507,7 +1507,7 @@
   
 
 
-<h1 id="geodeticcoordinatesmgrs-military-grid-reference-system">Geodetic::Coordinates::MGRS - Military Grid Reference System<a class="headerlink" href="#geodeticcoordinatesmgrs-military-grid-reference-system" title="Permanent link">&para;</a></h1>
+<h1 id="geodeticcoordinatemgrs-military-grid-reference-system">Geodetic::Coordinate::MGRS - Military Grid Reference System<a class="headerlink" href="#geodeticcoordinatemgrs-military-grid-reference-system" title="Permanent link">&para;</a></h1>
 <h2 id="overview">Overview<a class="headerlink" href="#overview" title="Permanent link">&para;</a></h2>
 <p>MGRS (Military Grid Reference System) is a geocoordinate standard used by NATO militaries for locating points on Earth. It is based on the UTM coordinate system, augmented with a lettering scheme for grid zone designators and 100km square identifiers.</p>
 <h2 id="constructor">Constructor<a class="headerlink" href="#constructor" title="Permanent link">&para;</a></h2>
@@ -1543,7 +1543,7 @@
 </tbody>
 </table>
 <h3 id="example">Example<a class="headerlink" href="#example" title="Permanent link">&para;</a></h3>
-<div class="language-ruby highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="n">mgrs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">Geodetic</span><span class="o">::</span><span class="no">Coordinates</span><span class="o">::</span><span class="no">MGRS</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">mgrs_string</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;18SUJ2337006519&quot;</span><span class="p">)</span>
+<div class="language-ruby highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="n">mgrs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">Geodetic</span><span class="o">::</span><span class="no">Coordinate</span><span class="o">::</span><span class="no">MGRS</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">mgrs_string</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;18SUJ2337006519&quot;</span><span class="p">)</span>
 </span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="n">mgrs</span><span class="o">.</span><span class="n">to_s</span><span class="w">  </span><span class="c1"># =&gt; &quot;18SUJ2337006519&quot;</span>
 </span></code></pre></div>
 <h2 id="precision-levels">Precision Levels<a class="headerlink" href="#precision-levels" title="Permanent link">&para;</a></h2>
@@ -1628,7 +1628,7 @@
 <li><strong>MGRS -&gt; LLA</strong> — Converts through UTM to latitude/longitude.</li>
 </ul>
 <h2 id="example_1">Example<a class="headerlink" href="#example_1" title="Permanent link">&para;</a></h2>
-<div class="language-ruby highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="n">mgrs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">Geodetic</span><span class="o">::</span><span class="no">Coordinates</span><span class="o">::</span><span class="no">MGRS</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">mgrs_string</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;18SUJ2337006519&quot;</span><span class="p">)</span>
+<div class="language-ruby highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="n">mgrs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">Geodetic</span><span class="o">::</span><span class="no">Coordinate</span><span class="o">::</span><span class="no">MGRS</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">mgrs_string</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;18SUJ2337006519&quot;</span><span class="p">)</span>
 </span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>
 </span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="n">mgrs</span><span class="o">.</span><span class="n">grid_zone</span><span class="w">  </span><span class="c1"># =&gt; &quot;18S&quot;</span>
 </span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="n">mgrs</span><span class="o">.</span><span class="n">square_id</span><span class="w">  </span><span class="c1"># =&gt; &quot;UJ&quot;</span>

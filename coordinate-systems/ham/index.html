@@ -25,7 +25,7 @@
     
     
       
-        <title>Geodetic::Coordinates::HAM - Geodetic</title>
+        <title>Geodetic::Coordinate::HAM - Geodetic</title>
       
     
     
@@ -76,7 +76,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#geodeticcoordinatesham" class="md-skip">
+        <a href="#geodeticcoordinateham" class="md-skip">
           Skip to content
         </a>
       
@@ -112,7 +112,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Geodetic::Coordinates::HAM
+              Geodetic::Coordinate::HAM
             
           </span>
         </div>
@@ -1424,7 +1424,7 @@
   
 
 
-<h1 id="geodeticcoordinatesham">Geodetic::Coordinates::HAM<a class="headerlink" href="#geodeticcoordinatesham" title="Permanent link">&para;</a></h1>
+<h1 id="geodeticcoordinateham">Geodetic::Coordinate::HAM<a class="headerlink" href="#geodeticcoordinateham" title="Permanent link">&para;</a></h1>
 <h2 id="maidenhead-locator-system">Maidenhead Locator System<a class="headerlink" href="#maidenhead-locator-system" title="Permanent link">&para;</a></h2>
 <p>The Maidenhead Locator System (also called QTH Locator or grid square) is a hierarchical geocoding system used worldwide in amateur radio. It encodes latitude/longitude into a compact string of alternating letter and digit pairs.</p>
 <p>The system uses a false coordinate origin that shifts longitude by +180 and latitude by +90, making all values positive before encoding. Four levels of subdivision produce strings of 2, 4, 6, or 8 characters:</p>
@@ -1473,11 +1473,11 @@
 <p>HAM is a <strong>2D coordinate system</strong> (no altitude). Conversions to/from other systems go through LLA as the intermediary. Each locator string represents a rectangular cell; the coordinate's point value is the cell's midpoint.</p>
 <h2 id="constructor">Constructor<a class="headerlink" href="#constructor" title="Permanent link">&para;</a></h2>
 <div class="language-ruby highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># From a Maidenhead locator string</span>
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="n">coord</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">Geodetic</span><span class="o">::</span><span class="no">Coordinates</span><span class="o">::</span><span class="no">HAM</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;FN31pr&quot;</span><span class="p">)</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="n">coord</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">Geodetic</span><span class="o">::</span><span class="no">Coordinate</span><span class="o">::</span><span class="no">HAM</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;FN31pr&quot;</span><span class="p">)</span>
 </span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
 </span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="c1"># From any coordinate (converts via LLA)</span>
-</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="n">coord</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">Geodetic</span><span class="o">::</span><span class="no">Coordinates</span><span class="o">::</span><span class="no">HAM</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">lla_coord</span><span class="p">)</span>
-</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="n">coord</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">Geodetic</span><span class="o">::</span><span class="no">Coordinates</span><span class="o">::</span><span class="no">HAM</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">utm_coord</span><span class="p">,</span><span class="w"> </span><span class="ss">precision</span><span class="p">:</span><span class="w"> </span><span class="mi">8</span><span class="p">)</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="n">coord</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">Geodetic</span><span class="o">::</span><span class="no">Coordinate</span><span class="o">::</span><span class="no">HAM</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">lla_coord</span><span class="p">)</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="n">coord</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">Geodetic</span><span class="o">::</span><span class="no">Coordinate</span><span class="o">::</span><span class="no">HAM</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">utm_coord</span><span class="p">,</span><span class="w"> </span><span class="ss">precision</span><span class="p">:</span><span class="w"> </span><span class="mi">8</span><span class="p">)</span>
 </span></code></pre></div>
 <table>
 <thead>
@@ -1589,11 +1589,11 @@
 </span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="c1"># ... and all other coordinate systems</span>
 </span></code></pre></div>
 <h3 id="lla-convenience-methods">LLA Convenience Methods<a class="headerlink" href="#lla-convenience-methods" title="Permanent link">&para;</a></h3>
-<div class="language-ruby highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="n">lla</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">Geodetic</span><span class="o">::</span><span class="no">Coordinates</span><span class="o">::</span><span class="no">LLA</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">lat</span><span class="p">:</span><span class="w"> </span><span class="mi">40</span><span class="o">.</span><span class="mi">689167</span><span class="p">,</span><span class="w"> </span><span class="ss">lng</span><span class="p">:</span><span class="w"> </span><span class="o">-</span><span class="mi">74</span><span class="o">.</span><span class="mo">044444</span><span class="p">)</span>
+<div class="language-ruby highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="n">lla</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">Geodetic</span><span class="o">::</span><span class="no">Coordinate</span><span class="o">::</span><span class="no">LLA</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">lat</span><span class="p">:</span><span class="w"> </span><span class="mi">40</span><span class="o">.</span><span class="mi">689167</span><span class="p">,</span><span class="w"> </span><span class="ss">lng</span><span class="p">:</span><span class="w"> </span><span class="o">-</span><span class="mi">74</span><span class="o">.</span><span class="mo">044444</span><span class="p">)</span>
 </span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="n">ham</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">lla</span><span class="o">.</span><span class="n">to_ham</span><span class="w">                    </span><span class="c1"># default precision 6</span>
 </span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="n">ham</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">lla</span><span class="o">.</span><span class="n">to_ham</span><span class="p">(</span><span class="ss">precision</span><span class="p">:</span><span class="w"> </span><span class="mi">8</span><span class="p">)</span><span class="w">      </span><span class="c1"># extended precision</span>
 </span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>
-</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="n">lla</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">Geodetic</span><span class="o">::</span><span class="no">Coordinates</span><span class="o">::</span><span class="no">LLA</span><span class="o">.</span><span class="n">from_ham</span><span class="p">(</span><span class="n">ham</span><span class="p">)</span>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="n">lla</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">Geodetic</span><span class="o">::</span><span class="no">Coordinate</span><span class="o">::</span><span class="no">LLA</span><span class="o">.</span><span class="n">from_ham</span><span class="p">(</span><span class="n">ham</span><span class="p">)</span>
 </span></code></pre></div>
 <h2 id="serialization">Serialization<a class="headerlink" href="#serialization" title="Permanent link">&para;</a></h2>
 <h3 id="to_struncate_to-nil"><code>to_s(truncate_to = nil)</code><a class="headerlink" href="#to_struncate_to-nil" title="Permanent link">&para;</a></h3>
