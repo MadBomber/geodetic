@@ -17,11 +17,18 @@ module Geodetic
       attr_reader :lat, :lng, :alt
       alias_method :latitude, :lat
       alias_method :longitude, :lng
+      alias_method :lon, :lng         # Other popular shortcuts for referencing longitude
+      alias_method :long, :lng
       alias_method :altitude, :alt
 
-      def initialize(lat: 0.0, lng: 0.0, alt: 0.0)
+      def initialize(lat: 0.0, lng: nil, lon: nil, long: nil, alt: 0.0)
+        longitude_args = { lng: lng, lon: lon, long: long }.compact
+        if longitude_args.size > 1
+          raise ArgumentError, "Provide only one of lng:, lon:, or long: (got #{longitude_args.keys.join(', ')})"
+        end
+
         @lat = lat.to_f
-        @lng = lng.to_f
+        @lng = (longitude_args.values.first || 0.0).to_f
         @alt = alt.to_f
 
         validate_coordinates!
@@ -42,6 +49,8 @@ module Geodetic
         @lng = value
       end
       alias_method :longitude=, :lng=
+      alias_method :lon=, :lng=
+      alias_method :long=, :lng=
 
       def alt=(value)
         value = value.to_f
@@ -219,6 +228,14 @@ module Geodetic
 
       def self.from_gh36(gh36_coord, datum = WGS84)
         gh36_coord.to_lla(datum)
+      end
+
+      def to_gh(precision: 12)
+        GH.new(self, precision: precision)
+      end
+
+      def self.from_gh(gh_coord, datum = WGS84)
+        gh_coord.to_lla(datum)
       end
 
       def to_s(precision = 6)

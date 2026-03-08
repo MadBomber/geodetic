@@ -260,6 +260,15 @@ module Geodetic
         from_lla(lla_coord, zone_code, datum)
       end
 
+      def to_gh(datum = nil, precision: 12)
+        GH.new(to_lla(datum), precision: precision)
+      end
+
+      def self.from_gh(gh_coord, zone_code, datum = WGS84)
+        lla_coord = gh_coord.to_lla(datum)
+        from_lla(lla_coord, zone_code, datum)
+      end
+
       # Unit conversion methods
       def to_meters
         zone_info = ZONES[@zone_code]

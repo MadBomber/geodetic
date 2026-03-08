@@ -192,6 +192,14 @@ module Geodetic
         gh36_coord.to_ecef(datum)
       end
 
+      def to_gh(precision: 12)
+        GH.new(to_lla, precision: precision)
+      end
+
+      def self.from_gh(gh_coord, datum = WGS84)
+        gh_coord.to_ecef(datum)
+      end
+
       def to_s(precision = 2)
         precision = precision.to_i
         if precision == 0

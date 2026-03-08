@@ -269,6 +269,15 @@ module Geodetic
         from_lla(lla_coord, datum)
       end
 
+      def to_gh(datum = WGS84, precision: 12)
+        GH.new(to_lla(datum), precision: precision)
+      end
+
+      def self.from_gh(gh_coord, datum = WGS84)
+        lla_coord = gh_coord.to_lla(datum)
+        from_lla(lla_coord, datum)
+      end
+
       def ==(other)
         return false unless other.is_a?(UPS)
 

@@ -148,6 +148,15 @@ module Geodetic
         from_lla(lla, reference_lla)
       end
 
+      def to_gh(reference_lla, precision: 12)
+        GH.new(to_lla(reference_lla), precision: precision)
+      end
+
+      def self.from_gh(gh_coord, reference_lla)
+        lla = gh_coord.to_lla
+        from_lla(lla, reference_lla)
+      end
+
       def to_s(precision = 2)
         precision = precision.to_i
         if precision == 0

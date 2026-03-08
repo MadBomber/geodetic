@@ -210,6 +210,14 @@ module Geodetic
         new(bng_coord, precision: precision)
       end
 
+      def to_gh(datum = WGS84, gh_precision: 12)
+        GH.new(to_lla(datum), precision: gh_precision)
+      end
+
+      def self.from_gh(gh_coord, datum = WGS84, precision = DEFAULT_LENGTH)
+        new(gh_coord, precision: precision)
+      end
+
       def ==(other)
         return false unless other.is_a?(GH36)
         @geohash == other.geohash
