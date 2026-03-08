@@ -11,6 +11,7 @@ require_relative "coordinates/web_mercator"
 require_relative "coordinates/ups"
 require_relative "coordinates/state_plane"
 require_relative "coordinates/bng"
+require_relative "coordinates/gh36"
 
 module Geodetic
   module Coordinates
@@ -247,6 +248,7 @@ ALL_COORD_CLASSES = [
   Geodetic::Coordinates::UPS,
   Geodetic::Coordinates::StatePlane,
   Geodetic::Coordinates::BNG,
+  Geodetic::Coordinates::GH36,
 ].freeze
 
 ALL_COORD_CLASSES.each do |klass|

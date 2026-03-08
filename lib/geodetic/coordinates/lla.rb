@@ -219,6 +219,15 @@ module Geodetic
         new(lat: lat, lng: lng, alt: alt)
       end
 
+      def to_gh36(precision: 10)
+        require_relative 'gh36'
+        GH36.new(self, precision: precision)
+      end
+
+      def self.from_gh36(gh36_coord, datum = WGS84)
+        gh36_coord.to_lla(datum)
+      end
+
       def to_s(precision = 6)
         precision = precision.to_i
         if precision == 0
