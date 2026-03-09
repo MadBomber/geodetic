@@ -9,7 +9,7 @@
 <td width="50%" valign="top">
 <h2>Key Features</h2>
 <lu>
-<li><strong>15 Coordinate Systems</strong> - LLA, ECEF, UTM, ENU, NED, MGRS, USNG, Web Mercator, UPS, State Plane, BNG, GH36, GH, HAM, OLC<br>
+<li><strong>17 Coordinate Systems</strong> - LLA, ECEF, UTM, ENU, NED, MGRS, USNG, Web Mercator, UPS, State Plane, BNG, GH36, GH, HAM, OLC<br>
 <li><strong>Full Bidirectional Conversions</strong> - Every system converts to and from every other system<br>
 <li><strong>Distance Calculations</strong> - Vincenty great-circle and straight-line with unit tracking<br>
 <li><strong>Bearing Calculations</strong> - Forward azimuth, back azimuth, compass directions, elevation angles<br>
@@ -24,11 +24,11 @@
 </tr>
 </table>
 
-Geodetic is a Ruby gem for converting between geodetic coordinate systems. It provides a clean, consistent API for working with 15 coordinate systems, 16 geodetic datums, geoid height calculations, and geographic area computations.
+Geodetic is a Ruby gem for converting between geodetic coordinate systems. It provides a clean, consistent API for working with 17 coordinate systems, 16 geodetic datums, geoid height calculations, and geographic area computations.
 
 ## Coordinate Systems
 
-Geodetic supports full bidirectional conversion between all 15 coordinate systems:
+Geodetic supports full bidirectional conversion between all 17 coordinate systems:
 
 | System | Class | Description |
 |--------|-------|-------------|
@@ -47,6 +47,8 @@ Geodetic supports full bidirectional conversion between all 15 coordinate system
 | **GH** | `Geodetic::Coordinate::GH` | Geohash base-32 (standard geohash, widely supported) |
 | **HAM** | `Geodetic::Coordinate::HAM` | Maidenhead Locator System (amateur radio grid squares) |
 | **OLC** | `Geodetic::Coordinate::OLC` | Open Location Code / Plus Codes (Google's location encoding) |
+| **GEOREF** | `Geodetic::Coordinate::GEOREF` | World Geographic Reference System (aviation/military) |
+| **GARS** | `Geodetic::Coordinate::GARS` | Global Area Reference System (NGA standard) |
 
 ## Additional Features
 

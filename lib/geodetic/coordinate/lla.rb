@@ -254,6 +254,26 @@ module Geodetic
         olc_coord.to_lla(datum)
       end
 
+      def to_georef(precision: 8)
+        GEOREF.new(self, precision: precision)
+      end
+
+      def self.from_georef(georef_coord, datum = WGS84)
+        georef_coord.to_lla(datum)
+      end
+
+      def to_gars(precision: 7)
+        GARS.new(self, precision: precision)
+      end
+
+      def self.from_gars(gars_coord, datum = WGS84)
+        gars_coord.to_lla(datum)
+      end
+
+      def self.from_lla(lla_coord, datum = WGS84)
+        lla_coord
+      end
+
       def to_s(precision = 6)
         precision = precision.to_i
         if precision == 0

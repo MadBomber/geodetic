@@ -31,6 +31,8 @@ require_relative "coordinate/gh36"
 require_relative "coordinate/gh"
 require_relative "coordinate/ham"
 require_relative "coordinate/olc"
+require_relative "coordinate/georef"
+require_relative "coordinate/gars"
 
 module Geodetic
   module Coordinate
@@ -259,6 +261,7 @@ Geodetic::Coordinate::SpatialHash.finalize_cross_hash_conversions!
 
 # Generate hash conversion methods (to_gh, from_gh, etc.) on non-hash coordinate classes
 sh = Geodetic::Coordinate::SpatialHash
+sh.generate_hash_conversions_for(Geodetic::Coordinate::LLA,          style: :no_datum)
 sh.generate_hash_conversions_for(Geodetic::Coordinate::ECEF,         style: :no_datum)
 sh.generate_hash_conversions_for(Geodetic::Coordinate::UTM,          style: :no_datum)
 sh.generate_hash_conversions_for(Geodetic::Coordinate::WebMercator,  style: :no_datum)

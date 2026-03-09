@@ -287,6 +287,24 @@ module Geodetic
         from_lla(lla_coord, zone_code, datum)
       end
 
+      def to_georef(datum = nil, precision: 8)
+        GEOREF.new(to_lla(datum), precision: precision)
+      end
+
+      def self.from_georef(georef_coord, zone_code, datum = WGS84)
+        lla_coord = georef_coord.to_lla(datum)
+        from_lla(lla_coord, zone_code, datum)
+      end
+
+      def to_gars(datum = nil, precision: 7)
+        GARS.new(to_lla(datum), precision: precision)
+      end
+
+      def self.from_gars(gars_coord, zone_code, datum = WGS84)
+        lla_coord = gars_coord.to_lla(datum)
+        from_lla(lla_coord, zone_code, datum)
+      end
+
       # Unit conversion methods
       def to_meters
         zone_info = ZONES[@zone_code]

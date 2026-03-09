@@ -175,6 +175,24 @@ module Geodetic
         from_lla(lla, reference_lla)
       end
 
+      def to_georef(reference_lla, precision: 8)
+        GEOREF.new(to_lla(reference_lla), precision: precision)
+      end
+
+      def self.from_georef(georef_coord, reference_lla)
+        lla = georef_coord.to_lla
+        from_lla(lla, reference_lla)
+      end
+
+      def to_gars(reference_lla, precision: 7)
+        GARS.new(to_lla(reference_lla), precision: precision)
+      end
+
+      def self.from_gars(gars_coord, reference_lla)
+        lla = gars_coord.to_lla
+        from_lla(lla, reference_lla)
+      end
+
       def to_s(precision = 2)
         precision = precision.to_i
         if precision == 0
