@@ -305,6 +305,12 @@ module Geodetic
         new(lat: parts[0].to_f, lng: parts[1].to_f, alt: parts[2].to_f)
       end
 
+      def valid?
+        @lat.finite? && @lng.finite? && @alt.finite? &&
+          @lat >= -90 && @lat <= 90 &&
+          @lng >= -180 && @lng <= 180
+      end
+
       def ==(other)
         return false unless other.is_a?(LLA)
 

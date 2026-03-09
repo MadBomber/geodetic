@@ -206,6 +206,10 @@ module Geodetic
         new(x: parts[0].to_f, y: parts[1].to_f, z: parts[2].to_f)
       end
 
+      def valid?
+        @x.finite? && @y.finite? && @z.finite?
+      end
+
       def ==(other)
         return false unless other.is_a?(ECEF)
 

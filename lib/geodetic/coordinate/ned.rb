@@ -224,6 +224,10 @@ module Geodetic
         new(n: parts[0].to_f, e: parts[1].to_f, d: parts[2].to_f)
       end
 
+      def valid?
+        @n.finite? && @e.finite? && @d.finite?
+      end
+
       def ==(other)
         return false unless other.is_a?(NED)
 
