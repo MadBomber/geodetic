@@ -60,3 +60,26 @@ CLI flags:
 ```
 
 Output: `examples/05_map_rendering/nyc_landmarks.png`
+
+## 06 - Path Operations
+
+Demonstrates the `Geodetic::Path` class with a walking route through Manhattan. Covers:
+
+- **Construction** from arrays and incremental building with `<<` and `>>`
+- **Navigation** with `first`, `last`, `next`, `prev`
+- **Segment analysis** with distances and bearings for each leg
+- **Mutation** with `insert`, `delete`, `+`, `-`
+- **Path arithmetic** combining paths with `+`, `<<`, `>>` and removing with `-`
+- **Closest approach** using geometric projection to find the nearest point on the path to an off-path target
+- **Containment testing** with `includes?` (waypoint check) and `contains?` (on-segment check)
+- **Enumerable** iteration with `map`, `select`, `max_by`
+- **Equality** comparing paths by coordinates and order
+- **Subpath extraction** with `between` and **splitting** with `split_at`
+- **Interpolation** finding coordinates at a given distance along the path with `at_distance`
+- **Bounding box** with `bounds` returning an `Areas::Rectangle`
+- **Polygon conversion** with `to_polygon` (validates no self-intersection)
+- **Path intersection** detection with `intersects?`
+- **Path-to-Path closest points** finding the nearest pair between two paths
+- **Path-to-Area closest points** for Circle and Polygon areas
+- **Reverse** to create the return route
+- **Feature integration** wrapping a Path with label and metadata

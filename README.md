@@ -19,6 +19,7 @@
 - <strong>Bearing Calculations</strong> - Forward azimuth, back azimuth, compass directions, elevation angles<br>
 - <strong>Geoid Height Support</strong> - EGM96, EGM2008, GEOID18, GEOID12B models<br>
 - <strong>Geographic Areas</strong> - Circle, Polygon, and Rectangle with point-in-area tests<br>
+- <strong>Paths</strong> - Directed coordinate sequences with navigation, interpolation, closest approach, intersection, and area conversion<br>
 - <strong>Features</strong> - Named geometry wrapper with metadata and delegated distance/bearing<br>
 - <strong>Validated Setters</strong> - Type coercion and range validation on all coordinate attributes<br>
 - <strong>Serialization</strong> - to_s(precision), to_a, from_string, from_array, DMS format<br>
@@ -541,9 +542,49 @@ rect.sw             # => computed SW corner
 rect.includes?(point)  # => true/false
 ```
 
+### Paths
+
+`Path` is a directed, ordered sequence of unique coordinates representing routes, trails, or boundaries.
+
+```ruby
+route = Path.new(coordinates: [battery_park, wall_street, brooklyn_bridge, city_hall])
+
+# Navigation
+route.first                      # => starting waypoint
+route.next(wall_street)          # => brooklyn_bridge
+route.total_distance.to_km       # => "3.42 km"
+
+# Build incrementally
+trail = Path.new
+trail << start << middle << finish
+trail >> new_start               # prepend
+
+# Combine paths
+combined = downtown + uptown     # concatenate
+trimmed  = combined - detour     # remove coordinates
+
+# Closest approach (geometric projection, not just waypoints)
+route.closest_coordinate_to(off_path_point)
+route.distance_to(target)
+route.closest_points_to(other_path)  # path-to-path
+
+# Spatial operations
+sub = route.between(a, b)        # extract subpath
+left, right = route.split_at(c)  # split at waypoint
+route.at_distance(Distance.km(2)) # interpolate along path
+route.bounds                     # => Areas::Rectangle
+route.to_polygon                 # close into polygon
+route.intersects?(other_path)    # crossing detection
+route.contains?(point)           # on-segment check
+
+# Enumerable
+route.map { |c| c.lat }
+route.select { |c| c.lat > 40.72 }
+```
+
 ### Features
 
-`Feature` wraps a geometry (any coordinate or area) with a label and a metadata hash. It delegates `distance_to` and `bearing_to` to its geometry, using the centroid for area geometries.
+`Feature` wraps a geometry (any coordinate, area, or path) with a label and a metadata hash. It delegates `distance_to` and `bearing_to` to its geometry, using the centroid for area geometries.
 
 ```ruby
 liberty = Feature.new(
@@ -600,6 +641,7 @@ The [`examples/`](examples/) directory contains runnable demo scripts showing pr
 | [`03_distance_calculations.rb`](examples/03_distance_calculations.rb) | Distance class features, unit conversions, and arithmetic |
 | [`04_bearing_calculations.rb`](examples/04_bearing_calculations.rb) | Bearing class, compass directions, elevation angles, and chain bearings |
 | [`05_map_rendering/`](examples/05_map_rendering/) | Render landmarks on a raster map with Feature objects, polygon areas, bearing arrows, and icons using [libgd-gis](https://rubygems.org/gems/libgd-gis) |
+| [`06_path_operations.rb`](examples/06_path_operations.rb) | Path class: construction, navigation, mutation, path arithmetic, closest approach, containment, Enumerable, equality, subpaths, split, interpolation, bounding boxes, polygon conversion, intersection, path-to-path/area closest points, and Feature integration |
 
 Run any example with:
 

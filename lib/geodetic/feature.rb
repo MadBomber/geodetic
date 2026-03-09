@@ -11,11 +11,19 @@ module Geodetic
     end
 
     def distance_to(other)
-      resolve_point.distance_to(resolve_point_from(other))
+      if @geometry.is_a?(Path)
+        @geometry.distance_to(other)
+      else
+        resolve_point.distance_to(resolve_point_from(other))
+      end
     end
 
     def bearing_to(other)
-      resolve_point.bearing_to(resolve_point_from(other))
+      if @geometry.is_a?(Path)
+        @geometry.bearing_to(other)
+      else
+        resolve_point.bearing_to(resolve_point_from(other))
+      end
     end
 
     def to_s
