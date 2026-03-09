@@ -62,6 +62,7 @@ Geodetic supports full bidirectional conversion between all 18 coordinate system
 - All constructors use **keyword arguments** for clarity.
 - Every coordinate system supports **serialization** via `to_s` and `to_a`, and **deserialization** via `from_string` and `from_array`.
 - Conversions are available as instance methods (`to_ecef`, `to_utm`, etc.) and class-level factory methods (`from_ecef`, `from_utm`, etc.).
+- All registered coordinate systems are discoverable at runtime via `Geodetic::Coordinate.systems`.
 
 ## Quick Example
 

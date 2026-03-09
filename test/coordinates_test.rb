@@ -13,60 +13,60 @@ class CoordinatesTest < Minitest::Test
   SF      = LLA.new(lat: 37.7749, lng: -122.4194, alt: 0.0)
   NYC     = LLA.new(lat: 40.7128, lng: -74.0060, alt: 0.0)
 
-  # --- GCS.distance_between ---
+  # --- Geodetic::Coordinate.distance_between ---
 
   def test_distance_between_two_points_returns_distance
-    dist = GCS.distance_between(SEATTLE, SF)
+    dist = Geodetic::Coordinate.distance_between(SEATTLE, SF)
     assert_instance_of Geodetic::Distance, dist
     assert dist > 0.0
   end
 
   def test_distance_between_three_points_returns_array
-    result = GCS.distance_between(SEATTLE, SF, NYC)
+    result = Geodetic::Coordinate.distance_between(SEATTLE, SF, NYC)
     assert_instance_of Array, result
     assert_equal 2, result.length
     result.each { |d| assert_instance_of Geodetic::Distance, d }
   end
 
   def test_distance_between_fewer_than_two_raises
-    assert_raises(ArgumentError) { GCS.distance_between(SEATTLE) }
+    assert_raises(ArgumentError) { Geodetic::Coordinate.distance_between(SEATTLE) }
   end
 
-  # --- GCS.straight_line_distance_between ---
+  # --- Geodetic::Coordinate.straight_line_distance_between ---
 
   def test_straight_line_distance_between_two_points_returns_distance
-    dist = GCS.straight_line_distance_between(SEATTLE, SF)
+    dist = Geodetic::Coordinate.straight_line_distance_between(SEATTLE, SF)
     assert_instance_of Geodetic::Distance, dist
     assert dist > 0.0
   end
 
   def test_straight_line_distance_between_three_points_returns_array
-    result = GCS.straight_line_distance_between(SEATTLE, SF, NYC)
+    result = Geodetic::Coordinate.straight_line_distance_between(SEATTLE, SF, NYC)
     assert_instance_of Array, result
     assert_equal 2, result.length
     result.each { |d| assert_instance_of Geodetic::Distance, d }
   end
 
   def test_straight_line_distance_between_fewer_than_two_raises
-    assert_raises(ArgumentError) { GCS.straight_line_distance_between(SEATTLE) }
+    assert_raises(ArgumentError) { Geodetic::Coordinate.straight_line_distance_between(SEATTLE) }
   end
 
-  # --- GCS.bearing_between ---
+  # --- Geodetic::Coordinate.bearing_between ---
 
   def test_bearing_between_two_points_returns_bearing
-    bearing = GCS.bearing_between(SEATTLE, SF)
+    bearing = Geodetic::Coordinate.bearing_between(SEATTLE, SF)
     assert_instance_of Geodetic::Bearing, bearing
   end
 
   def test_bearing_between_three_points_returns_array
-    result = GCS.bearing_between(SEATTLE, SF, NYC)
+    result = Geodetic::Coordinate.bearing_between(SEATTLE, SF, NYC)
     assert_instance_of Array, result
     assert_equal 2, result.length
     result.each { |b| assert_instance_of Geodetic::Bearing, b }
   end
 
   def test_bearing_between_fewer_than_two_raises
-    assert_raises(ArgumentError) { GCS.bearing_between(SEATTLE) }
+    assert_raises(ArgumentError) { Geodetic::Coordinate.bearing_between(SEATTLE) }
   end
 
   # --- ENU/NED raise ArgumentError for distance/bearing ---

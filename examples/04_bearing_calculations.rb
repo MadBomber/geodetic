@@ -6,6 +6,7 @@
 
 require_relative "../lib/geodetic"
 
+GCS     = Geodetic::Coordinate
 Bearing = Geodetic::Bearing
 
 # ── Notable locations ────────────────────────────────────────────

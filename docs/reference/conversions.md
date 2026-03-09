@@ -240,31 +240,31 @@ Universal distance methods are available on all coordinate types and work across
 ### Great-Circle Distance (Vincenty)
 
 - **`distance_to(other, *others)`** — Instance method. Computes the Vincenty great-circle distance from the receiver to one or more target coordinates. Returns a `Distance` for a single target, or an Array of `Distance` objects for multiple targets (radial distances from the receiver).
-- **`GCS.distance_between(*coords)`** — Class method on `Geodetic::Coordinate` (aliased as `GCS`). Computes consecutive chain distances between an ordered sequence of coordinates. Returns a `Distance` for two coordinates, or an Array of `Distance` objects for three or more.
+- **`Geodetic::Coordinate.distance_between(*coords)`** — Class method on `Geodetic::Coordinate`. Computes consecutive chain distances between an ordered sequence of coordinates. Returns a `Distance` for two coordinates, or an Array of `Distance` objects for three or more.
 
 > **`Distance` objects** wrap a distance value and provide unit-aware access. Call `.meters` to get the raw Float value in meters, or `.to_f` to get the value in the current display unit.
 
 ```ruby
-seattle = GCS::LLA.new(lat: 47.6205, lng: -122.3493, alt: 0.0)
-portland = GCS::LLA.new(lat: 45.5152, lng: -122.6784, alt: 0.0)
-sf = GCS::LLA.new(lat: 37.7749, lng: -122.4194, alt: 0.0)
+seattle = Geodetic::Coordinate::LLA.new(lat: 47.6205, lng: -122.3493, alt: 0.0)
+portland = Geodetic::Coordinate::LLA.new(lat: 45.5152, lng: -122.6784, alt: 0.0)
+sf = Geodetic::Coordinate::LLA.new(lat: 37.7749, lng: -122.4194, alt: 0.0)
 
 # Radial distances from receiver
 seattle.distance_to(portland)          # => Distance (235393.17 m)
 seattle.distance_to(portland, sf)      # => [Distance, Distance] (Array)
 
 # Consecutive chain distances
-GCS.distance_between(seattle, portland, sf)  # => [Distance, Distance] (Array)
+Geodetic::Coordinate.distance_between(seattle, portland, sf)  # => [Distance, Distance] (Array)
 ```
 
 ### Straight-Line Distance (ECEF Euclidean)
 
 - **`straight_line_distance_to(other, *others)`** — Instance method. Computes the Euclidean distance in ECEF (3D Cartesian) space. Returns a `Distance` for a single target, or an Array of `Distance` objects for multiple targets.
-- **`GCS.straight_line_distance_between(*coords)`** — Class method. Computes consecutive chain Euclidean distances.
+- **`Geodetic::Coordinate.straight_line_distance_between(*coords)`** — Class method. Computes consecutive chain Euclidean distances.
 
 ```ruby
 seattle.straight_line_distance_to(portland)              # => Distance
-GCS.straight_line_distance_between(seattle, portland)    # => Distance
+Geodetic::Coordinate.straight_line_distance_between(seattle, portland)    # => Distance
 ```
 
 ### Cross-System Distances
@@ -273,7 +273,7 @@ Both `distance_to` and `straight_line_distance_to` accept any coordinate type. C
 
 ```ruby
 utm = seattle.to_utm
-mgrs = GCS::MGRS.from_lla(portland)
+mgrs = Geodetic::Coordinate::MGRS.from_lla(portland)
 utm.distance_to(mgrs)    # => Distance (235393.17 m)
 ```
 
@@ -282,7 +282,7 @@ utm.distance_to(mgrs)    # => Distance (235393.17 m)
 ENU and NED are relative coordinate systems and do not support `distance_to` or `straight_line_distance_to` directly. Convert to an absolute system first:
 
 ```ruby
-ref = GCS::LLA.new(lat: 47.62, lng: -122.35, alt: 0.0)
+ref = Geodetic::Coordinate::LLA.new(lat: 47.62, lng: -122.35, alt: 0.0)
 lla = enu.to_lla(ref)
 lla.distance_to(other_lla)
 ```
@@ -299,12 +299,12 @@ Universal bearing methods are available on all coordinate types and work across 
 
 - **`bearing_to(other)`** — Instance method. Computes the great-circle forward azimuth from the receiver to the target coordinate. Returns a `Bearing` object.
 - **`elevation_to(other)`** — Instance method. Computes the vertical look angle (elevation) from the receiver to the target. Returns a Float in degrees (-90 to +90).
-- **`GCS.bearing_between(*coords)`** — Class method on `Geodetic::Coordinate` (aliased as `GCS`). Computes consecutive chain bearings between an ordered sequence of coordinates. Returns a `Bearing` for two coordinates, or an Array of `Bearing` objects for three or more.
+- **`Geodetic::Coordinate.bearing_between(*coords)`** — Class method on `Geodetic::Coordinate`. Computes consecutive chain bearings between an ordered sequence of coordinates. Returns a `Bearing` for two coordinates, or an Array of `Bearing` objects for three or more.
 
 ```ruby
-seattle = GCS::LLA.new(lat: 47.6205, lng: -122.3493, alt: 0.0)
-portland = GCS::LLA.new(lat: 45.5152, lng: -122.6784, alt: 0.0)
-sf = GCS::LLA.new(lat: 37.7749, lng: -122.4194, alt: 0.0)
+seattle = Geodetic::Coordinate::LLA.new(lat: 47.6205, lng: -122.3493, alt: 0.0)
+portland = Geodetic::Coordinate::LLA.new(lat: 45.5152, lng: -122.6784, alt: 0.0)
+sf = Geodetic::Coordinate::LLA.new(lat: 37.7749, lng: -122.4194, alt: 0.0)
 
 # Forward azimuth
 b = seattle.bearing_to(portland)       # => Bearing
@@ -316,7 +316,7 @@ b.reverse                             # => Bearing (back azimuth)
 seattle.elevation_to(portland)         # => Float (degrees)
 
 # Consecutive chain bearings
-GCS.bearing_between(seattle, portland, sf)  # => [Bearing, Bearing]
+Geodetic::Coordinate.bearing_between(seattle, portland, sf)  # => [Bearing, Bearing]
 ```
 
 ### Cross-System Bearings
@@ -325,7 +325,7 @@ GCS.bearing_between(seattle, portland, sf)  # => [Bearing, Bearing]
 
 ```ruby
 utm = seattle.to_utm
-mgrs = GCS::MGRS.from_lla(portland)
+mgrs = Geodetic::Coordinate::MGRS.from_lla(portland)
 utm.bearing_to(mgrs)    # => Bearing
 ```
 

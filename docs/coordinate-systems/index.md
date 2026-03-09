@@ -84,9 +84,9 @@ Every coordinate system can convert to every other coordinate system. The table 
 
 ## Universal Distance and Bearing Calculations
 
-All coordinate systems support universal distance calculations via `distance_to` (Vincenty great-circle) and `straight_line_distance_to` (ECEF Euclidean). These methods work across different coordinate types -- for example, computing the distance from a UTM coordinate to an MGRS coordinate. Class-level methods `GCS.distance_between` and `GCS.straight_line_distance_between` compute consecutive chain distances across a sequence of coordinates.
+All coordinate systems support universal distance calculations via `distance_to` (Vincenty great-circle) and `straight_line_distance_to` (ECEF Euclidean). These methods work across different coordinate types -- for example, computing the distance from a UTM coordinate to an MGRS coordinate. Class-level methods `Geodetic::Coordinate.distance_between` and `Geodetic::Coordinate.straight_line_distance_between` compute consecutive chain distances across a sequence of coordinates.
 
-All coordinate systems also support universal bearing calculations via `bearing_to` (great-circle forward azimuth) and `elevation_to` (vertical look angle). These return `Bearing` and `Float` objects respectively. The class-level method `GCS.bearing_between` computes consecutive chain bearings.
+All coordinate systems also support universal bearing calculations via `bearing_to` (great-circle forward azimuth) and `elevation_to` (vertical look angle). These return `Bearing` and `Float` objects respectively. The class-level method `Geodetic::Coordinate.bearing_between` computes consecutive chain bearings.
 
 See the [Conversions Reference](../reference/conversions.md#distance-calculations) for details on distances and [Bearing Calculations](../reference/conversions.md#bearing-calculations) for bearings.
 

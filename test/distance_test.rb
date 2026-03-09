@@ -269,8 +269,8 @@ class DistanceTest < Minitest::Test
   # ── Integration with coordinate distance methods ────────────
 
   def test_distance_to_returns_distance
-    seattle  = GCS::LLA.new(lat: 47.6205, lng: -122.3493, alt: 0.0)
-    portland = GCS::LLA.new(lat: 45.5152, lng: -122.6784, alt: 0.0)
+    seattle  = Geodetic::Coordinate::LLA.new(lat: 47.6205, lng: -122.3493, alt: 0.0)
+    portland = Geodetic::Coordinate::LLA.new(lat: 45.5152, lng: -122.6784, alt: 0.0)
 
     d = seattle.distance_to(portland)
     assert_instance_of Distance, d
@@ -279,26 +279,26 @@ class DistanceTest < Minitest::Test
   end
 
   def test_distance_between_returns_distance
-    seattle  = GCS::LLA.new(lat: 47.6205, lng: -122.3493, alt: 0.0)
-    portland = GCS::LLA.new(lat: 45.5152, lng: -122.6784, alt: 0.0)
+    seattle  = Geodetic::Coordinate::LLA.new(lat: 47.6205, lng: -122.3493, alt: 0.0)
+    portland = Geodetic::Coordinate::LLA.new(lat: 45.5152, lng: -122.6784, alt: 0.0)
 
-    d = GCS.distance_between(seattle, portland)
+    d = Geodetic::Coordinate.distance_between(seattle, portland)
     assert_instance_of Distance, d
   end
 
   def test_distance_between_chain_returns_array_of_distances
-    seattle  = GCS::LLA.new(lat: 47.6205, lng: -122.3493, alt: 0.0)
-    portland = GCS::LLA.new(lat: 45.5152, lng: -122.6784, alt: 0.0)
-    sf       = GCS::LLA.new(lat: 37.7749, lng: -122.4194, alt: 0.0)
+    seattle  = Geodetic::Coordinate::LLA.new(lat: 47.6205, lng: -122.3493, alt: 0.0)
+    portland = Geodetic::Coordinate::LLA.new(lat: 45.5152, lng: -122.6784, alt: 0.0)
+    sf       = Geodetic::Coordinate::LLA.new(lat: 37.7749, lng: -122.4194, alt: 0.0)
 
-    ds = GCS.distance_between(seattle, portland, sf)
+    ds = Geodetic::Coordinate.distance_between(seattle, portland, sf)
     assert_instance_of Array, ds
     ds.each { |d| assert_instance_of Distance, d }
   end
 
   def test_straight_line_distance_returns_distance
-    seattle  = GCS::LLA.new(lat: 47.6205, lng: -122.3493, alt: 0.0)
-    portland = GCS::LLA.new(lat: 45.5152, lng: -122.6784, alt: 0.0)
+    seattle  = Geodetic::Coordinate::LLA.new(lat: 47.6205, lng: -122.3493, alt: 0.0)
+    portland = Geodetic::Coordinate::LLA.new(lat: 45.5152, lng: -122.6784, alt: 0.0)
 
     d = seattle.straight_line_distance_to(portland)
     assert_instance_of Distance, d

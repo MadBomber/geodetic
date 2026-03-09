@@ -171,8 +171,8 @@ class BearingTest < Minitest::Test
   # ── Integration with coordinate bearing_to ───────────────────
 
   def test_bearing_between_two_coordinates
-    seattle  = GCS::LLA.new(lat: 47.6205, lng: -122.3493, alt: 0.0)
-    portland = GCS::LLA.new(lat: 45.5152, lng: -122.6784, alt: 0.0)
+    seattle  = Geodetic::Coordinate::LLA.new(lat: 47.6205, lng: -122.3493, alt: 0.0)
+    portland = Geodetic::Coordinate::LLA.new(lat: 45.5152, lng: -122.6784, alt: 0.0)
 
     bearing = seattle.bearing_to(portland)
     assert_instance_of Bearing, bearing
@@ -182,35 +182,35 @@ class BearingTest < Minitest::Test
   end
 
   def test_bearing_between_class_method
-    seattle  = GCS::LLA.new(lat: 47.6205, lng: -122.3493, alt: 0.0)
-    portland = GCS::LLA.new(lat: 45.5152, lng: -122.6784, alt: 0.0)
+    seattle  = Geodetic::Coordinate::LLA.new(lat: 47.6205, lng: -122.3493, alt: 0.0)
+    portland = Geodetic::Coordinate::LLA.new(lat: 45.5152, lng: -122.6784, alt: 0.0)
 
-    bearing = GCS.bearing_between(seattle, portland)
+    bearing = Geodetic::Coordinate.bearing_between(seattle, portland)
     assert_instance_of Bearing, bearing
   end
 
   def test_bearing_between_chain
-    seattle  = GCS::LLA.new(lat: 47.6205, lng: -122.3493, alt: 0.0)
-    portland = GCS::LLA.new(lat: 45.5152, lng: -122.6784, alt: 0.0)
-    sf       = GCS::LLA.new(lat: 37.7749, lng: -122.4194, alt: 0.0)
+    seattle  = Geodetic::Coordinate::LLA.new(lat: 47.6205, lng: -122.3493, alt: 0.0)
+    portland = Geodetic::Coordinate::LLA.new(lat: 45.5152, lng: -122.6784, alt: 0.0)
+    sf       = Geodetic::Coordinate::LLA.new(lat: 37.7749, lng: -122.4194, alt: 0.0)
 
-    bearings = GCS.bearing_between(seattle, portland, sf)
+    bearings = Geodetic::Coordinate.bearing_between(seattle, portland, sf)
     assert_instance_of Array, bearings
     assert_equal 2, bearings.length
     bearings.each { |b| assert_instance_of Bearing, b }
   end
 
   def test_cross_system_bearing
-    seattle_lla = GCS::LLA.new(lat: 47.6205, lng: -122.3493, alt: 0.0)
-    portland_utm = GCS::LLA.new(lat: 45.5152, lng: -122.6784, alt: 0.0).to_utm
+    seattle_lla = Geodetic::Coordinate::LLA.new(lat: 47.6205, lng: -122.3493, alt: 0.0)
+    portland_utm = Geodetic::Coordinate::LLA.new(lat: 45.5152, lng: -122.6784, alt: 0.0).to_utm
 
     bearing = seattle_lla.bearing_to(portland_utm)
     assert_instance_of Bearing, bearing
   end
 
   def test_elevation_to
-    a = GCS::LLA.new(lat: 47.6205, lng: -122.3493, alt: 0.0)
-    b = GCS::LLA.new(lat: 47.6205, lng: -122.3493, alt: 5000.0)
+    a = Geodetic::Coordinate::LLA.new(lat: 47.6205, lng: -122.3493, alt: 0.0)
+    b = Geodetic::Coordinate::LLA.new(lat: 47.6205, lng: -122.3493, alt: 5000.0)
 
     elev = a.elevation_to(b)
     assert_instance_of Float, elev

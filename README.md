@@ -77,14 +77,29 @@ ned = Coordinates::NED.new(n: 200.0, e: 100.0, d: -50.0)
 
 ### GCS Shorthand
 
-`GCS` is a top-level alias for `Geodetic::Coordinate`, providing a concise way to create and work with coordinates:
+For convenience, you can define a short alias in your application:
 
 ```ruby
 require "geodetic"
 
-# Use GCS as a shorthand for Geodetic::Coordinate
-seattle = GCS::LLA.new(lat: 47.6205, lng: -122.3493, alt: 184.0)
-ecef = GCS::ECEF.new(x: -2304643.57, y: -3638650.07, z: 4688674.43)
+GCS = Geodetic::Coordinate
+
+seattle = Geodetic::Coordinate::LLA.new(lat: 47.6205, lng: -122.3493, alt: 184.0)
+ecef = Geodetic::Coordinate::ECEF.new(x: -2304643.57, y: -3638650.07, z: 4688674.43)
+```
+
+### Discovering Coordinate Systems
+
+List all available coordinate systems at runtime:
+
+```ruby
+Geodetic::Coordinate.systems
+# => [Geodetic::Coordinate::LLA, Geodetic::Coordinate::ECEF, Geodetic::Coordinate::UTM, ...]
+
+# Get short names
+Geodetic::Coordinate.systems.map { |c| c.name.split('::').last }
+# => ["LLA", "ECEF", "UTM", "ENU", "NED", "MGRS", "USNG", "WebMercator",
+#     "UPS", "StatePlane", "BNG", "GH36", "GH", "HAM", "OLC", "GEOREF", "GARS", "H3"]
 ```
 
 ### Coordinate Conversions
@@ -185,9 +200,9 @@ Universal distance methods work across all coordinate types and return `Distance
 **Instance method `distance_to`** — Vincenty great-circle distance:
 
 ```ruby
-seattle = GCS::LLA.new(lat: 47.6205, lng: -122.3493, alt: 0.0)
-portland = GCS::LLA.new(lat: 45.5152, lng: -122.6784, alt: 0.0)
-sf = GCS::LLA.new(lat: 37.7749, lng: -122.4194, alt: 0.0)
+seattle = Geodetic::Coordinate::LLA.new(lat: 47.6205, lng: -122.3493, alt: 0.0)
+portland = Geodetic::Coordinate::LLA.new(lat: 45.5152, lng: -122.6784, alt: 0.0)
+sf = Geodetic::Coordinate::LLA.new(lat: 37.7749, lng: -122.4194, alt: 0.0)
 
 d = seattle.distance_to(portland)         # => Distance (meters)
 d.meters                                  # => 235393.17
@@ -201,23 +216,23 @@ seattle.distance_to([portland, sf])       # => [Distance, Distance] (radial)
 **Class method `distance_between`** — consecutive chain distances:
 
 ```ruby
-GCS.distance_between(seattle, portland)        # => Distance
-GCS.distance_between(seattle, portland, sf)    # => [Distance, Distance] (chain)
-GCS.distance_between([seattle, portland, sf])  # => [Distance, Distance] (chain)
+Geodetic::Coordinate.distance_between(seattle, portland)        # => Distance
+Geodetic::Coordinate.distance_between(seattle, portland, sf)    # => [Distance, Distance] (chain)
+Geodetic::Coordinate.distance_between([seattle, portland, sf])  # => [Distance, Distance] (chain)
 ```
 
 **Straight-line (ECEF Euclidean) versions:**
 
 ```ruby
 seattle.straight_line_distance_to(portland)              # => Distance
-GCS.straight_line_distance_between(seattle, portland)    # => Distance
+Geodetic::Coordinate.straight_line_distance_between(seattle, portland)    # => Distance
 ```
 
 **Cross-system distances** — works between any coordinate types:
 
 ```ruby
 utm = seattle.to_utm
-mgrs = GCS::MGRS.from_lla(portland)
+mgrs = Geodetic::Coordinate::MGRS.from_lla(portland)
 utm.distance_to(mgrs)    # => Distance
 ```
 
@@ -230,8 +245,8 @@ Universal bearing methods work across all coordinate types and return `Bearing` 
 **Instance method `bearing_to`** — great-circle forward azimuth:
 
 ```ruby
-seattle = GCS::LLA.new(lat: 47.6205, lng: -122.3493, alt: 0.0)
-portland = GCS::LLA.new(lat: 45.5152, lng: -122.6784, alt: 0.0)
+seattle = Geodetic::Coordinate::LLA.new(lat: 47.6205, lng: -122.3493, alt: 0.0)
+portland = Geodetic::Coordinate::LLA.new(lat: 45.5152, lng: -122.6784, alt: 0.0)
 
 b = seattle.bearing_to(portland)   # => Bearing
 b.degrees                          # => 188.2
@@ -245,8 +260,8 @@ b.to_s                            # => "188.2036°"
 **Instance method `elevation_to`** — vertical look angle:
 
 ```ruby
-a = GCS::LLA.new(lat: 47.62, lng: -122.35, alt: 0.0)
-b = GCS::LLA.new(lat: 47.62, lng: -122.35, alt: 5000.0)
+a = Geodetic::Coordinate::LLA.new(lat: 47.62, lng: -122.35, alt: 0.0)
+b = Geodetic::Coordinate::LLA.new(lat: 47.62, lng: -122.35, alt: 5000.0)
 
 a.elevation_to(b)   # => 89.9... (degrees, nearly straight up)
 ```
@@ -254,15 +269,15 @@ a.elevation_to(b)   # => 89.9... (degrees, nearly straight up)
 **Class method `bearing_between`** — consecutive chain bearings:
 
 ```ruby
-GCS.bearing_between(seattle, portland)        # => Bearing
-GCS.bearing_between(seattle, portland, sf)    # => [Bearing, Bearing] (chain)
+Geodetic::Coordinate.bearing_between(seattle, portland)        # => Bearing
+Geodetic::Coordinate.bearing_between(seattle, portland, sf)    # => [Bearing, Bearing] (chain)
 ```
 
 **Cross-system bearings** — works between any coordinate types:
 
 ```ruby
 utm = seattle.to_utm
-mgrs = GCS::MGRS.from_lla(portland)
+mgrs = Geodetic::Coordinate::MGRS.from_lla(portland)
 utm.bearing_to(mgrs)    # => Bearing
 ```
 

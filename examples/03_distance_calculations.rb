@@ -6,6 +6,7 @@
 
 require_relative "../lib/geodetic"
 
+GCS      = Geodetic::Coordinate
 Distance = Geodetic::Distance
 
 # ── Notable locations ────────────────────────────────────────────

@@ -10,6 +10,10 @@ module Geodetic
     class << self
       attr_reader :registered_classes
 
+      def systems
+        @registered_classes.map(&:first).freeze
+      end
+
       def register_class(klass, hash_conversion_style: nil)
         @registered_classes << [klass, { hash_conversion_style: hash_conversion_style }]
       end
@@ -281,7 +285,3 @@ end
 
 # All classes loaded and registered — finalize conversions and mixins
 Geodetic::Coordinate.finalize!
-
-# Convenience constants
-ALL_COORD_CLASSES = Geodetic::Coordinate.registered_classes.map(&:first).freeze
-GCS = Geodetic::Coordinate
