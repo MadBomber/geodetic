@@ -52,7 +52,5 @@ module Geodetic
       alias_method :outside?, :excludes?
     end
 
-    # Backward compatibility alias
-    Rectangle = BoundingBox
   end
 end
