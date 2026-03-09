@@ -15,6 +15,7 @@
 <li><strong>Bearing Calculations</strong> - Forward azimuth, back azimuth, compass directions, elevation angles<br>
 <li><strong>Geoid Height Support</strong> - EGM96, EGM2008, GEOID18, GEOID12B models<br>
 <li><strong>Geographic Areas</strong> - Circle, Polygon, and Rectangle with point-in-area tests<br>
+<li><strong>Features</strong> - Named geometry wrapper with metadata and delegated distance/bearing<br>
 <li><strong>Validated Setters</strong> - Type coercion and range validation on all coordinate attributes<br>
 <li><strong>Serialization</strong> - to_s(precision), to_a, from_string, from_array, DMS format<br>
 <li><strong>Multiple Datums</strong> - WGS84, Clarke 1866, GRS 1980, Airy 1830, and more<br>
@@ -56,6 +57,7 @@ Geodetic supports full bidirectional conversion between all 18 coordinate system
 - **16 geodetic datums** -- WGS84, GRS 1980, Clarke 1866, Airy 1830, Bessel 1841, and more. All conversion methods accept an optional datum parameter, defaulting to WGS84.
 - **Geoid height calculations** -- Convert between ellipsoidal and orthometric heights using models such as EGM96, EGM2008, GEOID18, and GEOID12B.
 - **Geographic areas** -- `Geodetic::Areas::Circle`, `Geodetic::Areas::Polygon`, and `Geodetic::Areas::Rectangle` for point-in-area testing.
+- **Features** -- `Geodetic::Feature` wraps any coordinate or area with a label and metadata hash, delegating `distance_to` and `bearing_to` to the underlying geometry.
 
 ## Design Principles
 

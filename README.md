@@ -19,6 +19,7 @@
 - <strong>Bearing Calculations</strong> - Forward azimuth, back azimuth, compass directions, elevation angles<br>
 - <strong>Geoid Height Support</strong> - EGM96, EGM2008, GEOID18, GEOID12B models<br>
 - <strong>Geographic Areas</strong> - Circle, Polygon, and Rectangle with point-in-area tests<br>
+- <strong>Features</strong> - Named geometry wrapper with metadata and delegated distance/bearing<br>
 - <strong>Validated Setters</strong> - Type coercion and range validation on all coordinate attributes<br>
 - <strong>Serialization</strong> - to_s(precision), to_a, from_string, from_array, DMS format<br>
 - <strong>Multiple Datums</strong> - WGS84, Clarke 1866, GRS 1980, Airy 1830, and more<br>
@@ -540,6 +541,36 @@ rect.sw             # => computed SW corner
 rect.includes?(point)  # => true/false
 ```
 
+### Features
+
+`Feature` wraps a geometry (any coordinate or area) with a label and a metadata hash. It delegates `distance_to` and `bearing_to` to its geometry, using the centroid for area geometries.
+
+```ruby
+liberty = Feature.new(
+  label:    "Statue of Liberty",
+  geometry: Coordinates::LLA.new(lat: 40.6892, lng: -74.0445, alt: 0),
+  metadata: { category: "monument", year: 1886 }
+)
+
+empire = Feature.new(
+  label:    "Empire State Building",
+  geometry: Coordinates::LLA.new(lat: 40.7484, lng: -73.9857, alt: 0),
+  metadata: { category: "building", floors: 102 }
+)
+
+liberty.distance_to(empire).to_km   # => "8.24 km"
+liberty.bearing_to(empire).degrees  # => 36.99
+
+# Area geometries use the centroid for distance/bearing
+park = Feature.new(
+  label:    "Central Park",
+  geometry: Areas::Polygon.new(boundary: [...])
+)
+park.distance_to(liberty).to_km     # => "12.47 km"
+```
+
+All three attributes (`label`, `geometry`, `metadata`) are mutable.
+
 ### Web Mercator Tile Coordinates
 
 ```ruby
@@ -568,6 +599,7 @@ The [`examples/`](examples/) directory contains runnable demo scripts showing pr
 | [`02_all_coordinate_systems.rb`](examples/02_all_coordinate_systems.rb) | All 18 coordinate systems, cross-system chains, and areas |
 | [`03_distance_calculations.rb`](examples/03_distance_calculations.rb) | Distance class features, unit conversions, and arithmetic |
 | [`04_bearing_calculations.rb`](examples/04_bearing_calculations.rb) | Bearing class, compass directions, elevation angles, and chain bearings |
+| [`05_map_rendering/`](examples/05_map_rendering/) | Render landmarks on a raster map with Feature objects, polygon areas, bearing arrows, and icons using [libgd-gis](https://rubygems.org/gems/libgd-gis) |
 
 Run any example with:
 
