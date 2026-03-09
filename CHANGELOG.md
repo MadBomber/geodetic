@@ -11,6 +11,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 
+## [0.3.1] - 2026-03-09
+
+### Added
+
+- **`Geodetic::Feature` class** — wraps any coordinate or area geometry with a `label` and `metadata` hash; delegates `distance_to` and `bearing_to` to the underlying geometry, using the centroid for area geometries
+- **Map rendering example** (`examples/05_map_rendering/`) — renders NYC landmarks on a raster map using [libgd-gis](https://rubygems.org/gems/libgd-gis), demonstrating Feature objects, polygon overlays, bearing arrows, icon compositing, and light/dark theme support
+- `examples/README.md` describing all five example scripts
+- Documentation: `docs/reference/feature.md` (Feature reference) and `docs/reference/map-rendering.md` (libgd-gis integration guide)
+
+### Changed
+
+- Updated README, `docs/index.md`, and mkdocs nav to include Feature class and map rendering example
+
 ## [0.3.0] - 2026-03-08
 
 ### Added
