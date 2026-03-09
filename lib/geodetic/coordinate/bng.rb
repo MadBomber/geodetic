@@ -35,6 +35,13 @@ module Geodetic
         ['HL', 'HM', 'HN', 'HO', 'HP', 'JL', 'JM']
       ]
 
+      # Reverse lookup: grid square letters → [x, y] coordinates
+      GRID_SQUARE_LOOKUP = GRID_SQUARES.each_with_index.each_with_object({}) do |(row, y), hash|
+        row.each_with_index do |square, x|
+          hash[square] = [x, 12 - y]
+        end
+      end.freeze
+
       # OSGB36 datum (approximation - use Airy 1830 ellipsoid)
       OSGB36 = Struct.new(:name, :a, :b, :f, :e, :e2).new(
         'OSGB36',
@@ -252,22 +259,9 @@ module Geodetic
           east_digits = $2
           north_digits = $3
 
-          # Find grid square
-          grid_x = nil
-          grid_y = nil
-
-          GRID_SQUARES.each_with_index do |row, y|
-            row.each_with_index do |square, x|
-              if square == letters
-                grid_x = x
-                grid_y = 12 - y
-                break
-              end
-            end
-            break if grid_x
-          end
-
-          raise ArgumentError, "Invalid grid square: #{letters}" unless grid_x
+          grid_coords = GRID_SQUARE_LOOKUP[letters]
+          raise ArgumentError, "Invalid grid square: #{letters}" unless grid_coords
+          grid_x, grid_y = grid_coords
 
           # Calculate coordinates
           precision = east_digits.length
@@ -279,22 +273,9 @@ module Geodetic
         elsif grid_ref.match(/^([A-Z]{2})$/)
           letters = $1
 
-          # Grid square only - use center point
-          grid_x = nil
-          grid_y = nil
-
-          GRID_SQUARES.each_with_index do |row, y|
-            row.each_with_index do |square, x|
-              if square == letters
-                grid_x = x
-                grid_y = 12 - y
-                break
-              end
-            end
-            break if grid_x
-          end
-
-          raise ArgumentError, "Invalid grid square: #{letters}" unless grid_x
+          grid_coords = GRID_SQUARE_LOOKUP[letters]
+          raise ArgumentError, "Invalid grid square: #{letters}" unless grid_coords
+          grid_x, grid_y = grid_coords
 
           @easting = grid_x * 100000 + 50000  # Center of square
           @northing = grid_y * 100000 + 50000  # Center of square
