@@ -52,6 +52,7 @@ module Geodetic
             class_name: klass.name.split('::').last,
             default_precision: default_precision
           }
+          Coordinate.register_class(klass)
         end
 
         # Called once after all spatial hash subclasses are loaded.

@@ -220,7 +220,6 @@ module Geodetic
       end
 
       register_hash_system(:ham, self, default_precision: 6)
-      Coordinate.register_class(self)
     end
   end
 end

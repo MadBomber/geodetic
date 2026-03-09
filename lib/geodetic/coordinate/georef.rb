@@ -198,7 +198,6 @@ module Geodetic
       end
 
       register_hash_system(:georef, self, default_precision: 8)
-      Coordinate.register_class(self)
     end
   end
 end

@@ -154,7 +154,6 @@ module Geodetic
       alias_method :validate_code!, :validate_geohash!
 
       register_hash_system(:gh, self, default_precision: 12)
-      Coordinate.register_class(self)
     end
   end
 end

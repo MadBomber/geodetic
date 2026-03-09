@@ -227,7 +227,6 @@ module Geodetic
       end
 
       register_hash_system(:gars, self, default_precision: 7)
-      Coordinate.register_class(self)
     end
   end
 end

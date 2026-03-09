@@ -243,7 +243,6 @@ module Geodetic
       alias_method :validate_code!, :validate_geohash!
 
       register_hash_system(:gh36, self, default_precision: 10)
-      Coordinate.register_class(self)
     end
   end
 end

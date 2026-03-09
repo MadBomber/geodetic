@@ -407,7 +407,6 @@ module Geodetic
       alias_method :validate_code!, :validate_h3!
 
       register_hash_system(:h3, self, default_precision: 7)
-      Coordinate.register_class(self)
     end
   end
 end

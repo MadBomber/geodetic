@@ -267,7 +267,6 @@ module Geodetic
       end
 
       register_hash_system(:olc, self, default_precision: 10)
-      Coordinate.register_class(self)
     end
   end
 end
