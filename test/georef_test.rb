@@ -296,7 +296,7 @@ class GEOREFTest < Minitest::Test
   def test_to_area
     g = Coordinate::GEOREF.new("GJPJ3417")
     area = g.to_area
-    assert_instance_of Geodetic::Areas::Rectangle, area
+    assert_instance_of Geodetic::Areas::BoundingBox, area
   end
 
   # --- precision_in_meters ---

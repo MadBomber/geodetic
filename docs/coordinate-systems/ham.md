@@ -150,11 +150,11 @@ Neighbors preserve the same precision as the original locator. Latitude is clamp
 
 ## Area
 
-The `to_area` method returns the grid square as a `Geodetic::Areas::Rectangle`.
+The `to_area` method returns the grid square as a `Geodetic::Areas::BoundingBox`.
 
 ```ruby
 area = coord.to_area
-# => Geodetic::Areas::Rectangle
+# => Geodetic::Areas::BoundingBox
 
 area.includes?(coord.to_lla)    # => true (midpoint is inside the cell)
 area.nw                         # => LLA (northwest corner)

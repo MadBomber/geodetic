@@ -14,7 +14,7 @@ Feature.new(
 )
 ```
 
-The `geometry` parameter accepts any coordinate class, any area class (`Circle`, `Polygon`, `Rectangle`), or a `Path`. The `metadata` hash is optional and defaults to `{}`.
+The `geometry` parameter accepts any coordinate class, any area class (`Circle`, `Polygon`, `BoundingBox`), or a `Path`. The `metadata` hash is optional and defaults to `{}`.
 
 ---
 
@@ -35,7 +35,7 @@ All three attributes have both reader and writer methods.
 A Feature's geometry can be any of:
 
 - **Coordinate** — any of the 18 coordinate classes (`LLA`, `ECEF`, `UTM`, etc.)
-- **Area** — `Areas::Circle`, `Areas::Polygon`, or `Areas::Rectangle`
+- **Area** — `Areas::Circle`, `Areas::Polygon`, or `Areas::BoundingBox`
 - **Path** — a `Geodetic::Path` representing a route or trail
 
 When the geometry is an area, `distance_to` and `bearing_to` use the area's `centroid` as the reference point. When the geometry is a Path, `distance_to` and `bearing_to` use geometric projection to find the closest approach point on the path.

@@ -328,7 +328,7 @@ class GHTest < Minitest::Test
   def test_to_area_returns_rectangle
     coord = GH.new("dr5ru7")
     area = coord.to_area
-    assert_instance_of Geodetic::Areas::Rectangle, area
+    assert_instance_of Geodetic::Areas::BoundingBox, area
   end
 
   def test_to_area_contains_midpoint

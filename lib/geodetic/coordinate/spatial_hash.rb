@@ -309,12 +309,12 @@ module Geodetic
         end
       end
 
-      # Returns the cell as an Areas::Rectangle
+      # Returns the cell as an Areas::BoundingBox
       def to_area
         bb = decode_bounds(code_value)
         nw = LLA.new(lat: bb[:max_lat], lng: bb[:min_lng], alt: 0.0)
         se = LLA.new(lat: bb[:min_lat], lng: bb[:max_lng], alt: 0.0)
-        Areas::Rectangle.new(nw: nw, se: se)
+        Areas::BoundingBox.new(nw: nw, se: se)
       end
 
       # Returns precision in meters as {lat:, lng:}

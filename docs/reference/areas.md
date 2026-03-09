@@ -1,6 +1,8 @@
 # Areas Reference
 
-The `Geodetic::Areas` module provides three geometric area classes for point-in-area testing: `Circle`, `Polygon`, and `Rectangle`. All operate on `Geodetic::Coordinate::LLA` points.
+The `Geodetic::Areas` module provides three geometric area classes for point-in-area testing: `Circle`, `Polygon`, and `BoundingBox`. All operate on `Geodetic::Coordinate::LLA` points.
+
+> **Note:** `Areas::Rectangle` is a backward-compatible alias for `Areas::BoundingBox`. Both names work identically.
 
 ---
 
@@ -116,9 +118,11 @@ polygon.excludes?(point)  # => true or false
 
 ---
 
-## Geodetic::Areas::Rectangle
+## Geodetic::Areas::BoundingBox
 
-Defines an axis-aligned rectangle by its northwest and southeast corners.
+Defines an axis-aligned bounding box by its northwest and southeast corners. Edges are always oriented East-West and North-South.
+
+> `Areas::Rectangle` is a backward-compatible alias for `Areas::BoundingBox`.
 
 ### Constructor
 
@@ -126,7 +130,7 @@ Defines an axis-aligned rectangle by its northwest and southeast corners.
 nw = Geodetic::Coordinate::LLA.new(lat: 41.0, lng: -75.0)
 se = Geodetic::Coordinate::LLA.new(lat: 40.0, lng: -74.0)
 
-rectangle = Geodetic::Areas::Rectangle.new(nw: nw, se: se)
+bbox = Geodetic::Areas::BoundingBox.new(nw: nw, se: se)
 ```
 
 The constructor accepts any coordinate type that responds to `to_lla` -- coordinates are automatically converted to LLA.
@@ -134,7 +138,7 @@ The constructor accepts any coordinate type that responds to `to_lla` -- coordin
 ```ruby
 nw_wm = Geodetic::Coordinate::WebMercator.from_lla(nw)
 se_wm = Geodetic::Coordinate::WebMercator.from_lla(se)
-rectangle = Geodetic::Areas::Rectangle.new(nw: nw_wm, se: se_wm)
+bbox = Geodetic::Areas::BoundingBox.new(nw: nw_wm, se: se_wm)
 ```
 
 Raises `ArgumentError` if the NW corner has a lower latitude than the SE corner, or if the NW corner has a higher longitude than the SE corner.
@@ -152,27 +156,27 @@ All attributes are read-only.
 ### Computed Corners
 
 ```ruby
-rectangle.ne    # => LLA (nw.lat, se.lng)
-rectangle.sw    # => LLA (se.lat, nw.lng)
+bbox.ne    # => LLA (nw.lat, se.lng)
+bbox.sw    # => LLA (se.lat, nw.lng)
 ```
 
 ### Methods
 
 #### `includes?(a_point)` / `include?(a_point)` / `inside?(a_point)`
 
-Returns `true` if the given point falls within (or on the boundary of) the rectangle. Accepts any coordinate type that responds to `to_lla`.
+Returns `true` if the given point falls within (or on the boundary of) the bounding box. Accepts any coordinate type that responds to `to_lla`.
 
 ```ruby
 point = Geodetic::Coordinate::LLA.new(lat: 40.5, lng: -74.5)
-rectangle.includes?(point)  # => true
+bbox.includes?(point)  # => true
 ```
 
 #### `excludes?(a_point)` / `exclude?(a_point)` / `outside?(a_point)`
 
-Returns `true` if the given point falls outside the rectangle.
+Returns `true` if the given point falls outside the bounding box.
 
 ```ruby
-rectangle.excludes?(point)  # => true or false
+bbox.excludes?(point)  # => true or false
 ```
 
 ### Alias Summary
@@ -182,14 +186,14 @@ rectangle.excludes?(point)  # => true or false
 | `includes?` | `include?`, `inside?` |
 | `excludes?` | `exclude?`, `outside?` |
 
-### Integration with GH36
+### Integration with Spatial Hashes
 
-`Geodetic::Coordinate::GH36#to_area` returns a `Rectangle` representing the geohash cell's bounding box:
+Spatial hash coordinate systems (`GH`, `GH36`, `HAM`, `OLC`, `GEOREF`, `GARS`) return a `BoundingBox` from `to_area`:
 
 ```ruby
 gh36 = Geodetic::Coordinate::GH36.new("bdrdC26BqH")
 area = gh36.to_area
-# => Geodetic::Areas::Rectangle
+# => Geodetic::Areas::BoundingBox
 
 area.includes?(gh36.to_lla)  # => true (midpoint is inside the cell)
 ```

@@ -11,7 +11,7 @@
 #
 # Key differences from other spatial hashes:
 #   - Cells are hexagons (6 vertices), not rectangles
-#   - to_area returns Areas::Polygon, not Areas::Rectangle
+#   - to_area returns Areas::Polygon, not Areas::BoundingBox
 #   - neighbors returns an Array (6 cells), not a directional Hash
 #   - "precision" maps to H3 resolution (0-15), not string length
 #

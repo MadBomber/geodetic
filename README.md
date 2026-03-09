@@ -18,7 +18,7 @@
 - <strong>Distance Calculations</strong> - Vincenty great-circle and straight-line with unit tracking<br>
 - <strong>Bearing Calculations</strong> - Forward azimuth, back azimuth, compass directions, elevation angles<br>
 - <strong>Geoid Height Support</strong> - EGM96, EGM2008, GEOID18, GEOID12B models<br>
-- <strong>Geographic Areas</strong> - Circle, Polygon, and Rectangle with point-in-area tests<br>
+- <strong>Geographic Areas</strong> - Circle, Polygon, and BoundingBox with point-in-area tests<br>
 - <strong>Paths</strong> - Directed coordinate sequences with navigation, interpolation, closest approach, intersection, and area conversion<br>
 - <strong>Features</strong> - Named geometry wrapper with metadata and delegated distance/bearing<br>
 - <strong>Validated Setters</strong> - Type coercion and range validation on all coordinate attributes<br>
@@ -426,7 +426,7 @@ lla = gh36.to_lla
 gh36.neighbors  # => { N: GH36, S: GH36, E: GH36, W: GH36, NE: ..., NW: ..., SE: ..., SW: ... }
 
 # Bounding rectangle of the geohash cell
-area = gh36.to_area    # => Areas::Rectangle
+area = gh36.to_area    # => Areas::BoundingBox
 area.includes?(gh36.to_lla)  # => true
 
 # Precision info
@@ -453,7 +453,7 @@ lla = gh.to_lla
 gh.neighbors  # => { N: GH, S: GH, E: GH, W: GH, NE: ..., NW: ..., SE: ..., SW: ... }
 
 # Bounding rectangle of the geohash cell
-area = gh.to_area    # => Areas::Rectangle
+area = gh.to_area    # => Areas::BoundingBox
 area.includes?(gh.to_lla)  # => true
 
 # Precision info
@@ -480,7 +480,7 @@ lla = ham.to_lla
 ham.neighbors  # => { N: HAM, S: HAM, E: HAM, W: HAM, NE: ..., NW: ..., SE: ..., SW: ... }
 
 # Bounding rectangle of the grid square
-area = ham.to_area    # => Areas::Rectangle
+area = ham.to_area    # => Areas::BoundingBox
 area.includes?(ham.to_lla)  # => true
 
 # Precision info
@@ -507,7 +507,7 @@ lla = olc.to_lla
 olc.neighbors  # => { N: OLC, S: OLC, E: OLC, W: OLC, NE: ..., NW: ..., SE: ..., SW: ... }
 
 # Bounding rectangle of the plus code cell
-area = olc.to_area    # => Areas::Rectangle
+area = olc.to_area    # => Areas::BoundingBox
 area.includes?(olc.to_lla)  # => true
 
 # Precision info
@@ -532,10 +532,10 @@ points = [
 polygon = Areas::Polygon.new(boundary: points)
 polygon.centroid    # => computed centroid as LLA
 
-# Rectangle area (accepts any coordinate type)
+# BoundingBox area (accepts any coordinate type)
 nw = Coordinates::LLA.new(lat: 41.0, lng: -75.0)
 se = Coordinates::LLA.new(lat: 40.0, lng: -74.0)
-rect = Areas::Rectangle.new(nw: nw, se: se)
+rect = Areas::BoundingBox.new(nw: nw, se: se)
 rect.centroid       # => LLA at center
 rect.ne             # => computed NE corner
 rect.sw             # => computed SW corner
@@ -572,7 +572,7 @@ route.closest_points_to(other_path)  # path-to-path
 sub = route.between(a, b)        # extract subpath
 left, right = route.split_at(c)  # split at waypoint
 route.at_distance(Distance.km(2)) # interpolate along path
-route.bounds                     # => Areas::Rectangle
+route.bounds                     # => Areas::BoundingBox
 route.to_polygon                 # close into polygon
 route.intersects?(other_path)    # crossing detection
 route.contains?(point)           # on-segment check

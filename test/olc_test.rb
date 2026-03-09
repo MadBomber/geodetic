@@ -325,7 +325,7 @@ class OLCTest < Minitest::Test
   def test_to_area_returns_rectangle
     olc = OLC.new(LLA.new(lat: 40.0, lng: -74.0))
     area = olc.to_area
-    assert_instance_of Areas::Rectangle, area
+    assert_instance_of Areas::BoundingBox, area
   end
 
   def test_to_area_contains_midpoint

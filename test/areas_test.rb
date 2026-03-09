@@ -3,7 +3,7 @@
 require "test_helper"
 require_relative "../lib/geodetic/areas/circle"
 require_relative "../lib/geodetic/areas/polygon"
-require_relative "../lib/geodetic/areas/rectangle"
+require_relative "../lib/geodetic/areas/bounding_box"
 require_relative "../lib/geodetic/coordinate/lla"
 
 class CircleAreaTest < Minitest::Test
@@ -205,29 +205,29 @@ class PolygonAreaTest < Minitest::Test
   end
 end
 
-class RectangleAreaTest < Minitest::Test
-  Rectangle = Geodetic::Areas::Rectangle
-  LLA       = Geodetic::Coordinate::LLA
+class BoundingBoxAreaTest < Minitest::Test
+  BoundingBox = Geodetic::Areas::BoundingBox
+  LLA         = Geodetic::Coordinate::LLA
 
   # -- Constructor ----------------------------------------------------------
 
   def test_constructor
     nw = LLA.new(lat: 41.0, lng: -75.0)
     se = LLA.new(lat: 40.0, lng: -74.0)
-    rect = Rectangle.new(nw: nw, se: se)
-    assert_instance_of Rectangle, rect
+    rect = BoundingBox.new(nw: nw, se: se)
+    assert_instance_of BoundingBox, rect
   end
 
   def test_raises_when_nw_lat_below_se_lat
     nw = LLA.new(lat: 39.0, lng: -75.0)
     se = LLA.new(lat: 40.0, lng: -74.0)
-    assert_raises(ArgumentError) { Rectangle.new(nw: nw, se: se) }
+    assert_raises(ArgumentError) { BoundingBox.new(nw: nw, se: se) }
   end
 
   def test_raises_when_nw_lng_above_se_lng
     nw = LLA.new(lat: 41.0, lng: -73.0)
     se = LLA.new(lat: 40.0, lng: -74.0)
-    assert_raises(ArgumentError) { Rectangle.new(nw: nw, se: se) }
+    assert_raises(ArgumentError) { BoundingBox.new(nw: nw, se: se) }
   end
 
   def test_constructor_converts_non_lla_coordinates
@@ -235,8 +235,8 @@ class RectangleAreaTest < Minitest::Test
     se_lla = LLA.new(lat: 40.0, lng: -74.0)
     nw_wm = Geodetic::Coordinate::WebMercator.from_lla(nw_lla)
     se_wm = Geodetic::Coordinate::WebMercator.from_lla(se_lla)
-    rect = Rectangle.new(nw: nw_wm, se: se_wm)
-    assert_instance_of Rectangle, rect
+    rect = BoundingBox.new(nw: nw_wm, se: se_wm)
+    assert_instance_of BoundingBox, rect
     assert_instance_of LLA, rect.nw
     assert_in_delta 41.0, rect.nw.lat, 0.01
     assert_in_delta(-74.0, rect.se.lng, 0.01)
@@ -247,7 +247,7 @@ class RectangleAreaTest < Minitest::Test
   def test_nw_accessor
     nw = LLA.new(lat: 41.0, lng: -75.0)
     se = LLA.new(lat: 40.0, lng: -74.0)
-    rect = Rectangle.new(nw: nw, se: se)
+    rect = BoundingBox.new(nw: nw, se: se)
     assert_in_delta 41.0, rect.nw.lat, 1e-6
     assert_in_delta(-75.0, rect.nw.lng, 1e-6)
   end
@@ -255,7 +255,7 @@ class RectangleAreaTest < Minitest::Test
   def test_se_accessor
     nw = LLA.new(lat: 41.0, lng: -75.0)
     se = LLA.new(lat: 40.0, lng: -74.0)
-    rect = Rectangle.new(nw: nw, se: se)
+    rect = BoundingBox.new(nw: nw, se: se)
     assert_in_delta 40.0, rect.se.lat, 1e-6
     assert_in_delta(-74.0, rect.se.lng, 1e-6)
   end
@@ -263,7 +263,7 @@ class RectangleAreaTest < Minitest::Test
   def test_ne_corner
     nw = LLA.new(lat: 41.0, lng: -75.0)
     se = LLA.new(lat: 40.0, lng: -74.0)
-    rect = Rectangle.new(nw: nw, se: se)
+    rect = BoundingBox.new(nw: nw, se: se)
     assert_in_delta 41.0, rect.ne.lat, 1e-6
     assert_in_delta(-74.0, rect.ne.lng, 1e-6)
   end
@@ -271,7 +271,7 @@ class RectangleAreaTest < Minitest::Test
   def test_sw_corner
     nw = LLA.new(lat: 41.0, lng: -75.0)
     se = LLA.new(lat: 40.0, lng: -74.0)
-    rect = Rectangle.new(nw: nw, se: se)
+    rect = BoundingBox.new(nw: nw, se: se)
     assert_in_delta 40.0, rect.sw.lat, 1e-6
     assert_in_delta(-75.0, rect.sw.lng, 1e-6)
   end
@@ -281,7 +281,7 @@ class RectangleAreaTest < Minitest::Test
   def test_centroid
     nw = LLA.new(lat: 41.0, lng: -75.0)
     se = LLA.new(lat: 40.0, lng: -74.0)
-    rect = Rectangle.new(nw: nw, se: se)
+    rect = BoundingBox.new(nw: nw, se: se)
     assert_in_delta 40.5, rect.centroid.lat, 1e-6
     assert_in_delta(-74.5, rect.centroid.lng, 1e-6)
   end
@@ -291,14 +291,14 @@ class RectangleAreaTest < Minitest::Test
   def test_includes_center_point
     nw = LLA.new(lat: 41.0, lng: -75.0)
     se = LLA.new(lat: 40.0, lng: -74.0)
-    rect = Rectangle.new(nw: nw, se: se)
+    rect = BoundingBox.new(nw: nw, se: se)
     assert rect.includes?(LLA.new(lat: 40.5, lng: -74.5))
   end
 
   def test_includes_corner_points
     nw = LLA.new(lat: 41.0, lng: -75.0)
     se = LLA.new(lat: 40.0, lng: -74.0)
-    rect = Rectangle.new(nw: nw, se: se)
+    rect = BoundingBox.new(nw: nw, se: se)
     assert rect.includes?(nw)
     assert rect.includes?(se)
   end
@@ -306,14 +306,14 @@ class RectangleAreaTest < Minitest::Test
   def test_excludes_point_outside
     nw = LLA.new(lat: 41.0, lng: -75.0)
     se = LLA.new(lat: 40.0, lng: -74.0)
-    rect = Rectangle.new(nw: nw, se: se)
+    rect = BoundingBox.new(nw: nw, se: se)
     assert rect.excludes?(LLA.new(lat: 0.0, lng: 0.0))
   end
 
   def test_includes_any_coordinate_with_to_lla
     nw = LLA.new(lat: 41.0, lng: -75.0)
     se = LLA.new(lat: 40.0, lng: -74.0)
-    rect = Rectangle.new(nw: nw, se: se)
+    rect = BoundingBox.new(nw: nw, se: se)
     wm = Geodetic::Coordinate::WebMercator.from_lla(LLA.new(lat: 40.5, lng: -74.5))
     assert rect.includes?(wm)
   end
@@ -321,7 +321,7 @@ class RectangleAreaTest < Minitest::Test
   def test_inside_and_outside_aliases
     nw = LLA.new(lat: 41.0, lng: -75.0)
     se = LLA.new(lat: 40.0, lng: -74.0)
-    rect = Rectangle.new(nw: nw, se: se)
+    rect = BoundingBox.new(nw: nw, se: se)
     inside = LLA.new(lat: 40.5, lng: -74.5)
     outside = LLA.new(lat: 0.0, lng: 0.0)
     assert rect.inside?(inside)
@@ -331,7 +331,7 @@ class RectangleAreaTest < Minitest::Test
   def test_include_and_exclude_aliases
     nw = LLA.new(lat: 41.0, lng: -75.0)
     se = LLA.new(lat: 40.0, lng: -74.0)
-    rect = Rectangle.new(nw: nw, se: se)
+    rect = BoundingBox.new(nw: nw, se: se)
     inside = LLA.new(lat: 40.5, lng: -74.5)
     outside = LLA.new(lat: 0.0, lng: 0.0)
     assert rect.include?(inside)
@@ -341,21 +341,21 @@ class RectangleAreaTest < Minitest::Test
   def test_excludes_point_north_of_rectangle
     nw = LLA.new(lat: 41.0, lng: -75.0)
     se = LLA.new(lat: 40.0, lng: -74.0)
-    rect = Rectangle.new(nw: nw, se: se)
+    rect = BoundingBox.new(nw: nw, se: se)
     assert rect.excludes?(LLA.new(lat: 42.0, lng: -74.5))
   end
 
   def test_excludes_point_east_of_rectangle
     nw = LLA.new(lat: 41.0, lng: -75.0)
     se = LLA.new(lat: 40.0, lng: -74.0)
-    rect = Rectangle.new(nw: nw, se: se)
+    rect = BoundingBox.new(nw: nw, se: se)
     assert rect.excludes?(LLA.new(lat: 40.5, lng: -73.0))
   end
 
   def test_attributes_are_read_only
     nw = LLA.new(lat: 41.0, lng: -75.0)
     se = LLA.new(lat: 40.0, lng: -74.0)
-    rect = Rectangle.new(nw: nw, se: se)
+    rect = BoundingBox.new(nw: nw, se: se)
     assert_raises(NoMethodError) { rect.nw = nil }
     assert_raises(NoMethodError) { rect.se = nil }
     assert_raises(NoMethodError) { rect.centroid = nil }

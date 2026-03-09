@@ -371,7 +371,7 @@ class GARSTest < Minitest::Test
   def test_to_area
     g = Coordinate::GARS.new("361HN35")
     area = g.to_area
-    assert_instance_of Geodetic::Areas::Rectangle, area
+    assert_instance_of Geodetic::Areas::BoundingBox, area
   end
 
   # --- precision_in_meters ---

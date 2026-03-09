@@ -4,13 +4,13 @@ require_relative '../coordinate/lla'
 
 module Geodetic
   module Areas
-    class Rectangle
+    class BoundingBox
       attr_reader :nw, :se, :centroid
 
-      # Define an axis-aligned rectangle by its NW and SE corners.
+      # Define an axis-aligned bounding box by its NW and SE corners.
       # Accepts any coordinate that responds to to_lla.
       #
-      #   Rectangle.new(
+      #   BoundingBox.new(
       #     nw: LLA.new(lat: 41.0, lng: -75.0),
       #     se: LLA.new(lat: 40.0, lng: -74.0)
       #   )
@@ -51,5 +51,8 @@ module Geodetic
       alias_method :inside?,  :includes?
       alias_method :outside?, :excludes?
     end
+
+    # Backward compatibility alias
+    Rectangle = BoundingBox
   end
 end

@@ -89,7 +89,7 @@ module Geodetic
         bb = self.class.send(:decode_bounds, @geohash)
         nw = LLA.new(lat: bb[:max_lat], lng: bb[:min_lng], alt: 0.0)
         se = LLA.new(lat: bb[:min_lat], lng: bb[:max_lng], alt: 0.0)
-        Areas::Rectangle.new(nw: nw, se: se)
+        Areas::BoundingBox.new(nw: nw, se: se)
       end
 
       # Uses formula-based precision instead of bounds-based

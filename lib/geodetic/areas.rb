@@ -2,4 +2,4 @@
 
 require_relative "areas/circle"
 require_relative "areas/polygon"
-require_relative "areas/rectangle"
+require_relative "areas/bounding_box"

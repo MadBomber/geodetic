@@ -19,11 +19,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - **Navigation**: `first`, `last`, `next`, `prev`, `segments`, `size`, `empty?`
   - **Membership**: `include?`/`includes?` (waypoint check), `contains?`/`inside?` (on-segment check with configurable tolerance)
   - **Spatial**: `nearest_waypoint`, `closest_coordinate_to`, `distance_to`, `bearing_to` using geometric projection onto segments
-  - **Closest points**: `closest_points_to` for Path-to-Path, Path-to-Polygon, Path-to-Rectangle, and Path-to-Circle
+  - **Closest points**: `closest_points_to` for Path-to-Path, Path-to-Polygon, Path-to-BoundingBox, and Path-to-Circle
   - **Computed**: `total_distance`, `segment_distances`, `segment_bearings`, `reverse`
   - **Subpath/split**: `between(from, to)` extracts a subpath; `split_at(coord)` divides into two paths sharing the split point
   - **Interpolation**: `at_distance(distance)` finds the coordinate at a given distance along the path
-  - **Bounding box**: `bounds` returns an `Areas::Rectangle`
+  - **Bounding box**: `bounds` returns an `Areas::BoundingBox`
   - **Polygon conversion**: `to_polygon` closes the path (validates no self-intersection)
   - **Intersection**: `intersects?(other_path)` detects crossing segments
   - **Equality**: `==` compares coordinates in order

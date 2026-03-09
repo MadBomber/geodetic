@@ -253,13 +253,13 @@ def demo_coordinate_systems
   puts "   Lat/Lng error is from MGRS 1-meter grid precision truncation."
   puts
 
-  # ========== Rectangle Area ==========
-  puts "RECTANGLE AREA"
+  # ========== BoundingBox Area ==========
+  puts "BOUNDING BOX AREA"
   puts "-" * 50
 
   nw = LLA.new(lat: 47.65, lng: -122.40)
   se = LLA.new(lat: 47.60, lng: -122.30)
-  rect = Areas::Rectangle.new(nw: nw, se: se)
+  rect = Areas::BoundingBox.new(nw: nw, se: se)
   puts "   NW: (#{rect.nw.lat}, #{rect.nw.lng})"
   puts "   SE: (#{rect.se.lat}, #{rect.se.lng})"
   puts "   NE: (#{rect.ne.lat}, #{rect.ne.lng})"
@@ -268,10 +268,10 @@ def demo_coordinate_systems
   puts "   Space Needle inside? #{rect.includes?(lla_coord)}"
   puts "   London inside? #{rect.includes?(london_lla)}"
 
-  # Rectangle from non-LLA coordinates
+  # BoundingBox from non-LLA coordinates
   nw_wm = WebMerc.from_lla(nw)
   se_wm = WebMerc.from_lla(se)
-  rect_wm = Areas::Rectangle.new(nw: nw_wm, se: se_wm)
+  rect_wm = Areas::BoundingBox.new(nw: nw_wm, se: se_wm)
   puts "   From WebMercator: NW=(#{rect_wm.nw.lat.round(4)}, #{rect_wm.nw.lng.round(4)})"
   puts
 
@@ -292,7 +292,7 @@ def demo_coordinate_systems
   puts "Geohash-36 (GH36)"
   puts "Geoid Height Support"
   puts
-  puts "Areas: Circle, Polygon, Rectangle"
+  puts "Areas: Circle, Polygon, BoundingBox"
   puts
   puts "All coordinate systems support complete bidirectional conversions!"
   puts "Total coordinate systems implemented: 13"

@@ -641,7 +641,7 @@ class PathTest < Minitest::Test
     east = LLA.new(lat: 40.70, lng: -73.98, alt: 0)
     path = Path.new(coordinates: [west, east])
 
-    rect = Geodetic::Areas::Rectangle.new(
+    rect = Geodetic::Areas::BoundingBox.new(
       nw: LLA.new(lat: 40.73, lng: -74.00),
       se: LLA.new(lat: 40.72, lng: -73.99)
     )
@@ -1059,7 +1059,7 @@ class PathTest < Minitest::Test
     path = Path.new(coordinates: [@a, @b, @c, @d, @e])
     rect = path.bounds
 
-    assert_kind_of Geodetic::Areas::Rectangle, rect
+    assert_kind_of Geodetic::Areas::BoundingBox, rect
 
     lats = [@a, @b, @c, @d, @e].map(&:lat)
     lngs = [@a, @b, @c, @d, @e].map(&:lng)

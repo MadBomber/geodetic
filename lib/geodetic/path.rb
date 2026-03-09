@@ -170,7 +170,7 @@ module Geodetic
       lats = @coordinates.map { |c| c.is_a?(Coordinate::LLA) ? c.lat : c.to_lla.lat }
       lngs = @coordinates.map { |c| c.is_a?(Coordinate::LLA) ? c.lng : c.to_lla.lng }
 
-      Areas::Rectangle.new(
+      Areas::BoundingBox.new(
         nw: Coordinate::LLA.new(lat: lats.max, lng: lngs.min, alt: 0),
         se: Coordinate::LLA.new(lat: lats.min, lng: lngs.max, alt: 0)
       )
@@ -426,7 +426,7 @@ module Geodetic
       case area
       when Areas::Polygon
         area.boundary
-      when Areas::Rectangle
+      when Areas::BoundingBox
         [area.nw,
          Coordinate::LLA.new(lat: area.nw.lat, lng: area.se.lng, alt: 0),
          area.se,
@@ -443,7 +443,7 @@ module Geodetic
         resolve_geometry(other.geometry)
       when Path
         other.coordinates
-      when Areas::Polygon, Areas::Rectangle
+      when Areas::Polygon, Areas::BoundingBox
         area_boundary(other)
       when Areas::Circle
         other  # handled specially in distance_to/bearing_to/closest_coordinate_to
@@ -456,7 +456,7 @@ module Geodetic
       case other
       when Feature
         resolve_area(other.geometry)
-      when Areas::Circle, Areas::Polygon, Areas::Rectangle, Path
+      when Areas::Circle, Areas::Polygon, Areas::BoundingBox, Path
         other
       else
         raise ArgumentError, "expected an Area or Path, got #{other.class}"

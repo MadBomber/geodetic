@@ -76,7 +76,7 @@ Demonstrates the `Geodetic::Path` class with a walking route through Manhattan. 
 - **Equality** comparing paths by coordinates and order
 - **Subpath extraction** with `between` and **splitting** with `split_at`
 - **Interpolation** finding coordinates at a given distance along the path with `at_distance`
-- **Bounding box** with `bounds` returning an `Areas::Rectangle`
+- **Bounding box** with `bounds` returning an `Areas::BoundingBox`
 - **Polygon conversion** with `to_polygon` (validates no self-intersection)
 - **Path intersection** detection with `intersects?`
 - **Path-to-Path closest points** finding the nearest pair between two paths

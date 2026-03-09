@@ -266,7 +266,7 @@ class GH36Test < Minitest::Test
   def test_to_area_returns_rectangle
     coord = GH36.new("bdrdC26BqH")
     area = coord.to_area
-    assert_instance_of Geodetic::Areas::Rectangle, area
+    assert_instance_of Geodetic::Areas::BoundingBox, area
   end
 
   def test_to_area_contains_midpoint

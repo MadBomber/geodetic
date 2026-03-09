@@ -94,7 +94,7 @@ The `other` parameter for `distance_to`, `bearing_to`, and `closest_coordinate_t
 }
 ```
 
-Accepts `Areas::Circle`, `Areas::Polygon`, `Areas::Rectangle`, or another `Path`.
+Accepts `Areas::Circle`, `Areas::Polygon`, `Areas::BoundingBox`, or another `Path`.
 
 ---
 
@@ -149,7 +149,7 @@ Returns the last coordinate if the distance exceeds the total path length.
 
 ### `bounds`
 
-Returns an `Areas::Rectangle` representing the axis-aligned bounding box of all waypoints.
+Returns an `Areas::BoundingBox` representing the axis-aligned bounding box of all waypoints.
 
 ```ruby
 bbox = route.bounds
