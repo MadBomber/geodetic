@@ -1407,6 +1407,7 @@
 <li>All constructors use <strong>keyword arguments</strong> for clarity.</li>
 <li>Every coordinate system supports <strong>serialization</strong> via <code>to_s</code> and <code>to_a</code>, and <strong>deserialization</strong> via <code>from_string</code> and <code>from_array</code>.</li>
 <li>Conversions are available as instance methods (<code>to_ecef</code>, <code>to_utm</code>, etc.) and class-level factory methods (<code>from_ecef</code>, <code>from_utm</code>, etc.).</li>
+<li>All registered coordinate systems are discoverable at runtime via <code>Geodetic::Coordinate.systems</code>.</li>
 </ul>
 <h2 id="quick-example">Quick Example<a class="headerlink" href="#quick-example" title="Permanent link">&para;</a></h2>
 <div class="language-ruby highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nb">require</span><span class="w"> </span><span class="s2">&quot;geodetic&quot;</span>
