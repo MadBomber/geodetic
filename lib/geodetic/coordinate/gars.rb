@@ -76,11 +76,11 @@ module Geodetic
         VALID_LENGTHS.include?(@code.length) && valid_characters?(@code)
       end
 
+      protected
+
       def code_value
         @code
       end
-
-      protected
 
       def normalize(string)
         result = String.new(capacity: string.length)

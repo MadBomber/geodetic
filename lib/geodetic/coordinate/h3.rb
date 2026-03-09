@@ -358,11 +358,11 @@ module Geodetic
         end
       end
 
+      protected
+
       def code_value
         @code
       end
-
-      protected
 
       def normalize(string)
         string.downcase.delete_prefix('0x')

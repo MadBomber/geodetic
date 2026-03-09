@@ -12,7 +12,7 @@
 #   decode_bounds(code_string)    → { min_lat:, max_lat:, min_lng:, max_lng: }
 #   validate_code!(string)        → raises ArgumentError or nil
 #   set_code(normalized_string)   → sets the internal ivar (@geohash, @code, etc.)
-#   code_value                    → returns the internal ivar
+#   code_value                    → returns the internal ivar (protected)
 #   self.default_precision        → Integer
 #   self.hash_system_name         → Symbol (:gh, :gh36, :ham, :olc)
 #

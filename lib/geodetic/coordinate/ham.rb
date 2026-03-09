@@ -74,11 +74,11 @@ module Geodetic
           valid_characters?(@locator)
       end
 
+      protected
+
       def code_value
         @locator
       end
-
-      protected
 
       def normalize(string)
         result = String.new(capacity: string.length)

@@ -39,12 +39,11 @@ module Geodetic
         @geohash.length > 0 && @geohash.each_char.all? { |c| CHAR_INDEX.key?(c) }
       end
 
-      # Expose code_value for base class equality and other shared methods
+      protected
+
       def code_value
         @geohash
       end
-
-      protected
 
       def normalize(string)
         string.downcase

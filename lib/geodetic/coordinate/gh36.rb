@@ -74,10 +74,6 @@ module Geodetic
         @geohash.length > 0 && @geohash.each_char.all? { |c| VALID_CHARS_SET.include?(c) }
       end
 
-      def code_value
-        @geohash
-      end
-
       # --- GH36-specific overrides (matrix-based algorithms) ---
 
       # Uses recursive matrix-based neighbor calculation instead of bounds-based
@@ -104,6 +100,10 @@ module Geodetic
       end
 
       protected
+
+      def code_value
+        @geohash
+      end
 
       def set_code(value)
         @geohash = value
