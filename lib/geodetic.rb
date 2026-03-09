@@ -7,6 +7,7 @@ require_relative "geodetic/bearing"
 require_relative "geodetic/geoid_height"
 require_relative "geodetic/coordinate"
 require_relative "geodetic/areas"
+require_relative "geodetic/feature"
 
 module Geodetic
   class Error < StandardError; end

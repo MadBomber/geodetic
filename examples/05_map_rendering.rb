@@ -2,6 +2,7 @@
 
 # Demonstration of rendering geodetic coordinates on a map
 # using the libgd-gis gem for native Ruby map generation.
+# Shows how Geodetic::Feature wraps named coordinates and areas.
 #
 # Prerequisites:
 #   gem install libgd-gis
@@ -15,22 +16,37 @@ require "gd/gis"
 
 include Geodetic
 LLA = Coordinate::LLA
-UTM = Coordinate::UTM
 
-# --- 1. Define some points of interest (lat, lng, alt) ---
+# --- 1. Define landmarks as Features ---
 
-landmarks = {
-  "Statue of Liberty"  => LLA.new(lat: 40.6892, lng: -74.0445, alt: 0),
-  "Empire State Bldg"  => LLA.new(lat: 40.7484, lng: -73.9857, alt: 0),
-  "Central Park"       => LLA.new(lat: 40.7829, lng: -73.9654, alt: 0),
-  "Brooklyn Bridge"    => LLA.new(lat: 40.7061, lng: -73.9969, alt: 0),
-  "Times Square"       => LLA.new(lat: 40.7580, lng: -73.9855, alt: 0),
-}
+landmarks = [
+  Feature.new(label: "Statue of Liberty", geometry: LLA.new(lat: 40.6892, lng: -74.0445, alt: 0),
+              metadata: { category: "monument", year: 1886 }),
+  Feature.new(label: "Empire State Bldg",  geometry: LLA.new(lat: 40.7484, lng: -73.9857, alt: 0),
+              metadata: { category: "building", floors: 102 }),
+  Feature.new(label: "Central Park",       geometry: LLA.new(lat: 40.7829, lng: -73.9654, alt: 0),
+              metadata: { category: "park", acres: 843 }),
+  Feature.new(label: "Brooklyn Bridge",    geometry: LLA.new(lat: 40.7061, lng: -73.9969, alt: 0),
+              metadata: { category: "bridge", year: 1883 }),
+  Feature.new(label: "Times Square",       geometry: LLA.new(lat: 40.7580, lng: -73.9855, alt: 0),
+              metadata: { category: "landmark" }),
+]
 
-# --- 2. Compute a bounding box from the coordinates ---
+# An area-based Feature: Central Park as a 500m-radius circle
+central_park_area = Feature.new(
+  label:    "Central Park Area",
+  geometry: Areas::Circle.new(
+    centroid: LLA.new(lat: 40.7829, lng: -73.9654, alt: 0),
+    radius:   500
+  ),
+  metadata: { note: "approximate boundary" }
+)
 
-lats = landmarks.values.map(&:lat)
-lngs = landmarks.values.map(&:lng)
+# --- 2. Compute a bounding box from Feature coordinates ---
+
+points = landmarks.map { |f| f.geometry }
+lats   = points.map(&:lat)
+lngs   = points.map(&:lng)
 padding = 0.02
 
 bbox = [
@@ -50,83 +66,64 @@ map = GD::GIS::Map.new(
   height:  768
 )
 
-# --- Helper: generate a circle polygon in [lng, lat] coords ---
+# Set a default style (required by render, previously set as side effect of add_polygons)
+map.style = GD::GIS::Style.default
 
-def circle_coords(center_lat, center_lng, radius_m, segments = 24)
-  lat1 = center_lat * Math::PI / 180.0
-  lng1 = center_lng * Math::PI / 180.0
-  d    = radius_m / 6_371_000.0
+# --- 6. Show Feature info using delegation ---
 
-  (0...segments).map do |i|
-    brng = (360.0 / segments) * i * Math::PI / 180.0
-    lat2 = Math.asin(Math.sin(lat1) * Math.cos(d) + Math.cos(lat1) * Math.sin(d) * Math.cos(brng))
-    lng2 = lng1 + Math.atan2(Math.sin(brng) * Math.sin(d) * Math.cos(lat1),
-                             Math.cos(d) - Math.sin(lat1) * Math.sin(lat2))
-    [lng2 * 180.0 / Math::PI, lat2 * 180.0 / Math::PI]
-  end
-end
+liberty = landmarks.first
 
-# --- 4. Plot each landmark as a bright filled circle ---
-#
-# Note: add_point requires a label+font to render (and img.text has a
-# compatibility issue with ruby-libgd 0.3.0), so we use add_polygons
-# to draw visible marker circles instead.
-
-marker_polygons = landmarks.values.map do |lla|
-  [circle_coords(lla.lat, lla.lng, 200)]  # 200m radius marker, wrapped in ring array
-end
-
-map.add_polygons(
-  marker_polygons,
-  fill:   [255, 0, 0, 0],
-  stroke: [255, 255, 0, 0],
-  width:  2
-)
-
-# --- 5. Draw a larger circle around Central Park ---
-
-central_park_center = landmarks["Central Park"]
-park_ring = circle_coords(central_park_center.lat, central_park_center.lng, 500, 32)
-
-map.add_polygons(
-  [[park_ring]],
-  fill:   [80, 255, 120, 80],
-  stroke: [100, 255, 150, 255],
-  width:  2
-)
-
-# --- 6. Show coordinate conversions in the console ---
-
-puts "Landmarks and their UTM coordinates:"
+puts "Landmarks relative to #{liberty.label}:"
 puts "-" * 60
 
-landmarks.each do |name, lla|
-  utm = lla.to_utm
+landmarks.each do |feature|
+  utm = feature.geometry.to_utm
 
   puts <<~INFO
-    #{name}
-      LLA: #{lla.to_s(4)}
+    #{feature.label} [#{feature.metadata[:category]}]
+      LLA: #{feature.geometry.to_s(4)}
       UTM: #{utm.to_s(2)}
-      Distance to Statue of Liberty: #{lla.distance_to(landmarks["Statue of Liberty"]).to_km}
-      Bearing to Statue of Liberty:  #{lla.bearing_to(landmarks["Statue of Liberty"])}
+      Distance to #{liberty.label}: #{feature.distance_to(liberty).to_km}
+      Bearing to #{liberty.label}:  #{feature.bearing_to(liberty)}
 
   INFO
 end
 
-# --- 7. Render, add labels, and save ---
+# Distance from an area Feature to a point Feature
+puts "#{central_park_area.label} -> #{liberty.label}: #{central_park_area.distance_to(liberty).to_km}"
+puts
+
+# --- 7. Render, draw markers/areas/labels, and save ---
 
 output_path = File.join(__dir__, "nyc_landmarks.png")
 map.render
 
-# Draw landmark labels directly on the rendered image using the map's
-# internal viewport-adjusted bbox for accurate projection.
-FONT = "/System/Library/Fonts/Supplemental/Arial Bold.ttf"
+img      = map.image
 map_bbox = map.instance_variable_get(:@bbox)
+zoom     = 13
+FONT     = "/System/Library/Fonts/Supplemental/Arial Bold.ttf"
 
-landmarks.each do |name, lla|
-  px, py = GD::GIS::Geometry.project(lla.lng, lla.lat, map_bbox, 13)
-  map.image.text(name, x: px.round + 12, y: py.round + 5,
-                       font: FONT, size: 16, color: [255, 255, 255])
+# Draw Central Park area circle (green outline + semi-transparent fill)
+centroid = central_park_area.geometry.centroid
+cx, cy   = GD::GIS::Geometry.project(centroid.lng, centroid.lat, map_bbox, zoom)
+
+# Convert 500m radius to approximate pixels at this zoom/latitude
+meters_per_pixel = 156543.03 * Math.cos(centroid.lat * Math::PI / 180.0) / (2 ** zoom)
+park_radius_px   = (central_park_area.geometry.radius / meters_per_pixel).round
+
+img.filled_circle(cx.round, cy.round, park_radius_px, [80, 255, 120, 80])
+img.circle(cx.round, cy.round, park_radius_px, [100, 255, 150], thickness: 2)
+
+# Draw landmark markers (red filled circles) and white labels
+landmarks.each do |feature|
+  pt     = feature.geometry
+  px, py = GD::GIS::Geometry.project(pt.lng, pt.lat, map_bbox, zoom)
+  x, y   = px.round, py.round
+
+  img.filled_circle(x, y, 8, [255, 0, 0])
+  img.circle(x, y, 8, [255, 255, 0], thickness: 2)
+  img.text(feature.label, x: x + 12, y: y + 5,
+                          font: FONT, size: 16, color: [255, 255, 255])
 end
 
 map.save(output_path)
