@@ -1325,7 +1325,7 @@
 
 
 <h1 id="coordinate-systems-overview">Coordinate Systems Overview<a class="headerlink" href="#coordinate-systems-overview" title="Permanent link">&para;</a></h1>
-<p>The Geodetic gem supports 15 coordinate systems organized into six categories. All coordinate classes live under <code>Geodetic::Coordinate</code>.</p>
+<p>The Geodetic gem supports 17 coordinate systems organized into six categories. All coordinate classes live under <code>Geodetic::Coordinate</code>.</p>
 <h2 id="global-systems">Global Systems<a class="headerlink" href="#global-systems" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
@@ -1461,6 +1461,16 @@
 <td><code>Geodetic::Coordinate::OLC</code></td>
 <td>Open Location Code (Plus Codes). Google's open system for encoding locations into short codes like <code>849VCWC8+R9</code>. Uses a 20-character alphabet with 5 paired levels of base-20 encoding plus optional grid refinement. Includes a <code>+</code> separator at position 8. Supports neighbor lookup, area extraction, and configurable precision (default 10 characters for ~14 m resolution).</td>
 </tr>
+<tr>
+<td><strong>GEOREF</strong></td>
+<td><code>Geodetic::Coordinate::GEOREF</code></td>
+<td>World Geographic Reference System. A geocode system used in aviation and military applications that encodes positions using letter tiles (15° grid), letter degree subdivisions, and numeric minute pairs. Uses a 24-letter alphabet (A-Z excluding I and O). Supports variable precision from 15° tiles (2 chars) down to 0.01-minute resolution (12 chars). Default precision is 8 characters (1-minute resolution).</td>
+</tr>
+<tr>
+<td><strong>GARS</strong></td>
+<td><code>Geodetic::Coordinate::GARS</code></td>
+<td>Global Area Reference System. An NGA standard that divides the world into 30-minute cells identified by a 3-digit longitude band (001-720) and 2-letter latitude band. Cells are subdivided into 15-minute quadrants (1-4) and 5-minute keypads (1-9, telephone layout). Variable precision: 5 chars (30'), 6 chars (15'), 7 chars (5'). Default precision is 7 characters.</td>
+</tr>
 </tbody>
 </table>
 <h2 id="regional-systems">Regional Systems<a class="headerlink" href="#regional-systems" title="Permanent link">&para;</a></h2>
@@ -1507,12 +1517,16 @@
 <th>GH</th>
 <th>HAM</th>
 <th>OLC</th>
+<th>GEOREF</th>
+<th>GARS</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td><strong>LLA</strong></td>
 <td>--</td>
+<td>Y</td>
+<td>Y</td>
 <td>Y</td>
 <td>Y</td>
 <td>Y</td>
@@ -1545,12 +1559,16 @@
 <td>Y</td>
 <td>Y</td>
 <td>Y</td>
+<td>Y</td>
+<td>Y</td>
 </tr>
 <tr>
 <td><strong>UTM</strong></td>
 <td>Y</td>
 <td>Y</td>
 <td>--</td>
+<td>Y</td>
+<td>Y</td>
 <td>Y</td>
 <td>Y</td>
 <td>Y</td>
@@ -1581,6 +1599,8 @@
 <td>Y</td>
 <td>Y</td>
 <td>Y</td>
+<td>Y</td>
+<td>Y</td>
 </tr>
 <tr>
 <td><strong>NED</strong></td>
@@ -1589,6 +1609,8 @@
 <td>Y</td>
 <td>Y</td>
 <td>--</td>
+<td>Y</td>
+<td>Y</td>
 <td>Y</td>
 <td>Y</td>
 <td>Y</td>
@@ -1617,6 +1639,8 @@
 <td>Y</td>
 <td>Y</td>
 <td>Y</td>
+<td>Y</td>
+<td>Y</td>
 </tr>
 <tr>
 <td><strong>USNG</strong></td>
@@ -1627,6 +1651,8 @@
 <td>Y</td>
 <td>Y</td>
 <td>--</td>
+<td>Y</td>
+<td>Y</td>
 <td>Y</td>
 <td>Y</td>
 <td>Y</td>
@@ -1653,6 +1679,8 @@
 <td>Y</td>
 <td>Y</td>
 <td>Y</td>
+<td>Y</td>
+<td>Y</td>
 </tr>
 <tr>
 <td><strong>UPS</strong></td>
@@ -1665,6 +1693,8 @@
 <td>Y</td>
 <td>Y</td>
 <td>--</td>
+<td>Y</td>
+<td>Y</td>
 <td>Y</td>
 <td>Y</td>
 <td>Y</td>
@@ -1689,6 +1719,8 @@
 <td>Y</td>
 <td>Y</td>
 <td>Y</td>
+<td>Y</td>
+<td>Y</td>
 </tr>
 <tr>
 <td><strong>BNG</strong></td>
@@ -1703,6 +1735,8 @@
 <td>Y</td>
 <td>Y</td>
 <td>--</td>
+<td>Y</td>
+<td>Y</td>
 <td>Y</td>
 <td>Y</td>
 <td>Y</td>
@@ -1725,6 +1759,8 @@
 <td>Y</td>
 <td>Y</td>
 <td>Y</td>
+<td>Y</td>
+<td>Y</td>
 </tr>
 <tr>
 <td><strong>GH</strong></td>
@@ -1741,6 +1777,8 @@
 <td>Y</td>
 <td>Y</td>
 <td>--</td>
+<td>Y</td>
+<td>Y</td>
 <td>Y</td>
 <td>Y</td>
 </tr>
@@ -1761,9 +1799,53 @@
 <td>Y</td>
 <td>--</td>
 <td>Y</td>
+<td>Y</td>
+<td>Y</td>
 </tr>
 <tr>
 <td><strong>OLC</strong></td>
+<td>Y</td>
+<td>Y</td>
+<td>Y</td>
+<td>Y</td>
+<td>Y</td>
+<td>Y</td>
+<td>Y</td>
+<td>Y</td>
+<td>Y</td>
+<td>Y</td>
+<td>Y</td>
+<td>Y</td>
+<td>Y</td>
+<td>Y</td>
+<td>--</td>
+<td>Y</td>
+<td>Y</td>
+</tr>
+<tr>
+<td><strong>GEOREF</strong></td>
+<td>Y</td>
+<td>Y</td>
+<td>Y</td>
+<td>Y</td>
+<td>Y</td>
+<td>Y</td>
+<td>Y</td>
+<td>Y</td>
+<td>Y</td>
+<td>Y</td>
+<td>Y</td>
+<td>Y</td>
+<td>Y</td>
+<td>Y</td>
+<td>Y</td>
+<td>--</td>
+<td>Y</td>
+</tr>
+<tr>
+<td><strong>GARS</strong></td>
+<td>Y</td>
+<td>Y</td>
 <td>Y</td>
 <td>Y</td>
 <td>Y</td>
@@ -1796,7 +1878,7 @@
 <li><strong>ECEF</strong> is the intermediate for local tangent plane systems (ENU, NED), since the rotation from global Cartesian to local frames is straightforward in ECEF.</li>
 <li><strong>ENU and NED</strong> convert between each other directly by reordering axes and inverting the vertical component.</li>
 <li><strong>MGRS and USNG</strong> route through UTM, which in turn routes through LLA.</li>
-<li><strong>WebMercator, UPS, BNG, StatePlane, GH36, GH, HAM, and OLC</strong> all convert through LLA.</li>
+<li><strong>WebMercator, UPS, BNG, StatePlane, GH36, GH, HAM, OLC, GEOREF, and GARS</strong> all convert through LLA.</li>
 </ul>
 <p>For example, converting from BNG to NED follows the chain: <code>BNG -&gt; LLA -&gt; ECEF -&gt; ENU -&gt; NED</code>. The gem handles this automatically when you call a conversion method.</p>
 
