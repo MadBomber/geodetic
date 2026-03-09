@@ -12,13 +12,13 @@
         <meta name="author" content="Dewayne VanHoozer">
       
       
-        <link rel="canonical" href="https://madbomber.github.io/geodetic/reference/feature/">
+        <link rel="canonical" href="https://madbomber.github.io/geodetic/reference/path/">
       
       
-        <link rel="prev" href="../path/">
+        <link rel="prev" href="../areas/">
       
       
-        <link rel="next" href="../serialization/">
+        <link rel="next" href="../feature/">
       
       
         
@@ -29,7 +29,7 @@
     
     
       
-        <title>Feature - Geodetic</title>
+        <title>Path - Geodetic</title>
       
     
     
@@ -80,7 +80,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#feature-reference" class="md-skip">
+        <a href="#path-reference" class="md-skip">
           Skip to content
         </a>
       
@@ -116,7 +116,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Feature
+              Path
             
           </span>
         </div>
@@ -1107,34 +1107,6 @@
                 
   
   
-  
-  
-    <li class="md-nav__item">
-      <a href="../path/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Path
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
     
   
   
@@ -1154,7 +1126,7 @@
   <span class="md-ellipsis">
     
   
-    Feature
+    Path
   
 
     
@@ -1172,7 +1144,7 @@
   <span class="md-ellipsis">
     
   
-    Feature
+    Path
   
 
     
@@ -1222,10 +1194,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#geometry-types" class="md-nav__link">
+  <a href="#navigation" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Geometry Types
+        Navigation
       
     </span>
   </a>
@@ -1233,55 +1205,44 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#methods" class="md-nav__link">
+  <a href="#membership" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Methods
+        Membership
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Methods">
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#equality" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Equality
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#spatial-methods" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Spatial Methods
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Spatial Methods">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#distance_toother" class="md-nav__link">
+  <a href="#closest-points" class="md-nav__link">
     <span class="md-ellipsis">
       
-        distance_to(other)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#bearing_toother" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        bearing_to(other)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#to_s" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        to_s
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#inspect" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        inspect
+        Closest Points
       
     </span>
   </a>
@@ -1294,10 +1255,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#area-geometry-example" class="md-nav__link">
+  <a href="#computed-properties" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Area Geometry Example
+        Computed Properties
       
     </span>
   </a>
@@ -1305,10 +1266,205 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#centroid-resolution" class="md-nav__link">
+  <a href="#subpath-and-split" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Centroid Resolution
+        Subpath and Split
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Subpath and Split">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#betweenfrom-to" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        between(from, to)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#split_atcoordinate" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        split_at(coordinate)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#interpolation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Interpolation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Interpolation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#at_distancedistance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        at_distance(distance)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bounding-box" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bounding Box
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Bounding Box">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#bounds" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        bounds
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#to-polygon" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        To Polygon
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="To Polygon">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#to_polygon" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        to_polygon
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#intersection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Intersection
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Intersection">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#intersectsother_path" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        intersects?(other_path)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#non-mutating-operators" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Non-Mutating Operators
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#mutating-operators" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Mutating Operators
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enumerable" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Enumerable
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#display" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Display
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#feature-integration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Feature Integration
       
     </span>
   </a>
@@ -1319,6 +1475,34 @@
   
 </nav>
       
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../feature/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Feature
+  
+
+    
+  </span>
+  
+  
+
+      </a>
     </li>
   
 
@@ -1466,10 +1650,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#geometry-types" class="md-nav__link">
+  <a href="#navigation" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Geometry Types
+        Navigation
       
     </span>
   </a>
@@ -1477,55 +1661,44 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#methods" class="md-nav__link">
+  <a href="#membership" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Methods
+        Membership
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Methods">
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#equality" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Equality
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#spatial-methods" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Spatial Methods
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Spatial Methods">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#distance_toother" class="md-nav__link">
+  <a href="#closest-points" class="md-nav__link">
     <span class="md-ellipsis">
       
-        distance_to(other)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#bearing_toother" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        bearing_to(other)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#to_s" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        to_s
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#inspect" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        inspect
+        Closest Points
       
     </span>
   </a>
@@ -1538,10 +1711,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#area-geometry-example" class="md-nav__link">
+  <a href="#computed-properties" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Area Geometry Example
+        Computed Properties
       
     </span>
   </a>
@@ -1549,10 +1722,205 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#centroid-resolution" class="md-nav__link">
+  <a href="#subpath-and-split" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Centroid Resolution
+        Subpath and Split
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Subpath and Split">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#betweenfrom-to" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        between(from, to)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#split_atcoordinate" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        split_at(coordinate)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#interpolation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Interpolation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Interpolation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#at_distancedistance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        at_distance(distance)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bounding-box" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bounding Box
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Bounding Box">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#bounds" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        bounds
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#to-polygon" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        To Polygon
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="To Polygon">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#to_polygon" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        to_polygon
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#intersection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Intersection
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Intersection">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#intersectsother_path" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        intersects?(other_path)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#non-mutating-operators" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Non-Mutating Operators
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#mutating-operators" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Mutating Operators
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enumerable" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Enumerable
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#display" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Display
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#feature-integration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Feature Integration
       
     </span>
   </a>
@@ -1585,17 +1953,19 @@
   
 
 
-<h1 id="feature-reference">Feature Reference<a class="headerlink" href="#feature-reference" title="Permanent link">&para;</a></h1>
-<p><code>Geodetic::Feature</code> wraps a geometry with a human-readable label and an arbitrary metadata hash. It provides a single object that ties spatial data to application-level information like names, categories, and display properties.</p>
+<h1 id="path-reference">Path Reference<a class="headerlink" href="#path-reference" title="Permanent link">&para;</a></h1>
+<p><code>Geodetic::Path</code> represents a directed, ordered sequence of unique coordinates. It models routes, trails, boundaries, and any linear geographic feature where the order of waypoints matters.</p>
+<p>A Path has a start (first coordinate) and an end (last coordinate). No duplicate coordinates are allowed — each waypoint appears exactly once, enabling unambiguous navigation with <code>next</code> and <code>prev</code>.</p>
+<p>Path includes Ruby's <code>Enumerable</code> module, so all standard iteration methods (<code>map</code>, <code>select</code>, <code>any?</code>, <code>to_a</code>, etc.) are available.</p>
 <hr />
 <h2 id="constructor">Constructor<a class="headerlink" href="#constructor" title="Permanent link">&para;</a></h2>
-<div class="language-ruby highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="no">Feature</span><span class="o">.</span><span class="n">new</span><span class="p">(</span>
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">  </span><span class="ss">label</span><span class="p">:</span><span class="w">    </span><span class="s2">&quot;Statue of Liberty&quot;</span><span class="p">,</span>
-</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">  </span><span class="ss">geometry</span><span class="p">:</span><span class="w"> </span><span class="no">Geodetic</span><span class="o">::</span><span class="no">Coordinate</span><span class="o">::</span><span class="no">LLA</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">lat</span><span class="p">:</span><span class="w"> </span><span class="mi">40</span><span class="o">.</span><span class="mi">6892</span><span class="p">,</span><span class="w"> </span><span class="ss">lng</span><span class="p">:</span><span class="w"> </span><span class="o">-</span><span class="mi">74</span><span class="o">.</span><span class="mo">0445</span><span class="p">,</span><span class="w"> </span><span class="ss">alt</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">),</span>
-</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">  </span><span class="ss">metadata</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="ss">category</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;monument&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">year</span><span class="p">:</span><span class="w"> </span><span class="mi">1886</span><span class="w"> </span><span class="p">}</span>
-</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="p">)</span>
+<div class="language-ruby highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># Empty path</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="n">path</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">Path</span><span class="o">.</span><span class="n">new</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="c1"># From an array of coordinates</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="n">path</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">Path</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">coordinates</span><span class="p">:</span><span class="w"> </span><span class="o">[</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">,</span><span class="w"> </span><span class="n">c</span><span class="p">,</span><span class="w"> </span><span class="n">d</span><span class="o">]</span><span class="p">)</span>
 </span></code></pre></div>
-<p>The <code>geometry</code> parameter accepts any coordinate class, any area class (<code>Circle</code>, <code>Polygon</code>, <code>Rectangle</code>), or a <code>Path</code>. The <code>metadata</code> hash is optional and defaults to <code>{}</code>.</p>
+<p>Raises <code>ArgumentError</code> if any coordinate appears more than once.</p>
 <hr />
 <h2 id="attributes">Attributes<a class="headerlink" href="#attributes" title="Permanent link">&para;</a></h2>
 <table>
@@ -1603,91 +1973,368 @@
 <tr>
 <th>Attribute</th>
 <th>Type</th>
-<th>Mutable</th>
 <th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><code>label</code></td>
-<td>String</td>
-<td>Yes</td>
-<td>A display name for the feature</td>
-</tr>
-<tr>
-<td><code>geometry</code></td>
-<td>Object</td>
-<td>Yes</td>
-<td>A coordinate or area object</td>
-</tr>
-<tr>
-<td><code>metadata</code></td>
-<td>Hash</td>
-<td>Yes</td>
-<td>Arbitrary key-value pairs</td>
+<td><code>coordinates</code></td>
+<td>Array</td>
+<td>The ordered list of waypoints (read-only)</td>
 </tr>
 </tbody>
 </table>
-<p>All three attributes have both reader and writer methods.</p>
 <hr />
-<h2 id="geometry-types">Geometry Types<a class="headerlink" href="#geometry-types" title="Permanent link">&para;</a></h2>
-<p>A Feature's geometry can be any of:</p>
-<ul>
-<li><strong>Coordinate</strong> — any of the 18 coordinate classes (<code>LLA</code>, <code>ECEF</code>, <code>UTM</code>, etc.)</li>
-<li><strong>Area</strong> — <code>Areas::Circle</code>, <code>Areas::Polygon</code>, or <code>Areas::Rectangle</code></li>
-<li><strong>Path</strong> — a <code>Geodetic::Path</code> representing a route or trail</li>
-</ul>
-<p>When the geometry is an area, <code>distance_to</code> and <code>bearing_to</code> use the area's <code>centroid</code> as the reference point. When the geometry is a Path, <code>distance_to</code> and <code>bearing_to</code> use geometric projection to find the closest approach point on the path.</p>
+<h2 id="navigation">Navigation<a class="headerlink" href="#navigation" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Returns</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>first</code></td>
+<td>Coordinate</td>
+<td>Starting waypoint</td>
+</tr>
+<tr>
+<td><code>last</code></td>
+<td>Coordinate</td>
+<td>Ending waypoint</td>
+</tr>
+<tr>
+<td><code>next(coordinate)</code></td>
+<td>Coordinate</td>
+<td>Waypoint after the given one, or <code>nil</code> at end</td>
+</tr>
+<tr>
+<td><code>prev(coordinate)</code></td>
+<td>Waypoint before the given one, or <code>nil</code> at start</td>
+<td></td>
+</tr>
+<tr>
+<td><code>size</code></td>
+<td>Integer</td>
+<td>Number of waypoints</td>
+</tr>
+<tr>
+<td><code>empty?</code></td>
+<td>Boolean</td>
+<td>True if the path has no waypoints</td>
+</tr>
+<tr>
+<td><code>segments</code></td>
+<td>Array</td>
+<td>Pairs of consecutive coordinates <code>[[a,b], [b,c], ...]</code></td>
+</tr>
+</tbody>
+</table>
 <hr />
-<h2 id="methods">Methods<a class="headerlink" href="#methods" title="Permanent link">&para;</a></h2>
-<h3 id="distance_toother"><code>distance_to(other)</code><a class="headerlink" href="#distance_toother" title="Permanent link">&para;</a></h3>
-<p>Returns a <code>Geodetic::Distance</code> between this feature and another feature, coordinate, or area. When either side is an area geometry, its centroid is used.</p>
-<p>The <code>other</code> parameter can be a <code>Feature</code>, a coordinate, or an area.</p>
-<div class="language-ruby highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="n">liberty</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">Feature</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">label</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Liberty&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">geometry</span><span class="p">:</span><span class="w"> </span><span class="no">LLA</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">lat</span><span class="p">:</span><span class="w"> </span><span class="mi">40</span><span class="o">.</span><span class="mi">6892</span><span class="p">,</span><span class="w"> </span><span class="ss">lng</span><span class="p">:</span><span class="w"> </span><span class="o">-</span><span class="mi">74</span><span class="o">.</span><span class="mo">0445</span><span class="p">,</span><span class="w"> </span><span class="ss">alt</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">))</span>
-</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="n">empire</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="no">Feature</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">label</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Empire&quot;</span><span class="p">,</span><span class="w">  </span><span class="ss">geometry</span><span class="p">:</span><span class="w"> </span><span class="no">LLA</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">lat</span><span class="p">:</span><span class="w"> </span><span class="mi">40</span><span class="o">.</span><span class="mi">7484</span><span class="p">,</span><span class="w"> </span><span class="ss">lng</span><span class="p">:</span><span class="w"> </span><span class="o">-</span><span class="mi">73</span><span class="o">.</span><span class="mi">9857</span><span class="p">,</span><span class="w"> </span><span class="ss">alt</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">))</span>
-</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>
-</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="n">liberty</span><span class="o">.</span><span class="n">distance_to</span><span class="p">(</span><span class="n">empire</span><span class="p">)</span><span class="o">.</span><span class="n">to_km</span><span class="w">   </span><span class="c1"># =&gt; &quot;8.24 km&quot;</span>
-</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>
-</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="c1"># Also works with a raw coordinate</span>
-</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="n">liberty</span><span class="o">.</span><span class="n">distance_to</span><span class="p">(</span><span class="no">LLA</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">lat</span><span class="p">:</span><span class="w"> </span><span class="mi">40</span><span class="o">.</span><span class="mi">7484</span><span class="p">,</span><span class="w"> </span><span class="ss">lng</span><span class="p">:</span><span class="w"> </span><span class="o">-</span><span class="mi">73</span><span class="o">.</span><span class="mi">9857</span><span class="p">,</span><span class="w"> </span><span class="ss">alt</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">))</span>
+<h2 id="membership">Membership<a class="headerlink" href="#membership" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>include?(coord)</code></td>
+<td>True if the coordinate is a waypoint in the path</td>
+</tr>
+<tr>
+<td><code>includes?(coord)</code></td>
+<td>Alias for <code>include?</code></td>
+</tr>
+<tr>
+<td><code>contains?(coord, tolerance: 10.0)</code></td>
+<td>True if the coordinate lies on any segment within tolerance (meters)</td>
+</tr>
+<tr>
+<td><code>inside?(coord, tolerance: 10.0)</code></td>
+<td>Alias for <code>contains?</code></td>
+</tr>
+<tr>
+<td><code>excludes?(coord, tolerance: 10.0)</code></td>
+<td>Opposite of <code>contains?</code></td>
+</tr>
+<tr>
+<td><code>exclude?(coord)</code></td>
+<td>Alias for <code>excludes?</code></td>
+</tr>
+<tr>
+<td><code>outside?(coord)</code></td>
+<td>Alias for <code>excludes?</code></td>
+</tr>
+</tbody>
+</table>
+<p><code>includes?</code> checks waypoints only. <code>contains?</code> checks whether a coordinate lies on the line between any two consecutive waypoints, using a bearing comparison with a tolerance derived from the segment length.</p>
+<hr />
+<h2 id="equality">Equality<a class="headerlink" href="#equality" title="Permanent link">&para;</a></h2>
+<div class="language-ruby highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="n">path1</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">path2</span>
 </span></code></pre></div>
-<h3 id="bearing_toother"><code>bearing_to(other)</code><a class="headerlink" href="#bearing_toother" title="Permanent link">&para;</a></h3>
-<p>Returns a <code>Geodetic::Bearing</code> from this feature to another feature, coordinate, or area. Uses the same centroid resolution as <code>distance_to</code>.</p>
-<div class="language-ruby highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="n">liberty</span><span class="o">.</span><span class="n">bearing_to</span><span class="p">(</span><span class="n">empire</span><span class="p">)</span><span class="o">.</span><span class="n">degrees</span><span class="w">      </span><span class="c1"># =&gt; 36.99</span>
-</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="n">liberty</span><span class="o">.</span><span class="n">bearing_to</span><span class="p">(</span><span class="n">empire</span><span class="p">)</span><span class="o">.</span><span class="n">to_compass</span><span class="w">   </span><span class="c1"># =&gt; &quot;NE&quot;</span>
+<p>Two paths are equal if they have the same coordinates in the same order.</p>
+<hr />
+<h2 id="spatial-methods">Spatial Methods<a class="headerlink" href="#spatial-methods" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Returns</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>nearest_waypoint(target)</code></td>
+<td>Coordinate</td>
+<td>The waypoint closest to the target</td>
+</tr>
+<tr>
+<td><code>closest_coordinate_to(target)</code></td>
+<td>Coordinate</td>
+<td>The closest point on the path (projected onto segments)</td>
+</tr>
+<tr>
+<td><code>distance_to(other)</code></td>
+<td>Distance</td>
+<td>Distance from the closest point on the path to the target</td>
+</tr>
+<tr>
+<td><code>bearing_to(other)</code></td>
+<td>Bearing</td>
+<td>Bearing from the closest point on the path to the target</td>
+</tr>
+<tr>
+<td><code>closest_points_to(other)</code></td>
+<td>Hash</td>
+<td>Closest pair between path and an Area or another Path</td>
+</tr>
+</tbody>
+</table>
+<p>The <code>other</code> parameter for <code>distance_to</code>, <code>bearing_to</code>, and <code>closest_coordinate_to</code> can be a coordinate, a Feature, an Area, or another Path.</p>
+<h3 id="closest-points">Closest Points<a class="headerlink" href="#closest-points" title="Permanent link">&para;</a></h3>
+<p><code>closest_points_to</code> returns a hash with:</p>
+<div class="language-ruby highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="p">{</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">  </span><span class="ss">path_point</span><span class="p">:</span><span class="w"> </span><span class="no">Coordinate</span><span class="p">,</span><span class="w">  </span><span class="c1"># closest point on this path</span>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">  </span><span class="ss">area_point</span><span class="p">:</span><span class="w"> </span><span class="no">Coordinate</span><span class="p">,</span><span class="w">  </span><span class="c1"># closest point on the other geometry</span>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">  </span><span class="ss">distance</span><span class="p">:</span><span class="w">   </span><span class="no">Distance</span><span class="w">     </span><span class="c1"># distance between the two points</span>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="p">}</span>
 </span></code></pre></div>
-<h3 id="to_s"><code>to_s</code><a class="headerlink" href="#to_s" title="Permanent link">&para;</a></h3>
-<p>Returns <code>"label (geometry.to_s)"</code>.</p>
-<div class="language-ruby highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="n">liberty</span><span class="o">.</span><span class="n">to_s</span><span class="w">  </span><span class="c1"># =&gt; &quot;Liberty (40.689200, -74.044500, 0.00)&quot;</span>
+<p>Accepts <code>Areas::Circle</code>, <code>Areas::Polygon</code>, <code>Areas::Rectangle</code>, or another <code>Path</code>.</p>
+<hr />
+<h2 id="computed-properties">Computed Properties<a class="headerlink" href="#computed-properties" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Returns</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>total_distance</code></td>
+<td>Distance</td>
+<td>Sum of all segment distances</td>
+</tr>
+<tr>
+<td><code>segment_distances</code></td>
+<td>Array</td>
+<td>Distance for each segment</td>
+</tr>
+<tr>
+<td><code>segment_bearings</code></td>
+<td>Array</td>
+<td>Bearing for each segment</td>
+</tr>
+<tr>
+<td><code>reverse</code></td>
+<td>Path</td>
+<td>New path with coordinates in reverse order</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="subpath-and-split">Subpath and Split<a class="headerlink" href="#subpath-and-split" title="Permanent link">&para;</a></h2>
+<h3 id="betweenfrom-to"><code>between(from, to)</code><a class="headerlink" href="#betweenfrom-to" title="Permanent link">&para;</a></h3>
+<p>Extracts a subpath between two waypoints (inclusive). Both must exist in the path, and <code>from</code> must precede <code>to</code>.</p>
+<div class="language-ruby highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="nb">sub</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">route</span><span class="o">.</span><span class="n">between</span><span class="p">(</span><span class="n">wall_street</span><span class="p">,</span><span class="w"> </span><span class="n">union_square</span><span class="p">)</span>
 </span></code></pre></div>
-<h3 id="inspect"><code>inspect</code><a class="headerlink" href="#inspect" title="Permanent link">&para;</a></h3>
-<p>Returns a detailed string with label, geometry, and metadata.</p>
-<div class="language-ruby highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="n">liberty</span><span class="o">.</span><span class="n">inspect</span>
-</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="c1"># =&gt; &quot;#&lt;Geodetic::Feature name=\&quot;Liberty\&quot; geometry=#&lt;Geodetic::Coordinate::LLA ...&gt; metadata={}&gt;&quot;</span>
+<h3 id="split_atcoordinate"><code>split_at(coordinate)</code><a class="headerlink" href="#split_atcoordinate" title="Permanent link">&para;</a></h3>
+<p>Splits the path at a waypoint, returning two paths that share the split point.</p>
+<div class="language-ruby highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="n">left</span><span class="p">,</span><span class="w"> </span><span class="n">right</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">route</span><span class="o">.</span><span class="n">split_at</span><span class="p">(</span><span class="n">city_hall</span><span class="p">)</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="c1"># left ends with city_hall, right starts with city_hall</span>
 </span></code></pre></div>
 <hr />
-<h2 id="area-geometry-example">Area Geometry Example<a class="headerlink" href="#area-geometry-example" title="Permanent link">&para;</a></h2>
-<div class="language-ruby highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="n">park_boundary</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">Areas</span><span class="o">::</span><span class="no">Polygon</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">boundary</span><span class="p">:</span><span class="w"> </span><span class="o">[</span>
-</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="w">  </span><span class="no">LLA</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">lat</span><span class="p">:</span><span class="w"> </span><span class="mi">40</span><span class="o">.</span><span class="mi">7679</span><span class="p">,</span><span class="w"> </span><span class="ss">lng</span><span class="p">:</span><span class="w"> </span><span class="o">-</span><span class="mi">73</span><span class="o">.</span><span class="mi">9818</span><span class="p">,</span><span class="w"> </span><span class="ss">alt</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">),</span>
-</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">  </span><span class="no">LLA</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">lat</span><span class="p">:</span><span class="w"> </span><span class="mi">40</span><span class="o">.</span><span class="mi">7649</span><span class="p">,</span><span class="w"> </span><span class="ss">lng</span><span class="p">:</span><span class="w"> </span><span class="o">-</span><span class="mi">73</span><span class="o">.</span><span class="mi">9727</span><span class="p">,</span><span class="w"> </span><span class="ss">alt</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">),</span>
-</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="w">  </span><span class="no">LLA</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">lat</span><span class="p">:</span><span class="w"> </span><span class="mi">40</span><span class="o">.</span><span class="mi">8003</span><span class="p">,</span><span class="w"> </span><span class="ss">lng</span><span class="p">:</span><span class="w"> </span><span class="o">-</span><span class="mi">73</span><span class="o">.</span><span class="mi">9494</span><span class="p">,</span><span class="w"> </span><span class="ss">alt</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">),</span>
-</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="w">  </span><span class="no">LLA</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">lat</span><span class="p">:</span><span class="w"> </span><span class="mi">40</span><span class="o">.</span><span class="mi">8008</span><span class="p">,</span><span class="w"> </span><span class="ss">lng</span><span class="p">:</span><span class="w"> </span><span class="o">-</span><span class="mi">73</span><span class="o">.</span><span class="mi">9585</span><span class="p">,</span><span class="w"> </span><span class="ss">alt</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">),</span>
-</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="o">]</span><span class="p">)</span>
-</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>
-</span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="n">park</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">Feature</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">label</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Central Park&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">geometry</span><span class="p">:</span><span class="w"> </span><span class="n">park_boundary</span><span class="p">)</span>
-</span><span id="__span-5-9"><a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a>
-</span><span id="__span-5-10"><a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a><span class="c1"># distance_to uses the polygon&#39;s centroid</span>
-</span><span id="__span-5-11"><a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a><span class="n">park</span><span class="o">.</span><span class="n">distance_to</span><span class="p">(</span><span class="n">liberty</span><span class="p">)</span><span class="w">   </span><span class="c1"># =&gt; Distance</span>
-</span><span id="__span-5-12"><a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a><span class="n">park</span><span class="o">.</span><span class="n">bearing_to</span><span class="p">(</span><span class="n">liberty</span><span class="p">)</span><span class="w">    </span><span class="c1"># =&gt; Bearing</span>
+<h2 id="interpolation">Interpolation<a class="headerlink" href="#interpolation" title="Permanent link">&para;</a></h2>
+<h3 id="at_distancedistance"><code>at_distance(distance)</code><a class="headerlink" href="#at_distancedistance" title="Permanent link">&para;</a></h3>
+<p>Returns the coordinate at a given distance along the path from the start. Accepts a <code>Distance</code> object or a numeric value in meters.</p>
+<div class="language-ruby highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="n">halfway</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">route</span><span class="o">.</span><span class="n">at_distance</span><span class="p">(</span><span class="n">route</span><span class="o">.</span><span class="n">total_distance</span><span class="o">.</span><span class="n">meters</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">2</span><span class="o">.</span><span class="mi">0</span><span class="p">)</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="n">quarter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">route</span><span class="o">.</span><span class="n">at_distance</span><span class="p">(</span><span class="no">Distance</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">route</span><span class="o">.</span><span class="n">total_distance</span><span class="o">.</span><span class="n">meters</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">0</span><span class="o">.</span><span class="mi">25</span><span class="p">))</span>
+</span></code></pre></div>
+<p>Returns the last coordinate if the distance exceeds the total path length.</p>
+<hr />
+<h2 id="bounding-box">Bounding Box<a class="headerlink" href="#bounding-box" title="Permanent link">&para;</a></h2>
+<h3 id="bounds"><code>bounds</code><a class="headerlink" href="#bounds" title="Permanent link">&para;</a></h3>
+<p>Returns an <code>Areas::Rectangle</code> representing the axis-aligned bounding box of all waypoints.</p>
+<div class="language-ruby highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="n">bbox</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">route</span><span class="o">.</span><span class="n">bounds</span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="n">bbox</span><span class="o">.</span><span class="n">nw</span><span class="w">  </span><span class="c1"># =&gt; northwest corner</span>
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="n">bbox</span><span class="o">.</span><span class="n">se</span><span class="w">  </span><span class="c1"># =&gt; southeast corner</span>
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="n">bbox</span><span class="o">.</span><span class="n">includes?</span><span class="p">(</span><span class="n">some_point</span><span class="p">)</span><span class="w">  </span><span class="c1"># =&gt; true/false</span>
 </span></code></pre></div>
 <hr />
-<h2 id="centroid-resolution">Centroid Resolution<a class="headerlink" href="#centroid-resolution" title="Permanent link">&para;</a></h2>
-<p>When computing distances and bearings, Feature resolves the underlying point as follows:</p>
-<ul>
-<li>If the geometry responds to <code>centroid</code> (all area classes do), the centroid is used.</li>
-<li>Otherwise, the geometry itself is used directly (all coordinate classes).</li>
-</ul>
-<p>This applies to both the source feature and the target. When the target is a Feature, its geometry is resolved the same way. When the target is a raw coordinate or area, the same logic applies.</p>
+<h2 id="to-polygon">To Polygon<a class="headerlink" href="#to-polygon" title="Permanent link">&para;</a></h2>
+<h3 id="to_polygon"><code>to_polygon</code><a class="headerlink" href="#to_polygon" title="Permanent link">&para;</a></h3>
+<p>Closes the path into an <code>Areas::Polygon</code> by connecting the last coordinate to the first. Requires at least 3 coordinates. Raises <code>ArgumentError</code> if the closing segment would intersect any interior segment of the path.</p>
+<div class="language-ruby highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="n">triangle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">Path</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">coordinates</span><span class="p">:</span><span class="w"> </span><span class="o">[</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">,</span><span class="w"> </span><span class="n">c</span><span class="o">]</span><span class="p">)</span>
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="n">poly</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">triangle</span><span class="o">.</span><span class="n">to_polygon</span>
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="n">poly</span><span class="o">.</span><span class="n">includes?</span><span class="p">(</span><span class="n">some_point</span><span class="p">)</span>
+</span></code></pre></div>
+<hr />
+<h2 id="intersection">Intersection<a class="headerlink" href="#intersection" title="Permanent link">&para;</a></h2>
+<h3 id="intersectsother_path"><code>intersects?(other_path)</code><a class="headerlink" href="#intersectsother_path" title="Permanent link">&para;</a></h3>
+<p>Returns true if any segment of this path crosses any segment of the other path. Uses orientation-based intersection testing.</p>
+<div class="language-ruby highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="n">route</span><span class="o">.</span><span class="n">intersects?</span><span class="p">(</span><span class="n">crosstown</span><span class="p">)</span><span class="w">  </span><span class="c1"># =&gt; true/false</span>
+</span></code></pre></div>
+<hr />
+<h2 id="non-mutating-operators">Non-Mutating Operators<a class="headerlink" href="#non-mutating-operators" title="Permanent link">&para;</a></h2>
+<p>These return new Path objects; the original is unchanged.</p>
+<table>
+<thead>
+<tr>
+<th>Operator</th>
+<th>Accepts</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>+ coordinate</code></td>
+<td>Coordinate</td>
+<td>New path with coordinate appended</td>
+</tr>
+<tr>
+<td><code>+ path</code></td>
+<td>Path</td>
+<td>New path with all coordinates of the other path appended</td>
+</tr>
+<tr>
+<td><code>- coordinate</code></td>
+<td>Coordinate</td>
+<td>New path with coordinate removed</td>
+</tr>
+<tr>
+<td><code>- path</code></td>
+<td>Path</td>
+<td>New path with all of the other path's coordinates removed</td>
+</tr>
+</tbody>
+</table>
+<div class="language-ruby highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="n">combined</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">downtown_path</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">uptown_path</span>
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="n">trimmed</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">full_route</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">detour_path</span>
+</span></code></pre></div>
+<p>Raises <code>ArgumentError</code> if <code>+</code> would create duplicates, or if <code>-</code> references coordinates not in the path.</p>
+<hr />
+<h2 id="mutating-operators">Mutating Operators<a class="headerlink" href="#mutating-operators" title="Permanent link">&para;</a></h2>
+<p>These modify the path in place and return <code>self</code> for chaining.</p>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Accepts</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>&lt;&lt; other</code></td>
+<td>Coordinate or Path</td>
+<td>Append to end</td>
+</tr>
+<tr>
+<td><code>&gt;&gt; other</code></td>
+<td>Coordinate or Path</td>
+<td>Prepend to start</td>
+</tr>
+<tr>
+<td><code>prepend(other)</code></td>
+<td>Coordinate or Path</td>
+<td>Same as <code>&gt;&gt;</code></td>
+</tr>
+<tr>
+<td><code>insert(coord, after: ref)</code></td>
+<td>Coordinate</td>
+<td>Insert after a reference waypoint</td>
+</tr>
+<tr>
+<td><code>insert(coord, before: ref)</code></td>
+<td>Coordinate</td>
+<td>Insert before a reference waypoint</td>
+</tr>
+<tr>
+<td><code>delete(coord)</code></td>
+<td>Coordinate</td>
+<td>Remove a waypoint</td>
+</tr>
+<tr>
+<td><code>remove(coord)</code></td>
+<td>Coordinate</td>
+<td>Alias for <code>delete</code></td>
+</tr>
+</tbody>
+</table>
+<div class="language-ruby highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="n">path</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">Path</span><span class="o">.</span><span class="n">new</span>
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="n">path</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">c</span><span class="w">          </span><span class="c1"># build incrementally</span>
+</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="n">path</span><span class="w"> </span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="n">start_point</span><span class="w">           </span><span class="c1"># prepend</span>
+</span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="n">path</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">other_path</span><span class="w">            </span><span class="c1"># append an entire path</span>
+</span><span id="__span-10-5"><a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="n">path</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">detour</span><span class="p">,</span><span class="w"> </span><span class="ss">after</span><span class="p">:</span><span class="w"> </span><span class="n">b</span><span class="p">)</span><span class="w"> </span><span class="c1"># insert between waypoints</span>
+</span><span id="__span-10-6"><a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a><span class="n">path</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">b</span><span class="p">)</span><span class="w">                </span><span class="c1"># remove a waypoint</span>
+</span></code></pre></div>
+<hr />
+<h2 id="enumerable">Enumerable<a class="headerlink" href="#enumerable" title="Permanent link">&para;</a></h2>
+<p>Path includes <code>Enumerable</code>. The <code>each</code> method iterates over coordinates in order.</p>
+<div class="language-ruby highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="n">route</span><span class="o">.</span><span class="n">map</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="o">|</span><span class="n">c</span><span class="o">|</span><span class="w"> </span><span class="n">c</span><span class="o">.</span><span class="n">lat</span><span class="w"> </span><span class="p">}</span>
+</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="n">route</span><span class="o">.</span><span class="n">select</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="o">|</span><span class="n">c</span><span class="o">|</span><span class="w"> </span><span class="n">c</span><span class="o">.</span><span class="n">lat</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">40</span><span class="o">.</span><span class="mi">72</span><span class="w"> </span><span class="p">}</span>
+</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="n">route</span><span class="o">.</span><span class="n">max_by</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="o">|</span><span class="n">c</span><span class="o">|</span><span class="w"> </span><span class="n">c</span><span class="o">.</span><span class="n">lat</span><span class="w"> </span><span class="p">}</span>
+</span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="n">route</span><span class="o">.</span><span class="n">to_a</span>
+</span></code></pre></div>
+<hr />
+<h2 id="display">Display<a class="headerlink" href="#display" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Returns</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>to_s</code></td>
+<td><code>"Path(7): 40.70... -&gt; 40.71... -&gt; ..."</code></td>
+</tr>
+<tr>
+<td><code>inspect</code></td>
+<td><code>"#&lt;Geodetic::Path size=7 first=... last=...&gt;"</code></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="feature-integration">Feature Integration<a class="headerlink" href="#feature-integration" title="Permanent link">&para;</a></h2>
+<p>A Path can be used as the geometry of a <code>Feature</code>. When a Feature wraps a Path, <code>distance_to</code> and <code>bearing_to</code> use the Path's geometric projection to find the closest approach point.</p>
+<div class="language-ruby highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="n">hiking_route</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">Feature</span><span class="o">.</span><span class="n">new</span><span class="p">(</span>
+</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="w">  </span><span class="ss">label</span><span class="p">:</span><span class="w">    </span><span class="s2">&quot;Manhattan Walking Tour&quot;</span><span class="p">,</span>
+</span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="w">  </span><span class="ss">geometry</span><span class="p">:</span><span class="w"> </span><span class="n">route</span><span class="p">,</span>
+</span><span id="__span-12-4"><a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="w">  </span><span class="ss">metadata</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="ss">type</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;walking&quot;</span><span class="w"> </span><span class="p">}</span>
+</span><span id="__span-12-5"><a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a><span class="p">)</span>
+</span><span id="__span-12-6"><a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a>
+</span><span id="__span-12-7"><a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a><span class="n">hiking_route</span><span class="o">.</span><span class="n">distance_to</span><span class="p">(</span><span class="n">statue_of_liberty</span><span class="p">)</span><span class="o">.</span><span class="n">to_km</span>
+</span><span id="__span-12-8"><a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a><span class="n">hiking_route</span><span class="o">.</span><span class="n">bearing_to</span><span class="p">(</span><span class="n">statue_of_liberty</span><span class="p">)</span><span class="o">.</span><span class="n">to_compass</span>
+</span></code></pre></div>
 
 
 
@@ -1725,7 +2372,7 @@
       <nav class="md-footer__inner md-grid" aria-label="Footer" >
         
           
-          <a href="../path/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Path">
+          <a href="../areas/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Areas">
             <div class="md-footer__button md-icon">
               
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
@@ -1735,20 +2382,20 @@
                 Previous
               </span>
               <div class="md-ellipsis">
-                Path
+                Areas
               </div>
             </div>
           </a>
         
         
           
-          <a href="../serialization/" class="md-footer__link md-footer__link--next" aria-label="Next: Serialization">
+          <a href="../feature/" class="md-footer__link md-footer__link--next" aria-label="Next: Feature">
             <div class="md-footer__title">
               <span class="md-footer__direction">
                 Next
               </span>
               <div class="md-ellipsis">
-                Serialization
+                Feature
               </div>
             </div>
             <div class="md-footer__button md-icon">
