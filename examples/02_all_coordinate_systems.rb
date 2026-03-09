@@ -161,9 +161,6 @@ def demo_coordinate_systems
   puts "   Precision: #{gh36_coord.precision} chars"
   puts "   Precision in meters: lat=#{gh36_coord.precision_in_meters[:lat].round(3)}m, lng=#{gh36_coord.precision_in_meters[:lng].round(3)}m"
 
-  # URL slug
-  puts "   URL slug: #{gh36_coord.to_slug}"
-
   # Reduced precision
   gh36_short = GH36.new(lla_coord, precision: 5)
   puts "   5-char precision: #{gh36_short.to_s}"

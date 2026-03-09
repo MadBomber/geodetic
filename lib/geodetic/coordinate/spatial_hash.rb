@@ -286,7 +286,6 @@ module Geodetic
         code_value == other.code_value
       end
 
-      alias_method :to_slug, :to_s
 
       # Returns all 8 neighboring cells
       # Keys: :N, :S, :E, :W, :NE, :NW, :SE, :SW

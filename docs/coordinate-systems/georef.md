@@ -122,10 +122,6 @@ coord.to_s(4)    # => "GJPJ"
 coord.to_s(2)    # => "GJ"
 ```
 
-### `to_slug`
-
-Alias for `to_s`. GEOREF codes are already URL-safe.
-
 ### `to_a`
 
 Returns `[lat, lng]` of the cell midpoint.

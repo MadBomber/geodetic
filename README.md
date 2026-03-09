@@ -420,9 +420,6 @@ gh36 = lla.to_gh36(precision: 8)
 # Decode back to LLA
 lla = gh36.to_lla
 
-# URL slug (the hash itself is URL-safe)
-gh36.to_slug    # => "bdrdC26BqH"
-
 # Neighbor cells
 gh36.neighbors  # => { N: GH36, S: GH36, E: GH36, W: GH36, NE: ..., NW: ..., SE: ..., SW: ... }
 
@@ -449,9 +446,6 @@ gh = lla.to_gh(precision: 8)
 
 # Decode back to LLA
 lla = gh.to_lla
-
-# URL slug (the hash itself is URL-safe)
-gh.to_slug    # => "dr5ru7"
 
 # Neighbor cells
 gh.neighbors  # => { N: GH, S: GH, E: GH, W: GH, NE: ..., NW: ..., SE: ..., SW: ... }

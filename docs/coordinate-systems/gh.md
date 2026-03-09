@@ -110,10 +110,6 @@ coord.to_s       # => "dr5ru7c5g200"
 coord.to_s(6)    # => "dr5ru7"
 ```
 
-### `to_slug`
-
-Alias for `to_s`. The geohash is already URL-safe.
-
 ### `to_a`
 
 Returns `[lat, lng]` of the cell midpoint.

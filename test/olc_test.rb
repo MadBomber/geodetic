@@ -252,11 +252,6 @@ class OLCTest < Minitest::Test
     assert_equal "849VCWC8+R9", olc.code
   end
 
-  def test_to_slug
-    olc = OLC.new("849VCWC8+R9")
-    assert_equal olc.to_s, olc.to_slug
-  end
-
   # ── Equality ──────────────────────────────────────────────────
 
   def test_equality_same_code

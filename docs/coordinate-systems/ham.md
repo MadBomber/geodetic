@@ -118,10 +118,6 @@ coord.to_s(6)    # => "FN31pr"
 coord.to_s(4)    # => "FN31"
 ```
 
-### `to_slug`
-
-Alias for `to_s`. The locator is already URL-safe.
-
 ### `to_a`
 
 Returns `[lat, lng]` of the cell midpoint.

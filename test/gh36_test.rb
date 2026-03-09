@@ -301,13 +301,6 @@ class GH36Test < Minitest::Test
     assert long.precision_in_meters[:lat] < short.precision_in_meters[:lat]
   end
 
-  # ── to_slug ──────────────────────────────────────────────
-
-  def test_to_slug_alias
-    coord = GH36.new("bdrdC26BqH")
-    assert_equal coord.to_s, coord.to_slug
-  end
-
   # ── distance_to (via mixin) ─────────────────────────────
 
   def test_distance_to

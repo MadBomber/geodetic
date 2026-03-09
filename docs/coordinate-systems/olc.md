@@ -123,10 +123,6 @@ coord.to_s(8)    # => "849VCWC8+"
 coord.to_s(4)    # => "84900000+"
 ```
 
-### `to_slug`
-
-Alias for `to_s`. Plus codes are already URL-safe.
-
 ### `to_a`
 
 Returns `[lat, lng]` of the cell midpoint.

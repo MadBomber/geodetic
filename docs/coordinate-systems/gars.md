@@ -141,10 +141,6 @@ coord.to_s(6)    # => "006AG3"
 coord.to_s(5)    # => "006AG"
 ```
 
-### `to_slug`
-
-Alias for `to_s`. GARS codes are already URL-safe.
-
 ### `to_a`
 
 Returns `[lat, lng]` of the cell midpoint.
