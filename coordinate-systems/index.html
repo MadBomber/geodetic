@@ -1325,7 +1325,7 @@
 
 
 <h1 id="coordinate-systems-overview">Coordinate Systems Overview<a class="headerlink" href="#coordinate-systems-overview" title="Permanent link">&para;</a></h1>
-<p>The Geodetic gem supports 17 coordinate systems organized into six categories. All coordinate classes live under <code>Geodetic::Coordinate</code>.</p>
+<p>The Geodetic gem supports 18 coordinate systems organized into six categories. All coordinate classes live under <code>Geodetic::Coordinate</code>.</p>
 <h2 id="global-systems">Global Systems<a class="headerlink" href="#global-systems" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
@@ -1471,6 +1471,11 @@
 <td><code>Geodetic::Coordinate::GARS</code></td>
 <td>Global Area Reference System. An NGA standard that divides the world into 30-minute cells identified by a 3-digit longitude band (001-720) and 2-letter latitude band. Cells are subdivided into 15-minute quadrants (1-4) and 5-minute keypads (1-9, telephone layout). Variable precision: 5 chars (30'), 6 chars (15'), 7 chars (5'). Default precision is 7 characters.</td>
 </tr>
+<tr>
+<td><strong>H3</strong></td>
+<td><code>Geodetic::Coordinate::H3</code></td>
+<td>H3 Hexagonal Hierarchical Index. Uber's spatial indexing system that divides the globe into hexagonal cells (and 12 pentagons) at 16 resolution levels (0-15). Each cell is a 64-bit integer displayed as a hex string. Unlike the rectangular spatial hashes, <code>to_area</code> returns an <code>Areas::Polygon</code> with 6 vertices (5 for pentagons) and <code>neighbors</code> returns an Array of 6 cells. <strong>Requires <code>libh3</code> installed</strong> (<code>brew install h3</code> on macOS).</td>
+</tr>
 </tbody>
 </table>
 <h2 id="regional-systems">Regional Systems<a class="headerlink" href="#regional-systems" title="Permanent link">&para;</a></h2>
@@ -1519,12 +1524,14 @@
 <th>OLC</th>
 <th>GEOREF</th>
 <th>GARS</th>
+<th>H3</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td><strong>LLA</strong></td>
 <td>--</td>
+<td>Y</td>
 <td>Y</td>
 <td>Y</td>
 <td>Y</td>
@@ -1561,12 +1568,14 @@
 <td>Y</td>
 <td>Y</td>
 <td>Y</td>
+<td>Y</td>
 </tr>
 <tr>
 <td><strong>UTM</strong></td>
 <td>Y</td>
 <td>Y</td>
 <td>--</td>
+<td>Y</td>
 <td>Y</td>
 <td>Y</td>
 <td>Y</td>
@@ -1601,6 +1610,7 @@
 <td>Y</td>
 <td>Y</td>
 <td>Y</td>
+<td>Y</td>
 </tr>
 <tr>
 <td><strong>NED</strong></td>
@@ -1609,6 +1619,7 @@
 <td>Y</td>
 <td>Y</td>
 <td>--</td>
+<td>Y</td>
 <td>Y</td>
 <td>Y</td>
 <td>Y</td>
@@ -1641,6 +1652,7 @@
 <td>Y</td>
 <td>Y</td>
 <td>Y</td>
+<td>Y</td>
 </tr>
 <tr>
 <td><strong>USNG</strong></td>
@@ -1651,6 +1663,7 @@
 <td>Y</td>
 <td>Y</td>
 <td>--</td>
+<td>Y</td>
 <td>Y</td>
 <td>Y</td>
 <td>Y</td>
@@ -1681,6 +1694,7 @@
 <td>Y</td>
 <td>Y</td>
 <td>Y</td>
+<td>Y</td>
 </tr>
 <tr>
 <td><strong>UPS</strong></td>
@@ -1693,6 +1707,7 @@
 <td>Y</td>
 <td>Y</td>
 <td>--</td>
+<td>Y</td>
 <td>Y</td>
 <td>Y</td>
 <td>Y</td>
@@ -1721,6 +1736,7 @@
 <td>Y</td>
 <td>Y</td>
 <td>Y</td>
+<td>Y</td>
 </tr>
 <tr>
 <td><strong>BNG</strong></td>
@@ -1735,6 +1751,7 @@
 <td>Y</td>
 <td>Y</td>
 <td>--</td>
+<td>Y</td>
 <td>Y</td>
 <td>Y</td>
 <td>Y</td>
@@ -1761,6 +1778,7 @@
 <td>Y</td>
 <td>Y</td>
 <td>Y</td>
+<td>Y</td>
 </tr>
 <tr>
 <td><strong>GH</strong></td>
@@ -1777,6 +1795,7 @@
 <td>Y</td>
 <td>Y</td>
 <td>--</td>
+<td>Y</td>
 <td>Y</td>
 <td>Y</td>
 <td>Y</td>
@@ -1801,6 +1820,7 @@
 <td>Y</td>
 <td>Y</td>
 <td>Y</td>
+<td>Y</td>
 </tr>
 <tr>
 <td><strong>OLC</strong></td>
@@ -1819,6 +1839,7 @@
 <td>Y</td>
 <td>Y</td>
 <td>--</td>
+<td>Y</td>
 <td>Y</td>
 <td>Y</td>
 </tr>
@@ -1841,9 +1862,32 @@
 <td>Y</td>
 <td>--</td>
 <td>Y</td>
+<td>Y</td>
 </tr>
 <tr>
 <td><strong>GARS</strong></td>
+<td>Y</td>
+<td>Y</td>
+<td>Y</td>
+<td>Y</td>
+<td>Y</td>
+<td>Y</td>
+<td>Y</td>
+<td>Y</td>
+<td>Y</td>
+<td>Y</td>
+<td>Y</td>
+<td>Y</td>
+<td>Y</td>
+<td>Y</td>
+<td>Y</td>
+<td>Y</td>
+<td>--</td>
+<td>Y</td>
+</tr>
+<tr>
+<td><strong>H3</strong></td>
+<td>Y</td>
 <td>Y</td>
 <td>Y</td>
 <td>Y</td>
@@ -1878,7 +1922,7 @@
 <li><strong>ECEF</strong> is the intermediate for local tangent plane systems (ENU, NED), since the rotation from global Cartesian to local frames is straightforward in ECEF.</li>
 <li><strong>ENU and NED</strong> convert between each other directly by reordering axes and inverting the vertical component.</li>
 <li><strong>MGRS and USNG</strong> route through UTM, which in turn routes through LLA.</li>
-<li><strong>WebMercator, UPS, BNG, StatePlane, GH36, GH, HAM, OLC, GEOREF, and GARS</strong> all convert through LLA.</li>
+<li><strong>WebMercator, UPS, BNG, StatePlane, GH36, GH, HAM, OLC, GEOREF, GARS, and H3</strong> all convert through LLA.</li>
 </ul>
 <p>For example, converting from BNG to NED follows the chain: <code>BNG -&gt; LLA -&gt; ECEF -&gt; ENU -&gt; NED</code>. The gem handles this automatically when you call a conversion method.</p>
 
