@@ -3,13 +3,35 @@
 module Geodetic
   module Coordinate
     # Registry for coordinate classes — each class registers itself at load time
+    # Each entry is [klass, options_hash] where options may include :hash_conversion_style
     @registered_classes = []
+    @finalized = false
 
     class << self
       attr_reader :registered_classes
 
-      def register_class(klass)
-        @registered_classes << klass
+      def register_class(klass, hash_conversion_style: nil)
+        @registered_classes << [klass, { hash_conversion_style: hash_conversion_style }]
+      end
+
+      def finalize!
+        raise "Geodetic::Coordinate already finalized!" if @finalized
+        @finalized = true
+
+        # Phase 1: Generate cross-hash conversion methods between spatial hash subclasses
+        SpatialHash.finalize_cross_hash_conversions!
+
+        # Phase 2: Generate hash conversion methods on non-hash coordinate classes
+        @registered_classes.each do |klass, opts|
+          next unless opts[:hash_conversion_style]
+          SpatialHash.generate_hash_conversions_for(klass, style: opts[:hash_conversion_style])
+        end
+
+        # Phase 3: Include distance/bearing mixins in all registered coordinate classes
+        @registered_classes.each do |klass, _opts|
+          klass.include(DistanceMethods)
+          klass.include(BearingMethods)
+        end
       end
     end
   end
@@ -257,27 +279,9 @@ module Geodetic
   end
 end
 
-# Generate cross-hash conversion methods (to_gh, to_ham, etc.) between all spatial hash subclasses
-Geodetic::Coordinate::SpatialHash.finalize_cross_hash_conversions!
+# All classes loaded and registered — finalize conversions and mixins
+Geodetic::Coordinate.finalize!
 
-# Generate hash conversion methods (to_gh, from_gh, etc.) on non-hash coordinate classes
-sh = Geodetic::Coordinate::SpatialHash
-sh.generate_hash_conversions_for(Geodetic::Coordinate::LLA,          style: :no_datum)
-sh.generate_hash_conversions_for(Geodetic::Coordinate::ECEF,         style: :no_datum)
-sh.generate_hash_conversions_for(Geodetic::Coordinate::UTM,          style: :no_datum)
-sh.generate_hash_conversions_for(Geodetic::Coordinate::WebMercator,  style: :no_datum)
-sh.generate_hash_conversions_for(Geodetic::Coordinate::BNG,          style: :with_datum)
-sh.generate_hash_conversions_for(Geodetic::Coordinate::UPS,          style: :with_datum)
-sh.generate_hash_conversions_for(Geodetic::Coordinate::MGRS,         style: :with_datum_and_precision)
-sh.generate_hash_conversions_for(Geodetic::Coordinate::USNG,         style: :with_datum_and_precision)
-
-# Include distance/bearing mixins in all registered coordinate classes
-ALL_COORD_CLASSES = Geodetic::Coordinate.registered_classes.freeze
-
-ALL_COORD_CLASSES.each do |klass|
-  klass.include(Geodetic::Coordinate::DistanceMethods)
-  klass.include(Geodetic::Coordinate::BearingMethods)
-end
-
-# GCS is a convenience alias for Geodetic::Coordinate, available after require "geodetic"
+# Convenience constants
+ALL_COORD_CLASSES = Geodetic::Coordinate.registered_classes.map(&:first).freeze
 GCS = Geodetic::Coordinate

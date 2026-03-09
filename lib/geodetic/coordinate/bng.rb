@@ -353,7 +353,7 @@ module Geodetic
         new(easting: easting, northing: northing)
       end
 
-      Coordinate.register_class(self)
+      Coordinate.register_class(self, hash_conversion_style: :with_datum)
     end
   end
 end

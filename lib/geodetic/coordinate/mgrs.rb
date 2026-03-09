@@ -305,7 +305,7 @@ module Geodetic
         bands[index]
       end
 
-      Coordinate.register_class(self)
+      Coordinate.register_class(self, hash_conversion_style: :with_datum_and_precision)
     end
   end
 end

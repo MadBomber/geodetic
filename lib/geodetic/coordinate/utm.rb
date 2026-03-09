@@ -249,7 +249,7 @@ module Geodetic
         raise ArgumentError, "Northing must be positive" if @northing < 0
       end
 
-      Coordinate.register_class(self)
+      Coordinate.register_class(self, hash_conversion_style: :no_datum)
     end
   end
 end

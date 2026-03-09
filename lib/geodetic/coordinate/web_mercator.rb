@@ -230,7 +230,7 @@ module Geodetic
         }
       end
 
-      Coordinate.register_class(self)
+      Coordinate.register_class(self, hash_conversion_style: :no_datum)
     end
   end
 end

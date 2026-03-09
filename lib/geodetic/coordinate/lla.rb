@@ -325,7 +325,7 @@ module Geodetic
         raise ArgumentError, "Longitude must be between -180 and 180 degrees" if @lng < -180 || @lng > 180
       end
 
-      Coordinate.register_class(self)
+      Coordinate.register_class(self, hash_conversion_style: :no_datum)
     end
   end
 end
