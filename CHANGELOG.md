@@ -10,6 +10,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+
+## [0.2.0] - 2026-03-08
+
+### Added
+
+- **2 new coordinate systems** bringing the total from 15 to 17:
+  - `Geodetic::Coordinate::GEOREF` — World Geographic Reference System (aviation/military geocode with variable precision from 15-degree tiles to 0.001-minute resolution)
+  - `Geodetic::Coordinate::GARS` — Global Area Reference System (NGA standard with 30-minute cells, 15-minute quadrants, and 5-minute keypads)
+- Full cross-system conversions for GEOREF and GARS — all 17 coordinate systems convert to/from every other system (289 conversion paths)
+- Spatial hash features for GEOREF and GARS: `neighbors`, `to_area`, `precision_in_meters`, `to_slug`, configurable precision
+- Documentation pages: `docs/coordinate-systems/georef.md` and `docs/coordinate-systems/gars.md`
+
+### Changed
+
+- **Namespace renamed**: `Geodetic::Coordinates` is now `Geodetic::Coordinate` (singular)
+- **SpatialHash base class** (`lib/geodetic/coordinate/spatial_hash.rb`) — GH36, GH, HAM, OLC, GEOREF, and GARS now inherit from a shared base class that provides common behavior (neighbors, to_area, precision_in_meters, serialization, encoding/decoding contract)
+- **Auto-generated hash conversions** — `SpatialHash.generate_hash_conversions_for` replaces 232 lines of hand-written boilerplate `to_gh`/`from_gh`/`to_ham`/`from_ham`/etc. methods across 7 coordinate classes
+- **Self-registration** — each coordinate class calls `Coordinate.register_class(self)` at load time; `ALL_COORD_CLASSES` is populated from the registry instead of a manual list
+
 ## [0.1.0] - 2026-03-08
 
 ### Added
