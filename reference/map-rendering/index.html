@@ -12,13 +12,11 @@
         <meta name="author" content="Dewayne VanHoozer">
       
       
-        <link rel="canonical" href="https://madbomber.github.io/geodetic/coordinate-systems/usng/">
+        <link rel="canonical" href="https://madbomber.github.io/geodetic/reference/map-rendering/">
       
       
-        <link rel="prev" href="../mgrs/">
+        <link rel="prev" href="../conversions/">
       
-      
-        <link rel="next" href="../web-mercator/">
       
       
         
@@ -29,7 +27,7 @@
     
     
       
-        <title>USNG - Geodetic</title>
+        <title>Map Rendering - Geodetic</title>
       
     
     
@@ -80,7 +78,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#geodeticcoordinateusng-us-national-grid" class="md-skip">
+        <a href="#map-rendering-with-libgd-gis" class="md-skip">
           Skip to content
         </a>
       
@@ -116,7 +114,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              USNG
+              Map Rendering
             
           </span>
         </div>
@@ -265,13 +263,11 @@
   
   
   
-    
-  
   
     
     
-      <li class="md-tabs__item md-tabs__item--active">
-        <a href="../" class="md-tabs__link">
+      <li class="md-tabs__item">
+        <a href="../../coordinate-systems/" class="md-tabs__link">
           
   
   
@@ -289,11 +285,13 @@
   
   
   
+    
+  
   
     
     
-      <li class="md-tabs__item">
-        <a href="../../reference/datums/" class="md-tabs__link">
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../datums/" class="md-tabs__link">
           
   
   
@@ -548,8 +546,6 @@
       
   
   
-    
-  
   
   
     
@@ -566,6 +562,398 @@
         
       
         
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../coordinate-systems/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Coordinate Systems
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Coordinate Systems
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../coordinate-systems/lla/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    LLA
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../coordinate-systems/ecef/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ECEF
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../coordinate-systems/utm/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    UTM
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../coordinate-systems/enu/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ENU
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../coordinate-systems/ned/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    NED
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../coordinate-systems/mgrs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MGRS
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../coordinate-systems/usng/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    USNG
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../coordinate-systems/web-mercator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Web Mercator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../coordinate-systems/ups/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    UPS
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../coordinate-systems/state-plane/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    State Plane
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../coordinate-systems/bng/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    BNG
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
       
         
       
@@ -595,18 +983,17 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
         
           
-          <div class="md-nav__link md-nav__container">
-            <a href="../" class="md-nav__link ">
-              
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
   
   
   <span class="md-ellipsis">
     
   
-    Coordinate Systems
+    Reference
   
 
     
@@ -614,43 +1001,35 @@
   
   
 
-            </a>
-            
-              
-              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="">
-                <span class="md-nav__icon md-icon"></span>
-              </label>
-            
-          </div>
+            <span class="md-nav__icon md-icon"></span>
+          </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
-          <label class="md-nav__title" for="__nav_3">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
             <span class="md-nav__icon md-icon"></span>
             
   
-    Coordinate Systems
+    Reference
   
 
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
               
-            
-              
                 
   
   
   
   
     <li class="md-nav__item">
-      <a href="../lla/" class="md-nav__link">
+      <a href="../datums/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    LLA
+    Datums
   
 
     
@@ -671,14 +1050,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../ecef/" class="md-nav__link">
+      <a href="../geoid-height/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    ECEF
+    Geoid Height
   
 
     
@@ -699,14 +1078,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../utm/" class="md-nav__link">
+      <a href="../areas/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    UTM
+    Areas
   
 
     
@@ -727,14 +1106,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../enu/" class="md-nav__link">
+      <a href="../feature/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    ENU
+    Feature
   
 
     
@@ -755,14 +1134,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../ned/" class="md-nav__link">
+      <a href="../serialization/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    NED
+    Serialization
   
 
     
@@ -783,14 +1162,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../mgrs/" class="md-nav__link">
+      <a href="../conversions/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    MGRS
+    Conversions
   
 
     
@@ -827,7 +1206,7 @@
   <span class="md-ellipsis">
     
   
-    USNG
+    Map Rendering
   
 
     
@@ -845,7 +1224,7 @@
   <span class="md-ellipsis">
     
   
-    USNG
+    Map Rendering
   
 
     
@@ -884,49 +1263,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#constructor" class="md-nav__link">
+  <a href="#feature-class" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Constructor
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Constructor">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#from-a-complete-usng-string" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        From a complete USNG string
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#from-individual-components" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        From individual components
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#format-differences-from-mgrs" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Format Differences from MGRS
+        Feature Class
       
     </span>
   </a>
@@ -934,32 +1274,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#string-representation" class="md-nav__link">
+  <a href="#prerequisites" class="md-nav__link">
     <span class="md-ellipsis">
       
-        String Representation
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#validation" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Validation
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#conversions" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Conversions
+        Prerequisites
       
     </span>
   </a>
@@ -981,387 +1299,6 @@
   
 </nav>
       
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../web-mercator/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Web Mercator
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../ups/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    UPS
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../state-plane/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    State Plane
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../bng/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    BNG
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    
-    
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-    
-    
-    
-      
-      
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
-        
-          
-          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
-            
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Reference
-  
-
-    
-  </span>
-  
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_4">
-            <span class="md-nav__icon md-icon"></span>
-            
-  
-    Reference
-  
-
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../reference/datums/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Datums
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../reference/geoid-height/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Geoid Height
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../reference/areas/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Areas
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../reference/feature/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Feature
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../reference/serialization/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Serialization
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../reference/conversions/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Conversions
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../reference/map-rendering/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Map Rendering
-  
-
-    
-  </span>
-  
-  
-
-      </a>
     </li>
   
 
@@ -1414,49 +1351,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#constructor" class="md-nav__link">
+  <a href="#feature-class" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Constructor
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Constructor">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#from-a-complete-usng-string" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        From a complete USNG string
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#from-individual-components" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        From individual components
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#format-differences-from-mgrs" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Format Differences from MGRS
+        Feature Class
       
     </span>
   </a>
@@ -1464,32 +1362,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#string-representation" class="md-nav__link">
+  <a href="#prerequisites" class="md-nav__link">
     <span class="md-ellipsis">
       
-        String Representation
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#validation" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Validation
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#conversions" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Conversions
+        Prerequisites
       
     </span>
   </a>
@@ -1533,102 +1409,28 @@
   
 
 
-<h1 id="geodeticcoordinateusng-us-national-grid">Geodetic::Coordinate::USNG - US National Grid<a class="headerlink" href="#geodeticcoordinateusng-us-national-grid" title="Permanent link">&para;</a></h1>
+<h1 id="map-rendering-with-libgd-gis">Map Rendering with libgd-gis<a class="headerlink" href="#map-rendering-with-libgd-gis" title="Permanent link">&para;</a></h1>
+<p>Geodetic coordinates and areas can be rendered on raster maps using the <a href="https://rubygems.org/gems/libgd-gis">libgd-gis</a> gem, which provides tile-based basemap rendering on top of <a href="https://rubygems.org/gems/ruby-libgd">ruby-libgd</a>.</p>
 <h2 id="overview">Overview<a class="headerlink" href="#overview" title="Permanent link">&para;</a></h2>
-<p>USNG (US National Grid) is a coordinate system based on MGRS, adopted for use by US emergency services and civilian agencies. It provides a consistent, interoperable grid reference system across the United States.</p>
-<h2 id="constructor">Constructor<a class="headerlink" href="#constructor" title="Permanent link">&para;</a></h2>
-<h3 id="from-a-complete-usng-string">From a complete USNG string<a class="headerlink" href="#from-a-complete-usng-string" title="Permanent link">&para;</a></h3>
-<div class="language-ruby highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="no">USNG</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">usng_string</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;18T WL 12345 67890&quot;</span><span class="p">)</span>
-</span></code></pre></div>
-<h3 id="from-individual-components">From individual components<a class="headerlink" href="#from-individual-components" title="Permanent link">&para;</a></h3>
-<div class="language-ruby highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="no">USNG</span><span class="o">.</span><span class="n">new</span><span class="p">(</span>
-</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">  </span><span class="ss">grid_zone</span><span class="p">:</span><span class="w">  </span><span class="s2">&quot;18T&quot;</span><span class="p">,</span>
-</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">  </span><span class="ss">square_id</span><span class="p">:</span><span class="w">  </span><span class="s2">&quot;WL&quot;</span><span class="p">,</span>
-</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">  </span><span class="ss">easting</span><span class="p">:</span><span class="w">    </span><span class="mi">12345</span><span class="p">,</span>
-</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">  </span><span class="ss">northing</span><span class="p">:</span><span class="w">   </span><span class="mi">67890</span><span class="p">,</span>
-</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">  </span><span class="ss">precision</span><span class="p">:</span><span class="w">  </span><span class="mi">5</span>
-</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="p">)</span>
-</span></code></pre></div>
-<h2 id="format-differences-from-mgrs">Format Differences from MGRS<a class="headerlink" href="#format-differences-from-mgrs" title="Permanent link">&para;</a></h2>
-<p>USNG uses a <strong>spaced format</strong> for readability, whereas MGRS uses a compact (unspaced) format:</p>
-<table>
-<thead>
-<tr>
-<th>System</th>
-<th>Format</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>USNG</td>
-<td><code>18T WL 12345 67890</code></td>
-</tr>
-<tr>
-<td>MGRS</td>
-<td><code>18TWL1234567890</code></td>
-</tr>
-</tbody>
-</table>
-<h2 id="string-representation">String Representation<a class="headerlink" href="#string-representation" title="Permanent link">&para;</a></h2>
-<table>
-<thead>
-<tr>
-<th>Method</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>from_string</code></td>
-<td>Parses a USNG string into its components</td>
-</tr>
-<tr>
-<td><code>to_s</code></td>
-<td>Returns the USNG string representation</td>
-</tr>
-<tr>
-<td><code>to_full_format</code></td>
-<td>Returns the full spaced USNG format</td>
-</tr>
-<tr>
-<td><code>to_abbreviated_format</code></td>
-<td>Returns an abbreviated representation</td>
-</tr>
-</tbody>
-</table>
-<h2 id="validation">Validation<a class="headerlink" href="#validation" title="Permanent link">&para;</a></h2>
-<table>
-<thead>
-<tr>
-<th>Method</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>valid?</code></td>
-<td>Checks that the zone designator falls within valid US zones</td>
-</tr>
-</tbody>
-</table>
-<h2 id="conversions">Conversions<a class="headerlink" href="#conversions" title="Permanent link">&para;</a></h2>
-<p>USNG converts through <strong>MGRS</strong> internally. All coordinate conversions follow the chain:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>USNG &lt;-&gt; MGRS &lt;-&gt; UTM &lt;-&gt; LLA
+<p>The <code>libgd-gis</code> gem downloads map tiles and stitches them into a single raster image for a given bounding box and zoom level. Geodetic's coordinate objects provide the geographic data, and <code>GD::GIS::Geometry.project</code> converts longitude/latitude pairs into pixel positions on the rendered map. From there, ruby-libgd primitives (lines, circles, polygons, text, image compositing) can draw overlays on top of the basemap.</p>
+<p>This combination supports:</p>
+<ul>
+<li><strong>Point markers</strong> for any Geodetic coordinate</li>
+<li><strong>Polygon overlays</strong> from <code>Geodetic::Areas::Polygon</code> boundaries</li>
+<li><strong>Bearing arrows</strong> computed with <code>Feature#bearing_to</code> and drawn as lines with arrowheads</li>
+<li><strong>Distance labels</strong> using <code>Feature#distance_to</code> for annotation</li>
+<li><strong>Icon compositing</strong> with scaled PNG images positioned at projected coordinates</li>
+<li><strong>Light and dark basemaps</strong> via <code>:carto_light</code> and <code>:carto_dark</code></li>
+</ul>
+<h2 id="feature-class">Feature Class<a class="headerlink" href="#feature-class" title="Permanent link">&para;</a></h2>
+<p><code>Geodetic::Feature</code> wraps a geometry (any coordinate or area) with a label and a metadata hash. It delegates <code>distance_to</code> and <code>bearing_to</code> to its geometry, using the centroid for area geometries. This makes it straightforward to attach display properties like icon paths and categories alongside the spatial data.</p>
+<h2 id="prerequisites">Prerequisites<a class="headerlink" href="#prerequisites" title="Permanent link">&para;</a></h2>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>gem<span class="w"> </span>install<span class="w"> </span>libgd-gis
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>brew<span class="w"> </span>install<span class="w"> </span>gd<span class="w">   </span><span class="c1"># macOS</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="c1"># apt install libgd-dev   # Linux</span>
 </span></code></pre></div>
 <h2 id="example">Example<a class="headerlink" href="#example" title="Permanent link">&para;</a></h2>
-<div class="language-ruby highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="n">usng</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">Geodetic</span><span class="o">::</span><span class="no">Coordinate</span><span class="o">::</span><span class="no">USNG</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">usng_string</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;18T WL 12345 67890&quot;</span><span class="p">)</span>
-</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>
-</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="n">usng</span><span class="o">.</span><span class="n">grid_zone</span><span class="w">  </span><span class="c1"># =&gt; &quot;18T&quot;</span>
-</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="n">usng</span><span class="o">.</span><span class="n">square_id</span><span class="w">  </span><span class="c1"># =&gt; &quot;WL&quot;</span>
-</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="n">usng</span><span class="o">.</span><span class="n">easting</span><span class="w">    </span><span class="c1"># =&gt; 12345</span>
-</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="n">usng</span><span class="o">.</span><span class="n">northing</span><span class="w">   </span><span class="c1"># =&gt; 67890</span>
-</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="n">usng</span><span class="o">.</span><span class="n">precision</span><span class="w">  </span><span class="c1"># =&gt; 5</span>
-</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>
-</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="n">usng</span><span class="o">.</span><span class="n">to_s</span><span class="w">                  </span><span class="c1"># =&gt; &quot;18T WL 12345 67890&quot;</span>
-</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="n">usng</span><span class="o">.</span><span class="n">to_full_format</span><span class="w">        </span><span class="c1"># =&gt; Full spaced format</span>
-</span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a><span class="n">usng</span><span class="o">.</span><span class="n">to_abbreviated_format</span><span class="w"> </span><span class="c1"># =&gt; Abbreviated format</span>
-</span><span id="__span-3-12"><a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a><span class="n">usng</span><span class="o">.</span><span class="n">valid?</span><span class="w">                </span><span class="c1"># =&gt; true (if within valid US zones)</span>
-</span></code></pre></div>
+<p>See <a href="https://github.com/madbomber/geodetic/tree/main/examples/05_map_rendering"><code>examples/05_map_rendering/demo.rb</code></a> for a complete working demo that renders NYC landmarks with icons, a Central Park polygon boundary, and bearing arrows between landmarks. The demo supports light/dark themes, icon scaling, and CLI flags for toggling features.</p>
 
 
 
@@ -1666,7 +1468,7 @@
       <nav class="md-footer__inner md-grid" aria-label="Footer" >
         
           
-          <a href="../mgrs/" class="md-footer__link md-footer__link--prev" aria-label="Previous: MGRS">
+          <a href="../conversions/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Conversions">
             <div class="md-footer__button md-icon">
               
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
@@ -1676,27 +1478,11 @@
                 Previous
               </span>
               <div class="md-ellipsis">
-                MGRS
+                Conversions
               </div>
             </div>
           </a>
         
-        
-          
-          <a href="../web-mercator/" class="md-footer__link md-footer__link--next" aria-label="Next: Web Mercator">
-            <div class="md-footer__title">
-              <span class="md-footer__direction">
-                Next
-              </span>
-              <div class="md-ellipsis">
-                Web Mercator
-              </div>
-            </div>
-            <div class="md-footer__button md-icon">
-              
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
-            </div>
-          </a>
         
       </nav>
     
