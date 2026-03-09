@@ -107,14 +107,14 @@ module Geodetic
       raise ArgumentError, "Unknown vertical datum: #{to_datum}" unless to_info
 
       if from_info[:type] == 'orthometric'
-        geoid_model = GeoidHeight.new(geoid_model: from_info[:reference_geoid])
+        geoid_model = GeoidHeight.for(from_info[:reference_geoid])
         ellipsoidal_height = geoid_model.orthometric_to_ellipsoidal(lat, lng, height)
       else
         ellipsoidal_height = height
       end
 
       if to_info[:type] == 'orthometric'
-        geoid_model = GeoidHeight.new(geoid_model: to_info[:reference_geoid])
+        geoid_model = GeoidHeight.for(to_info[:reference_geoid])
         geoid_model.ellipsoidal_to_orthometric(lat, lng, ellipsoidal_height)
       else
         ellipsoidal_height
@@ -173,6 +173,11 @@ module Geodetic
       else
         true
       end
+    end
+
+    def self.for(geoid_model = 'EGM2008')
+      @instances ||= {}
+      @instances[geoid_model] ||= new(geoid_model: geoid_model)
     end
 
     def self.available_models
@@ -271,7 +276,7 @@ module Geodetic
     def convert_height_datum(from_datum, to_datum, geoid_model = 'EGM2008')
       return self unless respond_to?(:lat) && respond_to?(:lng) && respond_to?(:alt)
 
-      geoid = GeoidHeight.new(geoid_model: geoid_model)
+      geoid = GeoidHeight.for(geoid_model)
       new_height = geoid.convert_vertical_datum(self.lat, self.lng, self.alt, from_datum, to_datum)
 
       self.class.new(lat: self.lat, lng: self.lng, alt: new_height)
@@ -280,19 +285,19 @@ module Geodetic
     def geoid_height(geoid_model = 'EGM2008')
       return nil unless respond_to?(:lat) && respond_to?(:lng)
 
-      geoid = GeoidHeight.new(geoid_model: geoid_model)
+      geoid = GeoidHeight.for(geoid_model)
       geoid.geoid_height_at(self.lat, self.lng)
     end
 
     def orthometric_height(geoid_model = 'EGM2008')
       return nil unless respond_to?(:alt) && respond_to?(:lat) && respond_to?(:lng)
 
-      geoid = GeoidHeight.new(geoid_model: geoid_model)
+      geoid = GeoidHeight.for(geoid_model)
       geoid.ellipsoidal_to_orthometric(self.lat, self.lng, self.alt)
     end
 
     def self.from_orthometric_height(lat, lng, orthometric_height, geoid_model = 'EGM2008')
-      geoid = GeoidHeight.new(geoid_model: geoid_model)
+      geoid = GeoidHeight.for(geoid_model)
       geoid.orthometric_to_ellipsoidal(lat, lng, orthometric_height)
     end
   end
