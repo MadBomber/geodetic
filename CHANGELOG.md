@@ -15,14 +15,30 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- **`Geodetic::Feature` class** — wraps any coordinate or area geometry with a `label` and `metadata` hash; delegates `distance_to` and `bearing_to` to the underlying geometry, using the centroid for area geometries
+- **`Geodetic::Path` class** — directed, ordered sequence of unique coordinates for modeling routes, trails, and boundaries
+  - **Navigation**: `first`, `last`, `next`, `prev`, `segments`, `size`, `empty?`
+  - **Membership**: `include?`/`includes?` (waypoint check), `contains?`/`inside?` (on-segment check with configurable tolerance)
+  - **Spatial**: `nearest_waypoint`, `closest_coordinate_to`, `distance_to`, `bearing_to` using geometric projection onto segments
+  - **Closest points**: `closest_points_to` for Path-to-Path, Path-to-Polygon, Path-to-Rectangle, and Path-to-Circle
+  - **Computed**: `total_distance`, `segment_distances`, `segment_bearings`, `reverse`
+  - **Subpath/split**: `between(from, to)` extracts a subpath; `split_at(coord)` divides into two paths sharing the split point
+  - **Interpolation**: `at_distance(distance)` finds the coordinate at a given distance along the path
+  - **Bounding box**: `bounds` returns an `Areas::Rectangle`
+  - **Polygon conversion**: `to_polygon` closes the path (validates no self-intersection)
+  - **Intersection**: `intersects?(other_path)` detects crossing segments
+  - **Equality**: `==` compares coordinates in order
+  - **Enumerable**: includes `Enumerable` via `each` — supports `map`, `select`, `any?`, `to_a`, etc.
+  - **Non-mutating operators**: `+` and `-` accept both coordinates and paths
+  - **Mutating operators**: `<<`, `>>`, `prepend`, `insert(after:/before:)`, `delete`/`remove` — all accept paths as well as coordinates
+- **`Geodetic::Feature` class** — wraps any coordinate, area, or path geometry with a `label` and `metadata` hash; delegates `distance_to` and `bearing_to` to the underlying geometry
 - **Map rendering example** (`examples/05_map_rendering/`) — renders NYC landmarks on a raster map using [libgd-gis](https://rubygems.org/gems/libgd-gis), demonstrating Feature objects, polygon overlays, bearing arrows, icon compositing, and light/dark theme support
-- `examples/README.md` describing all five example scripts
-- Documentation: `docs/reference/feature.md` (Feature reference) and `docs/reference/map-rendering.md` (libgd-gis integration guide)
+- **Path operations example** (`examples/06_path_operations.rb`) — 19-section demo covering all Path capabilities with a Manhattan walking route
+- `examples/README.md` describing all six example scripts
+- Documentation: `docs/reference/path.md` (Path reference), `docs/reference/feature.md` (Feature reference), and `docs/reference/map-rendering.md` (libgd-gis integration guide)
 
 ### Changed
 
-- Updated README, `docs/index.md`, and mkdocs nav to include Feature class and map rendering example
+- Updated README, `docs/index.md`, and mkdocs nav to include Path class, Feature class, and map rendering example
 
 ## [0.3.0] - 2026-03-08
 
