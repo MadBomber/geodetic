@@ -5,6 +5,8 @@ source "https://rubygems.org"
 # Specify your gem's dependencies in geodetic.gemspec
 gemspec
 
+gem "fiddle"
+
 group :development, :test do
   gem "irb"
   gem "rake", "~> 13.0"

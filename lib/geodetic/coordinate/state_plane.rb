@@ -305,6 +305,15 @@ module Geodetic
         from_lla(lla_coord, zone_code, datum)
       end
 
+      def to_h3(datum = nil, precision: 7)
+        H3.new(to_lla(datum), precision: precision)
+      end
+
+      def self.from_h3(h3_coord, zone_code, datum = WGS84)
+        lla_coord = h3_coord.to_lla(datum)
+        from_lla(lla_coord, zone_code, datum)
+      end
+
       # Unit conversion methods
       def to_meters
         zone_info = ZONES[@zone_code]

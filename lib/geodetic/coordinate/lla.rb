@@ -270,6 +270,14 @@ module Geodetic
         gars_coord.to_lla(datum)
       end
 
+      def to_h3(precision: 7)
+        H3.new(self, precision: precision)
+      end
+
+      def self.from_h3(h3_coord, datum = WGS84)
+        h3_coord.to_lla(datum)
+      end
+
       def self.from_lla(lla_coord, datum = WGS84)
         lla_coord
       end

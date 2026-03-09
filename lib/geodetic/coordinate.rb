@@ -33,6 +33,7 @@ require_relative "coordinate/ham"
 require_relative "coordinate/olc"
 require_relative "coordinate/georef"
 require_relative "coordinate/gars"
+require_relative "coordinate/h3"
 
 module Geodetic
   module Coordinate

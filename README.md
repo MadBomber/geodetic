@@ -13,7 +13,7 @@
 <td width="50%" valign="top">
 <strong>Key Features</strong><br>
 
-- <strong>17 Coordinate Systems</strong> - LLA, ECEF, UTM, ENU, NED, MGRS, USNG, Web Mercator, UPS, State Plane, BNG, GH36, GH, HAM, OLC, GEOREF, GARS<br>
+- <strong>18 Coordinate Systems</strong> - LLA, ECEF, UTM, ENU, NED, MGRS, USNG, Web Mercator, UPS, State Plane, BNG, GH36, GH, HAM, OLC, GEOREF, GARS, H3<br>
 - <strong>Full Bidirectional Conversions</strong> - Every system converts to and from every other system<br>
 - <strong>Distance Calculations</strong> - Vincenty great-circle and straight-line with unit tracking<br>
 - <strong>Bearing Calculations</strong> - Forward azimuth, back azimuth, compass directions, elevation angles<br>
@@ -27,7 +27,7 @@
 </tr>
 </table>
 
-<p>Geodetic enables precise conversion between geodetic coordinate systems in Ruby. All 17 coordinate systems support complete bidirectional conversions with high precision. Review the <a href="https://madbomber.github.io/geodetic/">full documentation website</a> and explore the <a href="examples/">runnable examples</a>.</p>
+<p>Geodetic enables precise conversion between geodetic coordinate systems in Ruby. All 18 coordinate systems support complete bidirectional conversions with high precision. Review the <a href="https://madbomber.github.io/geodetic/">full documentation website</a> and explore the <a href="examples/">runnable examples</a>.</p>
 
 ## Installation
 
@@ -42,6 +42,20 @@ Or install directly:
 ```bash
 gem install geodetic
 ```
+
+### Optional: H3 Hexagonal Index
+
+The H3 coordinate system requires Uber's [H3 C library](https://h3geo.org/) installed on your system. Without it, all other 17 coordinate systems work normally; H3 operations will raise a helpful error.
+
+```bash
+# macOS
+brew install h3
+
+# Linux (build from source)
+# See https://h3geo.org/docs/installation
+```
+
+You can also set the `LIBH3_PATH` environment variable to point to a custom `libh3` location.
 
 ## Usage
 
@@ -542,7 +556,7 @@ The [`examples/`](examples/) directory contains runnable demo scripts showing pr
 | Script | Description |
 |--------|-------------|
 | [`01_basic_conversions.rb`](examples/01_basic_conversions.rb) | LLA, ECEF, UTM, ENU, NED conversions and roundtrips |
-| [`02_all_coordinate_systems.rb`](examples/02_all_coordinate_systems.rb) | All 17 coordinate systems, cross-system chains, and areas |
+| [`02_all_coordinate_systems.rb`](examples/02_all_coordinate_systems.rb) | All 18 coordinate systems, cross-system chains, and areas |
 | [`03_distance_calculations.rb`](examples/03_distance_calculations.rb) | Distance class features, unit conversions, and arithmetic |
 | [`04_bearing_calculations.rb`](examples/04_bearing_calculations.rb) | Bearing class, compass directions, elevation angles, and chain bearings |
 
