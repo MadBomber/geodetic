@@ -11,21 +11,33 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 
-## [0.2.0] - 2026-03-08
+## [0.3.0] - 2026-03-08
 
 ### Added
 
-- **3 new coordinate systems** bringing the total from 15 to 18:
-  - `Geodetic::Coordinate::GEOREF` — World Geographic Reference System (aviation/military geocode with variable precision from 15-degree tiles to 0.001-minute resolution)
-  - `Geodetic::Coordinate::GARS` — Global Area Reference System (NGA standard with 30-minute cells, 15-minute quadrants, and 5-minute keypads)
-  - `Geodetic::Coordinate::H3` — Uber's H3 Hexagonal Hierarchical Index (16 resolution levels, hexagonal cells via `libh3` C library through `fiddle`)
-- Full cross-system conversions for GEOREF, GARS, and H3 — all 18 coordinate systems convert to/from every other system (324 conversion paths)
-- Spatial hash features for GEOREF, GARS, and H3: `neighbors`, `to_area`, `precision_in_meters`, `to_slug`, configurable precision
+- **H3 Hexagonal Hierarchical Index** (`Geodetic::Coordinate::H3`) — Uber's spatial indexing system, bringing total to 18 coordinate systems (324 conversion paths)
+- H3 uses Ruby's `fiddle` to call the H3 v4 C API directly — no gem dependency beyond `fiddle`
 - H3-specific features: `grid_disk(k)`, `parent(res)`, `children(res)`, `pentagon?`, `cell_area`, `h3_index`, `resolution` (0-15)
 - H3 `to_area` returns `Areas::Polygon` (6 vertices for hexagons, 5 for pentagons) instead of `Areas::Rectangle`
 - H3 `neighbors` returns Array of 6 cells instead of directional Hash with 8 cardinal keys
 - Graceful degradation: H3 raises clear error with installation instructions if `libh3` is not found; all other coordinate systems work normally
-- Documentation pages: `docs/coordinate-systems/georef.md`, `docs/coordinate-systems/gars.md`, and `docs/coordinate-systems/h3.md`
+- `H3.available?` class method to check for libh3 at runtime
+- Documentation page: `docs/coordinate-systems/h3.md`
+
+### Changed
+
+- Updated all documentation to reflect 18 coordinate systems (README, docs, gemspec, CLAUDE.md)
+
+## [0.2.0] - 2026-03-08
+
+### Added
+
+- **2 new coordinate systems** bringing the total from 15 to 17:
+  - `Geodetic::Coordinate::GEOREF` — World Geographic Reference System (aviation/military geocode with variable precision from 15-degree tiles to 0.001-minute resolution)
+  - `Geodetic::Coordinate::GARS` — Global Area Reference System (NGA standard with 30-minute cells, 15-minute quadrants, and 5-minute keypads)
+- Full cross-system conversions for GEOREF and GARS — all 17 coordinate systems convert to/from every other system (289 conversion paths)
+- Spatial hash features for GEOREF and GARS: `neighbors`, `to_area`, `precision_in_meters`, `to_slug`, configurable precision
+- Documentation pages: `docs/coordinate-systems/georef.md` and `docs/coordinate-systems/gars.md`
 
 ### Changed
 
