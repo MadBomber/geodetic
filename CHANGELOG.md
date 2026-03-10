@@ -11,6 +11,45 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 
+## [0.4.0] - 2026-03-10
+
+### Added
+
+- **`Geodetic::Segment` class** — directed two-point line segment, the fundamental geometric primitive underlying Path and Polygon
+  - **Properties**: `length`/`distance` (returns Distance), `length_meters`, `bearing` (returns Bearing), `midpoint`/`centroid` (returns LLA) — all lazily computed and cached
+  - **Projection**: `project(point)` returns the closest point on the segment and perpendicular distance
+  - **Interpolation**: `interpolate(fraction)` returns the LLA at any fraction along the segment
+  - **Membership**: `includes?(point)` (vertex-only check), `contains?(point, tolerance:)` (on-segment check), `excludes?`
+  - **Intersection**: `intersects?(other_segment)` using cross-product orientation tests
+  - **Conversion**: `reverse`, `to_path`, `to_a`, `==`, `to_s`, `inspect`
+- **`Geodetic::Areas::Triangle`** — polygon subclass with four construction modes
+  - Isosceles: `Triangle.new(center:, width:, height:, bearing:)`
+  - Equilateral by circumradius: `Triangle.new(center:, radius:, bearing:)`
+  - Equilateral by side length: `Triangle.new(center:, side:, bearing:)`
+  - Arbitrary vertices: `Triangle.new(vertices: [p1, p2, p3])`
+  - Predicates: `equilateral?`, `isosceles?`, `scalene?` based on actual side lengths (5m tolerance)
+  - Methods: `vertices`, `side_lengths`, `base`, `to_bounding_box`
+- **`Geodetic::Areas::Rectangle`** — polygon subclass defined by a centerline Segment and perpendicular width
+  - `Rectangle.new(segment:, width:)` — accepts a Segment object or a two-element array of coordinates
+  - `width:` accepts numeric (meters) or a Distance instance
+  - Derived properties: `center`, `height`, `bearing` from the centerline; `corners`, `square?`, `to_bounding_box`
+- **`Geodetic::Areas::Pentagon`**, **`Hexagon`**, **`Octagon`** — regular polygon subclasses from center + radius + bearing
+- **Polygon self-intersection validation** — `Polygon.new` validates that no edge crosses another; pass `validate: false` to skip (used by subclasses with generated geometry)
+- **Polygon `segments` method** — returns `Array<Segment>` for each edge; `edges` and `border` are aliases
+- **Segments and shapes example** (`examples/07_segments_and_shapes.rb`) — 10-section demo covering Segment operations, Triangle/Rectangle construction and predicates, regular polygons, containment, bounding boxes, and Feature integration
+- Documentation: `docs/reference/segment.md` (Segment reference with Great Circle Arcs section), updated `docs/reference/areas.md` with all polygon subclasses
+
+### Changed
+
+- **Refactored `Path`** to use Segment objects — removed ~140 lines of private segment methods (`project_onto_segment`, `on_segment?`, `segments_intersect?`, `cross_sign`, `on_collinear?`, `to_flat`); all segment operations now delegate to Segment
+- **Refactored `Polygon`** — `segments` is now the primary method (was `edges`); `edges` and `border` are aliases
+- **Updated `Feature`** to support Segment as a geometry type via `centroid` (alias for `midpoint`)
+- Updated README, `docs/index.md`, `docs/reference/areas.md`, `docs/reference/segment.md`, `examples/README.md`, and mkdocs nav
+
+### Removed
+
+- `Areas::Rectangle = Areas::BoundingBox` alias — Rectangle is now its own class (Polygon subclass)
+
 ## [0.3.2] - 2026-03-09
 
 ### Added
