@@ -74,14 +74,14 @@ require "geodetic"
 include Geodetic
 
 # lng:, lon:, and long: are all accepted for longitude
-lla = Coordinates::LLA.new(lat: 47.6205, lng: -122.3493, alt: 184.0)
-lla = Coordinates::LLA.new(lat: 47.6205, lon: -122.3493, alt: 184.0)
-lla = Coordinates::LLA.new(lat: 47.6205, long: -122.3493, alt: 184.0)
+lla = Coordinate::LLA.new(lat: 47.6205, lng: -122.3493, alt: 184.0)
+lla = Coordinate::LLA.new(lat: 47.6205, lon: -122.3493, alt: 184.0)
+lla = Coordinate::LLA.new(lat: 47.6205, long: -122.3493, alt: 184.0)
 # Readers: lla.lng, lla.lon, lla.long, lla.longitude all return the same value
-ecef = Coordinates::ECEF.new(x: -2304643.57, y: -3638650.07, z: 4688674.43)
-utm = Coordinates::UTM.new(easting: 548894.0, northing: 5272748.0, altitude: 184.0, zone: 10, hemisphere: "N")
-enu = Coordinates::ENU.new(e: 100.0, n: 200.0, u: 50.0)
-ned = Coordinates::NED.new(n: 200.0, e: 100.0, d: -50.0)
+ecef = Coordinate::ECEF.new(x: -2304643.57, y: -3638650.07, z: 4688674.43)
+utm = Coordinate::UTM.new(easting: 548894.0, northing: 5272748.0, altitude: 184.0, zone: 10, hemisphere: "N")
+enu = Coordinate::ENU.new(e: 100.0, n: 200.0, u: 50.0)
+ned = Coordinate::NED.new(n: 200.0, e: 100.0, d: -50.0)
 ```
 
 ### GCS Shorthand
@@ -116,19 +116,19 @@ Geodetic::Coordinate.systems.map { |c| c.name.split('::').last }
 Every coordinate system can convert to and from every other system:
 
 ```ruby
-lla = Coordinates::LLA.new(lat: 47.6205, lng: -122.3493, alt: 184.0)
+lla = Coordinate::LLA.new(lat: 47.6205, lng: -122.3493, alt: 184.0)
 
 # LLA to other systems
 ecef = lla.to_ecef
 utm  = lla.to_utm
-wm   = Coordinates::WebMercator.from_lla(lla)
-mgrs = Coordinates::MGRS.from_lla(lla)
+wm   = Coordinate::WebMercator.from_lla(lla)
+mgrs = Coordinate::MGRS.from_lla(lla)
 
 # Convert back
 lla_roundtrip = ecef.to_lla
 
 # Local coordinate systems require a reference point
-reference = Coordinates::LLA.new(lat: 47.62, lng: -122.35, alt: 0.0)
+reference = Coordinate::LLA.new(lat: 47.62, lng: -122.35, alt: 0.0)
 enu = lla.to_enu(reference)
 ned = lla.to_ned(reference)
 ```
@@ -138,15 +138,15 @@ ned = lla.to_ned(reference)
 All coordinate classes support `to_s`, `to_a`, `from_string`, and `from_array`. The `to_s` method accepts an optional precision parameter controlling the number of decimal places:
 
 ```ruby
-lla = Coordinates::LLA.new(lat: 47.6205, lng: -122.3493, alt: 184.0)
+lla = Coordinate::LLA.new(lat: 47.6205, lng: -122.3493, alt: 184.0)
 
 lla.to_s                            # => "47.620500, -122.349300, 184.00"
 lla.to_s(3)                         # => "47.620, -122.349, 184.00"
 lla.to_s(0)                         # => "48, -122, 184"
 lla.to_a                            # => [47.6205, -122.3493, 184.0]
 
-Coordinates::LLA.from_string("47.6205, -122.3493, 184.0")
-Coordinates::LLA.from_array([47.6205, -122.3493, 184.0])
+Coordinate::LLA.from_string("47.6205, -122.3493, 184.0")
+Coordinate::LLA.from_array([47.6205, -122.3493, 184.0])
 ```
 
 Default precisions by class: LLA=6, Bearing=4, all others=2. Passing `0` returns integers.
@@ -156,24 +156,24 @@ Default precisions by class: LLA=6, Bearing=4, all others=2. Passing `0` returns
 All coordinate classes provide setter methods with type coercion and validation:
 
 ```ruby
-lla = Coordinates::LLA.new(lat: 47.0, lng: -122.0, alt: 100.0)
+lla = Coordinate::LLA.new(lat: 47.0, lng: -122.0, alt: 100.0)
 lla.lat = 48.0                     # validates -90..90
 lla.lng = -121.0                   # validates -180..180
 lla.alt = 200.0                    # no range constraint
 lla.lat = 91.0                     # => ArgumentError
 
-utm = Coordinates::UTM.new(easting: 500000.0, northing: 5000000.0, zone: 10, hemisphere: 'N')
+utm = Coordinate::UTM.new(easting: 500000.0, northing: 5000000.0, zone: 10, hemisphere: 'N')
 utm.zone = 15                      # validates 1..60
 utm.hemisphere = 'S'               # validates 'N' or 'S'
 utm.easting = -1.0                 # => ArgumentError
 
 # UPS cross-validates hemisphere/zone combinations
-ups = Coordinates::UPS.new(hemisphere: 'N', zone: 'Y')
+ups = Coordinate::UPS.new(hemisphere: 'N', zone: 'Y')
 ups.zone = 'Z'                     # valid for hemisphere 'N'
 ups.zone = 'A'                     # => ArgumentError (rolls back)
 
 # BNG auto-updates grid_ref when easting/northing change
-bng = Coordinates::BNG.new(easting: 530000, northing: 180000)
+bng = Coordinate::BNG.new(easting: 530000, northing: 180000)
 bng.easting = 430000               # grid_ref automatically recalculated
 ```
 
@@ -182,10 +182,10 @@ ECEF, ENU, NED, and WebMercator setters coerce to float with no range constraint
 ### DMS (Degrees, Minutes, Seconds)
 
 ```ruby
-lla = Coordinates::LLA.new(lat: 37.7749, lng: -122.4192, alt: 15.0)
+lla = Coordinate::LLA.new(lat: 37.7749, lng: -122.4192, alt: 15.0)
 lla.to_dms    # => "37° 46' 29.64\" N, 122° 25' 9.12\" W, 15.00 m"
 
-Coordinates::LLA.from_dms("37° 46' 29.64\" N, 122° 25' 9.12\" W, 15.00 m")
+Coordinate::LLA.from_dms("37° 46' 29.64\" N, 122° 25' 9.12\" W, 15.00 m")
 ```
 
 ### String-Based Coordinate Systems
@@ -193,12 +193,12 @@ Coordinates::LLA.from_dms("37° 46' 29.64\" N, 122° 25' 9.12\" W, 15.00 m")
 MGRS and USNG use string representations:
 
 ```ruby
-mgrs = Coordinates::MGRS.new(mgrs_string: "18SUJ2337006519")
-mgrs = Coordinates::MGRS.from_string("18SUJ2337006519")
+mgrs = Coordinate::MGRS.new(mgrs_string: "18SUJ2337006519")
+mgrs = Coordinate::MGRS.from_string("18SUJ2337006519")
 mgrs.to_s    # => "18SUJ2337006519"
 
-usng = Coordinates::USNG.new(usng_string: "18T WL 12345 67890")
-usng = Coordinates::USNG.from_string("18T WL 12345 67890")
+usng = Coordinate::USNG.new(usng_string: "18T WL 12345 67890")
+usng = Coordinate::USNG.from_string("18T WL 12345 67890")
 usng.to_s    # => "18T WL 12345 67890"
 ```
 
@@ -214,9 +214,9 @@ portland = Geodetic::Coordinate::LLA.new(lat: 45.5152, lng: -122.6784, alt: 0.0)
 sf = Geodetic::Coordinate::LLA.new(lat: 37.7749, lng: -122.4194, alt: 0.0)
 
 d = seattle.distance_to(portland)         # => Distance (meters)
-d.meters                                  # => 235393.17
+d.meters                                  # => 235385.71
 d.to_km.to_f                             # => 235.39
-d.to_mi.to_f                             # => 146.28
+d.to_mi.to_f                             # => 146.26
 
 seattle.distance_to(portland, sf)         # => [Distance, Distance] (radial)
 seattle.distance_to([portland, sf])       # => [Distance, Distance] (radial)
@@ -258,12 +258,12 @@ seattle = Geodetic::Coordinate::LLA.new(lat: 47.6205, lng: -122.3493, alt: 0.0)
 portland = Geodetic::Coordinate::LLA.new(lat: 45.5152, lng: -122.6784, alt: 0.0)
 
 b = seattle.bearing_to(portland)   # => Bearing
-b.degrees                          # => 188.2
-b.to_radians                      # => 3.28...
+b.degrees                          # => 186.25
+b.to_radians                      # => 3.25...
 b.to_compass                      # => "S"
 b.to_compass(points: 8)           # => "S"
 b.reverse                         # => Bearing (back azimuth)
-b.to_s                            # => "188.2036°"
+b.to_s                            # => "186.2539°"
 ```
 
 **Instance method `elevation_to`** — vertical look angle:
@@ -409,7 +409,7 @@ geoid.convert_vertical_datum(47.6205, -122.3493, 184.0, "HAE", "NAVD88")
 The `GeoidHeightSupport` module is mixed into LLA for convenience:
 
 ```ruby
-lla = Coordinates::LLA.new(lat: 47.6205, lng: -122.3493, alt: 184.0)
+lla = Coordinate::LLA.new(lat: 47.6205, lng: -122.3493, alt: 184.0)
 lla.geoid_height              # => geoid undulation in meters
 lla.orthometric_height        # => height above mean sea level
 ```
@@ -420,10 +420,10 @@ A spatial hashing coordinate that encodes lat/lng into a compact, URL-friendly s
 
 ```ruby
 # From a geohash string
-gh36 = Coordinates::GH36.new("bdrdC26BqH")
+gh36 = Coordinate::GH36.new("bdrdC26BqH")
 
 # From any coordinate
-gh36 = Coordinates::GH36.new(lla)
+gh36 = Coordinate::GH36.new(lla)
 gh36 = lla.to_gh36(precision: 8)
 
 # Decode back to LLA
@@ -447,10 +447,10 @@ The standard Geohash (base-32) algorithm by Gustavo Niemeyer, widely supported b
 
 ```ruby
 # From a geohash string
-gh = Coordinates::GH.new("dr5ru7")
+gh = Coordinate::GH.new("dr5ru7")
 
 # From any coordinate
-gh = Coordinates::GH.new(lla)
+gh = Coordinate::GH.new(lla)
 gh = lla.to_gh(precision: 8)
 
 # Decode back to LLA
@@ -474,10 +474,10 @@ The Maidenhead Locator System used worldwide in amateur radio for grid square id
 
 ```ruby
 # From a Maidenhead locator string
-ham = Coordinates::HAM.new("FN31pr")
+ham = Coordinate::HAM.new("FN31pr")
 
 # From any coordinate
-ham = Coordinates::HAM.new(lla)
+ham = Coordinate::HAM.new(lla)
 ham = lla.to_ham(precision: 8)
 
 # Decode back to LLA
@@ -501,10 +501,10 @@ Google's open system for encoding locations into short, URL-friendly codes:
 
 ```ruby
 # From a plus code string
-olc = Coordinates::OLC.new("849VCWC8+R9")
+olc = Coordinate::OLC.new("849VCWC8+R9")
 
 # From any coordinate
-olc = Coordinates::OLC.new(lla)
+olc = Coordinate::OLC.new(lla)
 olc = lla.to_olc(precision: 11)
 
 # Decode back to LLA
@@ -526,22 +526,22 @@ olc.precision_in_meters    # => { lat: 13.9, lng: 13.9 }
 
 ```ruby
 # Circle area
-center = Coordinates::LLA.new(lat: 47.6205, lng: -122.3493, alt: 0.0)
+center = Coordinate::LLA.new(lat: 47.6205, lng: -122.3493, alt: 0.0)
 circle = Areas::Circle.new(centroid: center, radius: 1000.0)  # 1km radius
 
 # Polygon area
 points = [
-  Coordinates::LLA.new(lat: 47.60, lng: -122.35, alt: 0.0),
-  Coordinates::LLA.new(lat: 47.63, lng: -122.35, alt: 0.0),
-  Coordinates::LLA.new(lat: 47.63, lng: -122.33, alt: 0.0),
-  Coordinates::LLA.new(lat: 47.60, lng: -122.33, alt: 0.0),
+  Coordinate::LLA.new(lat: 47.60, lng: -122.35, alt: 0.0),
+  Coordinate::LLA.new(lat: 47.63, lng: -122.35, alt: 0.0),
+  Coordinate::LLA.new(lat: 47.63, lng: -122.33, alt: 0.0),
+  Coordinate::LLA.new(lat: 47.60, lng: -122.33, alt: 0.0),
 ]
 polygon = Areas::Polygon.new(boundary: points)
 polygon.centroid    # => computed centroid as LLA
 
 # BoundingBox area (accepts any coordinate type)
-nw = Coordinates::LLA.new(lat: 41.0, lng: -75.0)
-se = Coordinates::LLA.new(lat: 40.0, lng: -74.0)
+nw = Coordinate::LLA.new(lat: 41.0, lng: -75.0)
+se = Coordinate::LLA.new(lat: 40.0, lng: -74.0)
 rect = Areas::BoundingBox.new(nw: nw, se: se)
 rect.centroid       # => LLA at center
 rect.ne             # => computed NE corner
@@ -632,18 +632,18 @@ route.select { |c| c.lat > 40.72 }
 ```ruby
 liberty = Feature.new(
   label:    "Statue of Liberty",
-  geometry: Coordinates::LLA.new(lat: 40.6892, lng: -74.0445, alt: 0),
+  geometry: Coordinate::LLA.new(lat: 40.6892, lng: -74.0445, alt: 0),
   metadata: { category: "monument", year: 1886 }
 )
 
 empire = Feature.new(
   label:    "Empire State Building",
-  geometry: Coordinates::LLA.new(lat: 40.7484, lng: -73.9857, alt: 0),
+  geometry: Coordinate::LLA.new(lat: 40.7484, lng: -73.9857, alt: 0),
   metadata: { category: "building", floors: 102 }
 )
 
 liberty.distance_to(empire).to_km   # => "8.24 km"
-liberty.bearing_to(empire).degrees  # => 36.99
+liberty.bearing_to(empire).degrees  # => 36.95
 
 # Area geometries use the centroid for distance/bearing
 park = Feature.new(
@@ -730,11 +730,11 @@ corridor = route.to_corridor(width: Distance.km(1))
 ### Web Mercator Tile Coordinates
 
 ```ruby
-wm = Coordinates::WebMercator.from_lla(lla)
+wm = Coordinate::WebMercator.from_lla(lla)
 wm.to_tile_coordinates(15)     # => [x_tile, y_tile, zoom]
 wm.to_pixel_coordinates(15)    # => [x_pixel, y_pixel, zoom]
 
-Coordinates::WebMercator.from_tile_coordinates(5241, 11438, 15)
+Coordinate::WebMercator.from_tile_coordinates(5241, 11438, 15)
 ```
 
 ## Available Datums
