@@ -25,6 +25,7 @@
 - <strong>Vectors</strong> - Geodetic displacement (distance + bearing) with full arithmetic and Vincenty direct<br>
 - <strong>Geodetic Arithmetic</strong> - Compose geometry with operators: P1 + P2 → Segment, + P3 → Path, + Distance → Circle, * Vector → translate<br>
 - <strong>GeoJSON Export</strong> - Build FeatureCollections from any mix of objects and save to file<br>
+- <strong>WKT Serialization</strong> - Well-Known Text export/import with SRID/EWKT and Z-dimension support<br>
 - <strong>Validated Setters</strong> - Type coercion and range validation on all coordinate attributes<br>
 - <strong>Serialization</strong> - to_s(precision), to_a, from_string, from_array, DMS format<br>
 - <strong>Multiple Datums</strong> - WGS84, Clarke 1866, GRS 1980, Airy 1830, and more<br>
@@ -769,6 +770,44 @@ objects = Geodetic::GeoJSON.load("map.geojson")
 
 `load` returns an Array of Geodetic objects. Features with a `"name"` or non-empty properties round-trip as `Feature` objects; bare geometries with empty properties return as raw coordinates, segments, paths, or polygons. `GeoJSON.parse(hash)` does the same from an already-parsed Hash.
 
+### WKT Serialization
+
+`WKT` provides Well-Known Text export and import for all geometry types. WKT is the standard format used by PostGIS, RGeo, Shapely, JTS, and most GIS tools.
+
+```ruby
+seattle.to_wkt                        # => "POINT(-122.3493 47.6205)"
+seattle.to_wkt(srid: 4326)           # => "SRID=4326;POINT(-122.3493 47.6205)"
+seattle.to_wkt(precision: 2)         # => "POINT(-122.35 47.62)"
+
+Segment.new(seattle, portland).to_wkt # => "LINESTRING(-122.3493 47.6205, -122.6784 45.5152)"
+route.to_wkt                          # => "LINESTRING(...)"
+polygon.to_wkt                        # => "POLYGON((...))
+circle.to_wkt(segments: 64)          # => "POLYGON((...))  (64-gon)"
+feature.to_wkt                        # => delegates to geometry (WKT has no properties)
+```
+
+Altitude triggers the Z suffix. When any point has altitude, all points in that geometry get Z:
+
+```ruby
+Geodetic::Coordinate::LLA.new(lat: 47.62, lng: -122.35, alt: 184.0).to_wkt
+# => "POINT Z(-122.35 47.62 184.0)"
+```
+
+**File I/O and parsing:**
+
+```ruby
+# Save to file (one WKT per line)
+Geodetic::WKT.save!("shapes.wkt", seattle, segment, polygon, srid: 4326)
+
+# Load from file
+objects = Geodetic::WKT.load("shapes.wkt")
+# => [Coordinate::LLA, Segment, Areas::Polygon]
+
+# Parse a single WKT string
+obj = Geodetic::WKT.parse("POINT(-122.3493 47.6205)")
+obj, srid = Geodetic::WKT.parse_with_srid("SRID=4326;POLYGON((-122 47, -121 46, -123 46, -122 47))")
+```
+
 ### Web Mercator Tile Coordinates
 
 ```ruby
@@ -802,6 +841,7 @@ The [`examples/`](examples/) directory contains runnable demo scripts showing pr
 | [`07_segments_and_shapes.rb`](examples/07_segments_and_shapes.rb) | Segment and polygon subclasses: Triangle, Rectangle, Pentagon, Hexagon, Octagon with containment, edges, and bounding boxes |
 | [`08_geodetic_arithmetic.rb`](examples/08_geodetic_arithmetic.rb) | Geodetic arithmetic: building geometry with + (Segments, Paths, Circles), Vector class (Vincenty direct, components, arithmetic, dot/cross products), translation with * (Coordinates, Segments, Paths, Circles, Polygons), and corridors |
 | [`09_geojson_export.rb`](examples/09_geojson_export.rb) | GeoJSON export: `to_geojson` on all geometry types, `GeoJSON` class for building FeatureCollections with `<<`, delete/clear, Enumerable, and `save` to file |
+| [`10_wkt_serialization.rb`](examples/10_wkt_serialization.rb) | WKT serialization: `to_wkt` on all geometry types, SRID/EWKT, Z-dimension handling, parsing, and roundtrip verification |
 
 Run any example with:
 

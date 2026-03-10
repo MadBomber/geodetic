@@ -131,3 +131,18 @@ Demonstrates the `Geodetic::GeoJSON` class for building and exporting GeoJSON Fe
 - **Delete and clear** removing individual objects or emptying the collection
 - **Enumerable** iteration over collected objects
 - **Export** via `to_h` (Ruby Hash), `to_json`/`to_json(pretty: true)` (JSON string), and `save(path, pretty:)` (file output)
+
+## 10 - WKT Serialization
+
+Demonstrates `Geodetic::WKT` for Well-Known Text export and import, the standard geometry format used by PostGIS, RGeo, and most GIS tools. Covers:
+
+- **Coordinate → POINT** with `to_wkt` on any coordinate system, including altitude (Z suffix)
+- **Segment → LINESTRING** exporting two-point directed segments
+- **Path → LINESTRING** and optional `to_wkt(as: :polygon)` for closed paths
+- **Areas → POLYGON** for `Polygon`, `Circle` (N-gon approximation with configurable `segments:`), and `BoundingBox`
+- **Feature → delegates to geometry** (WKT has no properties concept)
+- **SRID / EWKT** with `to_wkt(srid: 4326)` producing PostGIS-compatible Extended WKT
+- **Z-dimension consistency** where any non-zero altitude triggers Z on all points in the geometry
+- **Parsing** with `WKT.parse` (returns Geodetic objects) and `WKT.parse_with_srid` (returns object + SRID)
+- **Roundtrip** verification showing export → parse → re-export produces identical WKT strings
+- **File I/O** with `WKT.save` writing one WKT per line and `WKT.load` reading them back, including SRID support and full file roundtrip verification

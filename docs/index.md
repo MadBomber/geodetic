@@ -19,6 +19,7 @@
 <li><strong>Paths</strong> - Directed coordinate sequences with navigation, interpolation, closest approach, intersection, and area conversion<br>
 <li><strong>Features</strong> - Named geometry wrapper with metadata and delegated distance/bearing<br>
 <li><strong>GeoJSON Export</strong> - Build FeatureCollections from any mix of objects and save to file<br>
+<li><strong>WKT Serialization</strong> - Well-Known Text export/import with SRID/EWKT and Z-dimension support<br>
 <li><strong>Validated Setters</strong> - Type coercion and range validation on all coordinate attributes<br>
 <li><strong>Serialization</strong> - to_s(precision), to_a, from_string, from_array, DMS format<br>
 <li><strong>Multiple Datums</strong> - WGS84, Clarke 1866, GRS 1980, Airy 1830, and more<br>
@@ -114,4 +115,5 @@ puts lla_again.to_s
 - [Vector](reference/vector.md)
 - [Arithmetic](reference/arithmetic.md)
 - [GeoJSON Export](reference/geojson.md)
+- [WKT Serialization](reference/wkt.md)
 - [Map Rendering](reference/map-rendering.md)
