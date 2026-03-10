@@ -11,6 +11,49 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 
+## [0.5.0] - 2026-03-10
+
+### Added
+
+- **`Geodetic::Vector` class** — geodetic displacement pairing a Distance (magnitude) with a Bearing (direction)
+  - **Construction**: `Vector.new(distance:, bearing:)` with automatic coercion from numeric values
+  - **Components**: `north`, `east` — decomposed meters; `magnitude` — distance in meters
+  - **Factory methods**: `Vector.from_components(north:, east:)`, `Vector.from_segment(segment)`
+  - **Vincenty direct**: `destination_from(origin)` solves the direct geodetic problem on the WGS84 ellipsoid
+  - **Arithmetic**: `+`, `-` (component-wise), `*`, `/` (scalar), `-@` (unary minus); `Numeric * Vector` via coerce
+  - **Products**: `dot(other)`, `cross(other)`, `angle_between(other)`
+  - **Properties**: `zero?`, `normalize`, `reverse`/`inverse`
+  - **Comparable**: ordered by distance (magnitude)
+  - Near-zero results (< 1e-9 m) snap to clean zero vector
+- **Geodetic arithmetic with `+` operator** — build geometry from coordinates, vectors, and distances:
+  - `Coordinate + Coordinate` → Segment
+  - `Coordinate + Coordinate + Coordinate` → Path (via Segment + Coordinate → Path)
+  - `Coordinate + Segment` → Path
+  - `Segment + Coordinate` → Path
+  - `Segment + Segment` → Path
+  - `Coordinate + Distance` → Circle
+  - `Distance + Coordinate` → Circle (commutative)
+  - `Coordinate + Vector` → Segment (Vincenty direct)
+  - `Vector + Coordinate` → Segment (reverse start to coordinate)
+  - `Segment + Vector` → Path (extend from endpoint)
+  - `Vector + Segment` → Path (prepend via reverse)
+  - `Path + Vector` → Path (extend from last point)
+- **Translation with `*` operator and `translate` method** — uniform displacement across all geometric types:
+  - `Coordinate * Vector` → Coordinate (translated point)
+  - `Segment * Vector` → Segment (translated endpoints)
+  - `Path * Vector` → Path (translated waypoints)
+  - `Circle * Vector` → Circle (translated centroid, preserved radius)
+  - `Polygon * Vector` → Polygon (translated vertices)
+- **`Segment#to_vector`** — extract a Vector from a Segment's length and bearing
+- **`Path#to_corridor(width:)`** — convert a path into a Polygon corridor of a given width; uses mean bearing at interior waypoints to avoid self-intersection; accepts meters or a Distance object
+- **Geodetic arithmetic example** (`examples/08_geodetic_arithmetic.rb`) — 11-section demo covering all arithmetic operators, Vector class, translation, corridors, and composed operations
+- Documentation: `docs/reference/vector.md` (Vector reference), `docs/reference/arithmetic.md` (Geodetic Arithmetic reference)
+
+### Changed
+
+- Updated README with Vector, Geodetic Arithmetic, and Corridors sections; added to key features list
+- Updated `examples/README.md` with example 08 description
+
 ## [0.4.0] - 2026-03-10
 
 ### Added
