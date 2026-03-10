@@ -5,7 +5,6 @@
 # and save it to a file that can be opened in any GeoJSON viewer.
 
 require_relative "../lib/geodetic"
-require "tmpdir"
 
 include Geodetic
 
@@ -239,7 +238,7 @@ puts "  to_json(pretty: true): #{pretty.length} bytes, #{pretty.lines.count} lin
 puts
 
 # save to file
-output_path = File.join(Dir.tmpdir, "geodetic_demo.geojson")
+output_path = File.join(__dir__, "geodetic_demo.geojson")
 gj.save(output_path, pretty: true)
 puts "  Saved to: #{output_path}"
 puts "  File size: #{File.size(output_path)} bytes"

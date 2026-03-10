@@ -99,6 +99,60 @@ gj.to_s     # => "GeoJSON::FeatureCollection(5 features)"
 gj.inspect  # => "#<Geodetic::GeoJSON size=5>"
 ```
 
+### Import
+
+| Method | Returns | Description |
+|--------|---------|-------------|
+| `GeoJSON.load(path)` | Array | Read a GeoJSON file and return an Array of Geodetic objects |
+| `GeoJSON.parse(hash)` | Array | Parse a GeoJSON Hash and return an Array of Geodetic objects |
+
+```ruby
+objects = Geodetic::GeoJSON.load("west_coast.geojson")
+# => [Feature("Seattle", LLA), Feature("Portland", LLA), Segment, Polygon, ...]
+```
+
+`parse` accepts a Ruby Hash (useful when you already have parsed JSON):
+
+```ruby
+data = JSON.parse(File.read("west_coast.geojson"))
+objects = Geodetic::GeoJSON.parse(data)
+```
+
+**GeoJSON → Geodetic type mapping:**
+
+| GeoJSON type | Geodetic type |
+|--------------|---------------|
+| Point | `Coordinate::LLA` |
+| LineString (2 points) | `Segment` |
+| LineString (3+ points) | `Path` |
+| Polygon | `Areas::Polygon` (outer ring only; holes are dropped) |
+| MultiPoint | Multiple `Coordinate::LLA` |
+| MultiLineString | Multiple `Segment` or `Path` |
+| MultiPolygon | Multiple `Areas::Polygon` |
+| GeometryCollection | Flattened into individual geometries |
+
+**Feature handling:**
+
+- A GeoJSON Feature with a `"name"` property or any non-empty properties becomes a `Geodetic::Feature`. The `"name"` property maps to `label`, and remaining properties become `metadata` with symbol keys.
+- A GeoJSON Feature with empty properties (`{}`) returns the raw geometry with no Feature wrapper.
+
+This means a save/load roundtrip preserves Feature labels, metadata, and geometry types:
+
+```ruby
+# Save
+gj = Geodetic::GeoJSON.new
+gj << Geodetic::Feature.new(label: "Seattle", geometry: seattle, metadata: { state: "WA" })
+gj << portland  # raw coordinate, no Feature
+gj.save("cities.geojson")
+
+# Load
+objects = Geodetic::GeoJSON.load("cities.geojson")
+objects[0]          # => Feature (label: "Seattle", metadata: {state: "WA"})
+objects[0].label    # => "Seattle"
+objects[0].metadata # => {state: "WA"}
+objects[1]          # => LLA (raw coordinate, no Feature wrapper)
+```
+
 ---
 
 ## Geometry Mapping
@@ -317,4 +371,18 @@ The output file can be opened directly in [geojson.io](https://geojson.io), QGIS
 - **Altitude** is optional. Included as the third element when non-zero.
 - **Polygon rings** follow the right-hand rule: exterior rings are counterclockwise. BoundingBox uses NW → NE → SE → SW → NW.
 - **String keys** are used throughout (`"type"`, `"coordinates"`, `"properties"`, etc.) per JSON convention.
+
+---
+
+## Visualizing GeoJSON
+
+The easiest way to verify your exported GeoJSON is [geojson.io](https://geojson.io). It renders points, lines, and polygons on an interactive map with property inspection.
+
+To use it:
+
+1. Export your collection: `gj.save("my_map.geojson", pretty: true)`
+2. Open [geojson.io](https://geojson.io) in a browser
+3. Drag and drop the `.geojson` file onto the map, or paste the JSON into the editor panel
+
+Feature properties (name, metadata) appear in popups when you click on a rendered geometry. This makes it a quick way to confirm that coordinates, shapes, and metadata are correct before integrating with QGIS, Mapbox, Leaflet, or other GIS tools.
 - Output is a Ruby Hash. Call `.to_json` or `JSON.generate(hash)` to produce a JSON string.

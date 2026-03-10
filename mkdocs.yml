@@ -132,6 +132,13 @@ nav:
       - UPS: coordinate-systems/ups.md
       - State Plane: coordinate-systems/state-plane.md
       - BNG: coordinate-systems/bng.md
+      - GH36: coordinate-systems/gh36.md
+      - GH: coordinate-systems/gh.md
+      - HAM: coordinate-systems/ham.md
+      - OLC: coordinate-systems/olc.md
+      - GEOREF: coordinate-systems/georef.md
+      - GARS: coordinate-systems/gars.md
+      - H3: coordinate-systems/h3.md
   - Reference:
       - Datums: reference/datums.md
       - Geoid Height: reference/geoid-height.md
@@ -141,4 +148,7 @@ nav:
       - Feature: reference/feature.md
       - Serialization: reference/serialization.md
       - Conversions: reference/conversions.md
+      - Vector: reference/vector.md
+      - Arithmetic: reference/arithmetic.md
+      - GeoJSON Export: reference/geojson.md
       - Map Rendering: reference/map-rendering.md

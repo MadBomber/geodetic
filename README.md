@@ -760,6 +760,15 @@ feature.to_geojson                        # => {"type" => "Feature", ...}
 
 Features carry their `label` as `"name"` and `metadata` as `properties` in the GeoJSON output. Non-Feature objects added to the collection are auto-wrapped as Features with empty properties.
 
+**Loading GeoJSON files:**
+
+```ruby
+objects = Geodetic::GeoJSON.load("map.geojson")
+# => [Feature("Seattle", LLA), Segment, Path, Polygon, LLA, ...]
+```
+
+`load` returns an Array of Geodetic objects. Features with a `"name"` or non-empty properties round-trip as `Feature` objects; bare geometries with empty properties return as raw coordinates, segments, paths, or polygons. `GeoJSON.parse(hash)` does the same from an already-parsed Hash.
+
 ### Web Mercator Tile Coordinates
 
 ```ruby

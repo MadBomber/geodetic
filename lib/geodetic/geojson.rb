@@ -101,6 +101,8 @@ module Geodetic
     # ---------------------------------------------------------------
 
     class << self
+      # --- Export helpers ---
+
       def position(lla)
         if lla.alt != 0.0
           [lla.lng, lla.lat, lla.alt]
@@ -119,6 +121,93 @@ module Geodetic
 
       def polygon_hash(rings)
         { "type" => "Polygon", "coordinates" => rings.map { |ring| ring.map { |p| position(p) } } }
+      end
+
+      # --- Import ---
+
+      def load(path)
+        data = JSON.parse(File.read(path))
+        parse(data)
+      end
+
+      def parse(data)
+        case data["type"]
+        when "FeatureCollection"
+          data["features"].flat_map { |f| parse(f) }
+        when "Feature"
+          parse_feature(data)
+        when "GeometryCollection"
+          data["geometries"].flat_map { |g| parse_geometry(g) }
+        else
+          [parse_geometry(data)]
+        end
+      end
+
+      private
+
+      def parse_feature(data)
+        geometry = parse_geometry(data["geometry"])
+        properties = data["properties"] || {}
+
+        results = geometry.is_a?(Array) ? geometry : [geometry]
+
+        results.map do |geom|
+          name = properties["name"]
+          metadata = properties.reject { |k, _| k == "name" }
+
+          if name || !metadata.empty?
+            Feature.new(
+              label: name,
+              geometry: geom,
+              metadata: metadata.transform_keys(&:to_sym)
+            )
+          else
+            geom
+          end
+        end
+      end
+
+      def parse_geometry(data)
+        case data["type"]
+        when "Point"
+          parse_point(data["coordinates"])
+        when "LineString"
+          parse_line_string(data["coordinates"])
+        when "Polygon"
+          parse_polygon(data["coordinates"])
+        when "MultiPoint"
+          data["coordinates"].map { |pos| parse_point(pos) }
+        when "MultiLineString"
+          data["coordinates"].map { |coords| parse_line_string(coords) }
+        when "MultiPolygon"
+          data["coordinates"].map { |rings| parse_polygon(rings) }
+        when "GeometryCollection"
+          data["geometries"].flat_map { |g| parse_geometry(g) }
+        else
+          raise ArgumentError, "unknown GeoJSON geometry type: #{data["type"]}"
+        end
+      end
+
+      def parse_point(coords)
+        lng, lat = coords[0], coords[1]
+        alt = coords[2] || 0.0
+        Coordinate::LLA.new(lat: lat, lng: lng, alt: alt)
+      end
+
+      def parse_line_string(coords)
+        points = coords.map { |pos| parse_point(pos) }
+        if points.length == 2
+          Segment.new(points[0], points[1])
+        else
+          Path.new(coordinates: points)
+        end
+      end
+
+      def parse_polygon(rings)
+        outer = rings[0].map { |pos| parse_point(pos) }
+        # Remove closing point if it duplicates the first (Polygon#initialize adds it)
+        outer.pop if outer.length > 1 && outer.first == outer.last
+        Areas::Polygon.new(boundary: outer)
       end
     end
 

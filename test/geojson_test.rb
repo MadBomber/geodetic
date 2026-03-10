@@ -355,4 +355,177 @@ class GeoJSONTest < Minitest::Test
     assert_equal "FeatureCollection", h["type"]
     assert_equal [], h["features"]
   end
+
+  # --- Load / Parse ---
+
+  def test_load_point
+    result = save_and_load(Geodetic::GeoJSON.new(@seattle))
+    assert_equal 1, result.length
+    assert_instance_of Geodetic::Coordinate::LLA, result[0]
+    assert_in_delta(-122.3493, result[0].lng, 1e-6)
+    assert_in_delta(47.6205, result[0].lat, 1e-6)
+  end
+
+  def test_load_point_with_altitude
+    result = save_and_load(Geodetic::GeoJSON.new(@sf))
+    coord = result[0]
+    assert_in_delta(100.0, coord.alt, 1e-6)
+  end
+
+  def test_load_segment
+    seg = Geodetic::Segment.new(@seattle, @portland)
+    result = save_and_load(Geodetic::GeoJSON.new(seg))
+    assert_equal 1, result.length
+    assert_instance_of Geodetic::Segment, result[0]
+    assert_in_delta(@seattle.lat, result[0].start_point.lat, 1e-6)
+    assert_in_delta(@portland.lat, result[0].end_point.lat, 1e-6)
+  end
+
+  def test_load_path
+    path = Geodetic::Path.new(coordinates: [@seattle, @portland, @sf])
+    result = save_and_load(Geodetic::GeoJSON.new(path))
+    assert_equal 1, result.length
+    assert_instance_of Geodetic::Path, result[0]
+    assert_equal 3, result[0].size
+  end
+
+  def test_load_polygon
+    a = Geodetic::Coordinate::LLA.new(lat: 47.0, lng: -122.0, alt: 0)
+    b = Geodetic::Coordinate::LLA.new(lat: 46.0, lng: -121.0, alt: 0)
+    c = Geodetic::Coordinate::LLA.new(lat: 46.0, lng: -123.0, alt: 0)
+    poly = Geodetic::Areas::Polygon.new(boundary: [a, b, c])
+    result = save_and_load(Geodetic::GeoJSON.new(poly))
+    assert_equal 1, result.length
+    assert_instance_of Geodetic::Areas::Polygon, result[0]
+  end
+
+  def test_load_feature_with_label
+    f = Geodetic::Feature.new(label: "Seattle", geometry: @seattle)
+    result = save_and_load(Geodetic::GeoJSON.new(f))
+    assert_equal 1, result.length
+    assert_instance_of Geodetic::Feature, result[0]
+    assert_equal "Seattle", result[0].label
+  end
+
+  def test_load_feature_with_metadata
+    f = Geodetic::Feature.new(label: "Seattle", geometry: @seattle, metadata: { state: "WA", pop: 750_000 })
+    result = save_and_load(Geodetic::GeoJSON.new(f))
+    feature = result[0]
+    assert_instance_of Geodetic::Feature, feature
+    assert_equal "Seattle", feature.label
+    assert_equal "WA", feature.metadata[:state]
+    assert_equal 750_000, feature.metadata[:pop]
+  end
+
+  def test_load_feature_empty_properties_returns_geometry
+    result = save_and_load(Geodetic::GeoJSON.new(@seattle))
+    assert_instance_of Geodetic::Coordinate::LLA, result[0]
+  end
+
+  def test_load_feature_with_path_geometry
+    path = Geodetic::Path.new(coordinates: [@seattle, @portland])
+    f = Geodetic::Feature.new(label: "Route", geometry: path, metadata: { mode: "driving" })
+    result = save_and_load(Geodetic::GeoJSON.new(f))
+    feature = result[0]
+    assert_instance_of Geodetic::Feature, feature
+    assert_equal "Route", feature.label
+    assert_instance_of Geodetic::Segment, feature.geometry  # 2-point LineString → Segment
+    assert_equal "driving", feature.metadata[:mode]
+  end
+
+  def test_load_mixed_collection
+    f1 = Geodetic::Feature.new(label: "City", geometry: @seattle, metadata: { type: "city" })
+    seg = Geodetic::Segment.new(@seattle, @portland)
+    gj = Geodetic::GeoJSON.new(f1, seg, @sf)
+    result = save_and_load(gj)
+    assert_equal 3, result.length
+    assert_instance_of Geodetic::Feature, result[0]
+    assert_instance_of Geodetic::Segment, result[1]
+    assert_instance_of Geodetic::Coordinate::LLA, result[2]
+  end
+
+  def test_load_empty_collection
+    result = save_and_load(Geodetic::GeoJSON.new)
+    assert_equal [], result
+  end
+
+  def test_roundtrip_preserves_coordinates
+    gj = Geodetic::GeoJSON.new(@seattle, @portland, @sf)
+    result = save_and_load(gj)
+    result.zip([@seattle, @portland, @sf]).each do |loaded, original|
+      assert_in_delta(original.lat, loaded.lat, 1e-6)
+      assert_in_delta(original.lng, loaded.lng, 1e-6)
+      assert_in_delta(original.alt, loaded.alt, 1e-6)
+    end
+  end
+
+  def test_roundtrip_feature_with_polygon
+    a = Geodetic::Coordinate::LLA.new(lat: 47.0, lng: -122.0, alt: 0)
+    b = Geodetic::Coordinate::LLA.new(lat: 46.0, lng: -121.0, alt: 0)
+    c = Geodetic::Coordinate::LLA.new(lat: 46.0, lng: -123.0, alt: 0)
+    poly = Geodetic::Areas::Polygon.new(boundary: [a, b, c])
+    f = Geodetic::Feature.new(label: "Park", geometry: poly, metadata: { area: 12.5 })
+    result = save_and_load(Geodetic::GeoJSON.new(f))
+    feature = result[0]
+    assert_instance_of Geodetic::Feature, feature
+    assert_equal "Park", feature.label
+    assert_instance_of Geodetic::Areas::Polygon, feature.geometry
+    assert_equal 12.5, feature.metadata[:area]
+  end
+
+  def test_parse_bare_point
+    data = { "type" => "Point", "coordinates" => [-122.35, 47.62] }
+    result = Geodetic::GeoJSON.parse(data)
+    assert_equal 1, result.length
+    assert_instance_of Geodetic::Coordinate::LLA, result[0]
+  end
+
+  def test_parse_geometry_collection
+    data = {
+      "type" => "GeometryCollection",
+      "geometries" => [
+        { "type" => "Point", "coordinates" => [-122.35, 47.62] },
+        { "type" => "Point", "coordinates" => [-122.68, 45.52] }
+      ]
+    }
+    result = Geodetic::GeoJSON.parse(data)
+    assert_equal 2, result.length
+    assert result.all? { |r| r.is_a?(Geodetic::Coordinate::LLA) }
+  end
+
+  def test_parse_multi_point
+    data = {
+      "type" => "Feature",
+      "geometry" => {
+        "type" => "MultiPoint",
+        "coordinates" => [[-122.35, 47.62], [-122.68, 45.52]]
+      },
+      "properties" => {}
+    }
+    result = Geodetic::GeoJSON.parse(data)
+    assert_equal 2, result.length
+  end
+
+  def test_parse_feature_name_only
+    data = {
+      "type" => "Feature",
+      "geometry" => { "type" => "Point", "coordinates" => [-122.35, 47.62] },
+      "properties" => { "name" => "Seattle" }
+    }
+    result = Geodetic::GeoJSON.parse(data)
+    assert_equal 1, result.length
+    assert_instance_of Geodetic::Feature, result[0]
+    assert_equal "Seattle", result[0].label
+    assert_equal({}, result[0].metadata)
+  end
+
+  private
+
+  def save_and_load(gj)
+    path = File.join(Dir.tmpdir, "geodetic_roundtrip_#{$$}.geojson")
+    gj.save(path)
+    Geodetic::GeoJSON.load(path)
+  ensure
+    File.delete(path) if File.exist?(path)
+  end
 end

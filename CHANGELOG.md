@@ -8,6 +8,29 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 
+## [0.5.2] - 2026-03-10
+
+### Added
+
+- **`Geodetic::GeoJSON.load(path)`** — read a GeoJSON file and return an Array of Geodetic objects
+- **`Geodetic::GeoJSON.parse(hash)`** — same as `load` but accepts an already-parsed Ruby Hash
+- Roundtrip-safe import: Features with `"name"` or non-empty properties restore as `Geodetic::Feature` (label from `"name"`, remaining properties as `metadata` with symbol keys); Features with empty properties restore as raw geometry
+- GeoJSON → Geodetic type mapping:
+  - Point → `Coordinate::LLA` (altitude preserved when present)
+  - LineString (2 points) → `Segment`
+  - LineString (3+ points) → `Path`
+  - Polygon → `Areas::Polygon` (outer ring; holes dropped)
+  - MultiPoint, MultiLineString, MultiPolygon → flattened into multiple objects
+  - GeometryCollection → flattened into individual geometries
+- 17 new tests covering load, parse, roundtrip, multi-geometries, and edge cases
+
+### Changed
+
+- Updated README with `GeoJSON.load` usage example
+- Updated `docs/reference/geojson.md` with Import section, type mapping table, and roundtrip example
+- Updated `mkdocs.yml` nav to include all 7 missing coordinate systems (GH36, GH, HAM, OLC, GEOREF, GARS, H3) and 3 missing reference pages (Vector, Arithmetic, GeoJSON Export)
+- GeoJSON demo (`examples/09_geojson_export.rb`) now saves output to `examples/` directory instead of system temp
+
 ## [0.5.1] - 2026-03-10
 
 ### Added
