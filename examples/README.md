@@ -83,3 +83,21 @@ Demonstrates the `Geodetic::Path` class with a walking route through Manhattan. 
 - **Path-to-Area closest points** for Circle and Polygon areas
 - **Reverse** to create the return route
 - **Feature integration** wrapping a Path with label and metadata
+
+## 07 - Segments and Shapes
+
+Demonstrates `Geodetic::Segment` and the polygon subclasses (`Triangle`, `Rectangle`, `Pentagon`, `Hexagon`, `Octagon`) using landmarks around the National Mall in Washington DC. Covers:
+
+- **Segment properties** including `length`/`distance`, `bearing`, `midpoint`/`centroid`
+- **Segment operations** with `interpolate`, `project`, `reverse`
+- **Membership testing** with `includes?` (vertex check) and `contains?` (on-segment check)
+- **Intersection detection** between crossing and parallel segments
+- **Triangle construction** in four modes: isosceles, equilateral by side, equilateral by radius, arbitrary vertices
+- **Triangle predicates** with `equilateral?`, `isosceles?`, `scalene?`, and `side_lengths`
+- **Rectangle construction** from a `Segment` centerline (or two-point array) plus width
+- **Rectangle properties** with `centerline`, `center`, `height`, `bearing`, `square?`
+- **Regular polygons** (Pentagon, Hexagon, Octagon) from center and radius
+- **Polygon segments** accessing edges as `Segment` objects
+- **Bounding boxes** via `to_bounding_box` on any polygon subclass
+- **Containment testing** with `includes?` across different shapes
+- **Feature integration** wrapping Segment and area geometries with labels and metadata

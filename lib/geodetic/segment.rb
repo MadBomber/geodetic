@@ -15,6 +15,8 @@ module Geodetic
       @length ||= @start_point.distance_to(@end_point)
     end
 
+    alias distance length
+
     def length_meters
       length.meters
     end
@@ -26,6 +28,8 @@ module Geodetic
     def midpoint
       @midpoint ||= interpolate(0.5)
     end
+
+    alias centroid midpoint
 
     # --- Geometry ---
 

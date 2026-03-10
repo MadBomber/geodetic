@@ -19,9 +19,13 @@ module Geodetic
       end
 
       # Returns Segment objects for each edge of the polygon.
-      def edges
-        @edges ||= @boundary.each_cons(2).map { |a, b| Segment.new(a, b) }
+      # Returns Segment objects for each side of the polygon.
+      def segments
+        @segments ||= @boundary.each_cons(2).map { |a, b| Segment.new(a, b) }
       end
+
+      alias edges segments
+      alias border segments
 
       def includes?(a_point)
         turn_angle = 0.0

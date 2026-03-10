@@ -47,12 +47,14 @@ All properties are lazily computed and cached after first access.
 | Method         | Returns  | Description |
 |----------------|----------|-------------|
 | `length`       | Distance | Great-circle distance between endpoints |
+| `distance`     | Distance | Alias for `length` |
 | `length_meters`| Float    | Length in meters (convenience accessor) |
 | `bearing`      | Bearing  | Forward azimuth from start to end |
 | `midpoint`     | LLA      | Point at the halfway mark |
 
 ```ruby
 seg.length           # => #<Geodetic::Distance 1067.45 m>
+seg.distance         # => #<Geodetic::Distance 1067.45 m> (alias)
 seg.length_meters    # => 1067.45
 seg.bearing          # => #<Geodetic::Bearing 1.0°>
 seg.midpoint         # => LLA at the midpoint

@@ -274,41 +274,59 @@ class RegularPolygonBaseTest < Minitest::Test
 
   # ── Rectangle ────────────────────────────────────────────────
 
+  # Helper: build a north-south segment centered on a point.
+  def north_south_segment(center, length_deg)
+    half = length_deg / 2.0
+    south = LLA.new(lat: center.lat - half, lng: center.lng, alt: center.alt)
+    north = LLA.new(lat: center.lat + half, lng: center.lng, alt: center.alt)
+    Geodetic::Segment.new(south, north)
+  end
+
   def test_rectangle_is_polygon
-    rect = Geodetic::Areas::Rectangle.new(center: @center, width: 400, height: 800)
+    seg = north_south_segment(@center, 0.008)
+    rect = Geodetic::Areas::Rectangle.new(segment: seg, width: 400)
     assert_kind_of Geodetic::Areas::Polygon, rect
   end
 
   def test_rectangle_has_4_sides
-    rect = Geodetic::Areas::Rectangle.new(center: @center, width: 400, height: 800)
+    seg = north_south_segment(@center, 0.008)
+    rect = Geodetic::Areas::Rectangle.new(segment: seg, width: 400)
     assert_equal 4, rect.sides
   end
 
   def test_rectangle_boundary_is_closed
-    rect = Geodetic::Areas::Rectangle.new(center: @center, width: 400, height: 800)
+    seg = north_south_segment(@center, 0.008)
+    rect = Geodetic::Areas::Rectangle.new(segment: seg, width: 400)
     assert_equal rect.boundary.first, rect.boundary.last
     assert_equal 5, rect.boundary.size  # 4 vertices + closing point
   end
 
   def test_rectangle_center_inside
-    rect = Geodetic::Areas::Rectangle.new(center: @center, width: 400, height: 800)
+    seg = north_south_segment(@center, 0.008)
+    rect = Geodetic::Areas::Rectangle.new(segment: seg, width: 400)
     assert rect.includes?(@center)
   end
 
   def test_rectangle_corners_count
-    rect = Geodetic::Areas::Rectangle.new(center: @center, width: 400, height: 800)
+    seg = north_south_segment(@center, 0.008)
+    rect = Geodetic::Areas::Rectangle.new(segment: seg, width: 400)
     assert_equal 4, rect.corners.size
   end
 
   def test_rectangle_attributes
-    rect = Geodetic::Areas::Rectangle.new(center: @center, width: 400, height: 800, bearing: 29)
-    assert_in_delta 400.0, rect.width, 1e-6
-    assert_in_delta 800.0, rect.height, 1e-6
-    assert_in_delta 29.0, rect.bearing, 1e-6
+    a = LLA.new(lat: 40.7400, lng: -73.9900, alt: 0)
+    b = LLA.new(lat: 40.7500, lng: -73.9900, alt: 0)
+    seg = Geodetic::Segment.new(a, b)
+
+    rect = Geodetic::Areas::Rectangle.new(segment: seg, width: 200)
+    assert_in_delta 200.0, rect.width, 1e-6
+    assert_in_delta seg.length_meters, rect.height, 1e-6
+    assert_in_delta seg.bearing.degrees, rect.bearing, 0.1
   end
 
   def test_rectangle_north_aligned_symmetry
-    rect = Geodetic::Areas::Rectangle.new(center: @center, width: 400, height: 800, bearing: 0)
+    seg = north_south_segment(@center, 0.008)
+    rect = Geodetic::Areas::Rectangle.new(segment: seg, width: 400)
     corners = rect.corners
 
     # Front-left and front-right should have same lat (north edge)
@@ -321,35 +339,151 @@ class RegularPolygonBaseTest < Minitest::Test
     assert_in_delta corners[1].lng, corners[2].lng, 1e-6
   end
 
-  def test_rectangle_rotated_corners_differ
-    rect0 = Geodetic::Areas::Rectangle.new(center: @center, width: 400, height: 800, bearing: 0)
-    rect45 = Geodetic::Areas::Rectangle.new(center: @center, width: 400, height: 800, bearing: 45)
+  def test_rectangle_different_segments_differ
+    seg_ns = north_south_segment(@center, 0.008)
+    # A diagonal segment
+    a = LLA.new(lat: 40.7440, lng: -73.9900, alt: 0)
+    b = LLA.new(lat: 40.7528, lng: -73.9850, alt: 0)
+    seg_diag = Geodetic::Segment.new(a, b)
 
-    # Rotated rectangle has different corner positions
-    refute_in_delta rect0.corners[0].lat, rect45.corners[0].lat, 1e-6
+    rect_ns = Geodetic::Areas::Rectangle.new(segment: seg_ns, width: 400)
+    rect_diag = Geodetic::Areas::Rectangle.new(segment: seg_diag, width: 400)
+
+    # Different segments produce different corner positions
+    refute_in_delta rect_ns.corners[0].lat, rect_diag.corners[0].lat, 1e-6
   end
 
   def test_rectangle_to_bounding_box
-    rect = Geodetic::Areas::Rectangle.new(center: @center, width: 400, height: 800, bearing: 29)
+    a = LLA.new(lat: 40.7400, lng: -73.9900, alt: 0)
+    b = LLA.new(lat: 40.7500, lng: -73.9900, alt: 0)
+    seg = Geodetic::Segment.new(a, b)
+
+    rect = Geodetic::Areas::Rectangle.new(segment: seg, width: 400)
     bbox = rect.to_bounding_box
 
     assert_kind_of Geodetic::Areas::BoundingBox, bbox
-    # BoundingBox should enclose all corners
     rect.corners.each do |corner|
       assert bbox.includes?(corner), "BoundingBox should contain corner #{corner}"
     end
   end
 
   def test_rectangle_raises_on_zero_width
+    seg = north_south_segment(@center, 0.008)
     assert_raises(ArgumentError) do
-      Geodetic::Areas::Rectangle.new(center: @center, width: 0, height: 100)
+      Geodetic::Areas::Rectangle.new(segment: seg, width: 0)
     end
   end
 
-  def test_rectangle_raises_on_negative_height
+  def test_rectangle_raises_on_negative_width
+    seg = north_south_segment(@center, 0.008)
     assert_raises(ArgumentError) do
-      Geodetic::Areas::Rectangle.new(center: @center, width: 100, height: -50)
+      Geodetic::Areas::Rectangle.new(segment: seg, width: -50)
     end
+  end
+
+  # ── Rectangle segments ─────────────────────────────────────
+
+  def test_rectangle_segments_returns_4_segments
+    seg = north_south_segment(@center, 0.008)
+    rect = Geodetic::Areas::Rectangle.new(segment: seg, width: 400)
+    segs = rect.segments
+    assert_equal 4, segs.size
+    segs.each { |s| assert_kind_of Geodetic::Segment, s }
+  end
+
+  def test_rectangle_segments_are_connected
+    seg = north_south_segment(@center, 0.008)
+    rect = Geodetic::Areas::Rectangle.new(segment: seg, width: 400)
+    segs = rect.segments
+    segs.each_with_index do |s, i|
+      next_seg = segs[(i + 1) % 4]
+      assert_equal s.end_point, next_seg.start_point
+    end
+  end
+
+  # ── Rectangle square ───────────────────────────────────────
+
+  def test_rectangle_not_square
+    a = LLA.new(lat: 40.7400, lng: -73.9900, alt: 0)
+    b = LLA.new(lat: 40.7500, lng: -73.9900, alt: 0)
+    seg = Geodetic::Segment.new(a, b)
+    rect = Geodetic::Areas::Rectangle.new(segment: seg, width: 400)
+    refute rect.square?
+  end
+
+  # ── Rectangle from segment ─────────────────────────────────
+
+  def test_rectangle_from_segment
+    a = LLA.new(lat: 40.7400, lng: -73.9900, alt: 0)
+    b = LLA.new(lat: 40.7500, lng: -73.9900, alt: 0)
+    seg = Geodetic::Segment.new(a, b)
+
+    rect = Geodetic::Areas::Rectangle.new(segment: seg, width: 200)
+    assert_kind_of Geodetic::Areas::Polygon, rect
+    assert_equal 4, rect.sides
+    assert_in_delta 200.0, rect.width, 1e-6
+    assert_in_delta seg.length_meters, rect.height, 1.0
+  end
+
+  def test_rectangle_from_segment_center_is_midpoint
+    a = LLA.new(lat: 40.7400, lng: -73.9900, alt: 0)
+    b = LLA.new(lat: 40.7500, lng: -73.9900, alt: 0)
+    seg = Geodetic::Segment.new(a, b)
+
+    rect = Geodetic::Areas::Rectangle.new(segment: seg, width: 200)
+    assert_in_delta seg.midpoint.lat, rect.center.lat, 1e-6
+    assert_in_delta seg.midpoint.lng, rect.center.lng, 1e-6
+  end
+
+  def test_rectangle_from_segment_bearing_matches
+    a = LLA.new(lat: 40.7400, lng: -73.9900, alt: 0)
+    b = LLA.new(lat: 40.7500, lng: -73.9900, alt: 0)
+    seg = Geodetic::Segment.new(a, b)
+
+    rect = Geodetic::Areas::Rectangle.new(segment: seg, width: 200)
+    assert_in_delta seg.bearing.degrees, rect.bearing, 0.1
+  end
+
+  def test_rectangle_from_segment_contains_center
+    a = LLA.new(lat: 40.7400, lng: -73.9900, alt: 0)
+    b = LLA.new(lat: 40.7500, lng: -73.9900, alt: 0)
+    seg = Geodetic::Segment.new(a, b)
+
+    rect = Geodetic::Areas::Rectangle.new(segment: seg, width: 200)
+    assert rect.includes?(rect.center), "Rectangle should contain its center"
+    assert rect.includes?(seg.midpoint), "Rectangle should contain segment midpoint"
+  end
+
+  def test_rectangle_from_segment_accepts_array
+    a = LLA.new(lat: 40.7400, lng: -73.9900, alt: 0)
+    b = LLA.new(lat: 40.7500, lng: -73.9900, alt: 0)
+
+    rect = Geodetic::Areas::Rectangle.new(segment: [a, b], width: 200)
+    assert_equal 4, rect.sides
+  end
+
+  def test_rectangle_requires_width
+    a = LLA.new(lat: 40.7400, lng: -73.9900, alt: 0)
+    b = LLA.new(lat: 40.7500, lng: -73.9900, alt: 0)
+    seg = Geodetic::Segment.new(a, b)
+
+    assert_raises(ArgumentError) do
+      Geodetic::Areas::Rectangle.new(segment: seg)
+    end
+  end
+
+  # ── Rectangle centerline ───────────────────────────────────
+
+  def test_rectangle_centerline
+    a = LLA.new(lat: 40.7400, lng: -73.9900, alt: 0)
+    b = LLA.new(lat: 40.7500, lng: -73.9900, alt: 0)
+    seg = Geodetic::Segment.new(a, b)
+
+    rect = Geodetic::Areas::Rectangle.new(segment: seg, width: 400)
+    cl = rect.centerline
+    assert_kind_of Geodetic::Segment, cl
+    assert_equal seg.start_point, cl.start_point
+    assert_equal seg.end_point, cl.end_point
   end
 
   # ── Pentagon ─────────────────────────────────────────────────
@@ -436,9 +570,10 @@ class RegularPolygonBaseTest < Minitest::Test
   end
 
   def test_all_subclasses_have_centroid
+    seg = north_south_segment(@center, 0.008)
     shapes = [
       Geodetic::Areas::Triangle.new(center: @center, width: 400, height: 600),
-      Geodetic::Areas::Rectangle.new(center: @center, width: 400, height: 800),
+      Geodetic::Areas::Rectangle.new(segment: seg, width: 400),
       Geodetic::Areas::Pentagon.new(center: @center, radius: 500),
       Geodetic::Areas::Hexagon.new(center: @center, radius: 500),
       Geodetic::Areas::Octagon.new(center: @center, radius: 500)
@@ -468,7 +603,8 @@ class RegularPolygonBaseTest < Minitest::Test
       LLA.new(lat: 40.76, lng: -73.98, alt: 0)
     ])
 
-    rect = Geodetic::Areas::Rectangle.new(center: @center, width: 400, height: 800, bearing: 29)
+    seg = north_south_segment(@center, 0.008)
+    rect = Geodetic::Areas::Rectangle.new(segment: seg, width: 400)
     result = route.closest_points_to(rect)
 
     assert result[:path_point]
@@ -477,7 +613,8 @@ class RegularPolygonBaseTest < Minitest::Test
   end
 
   def test_feature_with_rectangle_geometry
-    rect = Geodetic::Areas::Rectangle.new(center: @center, width: 400, height: 800, bearing: 29)
+    seg = north_south_segment(@center, 0.008)
+    rect = Geodetic::Areas::Rectangle.new(segment: seg, width: 400)
     feature = Geodetic::Feature.new(label: "Building", geometry: rect)
 
     target = LLA.new(lat: 40.75, lng: -73.99, alt: 0)

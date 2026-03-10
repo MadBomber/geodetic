@@ -555,6 +555,7 @@ seg = Segment.new(a, b)
 
 # Properties (lazily computed, cached)
 seg.length           # => Distance
+seg.distance         # => Distance (alias for length)
 seg.bearing          # => Bearing
 seg.midpoint         # => LLA at halfway point
 
