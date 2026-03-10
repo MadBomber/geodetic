@@ -8,6 +8,45 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 
+## [0.6.0] - 2026-03-10
+
+### Added
+
+- **`Geodetic::WKT` module** — Well-Known Text serialization for all geometry types
+  - **`to_wkt(precision: 6, srid: nil)`** instance method on all 18 coordinate classes, Segment, Path, Areas::Polygon (and subclasses), Areas::Circle, Areas::BoundingBox, and Feature
+  - **Coordinate order**: longitude latitude (OGC Simple Features standard)
+  - **Z suffix**: automatically added when any point in the geometry has non-zero altitude; Z-dimensionality is uniform within each geometry
+  - **EWKT**: `srid:` option prepends `SRID=N;` for PostGIS compatibility
+  - **`WKT.parse(string)`** — parse WKT/EWKT into Geodetic objects (Point → LLA, LineString → Segment/Path, Polygon → Areas::Polygon, Multi*/GeometryCollection → Array)
+  - **`WKT.parse_with_srid(string)`** — returns `[object, srid]` tuple
+  - **`WKT.save!(path, *objects, srid:, precision:)`** — write one WKT per line
+  - **`WKT.load(path)`** — read WKT file into Array of Geodetic objects
+  - ENU/NED raise `ArgumentError` (relative systems cannot be exported)
+- **`Geodetic::WKB` module** — Well-Known Binary serialization for all geometry types
+  - **`to_wkb(srid: nil)`** and **`to_wkb_hex(srid: nil)`** instance methods on all 18 coordinate classes, Segment, Path, Areas::Polygon (and subclasses), Areas::Circle, Areas::BoundingBox, and Feature
+  - **Byte order**: output is always little-endian (NDR), matching PostGIS, GEOS, RGeo, and Shapely; parser supports both LE and BE input
+  - **ISO WKB Z**: type code + 1000 (Point Z = 1001, LineString Z = 1002, Polygon Z = 1003) when any point has non-zero altitude
+  - **EWKB**: `srid:` option embeds SRID via `0x20000000` flag for PostGIS compatibility
+  - **`WKB.parse(input)`** — parse WKB from binary or hex string (auto-detects encoding)
+  - **`WKB.parse_with_srid(input)`** — returns `[object, srid]` tuple
+  - **Binary file I/O**: `WKB.save!(path, *objects, srid:)` / `WKB.load(path)` — framed format (4-byte LE count + size-prefixed WKB)
+  - **Hex file I/O**: `WKB.save_hex!(path, *objects, srid:)` / `WKB.load_hex(path)` — one hex string per line, supports `#` comments
+  - Supports all WKB types: Point, LineString, Polygon, MultiPoint, MultiLineString, MultiPolygon, GeometryCollection
+  - ENU/NED raise `ArgumentError` (relative systems cannot be exported)
+- WKT example (`examples/10_wkt_serialization.rb`) — 10-section demo covering export, SRID/EWKT, Z-dimension, parsing, roundtrip, and file I/O
+- WKB example (`examples/11_wkb_serialization.rb`) — 10-section demo covering export, EWKB/SRID, Z-dimension, parsing, roundtrip, and binary/hex file I/O
+- WKB fixture files: `examples/sample_geometries.wkb` (9 geometries) and `examples/sample_geometries.wkb.hex` (15 geometries with comments)
+- 53 WKT tests (134 assertions) and 54 WKB tests (144 assertions)
+- Documentation: `docs/reference/wkt.md` and `docs/reference/wkb.md`
+
+### Changed
+
+- Updated README with WKT and WKB sections, key features, and examples 10-11 in the examples table
+- Updated `docs/index.md` with WKT and WKB in key features and reference links
+- Updated `examples/README.md` with example 10 and 11 descriptions
+- Updated `mkdocs.yml` nav with WKT and WKB reference pages
+- Added `require_relative "geodetic/wkt"` and `require_relative "geodetic/wkb"` to `lib/geodetic.rb`
+
 ## [0.5.2] - 2026-03-10
 
 ### Added
