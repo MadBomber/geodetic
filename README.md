@@ -24,6 +24,7 @@
 - <strong>Features</strong> - Named geometry wrapper with metadata and delegated distance/bearing<br>
 - <strong>Vectors</strong> - Geodetic displacement (distance + bearing) with full arithmetic and Vincenty direct<br>
 - <strong>Geodetic Arithmetic</strong> - Compose geometry with operators: P1 + P2 → Segment, + P3 → Path, + Distance → Circle, * Vector → translate<br>
+- <strong>GeoJSON Export</strong> - Build FeatureCollections from any mix of objects and save to file<br>
 - <strong>Validated Setters</strong> - Type coercion and range validation on all coordinate attributes<br>
 - <strong>Serialization</strong> - to_s(precision), to_a, from_string, from_array, DMS format<br>
 - <strong>Multiple Datums</strong> - WGS84, Clarke 1866, GRS 1980, Airy 1830, and more<br>
@@ -727,6 +728,38 @@ corridor = route.to_corridor(width: 1000)        # 1km wide polygon
 corridor = route.to_corridor(width: Distance.km(1))
 ```
 
+### GeoJSON Export
+
+`GeoJSON` builds a GeoJSON FeatureCollection from any mix of Geodetic objects and writes it to a file.
+
+```ruby
+gj = Geodetic::GeoJSON.new
+gj << seattle
+gj << [portland, sf, la]
+gj << Feature.new(label: "Route", geometry: route, metadata: { mode: "driving" })
+gj << Areas::Circle.new(centroid: seattle, radius: 10_000)
+
+gj.size        # => 6
+gj.to_h        # => {"type" => "FeatureCollection", "features" => [...]}
+gj.to_json     # => compact JSON string
+gj.save("map.geojson", pretty: true)
+```
+
+Every geometry type has a `to_geojson` method returning a GeoJSON-compatible Hash:
+
+```ruby
+seattle.to_geojson                        # => {"type" => "Point", ...}
+Segment.new(seattle, portland).to_geojson # => {"type" => "LineString", ...}
+route.to_geojson                          # => {"type" => "LineString", ...}
+route.to_geojson(as: :polygon)            # => {"type" => "Polygon", ...}
+polygon.to_geojson                        # => {"type" => "Polygon", ...}
+circle.to_geojson(segments: 64)           # => {"type" => "Polygon", ...} (64-gon)
+bbox.to_geojson                           # => {"type" => "Polygon", ...}
+feature.to_geojson                        # => {"type" => "Feature", ...}
+```
+
+Features carry their `label` as `"name"` and `metadata` as `properties` in the GeoJSON output. Non-Feature objects added to the collection are auto-wrapped as Features with empty properties.
+
 ### Web Mercator Tile Coordinates
 
 ```ruby
@@ -759,6 +792,7 @@ The [`examples/`](examples/) directory contains runnable demo scripts showing pr
 | [`06_path_operations.rb`](examples/06_path_operations.rb) | Path class: construction, navigation, mutation, path arithmetic, closest approach, containment, Enumerable, equality, subpaths, split, interpolation, bounding boxes, polygon conversion, intersection, path-to-path/area closest points, and Feature integration |
 | [`07_segments_and_shapes.rb`](examples/07_segments_and_shapes.rb) | Segment and polygon subclasses: Triangle, Rectangle, Pentagon, Hexagon, Octagon with containment, edges, and bounding boxes |
 | [`08_geodetic_arithmetic.rb`](examples/08_geodetic_arithmetic.rb) | Geodetic arithmetic: building geometry with + (Segments, Paths, Circles), Vector class (Vincenty direct, components, arithmetic, dot/cross products), translation with * (Coordinates, Segments, Paths, Circles, Polygons), and corridors |
+| [`09_geojson_export.rb`](examples/09_geojson_export.rb) | GeoJSON export: `to_geojson` on all geometry types, `GeoJSON` class for building FeatureCollections with `<<`, delete/clear, Enumerable, and `save` to file |
 
 Run any example with:
 

@@ -117,3 +117,17 @@ Demonstrates the operator-based geometry system and the `Geodetic::Vector` class
 - **Key distinction: + vs \*** where `P + V` returns a Segment (the journey) and `P * V` returns a Coordinate (the destination)
 - **Path corridors** with `to_corridor(width:)` converting a path into a polygon, and translating the corridor
 - **Composing operations** chaining arithmetic, vector math, and corridors in single expressions
+
+## 09 - GeoJSON Export
+
+Demonstrates the `Geodetic::GeoJSON` class for building and exporting GeoJSON FeatureCollections. Covers:
+
+- **Coordinate → Point** with `to_geojson` on any coordinate system, including altitude handling
+- **Segment → LineString** exporting two-point directed segments
+- **Path → LineString** and optional `to_geojson(as: :polygon)` for closed paths
+- **Areas → Polygon** for `Polygon`, `Circle` (32-gon approximation with configurable `segments:`), and `BoundingBox`
+- **Feature → GeoJSON Feature** with `label` mapped to `"name"` and `metadata` merged into `properties`
+- **FeatureCollection building** with `GeoJSON.new`, `<<` for single objects and arrays, and `GeoJSON.new(obj, ...)` initialization
+- **Delete and clear** removing individual objects or emptying the collection
+- **Enumerable** iteration over collected objects
+- **Export** via `to_h` (Ruby Hash), `to_json`/`to_json(pretty: true)` (JSON string), and `save(path, pretty:)` (file output)

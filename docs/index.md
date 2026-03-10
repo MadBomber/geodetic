@@ -9,7 +9,7 @@
 <td width="50%" valign="top">
 <h2>Key Features</h2>
 <lu>
-<li><strong>18 Coordinate Systems</strong> - LLA, ECEF, UTM, ENU, NED, MGRS, USNG, Web Mercator, UPS, State Plane, BNG, GH36, GH, HAM, OLC<br>
+<li><strong>18 Coordinate Systems</strong> - LLA, ECEF, UTM, ENU, NED, MGRS, USNG, Web Mercator, UPS, State Plane, BNG, GH36, GH, HAM, OLC, GEOREF, GARS, H3<br>
 <li><strong>Full Bidirectional Conversions</strong> - Every system converts to and from every other system<br>
 <li><strong>Distance Calculations</strong> - Vincenty great-circle and straight-line with unit tracking<br>
 <li><strong>Bearing Calculations</strong> - Forward azimuth, back azimuth, compass directions, elevation angles<br>
@@ -18,6 +18,7 @@
 <li><strong>Segments</strong> - Directed two-point line segments with projection, intersection, and interpolation<br>
 <li><strong>Paths</strong> - Directed coordinate sequences with navigation, interpolation, closest approach, intersection, and area conversion<br>
 <li><strong>Features</strong> - Named geometry wrapper with metadata and delegated distance/bearing<br>
+<li><strong>GeoJSON Export</strong> - Build FeatureCollections from any mix of objects and save to file<br>
 <li><strong>Validated Setters</strong> - Type coercion and range validation on all coordinate attributes<br>
 <li><strong>Serialization</strong> - to_s(precision), to_a, from_string, from_array, DMS format<br>
 <li><strong>Multiple Datums</strong> - WGS84, Clarke 1866, GRS 1980, Airy 1830, and more<br>
@@ -112,4 +113,5 @@ puts lla_again.to_s
 - [Feature](reference/feature.md)
 - [Vector](reference/vector.md)
 - [Arithmetic](reference/arithmetic.md)
+- [GeoJSON Export](reference/geojson.md)
 - [Map Rendering](reference/map-rendering.md)

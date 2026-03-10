@@ -1,8 +1,5 @@
 # Changelog
 
-> [!CAUTION]
-> This gem is under active development. APIs and features may change without notice.
-
 All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
@@ -10,6 +7,45 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+
+## [0.5.1] - 2026-03-10
+
+### Added
+
+- **`Geodetic::GeoJSON` class** — build GeoJSON FeatureCollections from any mix of Geodetic objects
+  - **Constructor**: `GeoJSON.new`, `GeoJSON.new(obj, ...)`, `GeoJSON.new([array])`
+  - **Accumulate**: `<<` accepts single objects or arrays; returns `self` for chaining
+  - **Query**: `size`/`length`, `empty?`, `each`, and all `Enumerable` methods
+  - **Remove**: `delete(obj)`, `clear`
+  - **Export**: `to_h` (Ruby Hash), `to_json`/`to_json(pretty: true)` (JSON string), `save(path, pretty: false)` (file output)
+  - Non-Feature objects auto-wrapped as GeoJSON Features with empty properties
+  - Feature objects carry `label` → `"name"` and `metadata` → `properties`
+- **`to_geojson` instance method** on all geometry types:
+  - All 18 coordinate classes → GeoJSON Point (via LLA; altitude included when non-zero)
+  - `Segment` → GeoJSON LineString (2 positions)
+  - `Path` → GeoJSON LineString (default) or Polygon (`as: :polygon`, auto-closes ring)
+  - `Areas::Polygon` and subclasses → GeoJSON Polygon
+  - `Areas::Circle` → GeoJSON Polygon (N-gon approximation, default 32 segments, configurable via `segments:`)
+  - `Areas::BoundingBox` → GeoJSON Polygon (4 corners, right-hand rule ring order)
+  - `Feature` → GeoJSON Feature with geometry and properties
+  - ENU/NED raise `ArgumentError` (relative systems require conversion first)
+- GeoJSON export example (`examples/09_geojson_export.rb`) — 10-section demo covering `to_geojson` on all geometry types, FeatureCollection building, delete/clear, Enumerable, and file export
+- Documentation: `docs/reference/geojson.md` (GeoJSON Export reference)
+
+### Fixed
+
+- Corrected stale numeric values in documentation:
+  - Seattle→Portland distance: 235393.17 → 235385.71 m (README, `docs/reference/conversions.md`)
+  - Seattle→Portland bearing: 188.2° → 186.25° (README, `docs/reference/conversions.md`, `docs/reference/arithmetic.md`)
+  - Seattle→Portland miles: 146.28 → 146.26 (README)
+  - Liberty→Empire bearing: 36.99° → 36.95° (README, `docs/reference/feature.md`)
+- Fixed `docs/index.md` Key Features list to include all 18 coordinate systems (was missing GEOREF, GARS, H3)
+
+### Changed
+
+- Updated README with GeoJSON Export section, key features bullet, and example 09 in the examples table
+- Updated `docs/index.md` with GeoJSON Export in key features and reference links
+- Updated `examples/README.md` with example 09 description
 
 ## [0.5.0] - 2026-03-10
 
