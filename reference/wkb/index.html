@@ -12,13 +12,13 @@
         <meta name="author" content="Dewayne VanHoozer">
       
       
-        <link rel="canonical" href="https://madbomber.github.io/geodetic/reference/wkt/">
+        <link rel="canonical" href="https://madbomber.github.io/geodetic/reference/wkb/">
       
       
-        <link rel="prev" href="../geojson/">
+        <link rel="prev" href="../wkt/">
       
       
-        <link rel="next" href="../wkb/">
+        <link rel="next" href="../map-rendering/">
       
       
         
@@ -29,7 +29,7 @@
     
     
       
-        <title>WKT Serialization - Geodetic</title>
+        <title>WKB Serialization - Geodetic</title>
       
     
     
@@ -80,7 +80,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#wkt-serialization-reference" class="md-skip">
+        <a href="#wkb-serialization-reference" class="md-skip">
           Skip to content
         </a>
       
@@ -116,7 +116,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              WKT Serialization
+              WKB Serialization
             
           </span>
         </div>
@@ -1553,6 +1553,34 @@
                 
   
   
+  
+  
+    <li class="md-nav__item">
+      <a href="../wkt/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    WKT Serialization
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
     
   
   
@@ -1572,7 +1600,7 @@
   <span class="md-ellipsis">
     
   
-    WKT Serialization
+    WKB Serialization
   
 
     
@@ -1590,7 +1618,7 @@
   <span class="md-ellipsis">
     
   
-    WKT Serialization
+    WKB Serialization
   
 
     
@@ -1634,17 +1662,6 @@
     <span class="md-ellipsis">
       
         Coordinates → POINT
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#options" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Options
       
     </span>
   </a>
@@ -1723,6 +1740,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#options" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Options
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#z-dimension-consistency" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1734,10 +1762,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#srid-ewkt" class="md-nav__link">
+  <a href="#srid-ewkb" class="md-nav__link">
     <span class="md-ellipsis">
       
-        SRID / EWKT
+        SRID / EWKB
       
     </span>
   </a>
@@ -1757,10 +1785,22 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#wktsavepath-objects-srid-nil-precision-6" class="md-nav__link">
+  <a href="#binary-format" class="md-nav__link">
     <span class="md-ellipsis">
       
-        WKT.save!(path, *objects, srid: nil, precision: 6)
+        Binary Format
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Binary Format">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#wkbsavepath-objects-srid-nil" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        WKB.save!(path, *objects, srid: nil)
       
     </span>
   </a>
@@ -1768,10 +1808,65 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#wktloadpath" class="md-nav__link">
+  <a href="#wkbloadpath" class="md-nav__link">
     <span class="md-ellipsis">
       
-        WKT.load(path)
+        WKB.load(path)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hex-format" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Hex Format
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Hex Format">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#wkbsave_hexpath-objects-srid-nil" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        WKB.save_hex!(path, *objects, srid: nil)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#wkbload_hexpath" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        WKB.load_hex(path)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#roundtrip" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Roundtrip
       
     </span>
   </a>
@@ -1796,10 +1891,10 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#wktparsestring" class="md-nav__link">
+  <a href="#wkbparseinput" class="md-nav__link">
     <span class="md-ellipsis">
       
-        WKT.parse(string)
+        WKB.parse(input)
       
     </span>
   </a>
@@ -1807,10 +1902,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#wktparse_with_sridstring" class="md-nav__link">
+  <a href="#wkbparse_with_sridinput" class="md-nav__link">
     <span class="md-ellipsis">
       
-        WKT.parse_with_srid(string)
+        WKB.parse_with_srid(input)
       
     </span>
   </a>
@@ -1823,10 +1918,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#wkt-geodetic-type-mapping" class="md-nav__link">
+  <a href="#wkb-geodetic-type-mapping" class="md-nav__link">
     <span class="md-ellipsis">
       
-        WKT → Geodetic Type Mapping
+        WKB → Geodetic Type Mapping
       
     </span>
   </a>
@@ -1845,10 +1940,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#roundtrip-example" class="md-nav__link">
+  <a href="#wkb-binary-structure" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Roundtrip Example
+        WKB Binary Structure
       
     </span>
   </a>
@@ -1856,10 +1951,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#wkt-specification-notes" class="md-nav__link">
+  <a href="#roundtrip-example" class="md-nav__link">
     <span class="md-ellipsis">
       
-        WKT Specification Notes
+        Roundtrip Example
       
     </span>
   </a>
@@ -1877,38 +1972,21 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#wkb-vs-wkt" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        WKB vs WKT
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
       
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../wkb/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    WKB Serialization
-  
-
-    
-  </span>
-  
-  
-
-      </a>
     </li>
   
 
@@ -2001,17 +2079,6 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#options" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Options
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
   <a href="#segment-linestring" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2083,6 +2150,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#options" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Options
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#z-dimension-consistency" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2094,10 +2172,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#srid-ewkt" class="md-nav__link">
+  <a href="#srid-ewkb" class="md-nav__link">
     <span class="md-ellipsis">
       
-        SRID / EWKT
+        SRID / EWKB
       
     </span>
   </a>
@@ -2117,10 +2195,22 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#wktsavepath-objects-srid-nil-precision-6" class="md-nav__link">
+  <a href="#binary-format" class="md-nav__link">
     <span class="md-ellipsis">
       
-        WKT.save!(path, *objects, srid: nil, precision: 6)
+        Binary Format
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Binary Format">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#wkbsavepath-objects-srid-nil" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        WKB.save!(path, *objects, srid: nil)
       
     </span>
   </a>
@@ -2128,10 +2218,65 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#wktloadpath" class="md-nav__link">
+  <a href="#wkbloadpath" class="md-nav__link">
     <span class="md-ellipsis">
       
-        WKT.load(path)
+        WKB.load(path)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hex-format" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Hex Format
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Hex Format">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#wkbsave_hexpath-objects-srid-nil" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        WKB.save_hex!(path, *objects, srid: nil)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#wkbload_hexpath" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        WKB.load_hex(path)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#roundtrip" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Roundtrip
       
     </span>
   </a>
@@ -2156,10 +2301,10 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#wktparsestring" class="md-nav__link">
+  <a href="#wkbparseinput" class="md-nav__link">
     <span class="md-ellipsis">
       
-        WKT.parse(string)
+        WKB.parse(input)
       
     </span>
   </a>
@@ -2167,10 +2312,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#wktparse_with_sridstring" class="md-nav__link">
+  <a href="#wkbparse_with_sridinput" class="md-nav__link">
     <span class="md-ellipsis">
       
-        WKT.parse_with_srid(string)
+        WKB.parse_with_srid(input)
       
     </span>
   </a>
@@ -2183,10 +2328,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#wkt-geodetic-type-mapping" class="md-nav__link">
+  <a href="#wkb-geodetic-type-mapping" class="md-nav__link">
     <span class="md-ellipsis">
       
-        WKT → Geodetic Type Mapping
+        WKB → Geodetic Type Mapping
       
     </span>
   </a>
@@ -2205,6 +2350,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#wkb-binary-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        WKB Binary Structure
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#roundtrip-example" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2216,10 +2372,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#wkt-specification-notes" class="md-nav__link">
+  <a href="#integration-with-postgis-and-rgeo" class="md-nav__link">
     <span class="md-ellipsis">
       
-        WKT Specification Notes
+        Integration with PostGIS and RGeo
       
     </span>
   </a>
@@ -2227,10 +2383,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#integration-with-postgis-and-rgeo" class="md-nav__link">
+  <a href="#wkb-vs-wkt" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Integration with PostGIS and RGeo
+        WKB vs WKT
       
     </span>
   </a>
@@ -2263,31 +2419,76 @@
   
 
 
-<h1 id="wkt-serialization-reference">WKT Serialization Reference<a class="headerlink" href="#wkt-serialization-reference" title="Permanent link">&para;</a></h1>
-<p><code>Geodetic::WKT</code> provides <a href="https://en.wikipedia.org/wiki/Well-known_text_representation_of_geometry">Well-Known Text</a> (WKT) serialization for all Geodetic geometry types. WKT is the standard text format used by PostGIS, RGeo, Shapely, JTS, GEOS, and most GIS tools.</p>
-<p>Every geometry type gains a <code>to_wkt</code> instance method. The module also provides <code>WKT.parse</code> and <code>WKT.parse_with_srid</code> for importing WKT strings back into Geodetic objects.</p>
+<h1 id="wkb-serialization-reference">WKB Serialization Reference<a class="headerlink" href="#wkb-serialization-reference" title="Permanent link">&para;</a></h1>
+<p><code>Geodetic::WKB</code> provides <a href="https://en.wikipedia.org/wiki/Well-known_binary_representation_of_geometry">Well-Known Binary</a> (WKB) serialization for all Geodetic geometry types. WKB is the binary counterpart to WKT, used by PostGIS, GEOS, RGeo, Shapely, and most GIS tools for efficient geometry storage and transfer.</p>
+<p>Every geometry type gains <code>to_wkb</code> and <code>to_wkb_hex</code> instance methods. The module also provides <code>WKB.parse</code> and <code>WKB.parse_with_srid</code> for importing WKB data back into Geodetic objects.</p>
+<p><strong>Byte order:</strong> Output is always little-endian (NDR), matching PostGIS, GEOS, RGeo, Shapely, and virtually all modern GIS tools. Big-endian (XDR) input is fully supported by the parser.</p>
 <hr />
 <h2 id="export">Export<a class="headerlink" href="#export" title="Permanent link">&para;</a></h2>
 <h3 id="coordinates-point">Coordinates → POINT<a class="headerlink" href="#coordinates-point" title="Permanent link">&para;</a></h3>
-<p>All 18 coordinate classes gain a <code>to_wkt</code> method. It converts the coordinate to LLA and returns a WKT POINT string.</p>
+<p>All 18 coordinate classes gain <code>to_wkb</code> and <code>to_wkb_hex</code> methods. They convert the coordinate to LLA and return WKB binary or hex-encoded output.</p>
 <div class="language-ruby highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">seattle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">Geodetic</span><span class="o">::</span><span class="no">Coordinate</span><span class="o">::</span><span class="no">LLA</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">lat</span><span class="p">:</span><span class="w"> </span><span class="mi">47</span><span class="o">.</span><span class="mi">6205</span><span class="p">,</span><span class="w"> </span><span class="ss">lng</span><span class="p">:</span><span class="w"> </span><span class="o">-</span><span class="mi">122</span><span class="o">.</span><span class="mi">3493</span><span class="p">,</span><span class="w"> </span><span class="ss">alt</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="o">.</span><span class="mi">0</span><span class="p">)</span>
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="n">seattle</span><span class="o">.</span><span class="n">to_wkt</span>
-</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="c1"># =&gt; &quot;POINT(-122.3493 47.6205)&quot;</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="n">seattle</span><span class="o">.</span><span class="n">to_wkb</span><span class="w">           </span><span class="c1"># =&gt; 21-byte binary string</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="n">seattle</span><span class="o">.</span><span class="n">to_wkb_hex</span><span class="w">       </span><span class="c1"># =&gt; &quot;01010000008a1f63ee5a965ec08195438b6ccf4740&quot;</span>
 </span></code></pre></div>
-<p><strong>Altitude handling:</strong> When altitude is non-zero, the Z suffix is added:</p>
-<div class="language-ruby highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="no">Geodetic</span><span class="o">::</span><span class="no">Coordinate</span><span class="o">::</span><span class="no">LLA</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">lat</span><span class="p">:</span><span class="w"> </span><span class="mi">47</span><span class="o">.</span><span class="mi">62</span><span class="p">,</span><span class="w"> </span><span class="ss">lng</span><span class="p">:</span><span class="w"> </span><span class="o">-</span><span class="mi">122</span><span class="o">.</span><span class="mi">35</span><span class="p">,</span><span class="w"> </span><span class="ss">alt</span><span class="p">:</span><span class="w"> </span><span class="mi">184</span><span class="o">.</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">to_wkt</span>
-</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="c1"># =&gt; &quot;POINT Z(-122.35 47.62 184.0)&quot;</span>
+<p><strong>Altitude handling:</strong> When altitude is non-zero, the Z type code is used (Point Z = 1001):</p>
+<div class="language-ruby highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="no">Geodetic</span><span class="o">::</span><span class="no">Coordinate</span><span class="o">::</span><span class="no">LLA</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">lat</span><span class="p">:</span><span class="w"> </span><span class="mi">47</span><span class="o">.</span><span class="mi">62</span><span class="p">,</span><span class="w"> </span><span class="ss">lng</span><span class="p">:</span><span class="w"> </span><span class="o">-</span><span class="mi">122</span><span class="o">.</span><span class="mi">35</span><span class="p">,</span><span class="w"> </span><span class="ss">alt</span><span class="p">:</span><span class="w"> </span><span class="mi">184</span><span class="o">.</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">to_wkb_hex</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="c1"># =&gt; &quot;01e90300008a1f63ee5a965ec08195438b6ccf47400000000000006740&quot;</span>
 </span></code></pre></div>
 <p><strong>Cross-system:</strong> Any coordinate type works — UTM, ECEF, MGRS, etc. are converted to LLA internally.</p>
-<div class="language-ruby highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="n">seattle</span><span class="o">.</span><span class="n">to_utm</span><span class="o">.</span><span class="n">to_wkt</span><span class="w">    </span><span class="c1"># =&gt; &quot;POINT(-122.3493 47.6205)&quot;</span>
-</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="n">seattle</span><span class="o">.</span><span class="n">to_ecef</span><span class="o">.</span><span class="n">to_wkt</span><span class="w">   </span><span class="c1"># =&gt; &quot;POINT(-122.3493 47.6205)&quot;</span>
+<div class="language-ruby highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="n">seattle</span><span class="o">.</span><span class="n">to_utm</span><span class="o">.</span><span class="n">to_wkb_hex</span><span class="w">    </span><span class="c1"># =&gt; hex string</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="n">seattle</span><span class="o">.</span><span class="n">to_ecef</span><span class="o">.</span><span class="n">to_wkb_hex</span><span class="w">   </span><span class="c1"># =&gt; hex string</span>
 </span></code></pre></div>
-<p><strong>ENU and NED:</strong> These are relative coordinate systems. Calling <code>to_wkt</code> raises <code>ArgumentError</code>.</p>
-<div class="language-ruby highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="n">enu</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">Geodetic</span><span class="o">::</span><span class="no">Coordinate</span><span class="o">::</span><span class="no">ENU</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">e</span><span class="p">:</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span><span class="w"> </span><span class="ss">n</span><span class="p">:</span><span class="w"> </span><span class="mi">200</span><span class="p">,</span><span class="w"> </span><span class="ss">u</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="p">)</span>
-</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="n">enu</span><span class="o">.</span><span class="n">to_wkt</span><span class="w">  </span><span class="c1"># =&gt; ArgumentError</span>
+<p><strong>ENU and NED:</strong> These are relative coordinate systems. Calling <code>to_wkb</code> raises <code>ArgumentError</code>.</p>
+<hr />
+<h3 id="segment-linestring">Segment → LINESTRING<a class="headerlink" href="#segment-linestring" title="Permanent link">&para;</a></h3>
+<div class="language-ruby highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="n">seg</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">Geodetic</span><span class="o">::</span><span class="no">Segment</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">seattle</span><span class="p">,</span><span class="w"> </span><span class="n">portland</span><span class="p">)</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="n">seg</span><span class="o">.</span><span class="n">to_wkb</span><span class="w">           </span><span class="c1"># =&gt; 41-byte binary string</span>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="n">seg</span><span class="o">.</span><span class="n">to_wkb_hex</span><span class="w">       </span><span class="c1"># =&gt; hex string</span>
 </span></code></pre></div>
-<h3 id="options">Options<a class="headerlink" href="#options" title="Permanent link">&para;</a></h3>
-<p>All <code>to_wkt</code> methods accept these keyword arguments:</p>
+<hr />
+<h3 id="path-linestring-polygon">Path → LINESTRING / POLYGON<a class="headerlink" href="#path-linestring-polygon" title="Permanent link">&para;</a></h3>
+<p>Returns a LINESTRING by default. Pass <code>as: :polygon</code> for a closed POLYGON.</p>
+<div class="language-ruby highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="n">route</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">Geodetic</span><span class="o">::</span><span class="no">Path</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">coordinates</span><span class="p">:</span><span class="w"> </span><span class="o">[</span><span class="n">seattle</span><span class="p">,</span><span class="w"> </span><span class="n">portland</span><span class="p">,</span><span class="w"> </span><span class="n">sf</span><span class="o">]</span><span class="p">)</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="n">route</span><span class="o">.</span><span class="n">to_wkb</span><span class="w">              </span><span class="c1"># =&gt; LINESTRING binary</span>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="n">route</span><span class="o">.</span><span class="n">to_wkb</span><span class="p">(</span><span class="ss">as</span><span class="p">:</span><span class="w"> </span><span class="ss">:polygon</span><span class="p">)</span><span class="w"> </span><span class="c1"># =&gt; POLYGON binary</span>
+</span></code></pre></div>
+<hr />
+<h3 id="areaspolygon-polygon">Areas::Polygon → POLYGON<a class="headerlink" href="#areaspolygon-polygon" title="Permanent link">&para;</a></h3>
+<div class="language-ruby highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="n">poly</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">Geodetic</span><span class="o">::</span><span class="no">Areas</span><span class="o">::</span><span class="no">Polygon</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">boundary</span><span class="p">:</span><span class="w"> </span><span class="o">[</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">,</span><span class="w"> </span><span class="n">c</span><span class="o">]</span><span class="p">)</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="n">poly</span><span class="o">.</span><span class="n">to_wkb</span><span class="w">       </span><span class="c1"># =&gt; binary</span>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="n">poly</span><span class="o">.</span><span class="n">to_wkb_hex</span><span class="w">   </span><span class="c1"># =&gt; hex string</span>
+</span></code></pre></div>
+<p>All Polygon subclasses (<code>Triangle</code>, <code>Rectangle</code>, <code>Pentagon</code>, <code>Hexagon</code>, <code>Octagon</code>) inherit this method.</p>
+<hr />
+<h3 id="areascircle-polygon">Areas::Circle → POLYGON<a class="headerlink" href="#areascircle-polygon" title="Permanent link">&para;</a></h3>
+<p>Approximated as a regular N-gon. Default is 32 segments.</p>
+<div class="language-ruby highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="n">circle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">Geodetic</span><span class="o">::</span><span class="no">Areas</span><span class="o">::</span><span class="no">Circle</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">centroid</span><span class="p">:</span><span class="w"> </span><span class="n">seattle</span><span class="p">,</span><span class="w"> </span><span class="ss">radius</span><span class="p">:</span><span class="w"> </span><span class="mi">10_000</span><span class="p">)</span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="n">circle</span><span class="o">.</span><span class="n">to_wkb</span><span class="w">                   </span><span class="c1"># =&gt; 32-gon binary (541 bytes)</span>
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="n">circle</span><span class="o">.</span><span class="n">to_wkb</span><span class="p">(</span><span class="ss">segments</span><span class="p">:</span><span class="w"> </span><span class="mi">64</span><span class="p">)</span><span class="w">     </span><span class="c1"># =&gt; 64-gon</span>
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="n">circle</span><span class="o">.</span><span class="n">to_wkb</span><span class="p">(</span><span class="ss">segments</span><span class="p">:</span><span class="w"> </span><span class="mi">8</span><span class="p">)</span><span class="w">      </span><span class="c1"># =&gt; 8-gon (157 bytes)</span>
+</span></code></pre></div>
+<hr />
+<h3 id="areasboundingbox-polygon">Areas::BoundingBox → POLYGON<a class="headerlink" href="#areasboundingbox-polygon" title="Permanent link">&para;</a></h3>
+<p>5 positions (4 corners + closing point).</p>
+<div class="language-ruby highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="n">bbox</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">Geodetic</span><span class="o">::</span><span class="no">Areas</span><span class="o">::</span><span class="no">BoundingBox</span><span class="o">.</span><span class="n">new</span><span class="p">(</span>
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="w">  </span><span class="ss">nw</span><span class="p">:</span><span class="w"> </span><span class="no">Geodetic</span><span class="o">::</span><span class="no">Coordinate</span><span class="o">::</span><span class="no">LLA</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">lat</span><span class="p">:</span><span class="w"> </span><span class="mi">48</span><span class="o">.</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="ss">lng</span><span class="p">:</span><span class="w"> </span><span class="o">-</span><span class="mi">123</span><span class="o">.</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="ss">alt</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">),</span>
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="w">  </span><span class="ss">se</span><span class="p">:</span><span class="w"> </span><span class="no">Geodetic</span><span class="o">::</span><span class="no">Coordinate</span><span class="o">::</span><span class="no">LLA</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">lat</span><span class="p">:</span><span class="w"> </span><span class="mi">46</span><span class="o">.</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="ss">lng</span><span class="p">:</span><span class="w"> </span><span class="o">-</span><span class="mi">121</span><span class="o">.</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="ss">alt</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="p">)</span>
+</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="n">bbox</span><span class="o">.</span><span class="n">to_wkb</span><span class="w">       </span><span class="c1"># =&gt; 93-byte binary</span>
+</span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="n">bbox</span><span class="o">.</span><span class="n">to_wkb_hex</span><span class="w">   </span><span class="c1"># =&gt; hex string</span>
+</span></code></pre></div>
+<hr />
+<h3 id="feature-delegates-to-geometry">Feature → delegates to geometry<a class="headerlink" href="#feature-delegates-to-geometry" title="Permanent link">&para;</a></h3>
+<p>WKB has no concept of properties or labels. <code>Feature#to_wkb</code> delegates directly to the underlying geometry.</p>
+<div class="language-ruby highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="n">f</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">Geodetic</span><span class="o">::</span><span class="no">Feature</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">label</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Seattle&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">geometry</span><span class="p">:</span><span class="w"> </span><span class="n">seattle</span><span class="p">,</span><span class="w"> </span><span class="ss">metadata</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="ss">pop</span><span class="p">:</span><span class="w"> </span><span class="mi">750_000</span><span class="w"> </span><span class="p">})</span>
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="n">f</span><span class="o">.</span><span class="n">to_wkb_hex</span><span class="w">   </span><span class="c1"># =&gt; same as seattle.to_wkb_hex</span>
+</span></code></pre></div>
+<hr />
+<h2 id="options">Options<a class="headerlink" href="#options" title="Permanent link">&para;</a></h2>
+<p>All <code>to_wkb</code> and <code>to_wkb_hex</code> methods accept:</p>
 <table>
 <thead>
 <tr>
@@ -2298,120 +2499,33 @@
 </thead>
 <tbody>
 <tr>
-<td><code>precision:</code></td>
-<td><code>6</code></td>
-<td>Number of decimal places for coordinates</td>
-</tr>
-<tr>
 <td><code>srid:</code></td>
 <td><code>nil</code></td>
-<td>When set, prepends <code>SRID=N;</code> (EWKT format)</td>
+<td>When set, produces EWKB with embedded SRID</td>
 </tr>
 </tbody>
 </table>
-<div class="language-ruby highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="n">seattle</span><span class="o">.</span><span class="n">to_wkt</span><span class="p">(</span><span class="ss">precision</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span>
-</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="c1"># =&gt; &quot;POINT(-122.35 47.62)&quot;</span>
-</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>
-</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="n">seattle</span><span class="o">.</span><span class="n">to_wkt</span><span class="p">(</span><span class="ss">srid</span><span class="p">:</span><span class="w"> </span><span class="mi">4326</span><span class="p">)</span>
-</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="c1"># =&gt; &quot;SRID=4326;POINT(-122.3493 47.6205)&quot;</span>
-</span></code></pre></div>
-<hr />
-<h3 id="segment-linestring">Segment → LINESTRING<a class="headerlink" href="#segment-linestring" title="Permanent link">&para;</a></h3>
-<div class="language-ruby highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="n">seg</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">Geodetic</span><span class="o">::</span><span class="no">Segment</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">seattle</span><span class="p">,</span><span class="w"> </span><span class="n">portland</span><span class="p">)</span>
-</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="n">seg</span><span class="o">.</span><span class="n">to_wkt</span>
-</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="c1"># =&gt; &quot;LINESTRING(-122.3493 47.6205, -122.6784 45.5152)&quot;</span>
-</span></code></pre></div>
-<hr />
-<h3 id="path-linestring-polygon">Path → LINESTRING / POLYGON<a class="headerlink" href="#path-linestring-polygon" title="Permanent link">&para;</a></h3>
-<p>Returns a LINESTRING by default. Pass <code>as: :polygon</code> for a closed POLYGON.</p>
-<div class="language-ruby highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="n">route</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">Geodetic</span><span class="o">::</span><span class="no">Path</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">coordinates</span><span class="p">:</span><span class="w"> </span><span class="o">[</span><span class="n">seattle</span><span class="p">,</span><span class="w"> </span><span class="n">portland</span><span class="p">,</span><span class="w"> </span><span class="n">sf</span><span class="o">]</span><span class="p">)</span>
-</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="n">route</span><span class="o">.</span><span class="n">to_wkt</span>
-</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="c1"># =&gt; &quot;LINESTRING(-122.3493 47.6205, -122.6784 45.5152, -122.4194 37.7749)&quot;</span>
-</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>
-</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="n">route</span><span class="o">.</span><span class="n">to_wkt</span><span class="p">(</span><span class="ss">as</span><span class="p">:</span><span class="w"> </span><span class="ss">:polygon</span><span class="p">)</span>
-</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="c1"># =&gt; &quot;POLYGON((-122.3493 47.6205, -122.6784 45.5152, -122.4194 37.7749, -122.3493 47.6205))&quot;</span>
-</span></code></pre></div>
-<p><strong>Edge cases:</strong></p>
-<table>
-<thead>
-<tr>
-<th>Condition</th>
-<th>Behavior</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Empty path</td>
-<td>Raises <code>ArgumentError</code></td>
-</tr>
-<tr>
-<td>1 coordinate (line_string)</td>
-<td>Raises <code>ArgumentError</code></td>
-</tr>
-<tr>
-<td>2 coordinates (polygon)</td>
-<td>Raises <code>ArgumentError</code></td>
-</tr>
-</tbody>
-</table>
-<hr />
-<h3 id="areaspolygon-polygon">Areas::Polygon → POLYGON<a class="headerlink" href="#areaspolygon-polygon" title="Permanent link">&para;</a></h3>
-<div class="language-ruby highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="n">poly</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">Geodetic</span><span class="o">::</span><span class="no">Areas</span><span class="o">::</span><span class="no">Polygon</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">boundary</span><span class="p">:</span><span class="w"> </span><span class="o">[</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">,</span><span class="w"> </span><span class="n">c</span><span class="o">]</span><span class="p">)</span>
-</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="n">poly</span><span class="o">.</span><span class="n">to_wkt</span>
-</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="c1"># =&gt; &quot;POLYGON((-122.5 47.7, -122.1 47.5, -122.4 47.3, -122.5 47.7))&quot;</span>
-</span></code></pre></div>
-<p>All Polygon subclasses (<code>Triangle</code>, <code>Rectangle</code>, <code>Pentagon</code>, <code>Hexagon</code>, <code>Octagon</code>) inherit this method.</p>
-<hr />
-<h3 id="areascircle-polygon">Areas::Circle → POLYGON<a class="headerlink" href="#areascircle-polygon" title="Permanent link">&para;</a></h3>
-<p>Approximated as a regular N-gon. Default is 32 segments.</p>
-<div class="language-ruby highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="n">circle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">Geodetic</span><span class="o">::</span><span class="no">Areas</span><span class="o">::</span><span class="no">Circle</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">centroid</span><span class="p">:</span><span class="w"> </span><span class="n">seattle</span><span class="p">,</span><span class="w"> </span><span class="ss">radius</span><span class="p">:</span><span class="w"> </span><span class="mi">10_000</span><span class="p">)</span>
-</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>
-</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="n">circle</span><span class="o">.</span><span class="n">to_wkt</span><span class="w">                 </span><span class="c1"># =&gt; 32-gon</span>
-</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="n">circle</span><span class="o">.</span><span class="n">to_wkt</span><span class="p">(</span><span class="ss">segments</span><span class="p">:</span><span class="w"> </span><span class="mi">64</span><span class="p">)</span><span class="w">   </span><span class="c1"># =&gt; 64-gon</span>
-</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="n">circle</span><span class="o">.</span><span class="n">to_wkt</span><span class="p">(</span><span class="ss">segments</span><span class="p">:</span><span class="w"> </span><span class="mi">8</span><span class="p">)</span><span class="w">    </span><span class="c1"># =&gt; 8-gon</span>
-</span></code></pre></div>
-<hr />
-<h3 id="areasboundingbox-polygon">Areas::BoundingBox → POLYGON<a class="headerlink" href="#areasboundingbox-polygon" title="Permanent link">&para;</a></h3>
-<p>5 positions (4 corners + closing point).</p>
-<div class="language-ruby highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="n">bbox</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">Geodetic</span><span class="o">::</span><span class="no">Areas</span><span class="o">::</span><span class="no">BoundingBox</span><span class="o">.</span><span class="n">new</span><span class="p">(</span>
-</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="w">  </span><span class="ss">nw</span><span class="p">:</span><span class="w"> </span><span class="no">Geodetic</span><span class="o">::</span><span class="no">Coordinate</span><span class="o">::</span><span class="no">LLA</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">lat</span><span class="p">:</span><span class="w"> </span><span class="mi">48</span><span class="o">.</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="ss">lng</span><span class="p">:</span><span class="w"> </span><span class="o">-</span><span class="mi">123</span><span class="o">.</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="ss">alt</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">),</span>
-</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="w">  </span><span class="ss">se</span><span class="p">:</span><span class="w"> </span><span class="no">Geodetic</span><span class="o">::</span><span class="no">Coordinate</span><span class="o">::</span><span class="no">LLA</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">lat</span><span class="p">:</span><span class="w"> </span><span class="mi">46</span><span class="o">.</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="ss">lng</span><span class="p">:</span><span class="w"> </span><span class="o">-</span><span class="mi">121</span><span class="o">.</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="ss">alt</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
-</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="p">)</span>
-</span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="n">bbox</span><span class="o">.</span><span class="n">to_wkt</span>
-</span><span id="__span-9-6"><a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="c1"># =&gt; &quot;POLYGON((-123.0 48.0, -121.0 48.0, -121.0 46.0, -123.0 46.0, -123.0 48.0))&quot;</span>
-</span></code></pre></div>
-<hr />
-<h3 id="feature-delegates-to-geometry">Feature → delegates to geometry<a class="headerlink" href="#feature-delegates-to-geometry" title="Permanent link">&para;</a></h3>
-<p>WKT has no concept of properties or labels. <code>Feature#to_wkt</code> delegates directly to the underlying geometry.</p>
-<div class="language-ruby highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="n">f</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">Geodetic</span><span class="o">::</span><span class="no">Feature</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">label</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Seattle&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">geometry</span><span class="p">:</span><span class="w"> </span><span class="n">seattle</span><span class="p">,</span><span class="w"> </span><span class="ss">metadata</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="ss">pop</span><span class="p">:</span><span class="w"> </span><span class="mi">750_000</span><span class="w"> </span><span class="p">})</span>
-</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="n">f</span><span class="o">.</span><span class="n">to_wkt</span>
-</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="c1"># =&gt; &quot;POINT(-122.3493 47.6205)&quot;</span>
-</span></code></pre></div>
 <hr />
 <h2 id="z-dimension-consistency">Z-Dimension Consistency<a class="headerlink" href="#z-dimension-consistency" title="Permanent link">&para;</a></h2>
-<p>When any point in a geometry has non-zero altitude, <strong>all</strong> points in that geometry use the Z suffix. This follows the OGC rule that Z-dimensionality is uniform within a geometry.</p>
-<div class="language-ruby highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="c1"># seattle has alt=0, sf has alt=100</span>
-</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="n">path</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">Geodetic</span><span class="o">::</span><span class="no">Path</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">coordinates</span><span class="p">:</span><span class="w"> </span><span class="o">[</span><span class="n">seattle</span><span class="p">,</span><span class="w"> </span><span class="n">sf</span><span class="o">]</span><span class="p">)</span>
-</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="n">path</span><span class="o">.</span><span class="n">to_wkt</span>
-</span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="c1"># =&gt; &quot;LINESTRING Z(-122.3493 47.6205 0.0, -122.4194 37.7749 100.0)&quot;</span>
-</span><span id="__span-11-5"><a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a>
-</span><span id="__span-11-6"><a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a><span class="c1"># Both at alt=0 → no Z</span>
-</span><span id="__span-11-7"><a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a><span class="n">path2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">Geodetic</span><span class="o">::</span><span class="no">Path</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">coordinates</span><span class="p">:</span><span class="w"> </span><span class="o">[</span><span class="n">seattle</span><span class="p">,</span><span class="w"> </span><span class="n">portland</span><span class="o">]</span><span class="p">)</span>
-</span><span id="__span-11-8"><a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a><span class="n">path2</span><span class="o">.</span><span class="n">to_wkt</span>
-</span><span id="__span-11-9"><a id="__codelineno-11-9" name="__codelineno-11-9" href="#__codelineno-11-9"></a><span class="c1"># =&gt; &quot;LINESTRING(-122.3493 47.6205, -122.6784 45.5152)&quot;</span>
+<p>When any point in a geometry has non-zero altitude, <strong>all</strong> points in that geometry use the Z type code. This follows the OGC rule that Z-dimensionality is uniform within a geometry.</p>
+<div class="language-ruby highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="c1"># seattle (alt=0) + sf (alt=100) → LineString Z (type code 1002)</span>
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="n">mixed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">Geodetic</span><span class="o">::</span><span class="no">Segment</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">seattle</span><span class="p">,</span><span class="w"> </span><span class="n">sf_with_altitude</span><span class="p">)</span>
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="n">mixed</span><span class="o">.</span><span class="n">to_wkb</span><span class="w">  </span><span class="c1"># type code = 1002 (LineString Z)</span>
+</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>
+</span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="c1"># Both at alt=0 → LineString (type code 2)</span>
+</span><span id="__span-9-6"><a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="n">flat</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">Geodetic</span><span class="o">::</span><span class="no">Segment</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">seattle</span><span class="p">,</span><span class="w"> </span><span class="n">portland</span><span class="p">)</span>
+</span><span id="__span-9-7"><a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="n">flat</span><span class="o">.</span><span class="n">to_wkb</span><span class="w">   </span><span class="c1"># type code = 2 (LineString)</span>
 </span></code></pre></div>
 <hr />
-<h2 id="srid-ewkt">SRID / EWKT<a class="headerlink" href="#srid-ewkt" title="Permanent link">&para;</a></h2>
-<p>Pass <code>srid:</code> to any <code>to_wkt</code> call to produce Extended WKT (EWKT), the format used by PostGIS:</p>
-<div class="language-ruby highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="n">seattle</span><span class="o">.</span><span class="n">to_wkt</span><span class="p">(</span><span class="ss">srid</span><span class="p">:</span><span class="w"> </span><span class="mi">4326</span><span class="p">)</span>
-</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="c1"># =&gt; &quot;SRID=4326;POINT(-122.3493 47.6205)&quot;</span>
-</span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>
-</span><span id="__span-12-4"><a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="n">seg</span><span class="o">.</span><span class="n">to_wkt</span><span class="p">(</span><span class="ss">srid</span><span class="p">:</span><span class="w"> </span><span class="mi">4326</span><span class="p">)</span>
-</span><span id="__span-12-5"><a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a><span class="c1"># =&gt; &quot;SRID=4326;LINESTRING(-122.3493 47.6205, -122.6784 45.5152)&quot;</span>
-</span><span id="__span-12-6"><a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a>
-</span><span id="__span-12-7"><a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a><span class="n">poly</span><span class="o">.</span><span class="n">to_wkt</span><span class="p">(</span><span class="ss">srid</span><span class="p">:</span><span class="w"> </span><span class="mi">4326</span><span class="p">)</span>
-</span><span id="__span-12-8"><a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a><span class="c1"># =&gt; &quot;SRID=4326;POLYGON((...))</span>
+<h2 id="srid-ewkb">SRID / EWKB<a class="headerlink" href="#srid-ewkb" title="Permanent link">&para;</a></h2>
+<p>Pass <code>srid:</code> to any <code>to_wkb</code> or <code>to_wkb_hex</code> call to produce Extended WKB (EWKB), the format used by PostGIS:</p>
+<div class="language-ruby highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="n">seattle</span><span class="o">.</span><span class="n">to_wkb_hex</span><span class="p">(</span><span class="ss">srid</span><span class="p">:</span><span class="w"> </span><span class="mi">4326</span><span class="p">)</span>
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="c1"># =&gt; &quot;0101000020e61000008a1f63ee5a965ec08195438b6ccf4740&quot;</span>
+</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>
+</span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="n">seg</span><span class="o">.</span><span class="n">to_wkb_hex</span><span class="p">(</span><span class="ss">srid</span><span class="p">:</span><span class="w"> </span><span class="mi">4326</span><span class="p">)</span>
+</span><span id="__span-10-5"><a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="c1"># =&gt; &quot;0102000020e6100000020000008a1f63ee...&quot;</span>
 </span></code></pre></div>
+<p>EWKB embeds the SRID in the type code using the <code>0x20000000</code> flag, followed by a 4-byte SRID value.</p>
 <p>Common SRIDs:</p>
 <table>
 <thead>
@@ -2437,110 +2551,124 @@
 </table>
 <hr />
 <h2 id="file-io">File I/O<a class="headerlink" href="#file-io" title="Permanent link">&para;</a></h2>
-<h3 id="wktsavepath-objects-srid-nil-precision-6"><code>WKT.save!(path, *objects, srid: nil, precision: 6)</code><a class="headerlink" href="#wktsavepath-objects-srid-nil-precision-6" title="Permanent link">&para;</a></h3>
-<p>Write one WKT string per line. Accepts individual objects or an array.</p>
-<div class="language-ruby highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="no">Geodetic</span><span class="o">::</span><span class="no">WKT</span><span class="o">.</span><span class="n">save!</span><span class="p">(</span><span class="s2">&quot;shapes.wkt&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">seattle</span><span class="p">,</span><span class="w"> </span><span class="n">segment</span><span class="p">,</span><span class="w"> </span><span class="n">polygon</span><span class="p">)</span>
-</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="no">Geodetic</span><span class="o">::</span><span class="no">WKT</span><span class="o">.</span><span class="n">save!</span><span class="p">(</span><span class="s2">&quot;shapes.wkt&quot;</span><span class="p">,</span><span class="w"> </span><span class="o">[</span><span class="n">seattle</span><span class="p">,</span><span class="w"> </span><span class="n">segment</span><span class="p">,</span><span class="w"> </span><span class="n">polygon</span><span class="o">]</span><span class="p">)</span>
-</span><span id="__span-13-3"><a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a><span class="no">Geodetic</span><span class="o">::</span><span class="no">WKT</span><span class="o">.</span><span class="n">save!</span><span class="p">(</span><span class="s2">&quot;shapes.wkt&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">seattle</span><span class="p">,</span><span class="w"> </span><span class="n">polygon</span><span class="p">,</span><span class="w"> </span><span class="ss">srid</span><span class="p">:</span><span class="w"> </span><span class="mi">4326</span><span class="p">,</span><span class="w"> </span><span class="ss">precision</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span>
+<h3 id="binary-format">Binary Format<a class="headerlink" href="#binary-format" title="Permanent link">&para;</a></h3>
+<h4 id="wkbsavepath-objects-srid-nil"><code>WKB.save!(path, *objects, srid: nil)</code><a class="headerlink" href="#wkbsavepath-objects-srid-nil" title="Permanent link">&para;</a></h4>
+<p>Write geometries to a binary file using a framed format: 4-byte LE count, then for each geometry a 4-byte LE size followed by raw WKB bytes. Accepts individual objects or an array.</p>
+<div class="language-ruby highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="no">Geodetic</span><span class="o">::</span><span class="no">WKB</span><span class="o">.</span><span class="n">save!</span><span class="p">(</span><span class="s2">&quot;shapes.wkb&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">seattle</span><span class="p">,</span><span class="w"> </span><span class="n">segment</span><span class="p">,</span><span class="w"> </span><span class="n">polygon</span><span class="p">)</span>
+</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="no">Geodetic</span><span class="o">::</span><span class="no">WKB</span><span class="o">.</span><span class="n">save!</span><span class="p">(</span><span class="s2">&quot;shapes.wkb&quot;</span><span class="p">,</span><span class="w"> </span><span class="o">[</span><span class="n">seattle</span><span class="p">,</span><span class="w"> </span><span class="n">segment</span><span class="p">,</span><span class="w"> </span><span class="n">polygon</span><span class="o">]</span><span class="p">)</span>
+</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="no">Geodetic</span><span class="o">::</span><span class="no">WKB</span><span class="o">.</span><span class="n">save!</span><span class="p">(</span><span class="s2">&quot;shapes.wkb&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">seattle</span><span class="p">,</span><span class="w"> </span><span class="n">polygon</span><span class="p">,</span><span class="w"> </span><span class="ss">srid</span><span class="p">:</span><span class="w"> </span><span class="mi">4326</span><span class="p">)</span>
 </span></code></pre></div>
-<p>Output file (one geometry per line):</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>POINT(-122.3493 47.6205)
-</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>LINESTRING(-122.3493 47.6205, -122.6784 45.5152)
-</span><span id="__span-14-3"><a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a>POLYGON((-122.0 47.0, -121.0 46.0, -123.0 46.0, -122.0 47.0))
+<h4 id="wkbloadpath"><code>WKB.load(path)</code><a class="headerlink" href="#wkbloadpath" title="Permanent link">&para;</a></h4>
+<p>Read a binary WKB file and return an Array of Geodetic objects.</p>
+<div class="language-ruby highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="n">objects</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">Geodetic</span><span class="o">::</span><span class="no">WKB</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;shapes.wkb&quot;</span><span class="p">)</span>
+</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="c1"># =&gt; [Coordinate::LLA, Segment, Areas::Polygon]</span>
 </span></code></pre></div>
-<h3 id="wktloadpath"><code>WKT.load(path)</code><a class="headerlink" href="#wktloadpath" title="Permanent link">&para;</a></h3>
-<p>Read a WKT file and return an Array of Geodetic objects. Blank lines are skipped.</p>
-<div class="language-ruby highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="n">objects</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">Geodetic</span><span class="o">::</span><span class="no">WKT</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;shapes.wkt&quot;</span><span class="p">)</span>
+<h3 id="hex-format">Hex Format<a class="headerlink" href="#hex-format" title="Permanent link">&para;</a></h3>
+<h4 id="wkbsave_hexpath-objects-srid-nil"><code>WKB.save_hex!(path, *objects, srid: nil)</code><a class="headerlink" href="#wkbsave_hexpath-objects-srid-nil" title="Permanent link">&para;</a></h4>
+<p>Write one hex-encoded WKB string per line. Human-readable and diff-friendly.</p>
+<div class="language-ruby highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="no">Geodetic</span><span class="o">::</span><span class="no">WKB</span><span class="o">.</span><span class="n">save_hex!</span><span class="p">(</span><span class="s2">&quot;shapes.wkb.hex&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">seattle</span><span class="p">,</span><span class="w"> </span><span class="n">segment</span><span class="p">,</span><span class="w"> </span><span class="n">polygon</span><span class="p">)</span>
+</span></code></pre></div>
+<p>Output file:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>01010000008a1f63ee5a965ec08195438b6ccf4740
+</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>0102000000020000008a1f63ee5a965ec0...
+</span><span id="__span-14-3"><a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a>01030000000100000004000000...
+</span></code></pre></div>
+<h4 id="wkbload_hexpath"><code>WKB.load_hex(path)</code><a class="headerlink" href="#wkbload_hexpath" title="Permanent link">&para;</a></h4>
+<p>Read a hex WKB file and return an Array of Geodetic objects. Blank lines and lines starting with <code>#</code> are skipped.</p>
+<div class="language-ruby highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="n">objects</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">Geodetic</span><span class="o">::</span><span class="no">WKB</span><span class="o">.</span><span class="n">load_hex</span><span class="p">(</span><span class="s2">&quot;shapes.wkb.hex&quot;</span><span class="p">)</span>
 </span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="c1"># =&gt; [Coordinate::LLA, Segment, Areas::Polygon]</span>
 </span></code></pre></div>
-<p><strong>Roundtrip:</strong></p>
-<div class="language-ruby highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="no">Geodetic</span><span class="o">::</span><span class="no">WKT</span><span class="o">.</span><span class="n">save!</span><span class="p">(</span><span class="s2">&quot;data.wkt&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">seattle</span><span class="p">,</span><span class="w"> </span><span class="n">portland</span><span class="p">,</span><span class="w"> </span><span class="n">polygon</span><span class="p">,</span><span class="w"> </span><span class="ss">srid</span><span class="p">:</span><span class="w"> </span><span class="mi">4326</span><span class="p">)</span>
-</span><span id="__span-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a><span class="n">objects</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">Geodetic</span><span class="o">::</span><span class="no">WKT</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;data.wkt&quot;</span><span class="p">)</span>
+<h3 id="roundtrip">Roundtrip<a class="headerlink" href="#roundtrip" title="Permanent link">&para;</a></h3>
+<div class="language-ruby highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="n">objects</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">[</span><span class="n">seattle</span><span class="p">,</span><span class="w"> </span><span class="n">segment</span><span class="p">,</span><span class="w"> </span><span class="n">polygon</span><span class="o">]</span>
+</span><span id="__span-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>
+</span><span id="__span-16-3"><a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a><span class="c1"># Binary roundtrip</span>
+</span><span id="__span-16-4"><a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a><span class="no">Geodetic</span><span class="o">::</span><span class="no">WKB</span><span class="o">.</span><span class="n">save!</span><span class="p">(</span><span class="s2">&quot;data.wkb&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">objects</span><span class="p">)</span>
+</span><span id="__span-16-5"><a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a><span class="n">loaded</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">Geodetic</span><span class="o">::</span><span class="no">WKB</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;data.wkb&quot;</span><span class="p">)</span>
+</span><span id="__span-16-6"><a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a>
+</span><span id="__span-16-7"><a id="__codelineno-16-7" name="__codelineno-16-7" href="#__codelineno-16-7"></a><span class="c1"># Hex roundtrip</span>
+</span><span id="__span-16-8"><a id="__codelineno-16-8" name="__codelineno-16-8" href="#__codelineno-16-8"></a><span class="no">Geodetic</span><span class="o">::</span><span class="no">WKB</span><span class="o">.</span><span class="n">save_hex!</span><span class="p">(</span><span class="s2">&quot;data.wkb.hex&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">objects</span><span class="p">,</span><span class="w"> </span><span class="ss">srid</span><span class="p">:</span><span class="w"> </span><span class="mi">4326</span><span class="p">)</span>
+</span><span id="__span-16-9"><a id="__codelineno-16-9" name="__codelineno-16-9" href="#__codelineno-16-9"></a><span class="n">loaded</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">Geodetic</span><span class="o">::</span><span class="no">WKB</span><span class="o">.</span><span class="n">load_hex</span><span class="p">(</span><span class="s2">&quot;data.wkb.hex&quot;</span><span class="p">)</span>
 </span></code></pre></div>
 <hr />
 <h2 id="import">Import<a class="headerlink" href="#import" title="Permanent link">&para;</a></h2>
-<h3 id="wktparsestring"><code>WKT.parse(string)</code><a class="headerlink" href="#wktparsestring" title="Permanent link">&para;</a></h3>
-<p>Parse a WKT string and return a Geodetic object (or Array for Multi*/GeometryCollection types).</p>
-<div class="language-ruby highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="no">Geodetic</span><span class="o">::</span><span class="no">WKT</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="s2">&quot;POINT(-122.3493 47.6205)&quot;</span><span class="p">)</span>
+<h3 id="wkbparseinput"><code>WKB.parse(input)</code><a class="headerlink" href="#wkbparseinput" title="Permanent link">&para;</a></h3>
+<p>Parse a WKB binary string or hex string and return a Geodetic object (or Array for Multi*/GeometryCollection types). Auto-detects binary vs hex encoding.</p>
+<div class="language-ruby highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="no">Geodetic</span><span class="o">::</span><span class="no">WKB</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="s2">&quot;01010000008a1f63ee5a965ec08195438b6ccf4740&quot;</span><span class="p">)</span>
 </span><span id="__span-17-2"><a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a><span class="c1"># =&gt; Coordinate::LLA</span>
 </span><span id="__span-17-3"><a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a>
-</span><span id="__span-17-4"><a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a><span class="no">Geodetic</span><span class="o">::</span><span class="no">WKT</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="s2">&quot;LINESTRING(-122.35 47.62, -122.68 45.52)&quot;</span><span class="p">)</span>
-</span><span id="__span-17-5"><a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a><span class="c1"># =&gt; Segment (2 points) or Path (3+ points)</span>
-</span><span id="__span-17-6"><a id="__codelineno-17-6" name="__codelineno-17-6" href="#__codelineno-17-6"></a>
-</span><span id="__span-17-7"><a id="__codelineno-17-7" name="__codelineno-17-7" href="#__codelineno-17-7"></a><span class="no">Geodetic</span><span class="o">::</span><span class="no">WKT</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="s2">&quot;POLYGON((-122.0 47.0, -121.0 46.0, -123.0 46.0, -122.0 47.0))&quot;</span><span class="p">)</span>
-</span><span id="__span-17-8"><a id="__codelineno-17-8" name="__codelineno-17-8" href="#__codelineno-17-8"></a><span class="c1"># =&gt; Areas::Polygon</span>
-</span><span id="__span-17-9"><a id="__codelineno-17-9" name="__codelineno-17-9" href="#__codelineno-17-9"></a>
-</span><span id="__span-17-10"><a id="__codelineno-17-10" name="__codelineno-17-10" href="#__codelineno-17-10"></a><span class="no">Geodetic</span><span class="o">::</span><span class="no">WKT</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="s2">&quot;MULTIPOINT((-122.35 47.62), (-122.68 45.52))&quot;</span><span class="p">)</span>
-</span><span id="__span-17-11"><a id="__codelineno-17-11" name="__codelineno-17-11" href="#__codelineno-17-11"></a><span class="c1"># =&gt; [LLA, LLA]</span>
-</span><span id="__span-17-12"><a id="__codelineno-17-12" name="__codelineno-17-12" href="#__codelineno-17-12"></a>
-</span><span id="__span-17-13"><a id="__codelineno-17-13" name="__codelineno-17-13" href="#__codelineno-17-13"></a><span class="no">Geodetic</span><span class="o">::</span><span class="no">WKT</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="s2">&quot;GEOMETRYCOLLECTION(POINT(-122.35 47.62), LINESTRING(...))&quot;</span><span class="p">)</span>
-</span><span id="__span-17-14"><a id="__codelineno-17-14" name="__codelineno-17-14" href="#__codelineno-17-14"></a><span class="c1"># =&gt; [LLA, Segment]</span>
+</span><span id="__span-17-4"><a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a><span class="no">Geodetic</span><span class="o">::</span><span class="no">WKB</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">binary_string</span><span class="p">)</span>
+</span><span id="__span-17-5"><a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a><span class="c1"># =&gt; Coordinate::LLA</span>
 </span></code></pre></div>
-<p>SRID prefixes are silently stripped:</p>
-<div class="language-ruby highlight"><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="no">Geodetic</span><span class="o">::</span><span class="no">WKT</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="s2">&quot;SRID=4326;POINT(-122.35 47.62)&quot;</span><span class="p">)</span>
-</span><span id="__span-18-2"><a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a><span class="c1"># =&gt; Coordinate::LLA (SRID discarded)</span>
-</span></code></pre></div>
-<h3 id="wktparse_with_sridstring"><code>WKT.parse_with_srid(string)</code><a class="headerlink" href="#wktparse_with_sridstring" title="Permanent link">&para;</a></h3>
-<p>Parse a WKT/EWKT string and return both the object and the SRID:</p>
-<div class="language-ruby highlight"><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="n">obj</span><span class="p">,</span><span class="w"> </span><span class="n">srid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">Geodetic</span><span class="o">::</span><span class="no">WKT</span><span class="o">.</span><span class="n">parse_with_srid</span><span class="p">(</span><span class="s2">&quot;SRID=4326;POINT(-122.3493 47.6205)&quot;</span><span class="p">)</span>
-</span><span id="__span-19-2"><a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a><span class="n">obj</span><span class="w">   </span><span class="c1"># =&gt; Coordinate::LLA</span>
-</span><span id="__span-19-3"><a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a><span class="n">srid</span><span class="w">  </span><span class="c1"># =&gt; 4326</span>
-</span><span id="__span-19-4"><a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a>
-</span><span id="__span-19-5"><a id="__codelineno-19-5" name="__codelineno-19-5" href="#__codelineno-19-5"></a><span class="n">obj</span><span class="p">,</span><span class="w"> </span><span class="n">srid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">Geodetic</span><span class="o">::</span><span class="no">WKT</span><span class="o">.</span><span class="n">parse_with_srid</span><span class="p">(</span><span class="s2">&quot;POINT(-122.3493 47.6205)&quot;</span><span class="p">)</span>
-</span><span id="__span-19-6"><a id="__codelineno-19-6" name="__codelineno-19-6" href="#__codelineno-19-6"></a><span class="n">srid</span><span class="w">  </span><span class="c1"># =&gt; nil</span>
+<h3 id="wkbparse_with_sridinput"><code>WKB.parse_with_srid(input)</code><a class="headerlink" href="#wkbparse_with_sridinput" title="Permanent link">&para;</a></h3>
+<p>Parse WKB/EWKB and return both the object and the SRID:</p>
+<div class="language-ruby highlight"><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="n">obj</span><span class="p">,</span><span class="w"> </span><span class="n">srid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">Geodetic</span><span class="o">::</span><span class="no">WKB</span><span class="o">.</span><span class="n">parse_with_srid</span><span class="p">(</span><span class="s2">&quot;0101000020e61000008a1f63ee5a965ec08195438b6ccf4740&quot;</span><span class="p">)</span>
+</span><span id="__span-18-2"><a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a><span class="n">obj</span><span class="w">   </span><span class="c1"># =&gt; Coordinate::LLA</span>
+</span><span id="__span-18-3"><a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a><span class="n">srid</span><span class="w">  </span><span class="c1"># =&gt; 4326</span>
+</span><span id="__span-18-4"><a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a>
+</span><span id="__span-18-5"><a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a><span class="n">obj</span><span class="p">,</span><span class="w"> </span><span class="n">srid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">Geodetic</span><span class="o">::</span><span class="no">WKB</span><span class="o">.</span><span class="n">parse_with_srid</span><span class="p">(</span><span class="n">plain_wkb_hex</span><span class="p">)</span>
+</span><span id="__span-18-6"><a id="__codelineno-18-6" name="__codelineno-18-6" href="#__codelineno-18-6"></a><span class="n">srid</span><span class="w">  </span><span class="c1"># =&gt; nil</span>
 </span></code></pre></div>
 <hr />
-<h2 id="wkt-geodetic-type-mapping">WKT → Geodetic Type Mapping<a class="headerlink" href="#wkt-geodetic-type-mapping" title="Permanent link">&para;</a></h2>
+<h2 id="wkb-geodetic-type-mapping">WKB → Geodetic Type Mapping<a class="headerlink" href="#wkb-geodetic-type-mapping" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
 <tr>
-<th>WKT Type</th>
+<th>WKB Type Code</th>
+<th>WKB Type</th>
 <th>Geodetic Type</th>
 </tr>
 </thead>
 <tbody>
 <tr>
+<td>1</td>
 <td>POINT</td>
 <td><code>Coordinate::LLA</code></td>
 </tr>
 <tr>
-<td>LINESTRING (2 points)</td>
+<td>2 (2 points)</td>
+<td>LINESTRING</td>
 <td><code>Segment</code></td>
 </tr>
 <tr>
-<td>LINESTRING (3+ points)</td>
+<td>2 (3+ points)</td>
+<td>LINESTRING</td>
 <td><code>Path</code></td>
 </tr>
 <tr>
+<td>3</td>
 <td>POLYGON</td>
 <td><code>Areas::Polygon</code> (outer ring only; holes are dropped)</td>
 </tr>
 <tr>
+<td>4</td>
 <td>MULTIPOINT</td>
 <td>Array of <code>Coordinate::LLA</code></td>
 </tr>
 <tr>
+<td>5</td>
 <td>MULTILINESTRING</td>
 <td>Array of <code>Segment</code> or <code>Path</code></td>
 </tr>
 <tr>
+<td>6</td>
 <td>MULTIPOLYGON</td>
 <td>Array of <code>Areas::Polygon</code></td>
 </tr>
 <tr>
+<td>7</td>
 <td>GEOMETRYCOLLECTION</td>
 <td>Array of mixed types</td>
 </tr>
 </tbody>
 </table>
-<p>All types support the Z suffix for 3D coordinates.</p>
+<p>Z variants (type + 1000) are supported: Point Z = 1001, LineString Z = 1002, Polygon Z = 1003.</p>
 <hr />
 <h2 id="geometry-mapping-export">Geometry Mapping (Export)<a class="headerlink" href="#geometry-mapping-export" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
 <tr>
 <th>Geodetic Type</th>
-<th>WKT Type</th>
+<th>WKB Type</th>
 <th>Notes</th>
 </tr>
 </thead>
@@ -2588,47 +2716,191 @@
 </tbody>
 </table>
 <hr />
-<h2 id="roundtrip-example">Roundtrip Example<a class="headerlink" href="#roundtrip-example" title="Permanent link">&para;</a></h2>
-<div class="language-ruby highlight"><pre><span></span><code><span id="__span-20-1"><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="nb">require</span><span class="w"> </span><span class="s2">&quot;geodetic&quot;</span>
-</span><span id="__span-20-2"><a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a>
-</span><span id="__span-20-3"><a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a><span class="n">seattle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">Geodetic</span><span class="o">::</span><span class="no">Coordinate</span><span class="o">::</span><span class="no">LLA</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">lat</span><span class="p">:</span><span class="w"> </span><span class="mi">47</span><span class="o">.</span><span class="mi">6205</span><span class="p">,</span><span class="w"> </span><span class="ss">lng</span><span class="p">:</span><span class="w"> </span><span class="o">-</span><span class="mi">122</span><span class="o">.</span><span class="mi">3493</span><span class="p">,</span><span class="w"> </span><span class="ss">alt</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
-</span><span id="__span-20-4"><a id="__codelineno-20-4" name="__codelineno-20-4" href="#__codelineno-20-4"></a>
-</span><span id="__span-20-5"><a id="__codelineno-20-5" name="__codelineno-20-5" href="#__codelineno-20-5"></a><span class="c1"># Export</span>
-</span><span id="__span-20-6"><a id="__codelineno-20-6" name="__codelineno-20-6" href="#__codelineno-20-6"></a><span class="n">wkt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">seattle</span><span class="o">.</span><span class="n">to_wkt</span><span class="p">(</span><span class="ss">srid</span><span class="p">:</span><span class="w"> </span><span class="mi">4326</span><span class="p">)</span>
-</span><span id="__span-20-7"><a id="__codelineno-20-7" name="__codelineno-20-7" href="#__codelineno-20-7"></a><span class="c1"># =&gt; &quot;SRID=4326;POINT(-122.3493 47.6205)&quot;</span>
-</span><span id="__span-20-8"><a id="__codelineno-20-8" name="__codelineno-20-8" href="#__codelineno-20-8"></a>
-</span><span id="__span-20-9"><a id="__codelineno-20-9" name="__codelineno-20-9" href="#__codelineno-20-9"></a><span class="c1"># Import</span>
-</span><span id="__span-20-10"><a id="__codelineno-20-10" name="__codelineno-20-10" href="#__codelineno-20-10"></a><span class="n">obj</span><span class="p">,</span><span class="w"> </span><span class="n">srid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">Geodetic</span><span class="o">::</span><span class="no">WKT</span><span class="o">.</span><span class="n">parse_with_srid</span><span class="p">(</span><span class="n">wkt</span><span class="p">)</span>
-</span><span id="__span-20-11"><a id="__codelineno-20-11" name="__codelineno-20-11" href="#__codelineno-20-11"></a><span class="n">obj</span><span class="o">.</span><span class="n">lat</span><span class="w">   </span><span class="c1"># =&gt; 47.6205</span>
-</span><span id="__span-20-12"><a id="__codelineno-20-12" name="__codelineno-20-12" href="#__codelineno-20-12"></a><span class="n">obj</span><span class="o">.</span><span class="n">lng</span><span class="w">   </span><span class="c1"># =&gt; -122.3493</span>
-</span><span id="__span-20-13"><a id="__codelineno-20-13" name="__codelineno-20-13" href="#__codelineno-20-13"></a><span class="n">srid</span><span class="w">      </span><span class="c1"># =&gt; 4326</span>
-</span><span id="__span-20-14"><a id="__codelineno-20-14" name="__codelineno-20-14" href="#__codelineno-20-14"></a>
-</span><span id="__span-20-15"><a id="__codelineno-20-15" name="__codelineno-20-15" href="#__codelineno-20-15"></a><span class="c1"># Re-export</span>
-</span><span id="__span-20-16"><a id="__codelineno-20-16" name="__codelineno-20-16" href="#__codelineno-20-16"></a><span class="n">obj</span><span class="o">.</span><span class="n">to_wkt</span><span class="p">(</span><span class="ss">srid</span><span class="p">:</span><span class="w"> </span><span class="n">srid</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">wkt</span><span class="w">  </span><span class="c1"># =&gt; true</span>
-</span></code></pre></div>
+<h2 id="wkb-binary-structure">WKB Binary Structure<a class="headerlink" href="#wkb-binary-structure" title="Permanent link">&para;</a></h2>
+<p>Each WKB geometry starts with:</p>
+<table>
+<thead>
+<tr>
+<th>Offset</th>
+<th>Size</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>1 byte</td>
+<td>Byte order: <code>0x01</code> = little-endian (NDR), <code>0x00</code> = big-endian (XDR)</td>
+</tr>
+<tr>
+<td>1</td>
+<td>4 bytes</td>
+<td>Type code (uint32)</td>
+</tr>
+<tr>
+<td>5</td>
+<td>4 bytes</td>
+<td>SRID (uint32, only in EWKB when SRID flag is set)</td>
+</tr>
+<tr>
+<td>5 or 9</td>
+<td>varies</td>
+<td>Geometry data (IEEE 754 doubles)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Type codes:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Code</th>
+<th>Type</th>
+<th>Z Code</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Point</td>
+<td>1001</td>
+</tr>
+<tr>
+<td>2</td>
+<td>LineString</td>
+<td>1002</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Polygon</td>
+<td>1003</td>
+</tr>
+<tr>
+<td>4</td>
+<td>MultiPoint</td>
+<td>1004</td>
+</tr>
+<tr>
+<td>5</td>
+<td>MultiLineString</td>
+<td>1005</td>
+</tr>
+<tr>
+<td>6</td>
+<td>MultiPolygon</td>
+<td>1006</td>
+</tr>
+<tr>
+<td>7</td>
+<td>GeometryCollection</td>
+<td>1007</td>
+</tr>
+</tbody>
+</table>
+<p><strong>EWKB flags</strong> (OR'd into type code):</p>
+<table>
+<thead>
+<tr>
+<th>Flag</th>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SRID</td>
+<td><code>0x20000000</code></td>
+<td>SRID follows the type code</td>
+</tr>
+<tr>
+<td>Z</td>
+<td><code>0x80000000</code></td>
+<td>Coordinates include Z values</td>
+</tr>
+</tbody>
+</table>
 <hr />
-<h2 id="wkt-specification-notes">WKT Specification Notes<a class="headerlink" href="#wkt-specification-notes" title="Permanent link">&para;</a></h2>
-<ul>
-<li><strong>Coordinate order</strong> is <code>longitude latitude</code> (same as GeoJSON), per OGC Simple Features.</li>
-<li><strong>Z suffix</strong> indicates 3D coordinates: <code>POINT Z(lng lat alt)</code>.</li>
-<li><strong>Polygon rings</strong> are closed (first point = last point).</li>
-<li><strong>EWKT</strong> (Extended WKT) prepends <code>SRID=N;</code> — this is a PostGIS extension, not part of the OGC standard.</li>
-<li><strong>No properties</strong> — unlike GeoJSON, WKT is geometry-only. Feature labels and metadata are not preserved.</li>
-</ul>
+<h2 id="roundtrip-example">Roundtrip Example<a class="headerlink" href="#roundtrip-example" title="Permanent link">&para;</a></h2>
+<div class="language-ruby highlight"><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="nb">require</span><span class="w"> </span><span class="s2">&quot;geodetic&quot;</span>
+</span><span id="__span-19-2"><a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a>
+</span><span id="__span-19-3"><a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a><span class="n">seattle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">Geodetic</span><span class="o">::</span><span class="no">Coordinate</span><span class="o">::</span><span class="no">LLA</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">lat</span><span class="p">:</span><span class="w"> </span><span class="mi">47</span><span class="o">.</span><span class="mi">6205</span><span class="p">,</span><span class="w"> </span><span class="ss">lng</span><span class="p">:</span><span class="w"> </span><span class="o">-</span><span class="mi">122</span><span class="o">.</span><span class="mi">3493</span><span class="p">,</span><span class="w"> </span><span class="ss">alt</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
+</span><span id="__span-19-4"><a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a>
+</span><span id="__span-19-5"><a id="__codelineno-19-5" name="__codelineno-19-5" href="#__codelineno-19-5"></a><span class="c1"># Export</span>
+</span><span id="__span-19-6"><a id="__codelineno-19-6" name="__codelineno-19-6" href="#__codelineno-19-6"></a><span class="n">hex</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">seattle</span><span class="o">.</span><span class="n">to_wkb_hex</span><span class="p">(</span><span class="ss">srid</span><span class="p">:</span><span class="w"> </span><span class="mi">4326</span><span class="p">)</span>
+</span><span id="__span-19-7"><a id="__codelineno-19-7" name="__codelineno-19-7" href="#__codelineno-19-7"></a><span class="c1"># =&gt; &quot;0101000020e61000008a1f63ee5a965ec08195438b6ccf4740&quot;</span>
+</span><span id="__span-19-8"><a id="__codelineno-19-8" name="__codelineno-19-8" href="#__codelineno-19-8"></a>
+</span><span id="__span-19-9"><a id="__codelineno-19-9" name="__codelineno-19-9" href="#__codelineno-19-9"></a><span class="c1"># Import</span>
+</span><span id="__span-19-10"><a id="__codelineno-19-10" name="__codelineno-19-10" href="#__codelineno-19-10"></a><span class="n">obj</span><span class="p">,</span><span class="w"> </span><span class="n">srid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">Geodetic</span><span class="o">::</span><span class="no">WKB</span><span class="o">.</span><span class="n">parse_with_srid</span><span class="p">(</span><span class="n">hex</span><span class="p">)</span>
+</span><span id="__span-19-11"><a id="__codelineno-19-11" name="__codelineno-19-11" href="#__codelineno-19-11"></a><span class="n">obj</span><span class="o">.</span><span class="n">lat</span><span class="w">   </span><span class="c1"># =&gt; 47.6205</span>
+</span><span id="__span-19-12"><a id="__codelineno-19-12" name="__codelineno-19-12" href="#__codelineno-19-12"></a><span class="n">obj</span><span class="o">.</span><span class="n">lng</span><span class="w">   </span><span class="c1"># =&gt; -122.3493</span>
+</span><span id="__span-19-13"><a id="__codelineno-19-13" name="__codelineno-19-13" href="#__codelineno-19-13"></a><span class="n">srid</span><span class="w">      </span><span class="c1"># =&gt; 4326</span>
+</span><span id="__span-19-14"><a id="__codelineno-19-14" name="__codelineno-19-14" href="#__codelineno-19-14"></a>
+</span><span id="__span-19-15"><a id="__codelineno-19-15" name="__codelineno-19-15" href="#__codelineno-19-15"></a><span class="c1"># Re-export</span>
+</span><span id="__span-19-16"><a id="__codelineno-19-16" name="__codelineno-19-16" href="#__codelineno-19-16"></a><span class="n">obj</span><span class="o">.</span><span class="n">to_wkb_hex</span><span class="p">(</span><span class="ss">srid</span><span class="p">:</span><span class="w"> </span><span class="n">srid</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">hex</span><span class="w">  </span><span class="c1"># =&gt; true</span>
+</span></code></pre></div>
 <hr />
 <h2 id="integration-with-postgis-and-rgeo">Integration with PostGIS and RGeo<a class="headerlink" href="#integration-with-postgis-and-rgeo" title="Permanent link">&para;</a></h2>
-<p>WKT is the lingua franca for exchanging geometry between Ruby and spatial databases:</p>
-<div class="language-ruby highlight"><pre><span></span><code><span id="__span-21-1"><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a><span class="c1"># Writing to PostGIS</span>
-</span><span id="__span-21-2"><a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a><span class="n">wkt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">polygon</span><span class="o">.</span><span class="n">to_wkt</span><span class="p">(</span><span class="ss">srid</span><span class="p">:</span><span class="w"> </span><span class="mi">4326</span><span class="p">)</span>
-</span><span id="__span-21-3"><a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a><span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span>
-</span><span id="__span-21-4"><a id="__codelineno-21-4" name="__codelineno-21-4" href="#__codelineno-21-4"></a><span class="w">  </span><span class="s2">&quot;INSERT INTO regions (geom) VALUES (ST_GeomFromEWKT(&#39;</span><span class="si">#{</span><span class="n">wkt</span><span class="si">}</span><span class="s2">&#39;))&quot;</span>
-</span><span id="__span-21-5"><a id="__codelineno-21-5" name="__codelineno-21-5" href="#__codelineno-21-5"></a><span class="p">)</span>
-</span><span id="__span-21-6"><a id="__codelineno-21-6" name="__codelineno-21-6" href="#__codelineno-21-6"></a>
-</span><span id="__span-21-7"><a id="__codelineno-21-7" name="__codelineno-21-7" href="#__codelineno-21-7"></a><span class="c1"># Reading from PostGIS</span>
-</span><span id="__span-21-8"><a id="__codelineno-21-8" name="__codelineno-21-8" href="#__codelineno-21-8"></a><span class="n">row</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">select_one</span><span class="p">(</span><span class="s2">&quot;SELECT ST_AsEWKT(geom) FROM regions LIMIT 1&quot;</span><span class="p">)</span>
-</span><span id="__span-21-9"><a id="__codelineno-21-9" name="__codelineno-21-9" href="#__codelineno-21-9"></a><span class="n">obj</span><span class="p">,</span><span class="w"> </span><span class="n">srid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">Geodetic</span><span class="o">::</span><span class="no">WKT</span><span class="o">.</span><span class="n">parse_with_srid</span><span class="p">(</span><span class="n">row</span><span class="o">[</span><span class="s2">&quot;st_asewkt&quot;</span><span class="o">]</span><span class="p">)</span>
+<p>WKB is the preferred format for exchanging geometry with spatial databases:</p>
+<div class="language-ruby highlight"><pre><span></span><code><span id="__span-20-1"><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="c1"># Writing to PostGIS (hex format)</span>
+</span><span id="__span-20-2"><a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a><span class="n">hex</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">polygon</span><span class="o">.</span><span class="n">to_wkb_hex</span><span class="p">(</span><span class="ss">srid</span><span class="p">:</span><span class="w"> </span><span class="mi">4326</span><span class="p">)</span>
+</span><span id="__span-20-3"><a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a><span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span>
+</span><span id="__span-20-4"><a id="__codelineno-20-4" name="__codelineno-20-4" href="#__codelineno-20-4"></a><span class="w">  </span><span class="s2">&quot;INSERT INTO regions (geom) VALUES (ST_GeomFromWKB(decode(&#39;</span><span class="si">#{</span><span class="n">hex</span><span class="si">}</span><span class="s2">&#39;, &#39;hex&#39;), 4326))&quot;</span>
+</span><span id="__span-20-5"><a id="__codelineno-20-5" name="__codelineno-20-5" href="#__codelineno-20-5"></a><span class="p">)</span>
+</span><span id="__span-20-6"><a id="__codelineno-20-6" name="__codelineno-20-6" href="#__codelineno-20-6"></a>
+</span><span id="__span-20-7"><a id="__codelineno-20-7" name="__codelineno-20-7" href="#__codelineno-20-7"></a><span class="c1"># Or using EWKB directly</span>
+</span><span id="__span-20-8"><a id="__codelineno-20-8" name="__codelineno-20-8" href="#__codelineno-20-8"></a><span class="n">ewkb_hex</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">polygon</span><span class="o">.</span><span class="n">to_wkb_hex</span><span class="p">(</span><span class="ss">srid</span><span class="p">:</span><span class="w"> </span><span class="mi">4326</span><span class="p">)</span>
+</span><span id="__span-20-9"><a id="__codelineno-20-9" name="__codelineno-20-9" href="#__codelineno-20-9"></a><span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span>
+</span><span id="__span-20-10"><a id="__codelineno-20-10" name="__codelineno-20-10" href="#__codelineno-20-10"></a><span class="w">  </span><span class="s2">&quot;INSERT INTO regions (geom) VALUES (&#39;</span><span class="si">#{</span><span class="n">ewkb_hex</span><span class="si">}</span><span class="s2">&#39;)&quot;</span>
+</span><span id="__span-20-11"><a id="__codelineno-20-11" name="__codelineno-20-11" href="#__codelineno-20-11"></a><span class="p">)</span>
+</span><span id="__span-20-12"><a id="__codelineno-20-12" name="__codelineno-20-12" href="#__codelineno-20-12"></a>
+</span><span id="__span-20-13"><a id="__codelineno-20-13" name="__codelineno-20-13" href="#__codelineno-20-13"></a><span class="c1"># Reading from PostGIS</span>
+</span><span id="__span-20-14"><a id="__codelineno-20-14" name="__codelineno-20-14" href="#__codelineno-20-14"></a><span class="n">row</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">select_one</span><span class="p">(</span><span class="s2">&quot;SELECT ST_AsEWKB(geom)::text FROM regions LIMIT 1&quot;</span><span class="p">)</span>
+</span><span id="__span-20-15"><a id="__codelineno-20-15" name="__codelineno-20-15" href="#__codelineno-20-15"></a><span class="n">obj</span><span class="p">,</span><span class="w"> </span><span class="n">srid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">Geodetic</span><span class="o">::</span><span class="no">WKB</span><span class="o">.</span><span class="n">parse_with_srid</span><span class="p">(</span><span class="n">row</span><span class="o">[</span><span class="s2">&quot;st_asewkb&quot;</span><span class="o">]</span><span class="p">)</span>
 </span></code></pre></div>
-<p>WKT strings are also accepted by RGeo's <code>WKRep::WKTParser</code>, Shapely's <code>loads()</code>, JTS, GEOS, and virtually every GIS library.</p>
+<p>WKB binary is also accepted by RGeo's <code>WKRep::WKBParser</code>, Shapely's <code>wkb.loads()</code>, JTS, GEOS, and virtually every GIS library.</p>
+<hr />
+<h2 id="wkb-vs-wkt">WKB vs WKT<a class="headerlink" href="#wkb-vs-wkt" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>WKB</th>
+<th>WKT</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Format</strong></td>
+<td>Binary</td>
+<td>Text</td>
+</tr>
+<tr>
+<td><strong>Size</strong></td>
+<td>Compact</td>
+<td>Larger</td>
+</tr>
+<tr>
+<td><strong>Human-readable</strong></td>
+<td>No (use hex)</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><strong>Speed</strong></td>
+<td>Faster to parse</td>
+<td>Slower</td>
+</tr>
+<tr>
+<td><strong>Use case</strong></td>
+<td>Database storage, wire transfer</td>
+<td>Debugging, config files, SQL</td>
+</tr>
+<tr>
+<td><strong>SRID support</strong></td>
+<td>EWKB flag</td>
+<td>EWKT prefix</td>
+</tr>
+</tbody>
+</table>
+<p>Both formats support the same geometry types and Z-dimension handling.</p>
 
 
 
@@ -2666,7 +2938,7 @@
       <nav class="md-footer__inner md-grid" aria-label="Footer" >
         
           
-          <a href="../geojson/" class="md-footer__link md-footer__link--prev" aria-label="Previous: GeoJSON Export">
+          <a href="../wkt/" class="md-footer__link md-footer__link--prev" aria-label="Previous: WKT Serialization">
             <div class="md-footer__button md-icon">
               
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
@@ -2676,20 +2948,20 @@
                 Previous
               </span>
               <div class="md-ellipsis">
-                GeoJSON Export
+                WKT Serialization
               </div>
             </div>
           </a>
         
         
           
-          <a href="../wkb/" class="md-footer__link md-footer__link--next" aria-label="Next: WKB Serialization">
+          <a href="../map-rendering/" class="md-footer__link md-footer__link--next" aria-label="Next: Map Rendering">
             <div class="md-footer__title">
               <span class="md-footer__direction">
                 Next
               </span>
               <div class="md-ellipsis">
-                WKB Serialization
+                Map Rendering
               </div>
             </div>
             <div class="md-footer__button md-icon">
