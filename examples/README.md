@@ -161,3 +161,55 @@ Demonstrates `Geodetic::WKB` for Well-Known Binary export and import, the binary
 - **Parsing** with `WKB.parse` (auto-detects binary vs hex) and `WKB.parse_with_srid` (returns object + SRID)
 - **Roundtrip** verification showing export → parse → re-export produces identical hex strings
 - **File I/O** with `WKB.save!`/`WKB.load` for binary format and `WKB.save_hex!`/`WKB.load_hex` for hex format, including fixture file loading and full roundtrip verification
+
+## 12 - GEOS Benchmark
+
+Benchmarks pure Ruby spatial operations against GEOS-accelerated versions. Requires `libgeos_c` installed (`brew install geos` on macOS). Uses the `GEODETIC_GEOS_DISABLE` environment variable to toggle between Ruby and GEOS within the same run. Covers:
+
+- **Polygon validation** comparing Ruby's O(n^2) pairwise segment test against GEOS's O(n log n) spatial index at 50, 100, and 500 vertices
+- **Point-in-polygon** comparing Ruby's winding-number algorithm against GEOS's contains test, showing the crossover threshold at 15 vertices
+- **Path intersection** comparing Ruby's O(n*m) brute-force segment checks against GEOS's spatial indexing for non-intersecting paths with overlapping bounds
+- **Batch containment** with `PreparedGeometry` testing 1,000 random points against a 100-vertex polygon, comparing Ruby, GEOS one-shot, and GEOS prepared (spatial index built once)
+- **Single segment intersection** demonstrating where Ruby wins due to FFI overhead exceeding the computation cost
+- **GEOS-only operations** benchmarking `intersection`, `difference`, `symmetric_difference`, `convex_hull`, `simplify`, `is_valid?`, `area`, and `nearest_points` — capabilities with no pure Ruby equivalent
+- **Summary table** with side-by-side timings and speedup ratios
+
+Prerequisites:
+
+```bash
+brew install geos   # macOS
+```
+
+Run:
+
+```bash
+ruby -Ilib examples/12_geos_benchmark.rb
+```
+
+## 13 - GEOS Operations
+
+Demonstrates GEOS-only operations — capabilities provided by the GEOS C library that have no pure Ruby equivalent in Geodetic. Uses two overlapping rectangles around Manhattan as the primary test geometries. Covers:
+
+- **Boolean operations** with `intersection` (area of overlap), `difference` (A minus B), `symmetric_difference` (XOR), and `union` (dissolve internal boundaries)
+- **Buffering** with `buffer` (create polygon zones around points and paths) and `buffer_with_style` (flat caps, mitre joins)
+- **Convex hull** computing the smallest convex polygon enclosing a set of NYC landmarks
+- **Simplification** using the Douglas-Peucker algorithm at multiple tolerance levels (50 vertices reduced to 16, 8, or 4)
+- **Validity checking** with `is_valid?` and `is_valid_reason` on valid and self-intersecting (bowtie) polygons
+- **Geometry repair** with `make_valid` splitting a self-intersecting bowtie into two valid triangles
+- **Planar measurements** with `area`, `length`, `distance` in coordinate units
+- **Nearest points** finding the closest point pair between two separated polygons
+- **PreparedGeometry** batch spatial indexing for O(log n) `contains?` and `intersects?` queries
+- **Chaining operations** combining GEOS results with other GEOS calls and Geodetic methods
+- **Serialization** exporting GEOS results to GeoJSON and WKT
+
+Prerequisites:
+
+```bash
+brew install geos   # macOS
+```
+
+Run:
+
+```bash
+ruby -Ilib examples/13_geos_operations.rb
+```
