@@ -22,6 +22,8 @@
 - <strong>Segments</strong> - Directed two-point line segments with projection, intersection, and interpolation<br>
 - <strong>Paths</strong> - Directed coordinate sequences with navigation, interpolation, closest approach, intersection, and area conversion<br>
 - <strong>Features</strong> - Named geometry wrapper with metadata and delegated distance/bearing<br>
+- <strong>Vectors</strong> - Geodetic displacement (distance + bearing) with full arithmetic and Vincenty direct<br>
+- <strong>Geodetic Arithmetic</strong> - Compose geometry with operators: P1 + P2 → Segment, + P3 → Path, + Distance → Circle, * Vector → translate<br>
 - <strong>Validated Setters</strong> - Type coercion and range validation on all coordinate attributes<br>
 - <strong>Serialization</strong> - to_s(precision), to_a, from_string, from_array, DMS format<br>
 - <strong>Multiple Datums</strong> - WGS84, Clarke 1866, GRS 1980, Airy 1830, and more<br>
@@ -648,6 +650,78 @@ park.distance_to(liberty).to_km     # => "12.47 km"
 ```
 
 All three attributes (`label`, `geometry`, `metadata`) are mutable.
+
+### Vectors
+
+`Vector` pairs a `Distance` (magnitude) with a `Bearing` (direction) to represent a geodetic displacement. It solves the Vincenty direct problem to compute destination points.
+
+```ruby
+v = Geodetic::Vector.new(distance: 10_000, bearing: 90.0)
+v = Geodetic::Vector.new(distance: Distance.km(10), bearing: Bearing.new(90))
+
+v.north          # => north component in meters
+v.east           # => east component in meters
+v.magnitude      # => distance in meters
+v.reverse        # => same distance, opposite bearing
+v.normalize      # => unit vector (1 meter)
+```
+
+**Vector arithmetic:**
+
+```ruby
+v1 + v2          # => Vector (component-wise addition)
+v1 - v2          # => Vector (component-wise subtraction)
+v * 3            # => Vector (scale distance)
+v / 2            # => Vector (scale distance)
+-v               # => Vector (reverse bearing)
+v.dot(v2)        # => Float (dot product)
+v.cross(v2)      # => Float (2D cross product)
+```
+
+**Factory methods:**
+
+```ruby
+Vector.from_components(north: 1000, east: 500)
+Vector.from_segment(segment)
+segment.to_vector
+```
+
+### Geodetic Arithmetic
+
+Operators build geometry from coordinates, vectors, and distances:
+
+```ruby
+# Building geometry with +
+p1 + p2                    # => Segment
+p1 + p2 + p3              # => Path
+p1 + segment              # => Path
+segment + p3              # => Path
+segment + segment          # => Path
+p1 + distance              # => Circle
+p1 + vector                # => Segment (to destination)
+segment + vector           # => Path (extend from endpoint)
+vector + segment           # => Path (prepend via reverse)
+path + vector              # => Path (extend from last point)
+vector + coordinate        # => Segment
+distance + coordinate      # => Circle
+
+# Translation with * or .translate
+p1 * vector                # => Coordinate (translated point)
+segment * vector           # => Segment (translated endpoints)
+path * vector              # => Path (translated waypoints)
+circle * vector            # => Circle (translated centroid)
+polygon * vector           # => Polygon (translated vertices)
+```
+
+### Corridors
+
+Convert a path into a polygon corridor of a given width:
+
+```ruby
+route = seattle + portland + sf
+corridor = route.to_corridor(width: 1000)        # 1km wide polygon
+corridor = route.to_corridor(width: Distance.km(1))
+```
 
 ### Web Mercator Tile Coordinates
 

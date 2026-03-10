@@ -31,10 +31,11 @@ module Geodetic
           SpatialHash.generate_hash_conversions_for(klass, style: opts[:hash_conversion_style])
         end
 
-        # Phase 3: Include distance/bearing mixins in all registered coordinate classes
+        # Phase 3: Include distance/bearing/arithmetic mixins in all registered coordinate classes
         @registered_classes.each do |klass, _opts|
           klass.include(DistanceMethods)
           klass.include(BearingMethods)
+          klass.include(ArithmeticMethods)
         end
       end
     end
@@ -279,6 +280,30 @@ module Geodetic
 
         Coordinate.elevation_angle(lla_self, ecef_self, ecef_other)
       end
+    end
+
+    # Mixin for all coordinate classes: arithmetic operators
+    module ArithmeticMethods
+      def +(other)
+        case other
+        when Vector
+          Segment.new(self, other.destination_from(self))
+        when Distance
+          Areas::Circle.new(centroid: self, radius: other.meters)
+        when Segment
+          Path.new(coordinates: [self, other.start_point, other.end_point])
+        else
+          Segment.new(self, other)
+        end
+      end
+
+      def *(other)
+        raise ArgumentError, "expected a Vector, got #{other.class}" unless other.is_a?(Vector)
+
+        other.destination_from(self)
+      end
+
+      alias translate *
     end
   end
 end

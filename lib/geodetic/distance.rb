@@ -56,7 +56,11 @@ module Geodetic
     # Arithmetic: preserves the receiver's display unit.
     #             Distance op Numeric  => numeric is in the receiver's display unit.
     def +(other)
-      Distance.new(@meters + other_to_meters(other), unit: @unit)
+      if Coordinate.systems.any? { |k| other.is_a?(k) }
+        Areas::Circle.new(centroid: other, radius: @meters)
+      else
+        Distance.new(@meters + other_to_meters(other), unit: @unit)
+      end
     end
 
     def -(other)

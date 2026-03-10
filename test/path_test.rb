@@ -1147,4 +1147,37 @@ class PathTest < Minitest::Test
     path = Path.new(coordinates: [@a, @b])
     assert_raises(ArgumentError) { path.intersects?(@c) }
   end
+
+  # ── to_corridor ──────────────────────────────────────────────
+
+  def test_to_corridor_returns_polygon
+    path = Path.new(coordinates: [@a, @b, @c])
+    corridor = path.to_corridor(width: 100)
+    assert_instance_of Geodetic::Areas::Polygon, corridor
+  end
+
+  def test_to_corridor_has_correct_vertex_count
+    path = Path.new(coordinates: [@a, @b, @c])
+    corridor = path.to_corridor(width: 100)
+    # 3 left + 3 right = 6 input points + 1 closing point = 7
+    assert_equal 7, corridor.boundary.size
+  end
+
+  def test_to_corridor_accepts_distance_object
+    path = Path.new(coordinates: [@a, @b])
+    corridor = path.to_corridor(width: Distance.new(200))
+    assert_instance_of Geodetic::Areas::Polygon, corridor
+  end
+
+  def test_to_corridor_encloses_interior_points
+    path = Path.new(coordinates: [@a, @b, @c])
+    corridor = path.to_corridor(width: 1000)
+    # Interior path points should be inside the corridor
+    assert corridor.includes?(@b), "corridor should contain interior point"
+  end
+
+  def test_to_corridor_too_few_points_raises
+    path = Path.new(coordinates: [@a])
+    assert_raises(ArgumentError) { path.to_corridor(width: 100) }
+  end
 end

@@ -127,10 +127,31 @@ module Geodetic
       false
     end
 
+    # --- Arithmetic ---
+
+    def +(other)
+      to_path + other
+    end
+
+    def *(other)
+      raise ArgumentError, "expected a Vector, got #{other.class}" unless other.is_a?(Vector)
+
+      self.class.new(
+        other.destination_from(@start_point),
+        other.destination_from(@end_point)
+      )
+    end
+
+    alias translate *
+
     # --- Conversion ---
 
     def to_path
       Path.new(coordinates: [@start_point, @end_point])
+    end
+
+    def to_vector
+      Vector.from_segment(self)
     end
 
     def to_a

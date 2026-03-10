@@ -264,6 +264,46 @@ module Geodetic
 
     alias remove delete
 
+    # --- Translation ---
+
+    def *(other)
+      raise ArgumentError, "expected a Vector, got #{other.class}" unless other.is_a?(Vector)
+
+      self.class.new(coordinates: @coordinates.map { |c| other.destination_from(c) })
+    end
+
+    alias translate *
+
+    # --- Geometric conversions ---
+
+    def to_corridor(width:)
+      raise ArgumentError, "need at least 2 coordinates for a corridor" if size < 2
+
+      half = (width.is_a?(Distance) ? width.meters : width.to_f) / 2.0
+      segs = segments
+      bearings = segs.map { |s| s.bearing.degrees }
+
+      left_side  = []
+      right_side = []
+
+      @coordinates.each_with_index do |coord, i|
+        lla = coord.is_a?(Coordinate::LLA) ? coord : coord.to_lla
+
+        if i == 0
+          perp = bearings[0]
+        elsif i == @coordinates.length - 1
+          perp = bearings[-1]
+        else
+          perp = mean_bearing(bearings[i - 1], bearings[i])
+        end
+
+        left_side  << offset_point(lla, perp - 90.0, half)
+        right_side << offset_point(lla, perp + 90.0, half)
+      end
+
+      Areas::Polygon.new(boundary: left_side + right_side.reverse)
+    end
+
     # --- Display ---
 
     def to_s
@@ -280,6 +320,12 @@ module Geodetic
     def append!(other)
       if other.is_a?(Path)
         other.coordinates.each { |c| append!(c) }
+      elsif other.is_a?(Segment)
+        [other.start_point, other.end_point].each { |c| append!(c) }
+      elsif other.is_a?(Vector)
+        dest = other.destination_from(@coordinates.last)
+        check_duplicate!(dest)
+        @coordinates << dest
       else
         check_duplicate!(other)
         @coordinates << other
@@ -467,6 +513,19 @@ module Geodetic
 
     def dup_path_without(coordinate)
       self.class.new(coordinates: @coordinates.reject { |c| c == coordinate })
+    end
+
+    def offset_point(lla, bearing_deg, distance_m)
+      Vector.new(distance: distance_m, bearing: bearing_deg).destination_from(lla)
+    end
+
+    def mean_bearing(b1, b2)
+      r1 = b1 * RAD_PER_DEG
+      r2 = b2 * RAD_PER_DEG
+      Math.atan2(
+        Math.sin(r1) + Math.sin(r2),
+        Math.cos(r1) + Math.cos(r2)
+      ) * DEG_PER_RAD
     end
   end
 end

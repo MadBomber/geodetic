@@ -24,6 +24,14 @@ module Geodetic
       alias_method :exclude?, :excludes?
       alias_method :inside?,  :includes?
       alias_method :outside?, :excludes?
+
+      def *(other)
+        raise ArgumentError, "expected a Vector, got #{other.class}" unless other.is_a?(Vector)
+
+        self.class.new(centroid: other.destination_from(@centroid), radius: @radius)
+      end
+
+      alias_method :translate, :*
     end
   end
 end

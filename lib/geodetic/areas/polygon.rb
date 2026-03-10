@@ -50,6 +50,16 @@ module Geodetic
       alias_method :inside?,  :includes?
       alias_method :outside?, :excludes?
 
+      def *(other)
+        raise ArgumentError, "expected a Vector, got #{other.class}" unless other.is_a?(Vector)
+
+        # Translate all vertices except the closing point (it gets re-added by initialize)
+        translated = @boundary[0...-1].map { |pt| other.destination_from(pt) }
+        self.class.new(boundary: translated)
+      end
+
+      alias_method :translate, :*
+
       private
 
       def compute_centroid
