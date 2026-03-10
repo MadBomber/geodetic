@@ -152,4 +152,5 @@ nav:
       - Arithmetic: reference/arithmetic.md
       - GeoJSON Export: reference/geojson.md
       - WKT Serialization: reference/wkt.md
+      - WKB Serialization: reference/wkb.md
       - Map Rendering: reference/map-rendering.md

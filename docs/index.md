@@ -20,6 +20,7 @@
 <li><strong>Features</strong> - Named geometry wrapper with metadata and delegated distance/bearing<br>
 <li><strong>GeoJSON Export</strong> - Build FeatureCollections from any mix of objects and save to file<br>
 <li><strong>WKT Serialization</strong> - Well-Known Text export/import with SRID/EWKT and Z-dimension support<br>
+<li><strong>WKB Serialization</strong> - Well-Known Binary export/import with EWKB, SRID, hex encoding, and file I/O<br>
 <li><strong>Validated Setters</strong> - Type coercion and range validation on all coordinate attributes<br>
 <li><strong>Serialization</strong> - to_s(precision), to_a, from_string, from_array, DMS format<br>
 <li><strong>Multiple Datums</strong> - WGS84, Clarke 1866, GRS 1980, Airy 1830, and more<br>
@@ -116,4 +117,5 @@ puts lla_again.to_s
 - [Arithmetic](reference/arithmetic.md)
 - [GeoJSON Export](reference/geojson.md)
 - [WKT Serialization](reference/wkt.md)
+- [WKB Serialization](reference/wkb.md)
 - [Map Rendering](reference/map-rendering.md)

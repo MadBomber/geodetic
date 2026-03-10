@@ -26,6 +26,7 @@
 - <strong>Geodetic Arithmetic</strong> - Compose geometry with operators: P1 + P2 → Segment, + P3 → Path, + Distance → Circle, * Vector → translate<br>
 - <strong>GeoJSON Export</strong> - Build FeatureCollections from any mix of objects and save to file<br>
 - <strong>WKT Serialization</strong> - Well-Known Text export/import with SRID/EWKT and Z-dimension support<br>
+- <strong>WKB Serialization</strong> - Well-Known Binary export/import with EWKB, SRID, hex encoding, and file I/O<br>
 - <strong>Validated Setters</strong> - Type coercion and range validation on all coordinate attributes<br>
 - <strong>Serialization</strong> - to_s(precision), to_a, from_string, from_array, DMS format<br>
 - <strong>Multiple Datums</strong> - WGS84, Clarke 1866, GRS 1980, Airy 1830, and more<br>
@@ -808,6 +809,35 @@ obj = Geodetic::WKT.parse("POINT(-122.3493 47.6205)")
 obj, srid = Geodetic::WKT.parse_with_srid("SRID=4326;POLYGON((-122 47, -121 46, -123 46, -122 47))")
 ```
 
+### WKB Serialization
+
+`WKB` provides Well-Known Binary export and import — the binary counterpart to WKT used by PostGIS, GEOS, RGeo, and Shapely for efficient geometry storage. Output is always little-endian (NDR).
+
+```ruby
+seattle.to_wkb                        # => 21-byte binary string
+seattle.to_wkb_hex                    # => "01010000008a1f63ee5a965ec0..."
+seattle.to_wkb_hex(srid: 4326)       # => EWKB with embedded SRID
+
+Segment.new(seattle, portland).to_wkb_hex  # => LINESTRING hex
+polygon.to_wkb_hex                         # => POLYGON hex
+```
+
+**File I/O (binary and hex):**
+
+```ruby
+# Binary format (framed: count + size-prefixed WKB)
+Geodetic::WKB.save!("shapes.wkb", seattle, segment, polygon)
+objects = Geodetic::WKB.load("shapes.wkb")
+
+# Hex format (one hex string per line, supports comments)
+Geodetic::WKB.save_hex!("shapes.wkb.hex", seattle, segment, polygon)
+objects = Geodetic::WKB.load_hex("shapes.wkb.hex")
+
+# Parse a single hex or binary string
+obj = Geodetic::WKB.parse("01010000008a1f63ee5a965ec08195438b6ccf4740")
+obj, srid = Geodetic::WKB.parse_with_srid(ewkb_hex)
+```
+
 ### Web Mercator Tile Coordinates
 
 ```ruby
@@ -842,6 +872,7 @@ The [`examples/`](examples/) directory contains runnable demo scripts showing pr
 | [`08_geodetic_arithmetic.rb`](examples/08_geodetic_arithmetic.rb) | Geodetic arithmetic: building geometry with + (Segments, Paths, Circles), Vector class (Vincenty direct, components, arithmetic, dot/cross products), translation with * (Coordinates, Segments, Paths, Circles, Polygons), and corridors |
 | [`09_geojson_export.rb`](examples/09_geojson_export.rb) | GeoJSON export: `to_geojson` on all geometry types, `GeoJSON` class for building FeatureCollections with `<<`, delete/clear, Enumerable, and `save` to file |
 | [`10_wkt_serialization.rb`](examples/10_wkt_serialization.rb) | WKT serialization: `to_wkt` on all geometry types, SRID/EWKT, Z-dimension handling, parsing, and roundtrip verification |
+| [`11_wkb_serialization.rb`](examples/11_wkb_serialization.rb) | WKB serialization: `to_wkb`/`to_wkb_hex` on all geometry types, EWKB/SRID, Z-dimension, parsing, roundtrip, and binary/hex file I/O |
 
 Run any example with:
 

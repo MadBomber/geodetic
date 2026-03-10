@@ -146,3 +146,18 @@ Demonstrates `Geodetic::WKT` for Well-Known Text export and import, the standard
 - **Parsing** with `WKT.parse` (returns Geodetic objects) and `WKT.parse_with_srid` (returns object + SRID)
 - **Roundtrip** verification showing export → parse → re-export produces identical WKT strings
 - **File I/O** with `WKT.save` writing one WKT per line and `WKT.load` reading them back, including SRID support and full file roundtrip verification
+
+## 11 - WKB Serialization
+
+Demonstrates `Geodetic::WKB` for Well-Known Binary export and import, the binary counterpart to WKT used by PostGIS, GEOS, RGeo, and Shapely for efficient geometry storage. Covers:
+
+- **Coordinate → POINT** with `to_wkb` and `to_wkb_hex` on any coordinate system, including altitude (Z type code)
+- **Segment → LINESTRING** exporting two-point directed segments
+- **Path → LINESTRING** and optional `to_wkb(as: :polygon)` for closed paths
+- **Areas → POLYGON** for `Polygon`, `Circle` (N-gon approximation with configurable `segments:`), and `BoundingBox`
+- **Feature → delegates to geometry** (WKB has no properties concept)
+- **SRID / EWKB** with `to_wkb_hex(srid: 4326)` producing PostGIS-compatible Extended WKB
+- **Z-dimension consistency** where any non-zero altitude triggers Z on all points in the geometry
+- **Parsing** with `WKB.parse` (auto-detects binary vs hex) and `WKB.parse_with_srid` (returns object + SRID)
+- **Roundtrip** verification showing export → parse → re-export produces identical hex strings
+- **File I/O** with `WKB.save!`/`WKB.load` for binary format and `WKB.save_hex!`/`WKB.load_hex` for hex format, including fixture file loading and full roundtrip verification
