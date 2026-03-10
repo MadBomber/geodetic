@@ -12,38 +12,264 @@ class RegularPolygonBaseTest < Minitest::Test
   # ── Triangle ─────────────────────────────────────────────────
 
   def test_triangle_is_polygon
-    tri = Geodetic::Areas::Triangle.new(center: @center, radius: 500)
+    tri = Geodetic::Areas::Triangle.new(center: @center, width: 400, height: 600)
     assert_kind_of Geodetic::Areas::Polygon, tri
   end
 
   def test_triangle_has_3_sides
-    tri = Geodetic::Areas::Triangle.new(center: @center, radius: 500)
+    tri = Geodetic::Areas::Triangle.new(center: @center, width: 400, height: 600)
     assert_equal 3, tri.sides
   end
 
   def test_triangle_boundary_is_closed
-    tri = Geodetic::Areas::Triangle.new(center: @center, radius: 500)
+    tri = Geodetic::Areas::Triangle.new(center: @center, width: 400, height: 600)
     assert_equal tri.boundary.first, tri.boundary.last
     assert_equal 4, tri.boundary.size  # 3 vertices + closing point
   end
 
   def test_triangle_center_inside
-    tri = Geodetic::Areas::Triangle.new(center: @center, radius: 500)
+    tri = Geodetic::Areas::Triangle.new(center: @center, width: 400, height: 600)
     assert tri.includes?(@center)
   end
 
   def test_triangle_far_point_outside
-    tri = Geodetic::Areas::Triangle.new(center: @center, radius: 500)
+    tri = Geodetic::Areas::Triangle.new(center: @center, width: 400, height: 600)
     far = LLA.new(lat: 41.0, lng: -74.0, alt: 0)
     assert tri.excludes?(far)
   end
 
   def test_triangle_with_bearing
-    tri0 = Geodetic::Areas::Triangle.new(center: @center, radius: 500, bearing: 0)
-    tri45 = Geodetic::Areas::Triangle.new(center: @center, radius: 500, bearing: 45)
+    tri0 = Geodetic::Areas::Triangle.new(center: @center, width: 400, height: 600, bearing: 0)
+    tri45 = Geodetic::Areas::Triangle.new(center: @center, width: 400, height: 600, bearing: 45)
 
     # Different bearings produce different vertex positions
     refute_equal tri0.boundary[0].lng, tri45.boundary[0].lng
+  end
+
+  def test_triangle_vertices
+    tri = Geodetic::Areas::Triangle.new(center: @center, width: 400, height: 600)
+    assert_equal 3, tri.vertices.size
+  end
+
+  def test_triangle_base
+    tri = Geodetic::Areas::Triangle.new(center: @center, width: 400, height: 600)
+    assert_in_delta 400.0, tri.base, 1e-6
+  end
+
+  def test_triangle_attributes
+    tri = Geodetic::Areas::Triangle.new(center: @center, width: 400, height: 600, bearing: 15)
+    assert_in_delta 400.0, tri.width, 1e-6
+    assert_in_delta 600.0, tri.height, 1e-6
+    assert_in_delta 15.0, tri.bearing, 1e-6
+  end
+
+  def test_triangle_to_bounding_box
+    tri = Geodetic::Areas::Triangle.new(center: @center, width: 400, height: 600, bearing: 30)
+    bbox = tri.to_bounding_box
+    assert_kind_of Geodetic::Areas::BoundingBox, bbox
+    tri.vertices.each do |v|
+      assert bbox.includes?(v), "BoundingBox should contain vertex #{v}"
+    end
+  end
+
+  def test_triangle_raises_on_zero_width
+    assert_raises(ArgumentError) do
+      Geodetic::Areas::Triangle.new(center: @center, width: 0, height: 100)
+    end
+  end
+
+  def test_triangle_raises_on_negative_height
+    assert_raises(ArgumentError) do
+      Geodetic::Areas::Triangle.new(center: @center, width: 100, height: -50)
+    end
+  end
+
+  def test_triangle_north_aligned_symmetry
+    tri = Geodetic::Areas::Triangle.new(center: @center, width: 400, height: 600, bearing: 0)
+    verts = tri.vertices
+
+    # Base-left and base-right should have same lat
+    assert_in_delta verts[0].lat, verts[1].lat, 1e-6
+    # Apex should be north of base
+    assert_operator verts[2].lat, :>, verts[0].lat
+    # Apex lng should equal center lng (symmetric)
+    assert_in_delta @center.lng, verts[2].lng, 1e-6
+  end
+
+  # ── Triangle equilateral by radius ─────────────────────────
+
+  def test_equilateral_by_radius
+    tri = Geodetic::Areas::Triangle.new(center: @center, radius: 500)
+    assert tri.equilateral?
+    assert_equal 3, tri.sides
+    assert_in_delta 500 * Math.sqrt(3), tri.width, 1e-6
+    assert_in_delta 500 * 1.5, tri.height, 1e-6
+  end
+
+  def test_equilateral_by_radius_center_inside
+    tri = Geodetic::Areas::Triangle.new(center: @center, radius: 500)
+    assert tri.includes?(@center)
+  end
+
+  def test_equilateral_by_radius_with_bearing
+    tri0  = Geodetic::Areas::Triangle.new(center: @center, radius: 500, bearing: 0)
+    tri45 = Geodetic::Areas::Triangle.new(center: @center, radius: 500, bearing: 45)
+    refute_equal tri0.boundary[0].lng, tri45.boundary[0].lng
+  end
+
+  def test_equilateral_by_radius_raises_on_zero
+    assert_raises(ArgumentError) do
+      Geodetic::Areas::Triangle.new(center: @center, radius: 0)
+    end
+  end
+
+  def test_equilateral_by_radius_rejects_extra_args
+    assert_raises(ArgumentError) do
+      Geodetic::Areas::Triangle.new(center: @center, radius: 500, width: 100)
+    end
+  end
+
+  # ── Triangle equilateral by side ───────────────────────────
+
+  def test_equilateral_by_side
+    tri = Geodetic::Areas::Triangle.new(center: @center, side: 600)
+    assert tri.equilateral?
+    assert_in_delta 600.0, tri.width, 1e-6
+    assert_in_delta 600 * Math.sqrt(3) / 2.0, tri.height, 1e-6
+  end
+
+  def test_equilateral_by_side_center_inside
+    tri = Geodetic::Areas::Triangle.new(center: @center, side: 600)
+    assert tri.includes?(@center)
+  end
+
+  def test_equilateral_by_side_raises_on_negative
+    assert_raises(ArgumentError) do
+      Geodetic::Areas::Triangle.new(center: @center, side: -10)
+    end
+  end
+
+  def test_equilateral_by_side_rejects_extra_args
+    assert_raises(ArgumentError) do
+      Geodetic::Areas::Triangle.new(center: @center, side: 600, height: 300)
+    end
+  end
+
+  def test_triangle_raises_without_valid_args
+    assert_raises(ArgumentError) do
+      Geodetic::Areas::Triangle.new(center: @center)
+    end
+  end
+
+  def test_isosceles_not_equilateral
+    tri = Geodetic::Areas::Triangle.new(center: @center, width: 400, height: 600)
+    refute tri.equilateral?
+    assert tri.isosceles?
+  end
+
+  def test_equilateral_not_isosceles
+    tri = Geodetic::Areas::Triangle.new(center: @center, radius: 500)
+    assert tri.equilateral?
+    refute tri.isosceles?
+    refute tri.scalene?
+  end
+
+  def test_isosceles_predicates
+    tri = Geodetic::Areas::Triangle.new(center: @center, width: 400, height: 600)
+    assert tri.isosceles?
+    refute tri.equilateral?
+    refute tri.scalene?
+  end
+
+  # ── Triangle from arbitrary vertices ───────────────────────
+
+  def test_triangle_from_vertices
+    p1 = LLA.new(lat: 40.74, lng: -73.99, alt: 0)
+    p2 = LLA.new(lat: 40.75, lng: -73.98, alt: 0)
+    p3 = LLA.new(lat: 40.76, lng: -73.995, alt: 0)
+    tri = Geodetic::Areas::Triangle.new(vertices: [p1, p2, p3])
+
+    assert_kind_of Geodetic::Areas::Polygon, tri
+    assert_equal 3, tri.sides
+    assert_equal 3, tri.vertices.size
+  end
+
+  def test_triangle_from_vertices_boundary_closed
+    p1 = LLA.new(lat: 40.74, lng: -73.99, alt: 0)
+    p2 = LLA.new(lat: 40.75, lng: -73.98, alt: 0)
+    p3 = LLA.new(lat: 40.76, lng: -73.995, alt: 0)
+    tri = Geodetic::Areas::Triangle.new(vertices: [p1, p2, p3])
+
+    assert_equal tri.boundary.first, tri.boundary.last
+    assert_equal 4, tri.boundary.size
+  end
+
+  def test_triangle_from_vertices_center_is_centroid
+    p1 = LLA.new(lat: 40.74, lng: -73.99, alt: 0)
+    p2 = LLA.new(lat: 40.75, lng: -73.98, alt: 0)
+    p3 = LLA.new(lat: 40.76, lng: -73.995, alt: 0)
+    tri = Geodetic::Areas::Triangle.new(vertices: [p1, p2, p3])
+
+    expected_lat = (40.74 + 40.75 + 40.76) / 3.0
+    expected_lng = (-73.99 + -73.98 + -73.995) / 3.0
+    assert_in_delta expected_lat, tri.center.lat, 1e-6
+    assert_in_delta expected_lng, tri.center.lng, 1e-6
+  end
+
+  def test_scalene_triangle_from_vertices
+    p1 = LLA.new(lat: 40.74, lng: -73.99, alt: 0)
+    p2 = LLA.new(lat: 40.75, lng: -73.98, alt: 0)
+    p3 = LLA.new(lat: 40.76, lng: -73.995, alt: 0)
+    tri = Geodetic::Areas::Triangle.new(vertices: [p1, p2, p3])
+
+    assert tri.scalene?
+    refute tri.equilateral?
+    refute tri.isosceles?
+  end
+
+  def test_triangle_side_lengths
+    tri = Geodetic::Areas::Triangle.new(center: @center, side: 600)
+    lengths = tri.side_lengths
+    assert_equal 3, lengths.size
+    lengths.each { |l| assert_in_delta 600.0, l, 2.0 }
+  end
+
+  def test_triangle_from_vertices_base_is_nil
+    p1 = LLA.new(lat: 40.74, lng: -73.99, alt: 0)
+    p2 = LLA.new(lat: 40.75, lng: -73.98, alt: 0)
+    p3 = LLA.new(lat: 40.76, lng: -73.995, alt: 0)
+    tri = Geodetic::Areas::Triangle.new(vertices: [p1, p2, p3])
+    assert_nil tri.base
+  end
+
+  def test_triangle_from_vertices_raises_on_wrong_count
+    p1 = LLA.new(lat: 40.74, lng: -73.99, alt: 0)
+    p2 = LLA.new(lat: 40.75, lng: -73.98, alt: 0)
+    assert_raises(ArgumentError) do
+      Geodetic::Areas::Triangle.new(vertices: [p1, p2])
+    end
+  end
+
+  def test_triangle_from_vertices_rejects_extra_args
+    p1 = LLA.new(lat: 40.74, lng: -73.99, alt: 0)
+    p2 = LLA.new(lat: 40.75, lng: -73.98, alt: 0)
+    p3 = LLA.new(lat: 40.76, lng: -73.995, alt: 0)
+    assert_raises(ArgumentError) do
+      Geodetic::Areas::Triangle.new(vertices: [p1, p2, p3], center: @center)
+    end
+  end
+
+  def test_triangle_to_bounding_box_from_vertices
+    p1 = LLA.new(lat: 40.74, lng: -73.99, alt: 0)
+    p2 = LLA.new(lat: 40.75, lng: -73.98, alt: 0)
+    p3 = LLA.new(lat: 40.76, lng: -73.995, alt: 0)
+    tri = Geodetic::Areas::Triangle.new(vertices: [p1, p2, p3])
+    bbox = tri.to_bounding_box
+
+    assert_kind_of Geodetic::Areas::BoundingBox, bbox
+    tri.vertices.each do |v|
+      assert bbox.includes?(v), "BoundingBox should contain vertex #{v}"
+    end
   end
 
   # ── Rectangle ────────────────────────────────────────────────
@@ -199,7 +425,7 @@ class RegularPolygonBaseTest < Minitest::Test
 
   def test_regular_polygon_raises_on_zero_radius
     assert_raises(ArgumentError) do
-      Geodetic::Areas::Triangle.new(center: @center, radius: 0)
+      Geodetic::Areas::Pentagon.new(center: @center, radius: 0)
     end
   end
 
@@ -211,7 +437,7 @@ class RegularPolygonBaseTest < Minitest::Test
 
   def test_all_subclasses_have_centroid
     shapes = [
-      Geodetic::Areas::Triangle.new(center: @center, radius: 500),
+      Geodetic::Areas::Triangle.new(center: @center, width: 400, height: 600),
       Geodetic::Areas::Rectangle.new(center: @center, width: 400, height: 800),
       Geodetic::Areas::Pentagon.new(center: @center, radius: 500),
       Geodetic::Areas::Hexagon.new(center: @center, radius: 500),

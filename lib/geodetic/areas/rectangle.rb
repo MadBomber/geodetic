@@ -16,7 +16,7 @@ module Geodetic
         raise ArgumentError, "width must be positive" unless @width > 0
         raise ArgumentError, "height must be positive" unless @height > 0
 
-        super(boundary: generate_vertices)
+        super(boundary: generate_vertices, validate: false)
       end
 
       def sides

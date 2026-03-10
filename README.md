@@ -18,7 +18,8 @@
 - <strong>Distance Calculations</strong> - Vincenty great-circle and straight-line with unit tracking<br>
 - <strong>Bearing Calculations</strong> - Forward azimuth, back azimuth, compass directions, elevation angles<br>
 - <strong>Geoid Height Support</strong> - EGM96, EGM2008, GEOID18, GEOID12B models<br>
-- <strong>Geographic Areas</strong> - Circle, Polygon, and BoundingBox with point-in-area tests<br>
+- <strong>Geographic Areas</strong> - Circle, Polygon, BoundingBox, Triangle, Rectangle, Pentagon, Hexagon, Octagon<br>
+- <strong>Segments</strong> - Directed two-point line segments with projection, intersection, and interpolation<br>
 - <strong>Paths</strong> - Directed coordinate sequences with navigation, interpolation, closest approach, intersection, and area conversion<br>
 - <strong>Features</strong> - Named geometry wrapper with metadata and delegated distance/bearing<br>
 - <strong>Validated Setters</strong> - Type coercion and range validation on all coordinate attributes<br>
@@ -540,6 +541,41 @@ rect.centroid       # => LLA at center
 rect.ne             # => computed NE corner
 rect.sw             # => computed SW corner
 rect.includes?(point)  # => true/false
+```
+
+### Segments
+
+`Segment` represents a directed line segment between two points. It provides the geometric primitives that `Path` and `Polygon` build on.
+
+```ruby
+a = Coordinate::LLA.new(lat: 40.7484, lng: -73.9857, alt: 0)
+b = Coordinate::LLA.new(lat: 40.7580, lng: -73.9855, alt: 0)
+
+seg = Segment.new(a, b)
+
+# Properties (lazily computed, cached)
+seg.length           # => Distance
+seg.bearing          # => Bearing
+seg.midpoint         # => LLA at halfway point
+
+# Projection — closest point on segment to a target
+foot, dist_m = seg.project(target_point)
+
+# Interpolation — point at fraction along segment
+seg.interpolate(0.25)  # => LLA at quarter-way
+
+# Membership
+seg.includes?(a)              # => true  (vertex check only)
+seg.includes?(seg.midpoint)   # => false
+seg.contains?(seg.midpoint)   # => true  (on-segment check)
+
+# Intersection
+seg.intersects?(other_seg)  # => true/false
+
+# Conversion
+seg.reverse    # => Segment with swapped endpoints
+seg.to_path    # => two-point Path
+seg.to_a       # => [start_point, end_point]
 ```
 
 ### Paths

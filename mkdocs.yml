@@ -136,6 +136,7 @@ nav:
       - Datums: reference/datums.md
       - Geoid Height: reference/geoid-height.md
       - Areas: reference/areas.md
+      - Segment: reference/segment.md
       - Path: reference/path.md
       - Feature: reference/feature.md
       - Serialization: reference/serialization.md

@@ -40,7 +40,7 @@ Raises `ArgumentError` if any coordinate appears more than once.
 | `prev(coordinate)`  | Waypoint before the given one, or `nil` at start |
 | `size`              | Integer     | Number of waypoints |
 | `empty?`            | Boolean     | True if the path has no waypoints |
-| `segments`          | Array       | Pairs of consecutive coordinates `[[a,b], [b,c], ...]` |
+| `segments`          | Array       | Array of `Segment` objects for each consecutive pair |
 
 ---
 

@@ -59,10 +59,8 @@ puts
 
 puts "--- 3. Segment Analysis ---"
 
-route.segments.each_with_index do |(a, b), i|
-  dist    = a.distance_to(b)
-  bearing = a.bearing_to(b)
-  puts "  Segment #{i + 1}: #{dist.to_km} #{bearing.to_compass(points: 8)} (#{bearing.to_s(1)})"
+route.segments.each_with_index do |seg, i|
+  puts "  Segment #{i + 1}: #{seg.length.to_km} #{seg.bearing.to_compass(points: 8)} (#{seg.bearing.to_s(1)})"
 end
 
 puts <<~TOTAL

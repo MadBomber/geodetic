@@ -1,8 +1,6 @@
 # Areas Reference
 
-The `Geodetic::Areas` module provides three geometric area classes for point-in-area testing: `Circle`, `Polygon`, and `BoundingBox`. All operate on `Geodetic::Coordinate::LLA` points.
-
-> **Note:** `Areas::Rectangle` is a backward-compatible alias for `Areas::BoundingBox`. Both names work identically.
+The `Geodetic::Areas` module provides geometric area classes for point-in-area testing: `Circle`, `Polygon`, `BoundingBox`, and polygon subclasses (`Triangle`, `Rectangle`, `Pentagon`, `Hexagon`, `Octagon`). All operate on `Geodetic::Coordinate::LLA` points.
 
 ---
 

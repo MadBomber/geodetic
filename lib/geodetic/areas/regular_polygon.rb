@@ -16,7 +16,7 @@ module Geodetic
 
         raise ArgumentError, "radius must be positive" unless @radius > 0
 
-        super(boundary: generate_vertices)
+        super(boundary: generate_vertices, validate: false)
       end
 
       def sides

@@ -153,6 +153,100 @@ class PolygonAreaTest < Minitest::Test
     assert_raises(ArgumentError) { Polygon.new(boundary: boundary) }
   end
 
+  # -- edges ----------------------------------------------------------------
+
+  def test_edges_returns_segments
+    boundary = [
+      LLA.new(lat: 0.0, lng: 0.0),
+      LLA.new(lat: 1.0, lng: 0.0),
+      LLA.new(lat: 0.0, lng: 1.0),
+    ]
+    polygon = Polygon.new(boundary: boundary)
+    edges = polygon.edges
+    assert_equal 3, edges.size
+    edges.each { |e| assert_kind_of Geodetic::Segment, e }
+  end
+
+  def test_edges_are_consecutive
+    a = LLA.new(lat: 0.0, lng: 0.0)
+    b = LLA.new(lat: 1.0, lng: 0.0)
+    c = LLA.new(lat: 0.0, lng: 1.0)
+    polygon = Polygon.new(boundary: [a, b, c])
+    edges = polygon.edges
+
+    assert_equal a, edges[0].start_point
+    assert_equal b, edges[0].end_point
+    assert_equal b, edges[1].start_point
+    assert_equal c, edges[1].end_point
+    assert_equal c, edges[2].start_point
+    assert_equal a, edges[2].end_point
+  end
+
+  def test_edges_are_cached
+    boundary = [
+      LLA.new(lat: 0.0, lng: 0.0),
+      LLA.new(lat: 1.0, lng: 0.0),
+      LLA.new(lat: 0.0, lng: 1.0),
+    ]
+    polygon = Polygon.new(boundary: boundary)
+    assert_same polygon.edges, polygon.edges
+  end
+
+  # -- Self-intersection validation ----------------------------------------
+
+  def test_raises_on_self_intersecting_boundary
+    # A bowtie shape: edges cross in the middle
+    boundary = [
+      LLA.new(lat: 0.0, lng: 0.0),
+      LLA.new(lat: 1.0, lng: 1.0),
+      LLA.new(lat: 1.0, lng: 0.0),
+      LLA.new(lat: 0.0, lng: 1.0),
+    ]
+    err = assert_raises(ArgumentError) { Polygon.new(boundary: boundary) }
+    assert_match(/self-intersect/, err.message)
+  end
+
+  def test_accepts_valid_convex_polygon
+    boundary = [
+      LLA.new(lat: 0.0, lng: 0.0),
+      LLA.new(lat: 1.0, lng: 0.0),
+      LLA.new(lat: 1.0, lng: 1.0),
+      LLA.new(lat: 0.0, lng: 1.0),
+    ]
+    polygon = Polygon.new(boundary: boundary)
+    assert_instance_of Polygon, polygon
+  end
+
+  def test_accepts_valid_concave_polygon
+    # L-shaped concave polygon
+    boundary = [
+      LLA.new(lat: 0.0, lng: 0.0),
+      LLA.new(lat: 2.0, lng: 0.0),
+      LLA.new(lat: 2.0, lng: 1.0),
+      LLA.new(lat: 1.0, lng: 1.0),
+      LLA.new(lat: 1.0, lng: 2.0),
+      LLA.new(lat: 0.0, lng: 2.0),
+    ]
+    polygon = Polygon.new(boundary: boundary)
+    assert_instance_of Polygon, polygon
+  end
+
+  def test_validate_false_skips_check
+    # A figure-eight that crosses but has computable area.
+    # With validate: true this would raise; with false it skips the check.
+    boundary = [
+      LLA.new(lat: 0.0, lng: 0.0),
+      LLA.new(lat: 2.0, lng: 1.0),
+      LLA.new(lat: 0.0, lng: 1.0),
+      LLA.new(lat: 2.0, lng: 0.0),
+    ]
+    # Confirm it raises with validation
+    assert_raises(ArgumentError) { Polygon.new(boundary: boundary) }
+    # Confirm it does not raise without validation
+    polygon = Polygon.new(boundary: boundary, validate: false)
+    assert_instance_of Polygon, polygon
+  end
+
   # -- includes?/excludes? --------------------------------------------------
 
   def test_includes_point_inside_polygon

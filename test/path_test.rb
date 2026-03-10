@@ -75,8 +75,11 @@ class PathTest < Minitest::Test
     path = Path.new(coordinates: [@a, @b, @c])
     segs = path.segments
     assert_equal 2, segs.size
-    assert_equal [@a, @b], segs[0]
-    assert_equal [@b, @c], segs[1]
+    assert_kind_of Geodetic::Segment, segs[0]
+    assert_equal @a, segs[0].start_point
+    assert_equal @b, segs[0].end_point
+    assert_equal @b, segs[1].start_point
+    assert_equal @c, segs[1].end_point
   end
 
   def test_segments_empty_path

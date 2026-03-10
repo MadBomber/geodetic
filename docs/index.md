@@ -14,7 +14,8 @@
 <li><strong>Distance Calculations</strong> - Vincenty great-circle and straight-line with unit tracking<br>
 <li><strong>Bearing Calculations</strong> - Forward azimuth, back azimuth, compass directions, elevation angles<br>
 <li><strong>Geoid Height Support</strong> - EGM96, EGM2008, GEOID18, GEOID12B models<br>
-<li><strong>Geographic Areas</strong> - Circle, Polygon, and BoundingBox with point-in-area tests<br>
+<li><strong>Geographic Areas</strong> - Circle, Polygon, BoundingBox, Triangle, Rectangle, Pentagon, Hexagon, Octagon<br>
+<li><strong>Segments</strong> - Directed two-point line segments with projection, intersection, and interpolation<br>
 <li><strong>Paths</strong> - Directed coordinate sequences with navigation, interpolation, closest approach, intersection, and area conversion<br>
 <li><strong>Features</strong> - Named geometry wrapper with metadata and delegated distance/bearing<br>
 <li><strong>Validated Setters</strong> - Type coercion and range validation on all coordinate attributes<br>
@@ -57,7 +58,8 @@ Geodetic supports full bidirectional conversion between all 18 coordinate system
 
 - **16 geodetic datums** -- WGS84, GRS 1980, Clarke 1866, Airy 1830, Bessel 1841, and more. All conversion methods accept an optional datum parameter, defaulting to WGS84.
 - **Geoid height calculations** -- Convert between ellipsoidal and orthometric heights using models such as EGM96, EGM2008, GEOID18, and GEOID12B.
-- **Geographic areas** -- `Geodetic::Areas::Circle`, `Geodetic::Areas::Polygon`, and `Geodetic::Areas::BoundingBox` for point-in-area testing.
+- **Geographic areas** -- `Geodetic::Areas::Circle`, `Geodetic::Areas::Polygon`, `Geodetic::Areas::BoundingBox`, plus polygon subclasses (`Triangle`, `Rectangle`, `Pentagon`, `Hexagon`, `Octagon`) for point-in-area testing.
+- **Segments** -- `Geodetic::Segment` is a directed two-point line segment with projection, intersection detection, interpolation, and membership testing. It is the geometric primitive underlying Path and Polygon operations.
 - **Paths** -- `Geodetic::Path` is a directed, ordered sequence of unique coordinates supporting navigation, segment analysis, interpolation, closest approach (geometric projection), containment testing, bounding boxes, polygon conversion, and path intersection detection.
 - **Features** -- `Geodetic::Feature` wraps any coordinate, area, or path with a label and metadata hash, delegating `distance_to` and `bearing_to` to the underlying geometry.
 
