@@ -30,7 +30,7 @@ seg = seattle + portland  # => Geodetic::Segment
 seg.start_point           # => seattle
 seg.end_point             # => portland
 seg.length                # => Distance (~235 km)
-seg.bearing               # => Bearing (~188°)
+seg.bearing               # => Bearing (~186°)
 ```
 
 Works across any coordinate system — the Segment converts both points to LLA internally:

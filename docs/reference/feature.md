@@ -65,7 +65,7 @@ liberty.distance_to(LLA.new(lat: 40.7484, lng: -73.9857, alt: 0))
 Returns a `Geodetic::Bearing` from this feature to another feature, coordinate, or area. Uses the same centroid resolution as `distance_to`.
 
 ```ruby
-liberty.bearing_to(empire).degrees      # => 36.99
+liberty.bearing_to(empire).degrees      # => 36.95
 liberty.bearing_to(empire).to_compass   # => "NE"
 ```
 

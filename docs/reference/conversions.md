@@ -250,7 +250,7 @@ portland = Geodetic::Coordinate::LLA.new(lat: 45.5152, lng: -122.6784, alt: 0.0)
 sf = Geodetic::Coordinate::LLA.new(lat: 37.7749, lng: -122.4194, alt: 0.0)
 
 # Radial distances from receiver
-seattle.distance_to(portland)          # => Distance (235393.17 m)
+seattle.distance_to(portland)          # => Distance (235385.71 m)
 seattle.distance_to(portland, sf)      # => [Distance, Distance] (Array)
 
 # Consecutive chain distances
@@ -274,7 +274,7 @@ Both `distance_to` and `straight_line_distance_to` accept any coordinate type. C
 ```ruby
 utm = seattle.to_utm
 mgrs = Geodetic::Coordinate::MGRS.from_lla(portland)
-utm.distance_to(mgrs)    # => Distance (235393.17 m)
+utm.distance_to(mgrs)    # => Distance (235385.71 m)
 ```
 
 ### ENU and NED (Relative Systems)
@@ -308,7 +308,7 @@ sf = Geodetic::Coordinate::LLA.new(lat: 37.7749, lng: -122.4194, alt: 0.0)
 
 # Forward azimuth
 b = seattle.bearing_to(portland)       # => Bearing
-b.degrees                              # => 188.2...
+b.degrees                              # => 186.25...
 b.to_compass(points: 8)               # => "S"
 b.reverse                             # => Bearing (back azimuth)
 
