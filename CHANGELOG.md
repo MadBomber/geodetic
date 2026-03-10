@@ -8,6 +8,42 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 
+## [0.7.0] - 2026-03-10
+
+### Added
+
+- **`Geodetic::Geos` module** — optional GEOS C library integration via `fiddle` for accelerated spatial operations
+  - **Library binding**: auto-discovers `libgeos_c` on macOS and Linux; uses reentrant `_r` API for thread safety
+  - **Predicates**: `Geos.contains?(a, b)`, `Geos.intersects?(a, b)`, `Geos.is_valid?(geom)`, `Geos.is_valid_reason(geom)`
+  - **Boolean operations**: `Geos.intersection(a, b)`, `Geos.difference(a, b)`, `Geos.symmetric_difference(a, b)`, `Geos.union(geom)`
+  - **Geometry construction**: `Geos.buffer(geom, distance)`, `Geos.buffer_with_style(geom, distance, ...)`, `Geos.convex_hull(geom)`, `Geos.simplify(geom, tolerance)`, `Geos.make_valid(geom)`
+  - **Measurements**: `Geos.area(geom)`, `Geos.length(geom)`, `Geos.distance(a, b)`, `Geos.nearest_points(a, b)`
+  - **`PreparedGeometry`**: `Geos.prepare(polygon)` builds a spatial index for O(log n) batch `contains?`/`intersects?` queries
+  - **Graceful degradation**: `Geos.available?` returns false when `libgeos_c` is not installed; all operations fall back to pure Ruby
+  - **`GEODETIC_GEOS_DISABLE` env var**: forces pure Ruby for all operations even when GEOS is installed
+  - **`LIBGEOS_PATH` env var**: specify a custom `libgeos_c` library path
+  - All GEOS operations accept any Geodetic geometry type and return standard Geodetic objects (Polygon, Path, LLA, etc.)
+- **GEOS-accelerated polygon validation** — `Polygon.new` delegates self-intersection validation to GEOS when available, using O(n log n) spatial indexing vs Ruby's O(n^2) pairwise test
+- **GEOS-accelerated point-in-polygon** — `polygon.includes?(point)` uses GEOS for polygons with 15+ vertices (`Polygon::GEOS_INCLUDES_THRESHOLD`); below threshold, Ruby's winding-number algorithm is faster
+- **GEOS-accelerated path intersection** — `path.intersects?(other_path)` uses GEOS when available (wins at all tested sizes vs Ruby's O(n*m) brute-force)
+- **Improved Ruby polygon validation** — added `validate_distinct_vertices!` and `validate_noncollinear!` checks so pure Ruby matches GEOS accuracy for degenerate polygons
+- GEOS benchmark example (`examples/12_geos_benchmark.rb`) — compares Ruby vs GEOS performance across polygon validation, point-in-polygon, path intersection, PreparedGeometry batch containment, single segment (Ruby wins), and GEOS-only operations
+- GEOS operations example (`examples/13_geos_operations.rb`) — 11-section demo covering boolean overlay, buffering, convex hull, simplification, validity checking, geometry repair, planar measurements, nearest points, PreparedGeometry, operation chaining, and GeoJSON/WKT export of results
+- 27 GEOS tests covering all operations, predicates, PreparedGeometry, and error handling
+- 3 new polygon validation tests: collinear boundary, insufficient distinct vertices, all-same-point
+- Documentation: `docs/reference/geos-acceleration.md` (installation, automatic dispatch, performance expectations, API reference)
+
+### Changed
+
+- Updated README with GEOS Acceleration feature, optional dependency section, and examples 12-13 in the examples table
+- Updated `examples/README.md` with example 12 and 13 descriptions
+- Updated `examples/sample_geometries.wkb.hex` to use valid (non-degenerate) triangles in polygon entries
+
+### Fixed
+
+- WKB test data used collinear triangle `(1,2)-(3,4)-(5,6)` which is now correctly rejected; updated to valid triangle `(1,2)-(3,4)-(5,2)`
+- Polygon validation error message regex in tests updated to match both Ruby and GEOS formats
+
 ## [0.6.0] - 2026-03-10
 
 ### Added
