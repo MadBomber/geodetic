@@ -973,6 +973,8 @@
       
         
       
+        
+      
     
     
     
@@ -1090,6 +1092,34 @@
     
   
     Areas
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../segment/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Segment
   
 
     
@@ -1595,7 +1625,7 @@
 </span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">  </span><span class="ss">metadata</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="ss">category</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;monument&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">year</span><span class="p">:</span><span class="w"> </span><span class="mi">1886</span><span class="w"> </span><span class="p">}</span>
 </span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="p">)</span>
 </span></code></pre></div>
-<p>The <code>geometry</code> parameter accepts any coordinate class, any area class (<code>Circle</code>, <code>Polygon</code>, <code>Rectangle</code>), or a <code>Path</code>. The <code>metadata</code> hash is optional and defaults to <code>{}</code>.</p>
+<p>The <code>geometry</code> parameter accepts any coordinate class, any area class (<code>Circle</code>, <code>Polygon</code>, <code>BoundingBox</code>), or a <code>Path</code>. The <code>metadata</code> hash is optional and defaults to <code>{}</code>.</p>
 <hr />
 <h2 id="attributes">Attributes<a class="headerlink" href="#attributes" title="Permanent link">&para;</a></h2>
 <table>
@@ -1634,7 +1664,7 @@
 <p>A Feature's geometry can be any of:</p>
 <ul>
 <li><strong>Coordinate</strong> — any of the 18 coordinate classes (<code>LLA</code>, <code>ECEF</code>, <code>UTM</code>, etc.)</li>
-<li><strong>Area</strong> — <code>Areas::Circle</code>, <code>Areas::Polygon</code>, or <code>Areas::Rectangle</code></li>
+<li><strong>Area</strong> — <code>Areas::Circle</code>, <code>Areas::Polygon</code>, or <code>Areas::BoundingBox</code></li>
 <li><strong>Path</strong> — a <code>Geodetic::Path</code> representing a route or trail</li>
 </ul>
 <p>When the geometry is an area, <code>distance_to</code> and <code>bearing_to</code> use the area's <code>centroid</code> as the reference point. When the geometry is a Path, <code>distance_to</code> and <code>bearing_to</code> use geometric projection to find the closest approach point on the path.</p>

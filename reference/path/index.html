@@ -15,7 +15,7 @@
         <link rel="canonical" href="https://madbomber.github.io/geodetic/reference/path/">
       
       
-        <link rel="prev" href="../areas/">
+        <link rel="prev" href="../segment/">
       
       
         <link rel="next" href="../feature/">
@@ -973,6 +973,8 @@
       
         
       
+        
+      
     
     
     
@@ -1090,6 +1092,34 @@
     
   
     Areas
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../segment/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Segment
   
 
     
@@ -2028,7 +2058,7 @@
 <tr>
 <td><code>segments</code></td>
 <td>Array</td>
-<td>Pairs of consecutive coordinates <code>[[a,b], [b,c], ...]</code></td>
+<td>Array of <code>Segment</code> objects for each consecutive pair</td>
 </tr>
 </tbody>
 </table>
@@ -2125,7 +2155,7 @@
 </span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">  </span><span class="ss">distance</span><span class="p">:</span><span class="w">   </span><span class="no">Distance</span><span class="w">     </span><span class="c1"># distance between the two points</span>
 </span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="p">}</span>
 </span></code></pre></div>
-<p>Accepts <code>Areas::Circle</code>, <code>Areas::Polygon</code>, <code>Areas::Rectangle</code>, or another <code>Path</code>.</p>
+<p>Accepts <code>Areas::Circle</code>, <code>Areas::Polygon</code>, <code>Areas::BoundingBox</code>, or another <code>Path</code>.</p>
 <hr />
 <h2 id="computed-properties">Computed Properties<a class="headerlink" href="#computed-properties" title="Permanent link">&para;</a></h2>
 <table>
@@ -2181,7 +2211,7 @@
 <hr />
 <h2 id="bounding-box">Bounding Box<a class="headerlink" href="#bounding-box" title="Permanent link">&para;</a></h2>
 <h3 id="bounds"><code>bounds</code><a class="headerlink" href="#bounds" title="Permanent link">&para;</a></h3>
-<p>Returns an <code>Areas::Rectangle</code> representing the axis-aligned bounding box of all waypoints.</p>
+<p>Returns an <code>Areas::BoundingBox</code> representing the axis-aligned bounding box of all waypoints.</p>
 <div class="language-ruby highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="n">bbox</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">route</span><span class="o">.</span><span class="n">bounds</span>
 </span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="n">bbox</span><span class="o">.</span><span class="n">nw</span><span class="w">  </span><span class="c1"># =&gt; northwest corner</span>
 </span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="n">bbox</span><span class="o">.</span><span class="n">se</span><span class="w">  </span><span class="c1"># =&gt; southeast corner</span>
@@ -2372,7 +2402,7 @@
       <nav class="md-footer__inner md-grid" aria-label="Footer" >
         
           
-          <a href="../areas/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Areas">
+          <a href="../segment/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Segment">
             <div class="md-footer__button md-icon">
               
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
@@ -2382,7 +2412,7 @@
                 Previous
               </span>
               <div class="md-ellipsis">
-                Areas
+                Segment
               </div>
             </div>
           </a>

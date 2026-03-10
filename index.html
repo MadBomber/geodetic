@@ -974,6 +974,8 @@
       
         
       
+        
+      
     
     
     
@@ -1088,6 +1090,34 @@
     
   
     Areas
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="reference/segment/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Segment
   
 
     
@@ -1372,7 +1402,8 @@
 <li><strong>Distance Calculations</strong> - Vincenty great-circle and straight-line with unit tracking<br>
 <li><strong>Bearing Calculations</strong> - Forward azimuth, back azimuth, compass directions, elevation angles<br>
 <li><strong>Geoid Height Support</strong> - EGM96, EGM2008, GEOID18, GEOID12B models<br>
-<li><strong>Geographic Areas</strong> - Circle, Polygon, and Rectangle with point-in-area tests<br>
+<li><strong>Geographic Areas</strong> - Circle, Polygon, BoundingBox, Triangle, Rectangle, Pentagon, Hexagon, Octagon<br>
+<li><strong>Segments</strong> - Directed two-point line segments with projection, intersection, and interpolation<br>
 <li><strong>Paths</strong> - Directed coordinate sequences with navigation, interpolation, closest approach, intersection, and area conversion<br>
 <li><strong>Features</strong> - Named geometry wrapper with metadata and delegated distance/bearing<br>
 <li><strong>Validated Setters</strong> - Type coercion and range validation on all coordinate attributes<br>
@@ -1492,7 +1523,8 @@
 <ul>
 <li><strong>16 geodetic datums</strong> -- WGS84, GRS 1980, Clarke 1866, Airy 1830, Bessel 1841, and more. All conversion methods accept an optional datum parameter, defaulting to WGS84.</li>
 <li><strong>Geoid height calculations</strong> -- Convert between ellipsoidal and orthometric heights using models such as EGM96, EGM2008, GEOID18, and GEOID12B.</li>
-<li><strong>Geographic areas</strong> -- <code>Geodetic::Areas::Circle</code>, <code>Geodetic::Areas::Polygon</code>, and <code>Geodetic::Areas::Rectangle</code> for point-in-area testing.</li>
+<li><strong>Geographic areas</strong> -- <code>Geodetic::Areas::Circle</code>, <code>Geodetic::Areas::Polygon</code>, <code>Geodetic::Areas::BoundingBox</code>, plus polygon subclasses (<code>Triangle</code>, <code>Rectangle</code>, <code>Pentagon</code>, <code>Hexagon</code>, <code>Octagon</code>) for point-in-area testing.</li>
+<li><strong>Segments</strong> -- <code>Geodetic::Segment</code> is a directed two-point line segment with projection, intersection detection, interpolation, and membership testing. It is the geometric primitive underlying Path and Polygon operations.</li>
 <li><strong>Paths</strong> -- <code>Geodetic::Path</code> is a directed, ordered sequence of unique coordinates supporting navigation, segment analysis, interpolation, closest approach (geometric projection), containment testing, bounding boxes, polygon conversion, and path intersection detection.</li>
 <li><strong>Features</strong> -- <code>Geodetic::Feature</code> wraps any coordinate, area, or path with a label and metadata hash, delegating <code>distance_to</code> and <code>bearing_to</code> to the underlying geometry.</li>
 </ul>

@@ -18,7 +18,7 @@
         <link rel="prev" href="../geoid-height/">
       
       
-        <link rel="next" href="../path/">
+        <link rel="next" href="../segment/">
       
       
         
@@ -973,6 +973,8 @@
       
         
       
+        
+      
     
     
     
@@ -1333,15 +1335,15 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#geodeticareasrectangle" class="md-nav__link">
+  <a href="#geodeticareasboundingbox" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Geodetic::Areas::Rectangle
+        Geodetic::Areas::BoundingBox
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Geodetic::Areas::Rectangle">
+    <nav class="md-nav" aria-label="Geodetic::Areas::BoundingBox">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -1428,10 +1430,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#integration-with-gh36" class="md-nav__link">
+  <a href="#integration-with-spatial-hashes" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Integration with GH36
+        Integration with Spatial Hashes
       
     </span>
   </a>
@@ -1447,6 +1449,34 @@
   
 </nav>
       
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../segment/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Segment
+  
+
+    
+  </span>
+  
+  
+
+      </a>
     </li>
   
 
@@ -1817,15 +1847,15 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#geodeticareasrectangle" class="md-nav__link">
+  <a href="#geodeticareasboundingbox" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Geodetic::Areas::Rectangle
+        Geodetic::Areas::BoundingBox
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Geodetic::Areas::Rectangle">
+    <nav class="md-nav" aria-label="Geodetic::Areas::BoundingBox">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -1912,10 +1942,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#integration-with-gh36" class="md-nav__link">
+  <a href="#integration-with-spatial-hashes" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Integration with GH36
+        Integration with Spatial Hashes
       
     </span>
   </a>
@@ -1954,7 +1984,7 @@
 
 
 <h1 id="areas-reference">Areas Reference<a class="headerlink" href="#areas-reference" title="Permanent link">&para;</a></h1>
-<p>The <code>Geodetic::Areas</code> module provides three geometric area classes for point-in-area testing: <code>Circle</code>, <code>Polygon</code>, and <code>Rectangle</code>. All operate on <code>Geodetic::Coordinate::LLA</code> points.</p>
+<p>The <code>Geodetic::Areas</code> module provides geometric area classes for point-in-area testing: <code>Circle</code>, <code>Polygon</code>, <code>BoundingBox</code>, and polygon subclasses (<code>Triangle</code>, <code>Rectangle</code>, <code>Pentagon</code>, <code>Hexagon</code>, <code>Octagon</code>). All operate on <code>Geodetic::Coordinate::LLA</code> points.</p>
 <hr />
 <h2 id="geodeticareascircle">Geodetic::Areas::Circle<a class="headerlink" href="#geodeticareascircle" title="Permanent link">&para;</a></h2>
 <p>Defines a circular area on the Earth's surface.</p>
@@ -2087,18 +2117,21 @@
 </tbody>
 </table>
 <hr />
-<h2 id="geodeticareasrectangle">Geodetic::Areas::Rectangle<a class="headerlink" href="#geodeticareasrectangle" title="Permanent link">&para;</a></h2>
-<p>Defines an axis-aligned rectangle by its northwest and southeast corners.</p>
+<h2 id="geodeticareasboundingbox">Geodetic::Areas::BoundingBox<a class="headerlink" href="#geodeticareasboundingbox" title="Permanent link">&para;</a></h2>
+<p>Defines an axis-aligned bounding box by its northwest and southeast corners. Edges are always oriented East-West and North-South.</p>
+<blockquote>
+<p><code>Areas::Rectangle</code> is a backward-compatible alias for <code>Areas::BoundingBox</code>.</p>
+</blockquote>
 <h3 id="constructor_2">Constructor<a class="headerlink" href="#constructor_2" title="Permanent link">&para;</a></h3>
 <div class="language-ruby highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="n">nw</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">Geodetic</span><span class="o">::</span><span class="no">Coordinate</span><span class="o">::</span><span class="no">LLA</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">lat</span><span class="p">:</span><span class="w"> </span><span class="mi">41</span><span class="o">.</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="ss">lng</span><span class="p">:</span><span class="w"> </span><span class="o">-</span><span class="mi">75</span><span class="o">.</span><span class="mi">0</span><span class="p">)</span>
 </span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="n">se</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">Geodetic</span><span class="o">::</span><span class="no">Coordinate</span><span class="o">::</span><span class="no">LLA</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">lat</span><span class="p">:</span><span class="w"> </span><span class="mi">40</span><span class="o">.</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="ss">lng</span><span class="p">:</span><span class="w"> </span><span class="o">-</span><span class="mi">74</span><span class="o">.</span><span class="mi">0</span><span class="p">)</span>
 </span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>
-</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="n">rectangle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">Geodetic</span><span class="o">::</span><span class="no">Areas</span><span class="o">::</span><span class="no">Rectangle</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">nw</span><span class="p">:</span><span class="w"> </span><span class="n">nw</span><span class="p">,</span><span class="w"> </span><span class="ss">se</span><span class="p">:</span><span class="w"> </span><span class="n">se</span><span class="p">)</span>
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="n">bbox</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">Geodetic</span><span class="o">::</span><span class="no">Areas</span><span class="o">::</span><span class="no">BoundingBox</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">nw</span><span class="p">:</span><span class="w"> </span><span class="n">nw</span><span class="p">,</span><span class="w"> </span><span class="ss">se</span><span class="p">:</span><span class="w"> </span><span class="n">se</span><span class="p">)</span>
 </span></code></pre></div>
 <p>The constructor accepts any coordinate type that responds to <code>to_lla</code> -- coordinates are automatically converted to LLA.</p>
 <div class="language-ruby highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="n">nw_wm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">Geodetic</span><span class="o">::</span><span class="no">Coordinate</span><span class="o">::</span><span class="no">WebMercator</span><span class="o">.</span><span class="n">from_lla</span><span class="p">(</span><span class="n">nw</span><span class="p">)</span>
 </span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="n">se_wm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">Geodetic</span><span class="o">::</span><span class="no">Coordinate</span><span class="o">::</span><span class="no">WebMercator</span><span class="o">.</span><span class="n">from_lla</span><span class="p">(</span><span class="n">se</span><span class="p">)</span>
-</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="n">rectangle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">Geodetic</span><span class="o">::</span><span class="no">Areas</span><span class="o">::</span><span class="no">Rectangle</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">nw</span><span class="p">:</span><span class="w"> </span><span class="n">nw_wm</span><span class="p">,</span><span class="w"> </span><span class="ss">se</span><span class="p">:</span><span class="w"> </span><span class="n">se_wm</span><span class="p">)</span>
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="n">bbox</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">Geodetic</span><span class="o">::</span><span class="no">Areas</span><span class="o">::</span><span class="no">BoundingBox</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">nw</span><span class="p">:</span><span class="w"> </span><span class="n">nw_wm</span><span class="p">,</span><span class="w"> </span><span class="ss">se</span><span class="p">:</span><span class="w"> </span><span class="n">se_wm</span><span class="p">)</span>
 </span></code></pre></div>
 <p>Raises <code>ArgumentError</code> if the NW corner has a lower latitude than the SE corner, or if the NW corner has a higher longitude than the SE corner.</p>
 <h3 id="attributes_2">Attributes<a class="headerlink" href="#attributes_2" title="Permanent link">&para;</a></h3>
@@ -2130,18 +2163,18 @@
 </table>
 <p>All attributes are read-only.</p>
 <h3 id="computed-corners">Computed Corners<a class="headerlink" href="#computed-corners" title="Permanent link">&para;</a></h3>
-<div class="language-ruby highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="n">rectangle</span><span class="o">.</span><span class="n">ne</span><span class="w">    </span><span class="c1"># =&gt; LLA (nw.lat, se.lng)</span>
-</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="n">rectangle</span><span class="o">.</span><span class="n">sw</span><span class="w">    </span><span class="c1"># =&gt; LLA (se.lat, nw.lng)</span>
+<div class="language-ruby highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="n">bbox</span><span class="o">.</span><span class="n">ne</span><span class="w">    </span><span class="c1"># =&gt; LLA (nw.lat, se.lng)</span>
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="n">bbox</span><span class="o">.</span><span class="n">sw</span><span class="w">    </span><span class="c1"># =&gt; LLA (se.lat, nw.lng)</span>
 </span></code></pre></div>
 <h3 id="methods_2">Methods<a class="headerlink" href="#methods_2" title="Permanent link">&para;</a></h3>
 <h4 id="includesa_point-includea_point-insidea_point_2"><code>includes?(a_point)</code> / <code>include?(a_point)</code> / <code>inside?(a_point)</code><a class="headerlink" href="#includesa_point-includea_point-insidea_point_2" title="Permanent link">&para;</a></h4>
-<p>Returns <code>true</code> if the given point falls within (or on the boundary of) the rectangle. Accepts any coordinate type that responds to <code>to_lla</code>.</p>
+<p>Returns <code>true</code> if the given point falls within (or on the boundary of) the bounding box. Accepts any coordinate type that responds to <code>to_lla</code>.</p>
 <div class="language-ruby highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="n">point</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">Geodetic</span><span class="o">::</span><span class="no">Coordinate</span><span class="o">::</span><span class="no">LLA</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">lat</span><span class="p">:</span><span class="w"> </span><span class="mi">40</span><span class="o">.</span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="ss">lng</span><span class="p">:</span><span class="w"> </span><span class="o">-</span><span class="mi">74</span><span class="o">.</span><span class="mi">5</span><span class="p">)</span>
-</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="n">rectangle</span><span class="o">.</span><span class="n">includes?</span><span class="p">(</span><span class="n">point</span><span class="p">)</span><span class="w">  </span><span class="c1"># =&gt; true</span>
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="n">bbox</span><span class="o">.</span><span class="n">includes?</span><span class="p">(</span><span class="n">point</span><span class="p">)</span><span class="w">  </span><span class="c1"># =&gt; true</span>
 </span></code></pre></div>
 <h4 id="excludesa_point-excludea_point-outsidea_point_2"><code>excludes?(a_point)</code> / <code>exclude?(a_point)</code> / <code>outside?(a_point)</code><a class="headerlink" href="#excludesa_point-excludea_point-outsidea_point_2" title="Permanent link">&para;</a></h4>
-<p>Returns <code>true</code> if the given point falls outside the rectangle.</p>
-<div class="language-ruby highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="n">rectangle</span><span class="o">.</span><span class="n">excludes?</span><span class="p">(</span><span class="n">point</span><span class="p">)</span><span class="w">  </span><span class="c1"># =&gt; true or false</span>
+<p>Returns <code>true</code> if the given point falls outside the bounding box.</p>
+<div class="language-ruby highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="n">bbox</span><span class="o">.</span><span class="n">excludes?</span><span class="p">(</span><span class="n">point</span><span class="p">)</span><span class="w">  </span><span class="c1"># =&gt; true or false</span>
 </span></code></pre></div>
 <h3 id="alias-summary_2">Alias Summary<a class="headerlink" href="#alias-summary_2" title="Permanent link">&para;</a></h3>
 <table>
@@ -2162,11 +2195,11 @@
 </tr>
 </tbody>
 </table>
-<h3 id="integration-with-gh36">Integration with GH36<a class="headerlink" href="#integration-with-gh36" title="Permanent link">&para;</a></h3>
-<p><code>Geodetic::Coordinate::GH36#to_area</code> returns a <code>Rectangle</code> representing the geohash cell's bounding box:</p>
+<h3 id="integration-with-spatial-hashes">Integration with Spatial Hashes<a class="headerlink" href="#integration-with-spatial-hashes" title="Permanent link">&para;</a></h3>
+<p>Spatial hash coordinate systems (<code>GH</code>, <code>GH36</code>, <code>HAM</code>, <code>OLC</code>, <code>GEOREF</code>, <code>GARS</code>) return a <code>BoundingBox</code> from <code>to_area</code>:</p>
 <div class="language-ruby highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="n">gh36</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">Geodetic</span><span class="o">::</span><span class="no">Coordinate</span><span class="o">::</span><span class="no">GH36</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;bdrdC26BqH&quot;</span><span class="p">)</span>
 </span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="n">area</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">gh36</span><span class="o">.</span><span class="n">to_area</span>
-</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="c1"># =&gt; Geodetic::Areas::Rectangle</span>
+</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="c1"># =&gt; Geodetic::Areas::BoundingBox</span>
 </span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a>
 </span><span id="__span-11-5"><a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a><span class="n">area</span><span class="o">.</span><span class="n">includes?</span><span class="p">(</span><span class="n">gh36</span><span class="o">.</span><span class="n">to_lla</span><span class="p">)</span><span class="w">  </span><span class="c1"># =&gt; true (midpoint is inside the cell)</span>
 </span></code></pre></div>
@@ -2224,13 +2257,13 @@
         
         
           
-          <a href="../path/" class="md-footer__link md-footer__link--next" aria-label="Next: Path">
+          <a href="../segment/" class="md-footer__link md-footer__link--next" aria-label="Next: Segment">
             <div class="md-footer__title">
               <span class="md-footer__direction">
                 Next
               </span>
               <div class="md-ellipsis">
-                Path
+                Segment
               </div>
             </div>
             <div class="md-footer__button md-icon">

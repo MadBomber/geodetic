@@ -965,6 +965,8 @@
       
         
       
+        
+      
     
     
     
@@ -1079,6 +1081,34 @@
     
   
     Areas
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/segment/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Segment
   
 
     
@@ -1701,9 +1731,9 @@
 </span></code></pre></div>
 <p>Neighbors preserve the same precision as the original locator. Latitude is clamped to valid range near the poles; longitude wraps at the antimeridian.</p>
 <h2 id="area">Area<a class="headerlink" href="#area" title="Permanent link">&para;</a></h2>
-<p>The <code>to_area</code> method returns the grid square as a <code>Geodetic::Areas::Rectangle</code>.</p>
+<p>The <code>to_area</code> method returns the grid square as a <code>Geodetic::Areas::BoundingBox</code>.</p>
 <div class="language-ruby highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="n">area</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">coord</span><span class="o">.</span><span class="n">to_area</span>
-</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="c1"># =&gt; Geodetic::Areas::Rectangle</span>
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="c1"># =&gt; Geodetic::Areas::BoundingBox</span>
 </span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>
 </span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="n">area</span><span class="o">.</span><span class="n">includes?</span><span class="p">(</span><span class="n">coord</span><span class="o">.</span><span class="n">to_lla</span><span class="p">)</span><span class="w">    </span><span class="c1"># =&gt; true (midpoint is inside the cell)</span>
 </span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="n">area</span><span class="o">.</span><span class="n">nw</span><span class="w">                         </span><span class="c1"># =&gt; LLA (northwest corner)</span>
