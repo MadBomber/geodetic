@@ -187,15 +187,11 @@ module Geodetic
     def intersects?(other_path)
       raise ArgumentError, "expected a Path" unless other_path.is_a?(Path)
 
-      return false unless bounds_overlap?(bounds, other_path.bounds)
-
-      segments.each do |seg1|
-        other_path.segments.each do |seg2|
-          return true if seg1.intersects?(seg2)
-        end
+      if Geos.available?
+        geos_intersects?(other_path)
+      else
+        ruby_intersects?(other_path)
       end
-
-      false
     end
 
     def total_distance
@@ -523,6 +519,22 @@ module Geodetic
         Math.sin(r1) + Math.sin(r2),
         Math.cos(r1) + Math.cos(r2)
       ) * DEG_PER_RAD
+    end
+
+    def geos_intersects?(other_path)
+      Geos.intersects?(self, other_path)
+    end
+
+    def ruby_intersects?(other_path)
+      return false unless bounds_overlap?(bounds, other_path.bounds)
+
+      segments.each do |seg1|
+        other_path.segments.each do |seg2|
+          return true if seg1.intersects?(seg2)
+        end
+      end
+
+      false
     end
   end
 end

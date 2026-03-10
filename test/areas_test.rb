@@ -203,7 +203,37 @@ class PolygonAreaTest < Minitest::Test
       LLA.new(lat: 0.0, lng: 1.0),
     ]
     err = assert_raises(ArgumentError) { Polygon.new(boundary: boundary) }
-    assert_match(/self-intersect/, err.message)
+    assert_match(/self-intersect|Self-intersection/i, err.message)
+  end
+
+  def test_raises_on_collinear_boundary
+    boundary = [
+      LLA.new(lat: 0.0, lng: 0.0),
+      LLA.new(lat: 1.0, lng: 1.0),
+      LLA.new(lat: 2.0, lng: 2.0),
+    ]
+    err = assert_raises(ArgumentError) { Polygon.new(boundary: boundary) }
+    assert_match(/collinear|invalid/i, err.message)
+  end
+
+  def test_raises_on_insufficient_distinct_vertices
+    boundary = [
+      LLA.new(lat: 0.0, lng: 0.0),
+      LLA.new(lat: 0.0, lng: 0.0),
+      LLA.new(lat: 1.0, lng: 1.0),
+    ]
+    err = assert_raises(ArgumentError) { Polygon.new(boundary: boundary) }
+    assert_match(/distinct|invalid/i, err.message)
+  end
+
+  def test_raises_on_all_same_point
+    boundary = [
+      LLA.new(lat: 1.0, lng: 1.0),
+      LLA.new(lat: 1.0, lng: 1.0),
+      LLA.new(lat: 1.0, lng: 1.0),
+    ]
+    err = assert_raises(ArgumentError) { Polygon.new(boundary: boundary) }
+    assert_match(/distinct|invalid/i, err.message)
   end
 
   def test_accepts_valid_convex_polygon

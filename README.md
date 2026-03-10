@@ -27,6 +27,7 @@
 - <strong>GeoJSON Export</strong> - Build FeatureCollections from any mix of objects and save to file<br>
 - <strong>WKT Serialization</strong> - Well-Known Text export/import with SRID/EWKT and Z-dimension support<br>
 - <strong>WKB Serialization</strong> - Well-Known Binary export/import with EWKB, SRID, hex encoding, and file I/O<br>
+- <strong>GEOS Acceleration</strong> - Optional native acceleration for polygon validation, point-in-polygon, path intersection, and boolean operations<br>
 - <strong>Validated Setters</strong> - Type coercion and range validation on all coordinate attributes<br>
 - <strong>Serialization</strong> - to_s(precision), to_a, from_string, from_array, DMS format<br>
 - <strong>Multiple Datums</strong> - WGS84, Clarke 1866, GRS 1980, Airy 1830, and more<br>
@@ -64,6 +65,26 @@ brew install h3
 ```
 
 You can also set the `LIBH3_PATH` environment variable to point to a custom `libh3` location.
+
+### Optional: GEOS Spatial Acceleration
+
+The [GEOS](https://libgeos.org/) library accelerates polygon validation, point-in-polygon tests, path intersection, and adds boolean geometry operations (intersection, difference, convex hull, etc.). Without it, all operations use pure Ruby implementations. Geodetic automatically uses GEOS when available and falls back to Ruby when it is not.
+
+```bash
+# macOS
+brew install geos
+
+# Linux (Debian/Ubuntu)
+sudo apt-get install libgeos-dev
+```
+
+Geodetic uses GEOS selectively — only where it provides a measurable speedup. Single segment intersections stay in Ruby (FFI overhead exceeds the computation cost). For polygons with fewer than 15 vertices, point-in-polygon tests also stay in Ruby.
+
+Set `GEODETIC_GEOS_DISABLE=1` to force pure Ruby for all operations, even when GEOS is installed. See [GEOS Acceleration](docs/reference/geos-acceleration.md) for detailed performance analysis and [example 12](examples/12_geos_benchmark.rb) for a runnable benchmark.
+
+```ruby
+Geodetic::Geos.available?  # => true when libgeos_c is found and not disabled
+```
 
 ## Usage
 
@@ -873,6 +894,8 @@ The [`examples/`](examples/) directory contains runnable demo scripts showing pr
 | [`09_geojson_export.rb`](examples/09_geojson_export.rb) | GeoJSON export: `to_geojson` on all geometry types, `GeoJSON` class for building FeatureCollections with `<<`, delete/clear, Enumerable, and `save` to file |
 | [`10_wkt_serialization.rb`](examples/10_wkt_serialization.rb) | WKT serialization: `to_wkt` on all geometry types, SRID/EWKT, Z-dimension handling, parsing, and roundtrip verification |
 | [`11_wkb_serialization.rb`](examples/11_wkb_serialization.rb) | WKB serialization: `to_wkb`/`to_wkb_hex` on all geometry types, EWKB/SRID, Z-dimension, parsing, roundtrip, and binary/hex file I/O |
+| [`12_geos_benchmark.rb`](examples/12_geos_benchmark.rb) | GEOS performance benchmark: polygon validation, point-in-polygon, path intersection, PreparedGeometry batch containment, and GEOS-only boolean operations |
+| [`13_geos_operations.rb`](examples/13_geos_operations.rb) | GEOS-only operations: boolean overlay (intersection, difference, symmetric difference, union), buffering, convex hull, simplification, validity checking, geometry repair, planar measurements, nearest points, PreparedGeometry, and operation chaining |
 
 Run any example with:
 

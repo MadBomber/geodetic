@@ -27,18 +27,15 @@ module Geodetic
       alias edges segments
       alias border segments
 
+      # Minimum boundary size where GEOS outperforms pure Ruby for point-in-polygon.
+      GEOS_INCLUDES_THRESHOLD = 15
+
       def includes?(a_point)
-        turn_angle = 0.0
-
-        (@boundary.length - 2).times do |index|
-          return true if @boundary[index] == a_point
-
-          d_turn_angle  = a_point.bearing_to(@boundary[index + 1]) - a_point.bearing_to(@boundary[index])
-          d_turn_angle += (d_turn_angle > 0.0 ? -360.0 : 360.0) if d_turn_angle.abs > 180.0
-          turn_angle   += d_turn_angle
+        if Geos.available? && @boundary.length >= GEOS_INCLUDES_THRESHOLD
+          geos_includes?(a_point)
+        else
+          ruby_includes?(a_point)
         end
-
-        turn_angle.abs > 180.0
       end
 
       def excludes?(a_point)
@@ -61,6 +58,24 @@ module Geodetic
       alias_method :translate, :*
 
       private
+
+      def ruby_includes?(a_point)
+        turn_angle = 0.0
+
+        (@boundary.length - 2).times do |index|
+          return true if @boundary[index] == a_point
+
+          d_turn_angle  = a_point.bearing_to(@boundary[index + 1]) - a_point.bearing_to(@boundary[index])
+          d_turn_angle += (d_turn_angle > 0.0 ? -360.0 : 360.0) if d_turn_angle.abs > 180.0
+          turn_angle   += d_turn_angle
+        end
+
+        turn_angle.abs > 180.0
+      end
+
+      def geos_includes?(a_point)
+        Geos.contains?(self, a_point)
+      end
 
       def compute_centroid
         centroid_lat = 0.0
@@ -87,6 +102,47 @@ module Geodetic
       end
 
       def validate_no_self_intersection!
+        if Geos.available?
+          geos_validate!
+        else
+          ruby_validate!
+        end
+      end
+
+      def geos_validate!
+        return if Geos.is_valid?(self)
+
+        reason = Geos.is_valid_reason(self)
+        raise ArgumentError, "polygon boundary is invalid — #{reason}"
+      end
+
+      def ruby_validate!
+        validate_distinct_vertices!
+        validate_noncollinear!
+        validate_no_edge_crossings!
+      end
+
+      def validate_distinct_vertices!
+        unique = @boundary[0...-1].uniq { |p| [p.lat, p.lng] }
+        if unique.length < 3
+          raise ArgumentError, "polygon requires at least 3 distinct vertices, got #{unique.length}"
+        end
+      end
+
+      def validate_noncollinear!
+        # Signed area via shoelace — zero means all points are collinear.
+        signed_area = 0.0
+        0.upto(@boundary.length - 2) do |i|
+          signed_area += @boundary[i].lng * @boundary[i + 1].lat -
+                         @boundary[i + 1].lng * @boundary[i].lat
+        end
+
+        if signed_area.abs < 1e-12
+          raise ArgumentError, "polygon boundary is collinear — all vertices lie on the same line"
+        end
+      end
+
+      def validate_no_edge_crossings!
         segs = @boundary.each_cons(2).map { |a, b| Segment.new(a, b) }
 
         segs.each_with_index do |seg_i, i|
