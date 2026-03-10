@@ -11,7 +11,7 @@ module Geodetic
       attr_reader :registered_classes
 
       def systems
-        @registered_classes.map(&:first).freeze
+        @systems_cache ||= @registered_classes.map(&:first).freeze
       end
 
       def register_class(klass, hash_conversion_style: nil)
@@ -19,8 +19,9 @@ module Geodetic
       end
 
       def finalize!
-        raise "Geodetic::Coordinate already finalized!" if @finalized
+        return if @finalized
         @finalized = true
+        @systems_cache = nil
 
         # Phase 1: Generate cross-hash conversion methods between spatial hash subclasses
         SpatialHash.finalize_cross_hash_conversions!

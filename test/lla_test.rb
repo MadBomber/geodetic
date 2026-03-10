@@ -59,6 +59,32 @@ class LlaTest < Minitest::Test
     assert_equal coord.lng, coord.longitude
   end
 
+  def test_lon_reader_alias
+    coord = LLA.new(lng: -122.3493)
+    assert_equal coord.lng, coord.lon
+  end
+
+  def test_long_reader_alias
+    coord = LLA.new(lng: -122.3493)
+    assert_equal coord.lng, coord.long
+  end
+
+  def test_lon_constructor_kwarg
+    coord = LLA.new(lat: 47.6205, lon: -122.3493)
+    assert_in_delta(-122.3493, coord.lng, 1e-6)
+  end
+
+  def test_long_constructor_kwarg
+    coord = LLA.new(lat: 47.6205, long: -122.3493)
+    assert_in_delta(-122.3493, coord.lng, 1e-6)
+  end
+
+  def test_conflicting_longitude_kwargs_raises
+    assert_raises(ArgumentError) { LLA.new(lng: 10.0, lon: 20.0) }
+    assert_raises(ArgumentError) { LLA.new(lng: 10.0, long: 20.0) }
+    assert_raises(ArgumentError) { LLA.new(lon: 10.0, long: 20.0) }
+  end
+
   def test_alt_altitude_alias
     coord = LLA.new(alt: 184.0)
     assert_equal coord.alt, coord.altitude

@@ -132,9 +132,9 @@ module Geodetic
         LLA.new(lat: lat, lng: lng, alt: 0.0)
       end
 
-      def self.from_lla(lla_coord, datum = WGS84)
-        lat = lla_coord.lat
-        lng = lla_coord.lng
+      def self.from_lla(lla, datum = WGS84)
+        lat = lla.lat
+        lng = lla.lng
 
         # Determine hemisphere and zone
         hemisphere = lat >= 0 ? 'N' : 'S'
@@ -183,8 +183,8 @@ module Geodetic
         to_lla(datum).to_ecef(datum)
       end
 
-      def self.from_ecef(ecef_coord, datum = WGS84)
-        lla_coord = ecef_coord.to_lla(datum)
+      def self.from_ecef(ecef, datum = WGS84)
+        lla_coord = ecef.to_lla(datum)
         from_lla(lla_coord, datum)
       end
 
@@ -192,8 +192,8 @@ module Geodetic
         to_lla(datum).to_utm(datum)
       end
 
-      def self.from_utm(utm_coord, datum = WGS84)
-        lla_coord = utm_coord.to_lla(datum)
+      def self.from_utm(utm, datum = WGS84)
+        lla_coord = utm.to_lla(datum)
         from_lla(lla_coord, datum)
       end
 
@@ -201,8 +201,8 @@ module Geodetic
         to_lla(datum).to_enu(reference_lla)
       end
 
-      def self.from_enu(enu_coord, reference_lla, datum = WGS84)
-        lla_coord = enu_coord.to_lla(reference_lla)
+      def self.from_enu(enu, reference_lla, datum = WGS84)
+        lla_coord = enu.to_lla(reference_lla)
         from_lla(lla_coord, datum)
       end
 
@@ -210,8 +210,8 @@ module Geodetic
         to_lla(datum).to_ned(reference_lla)
       end
 
-      def self.from_ned(ned_coord, reference_lla, datum = WGS84)
-        lla_coord = ned_coord.to_lla(reference_lla)
+      def self.from_ned(ned, reference_lla, datum = WGS84)
+        lla_coord = ned.to_lla(reference_lla)
         from_lla(lla_coord, datum)
       end
 
@@ -219,8 +219,8 @@ module Geodetic
         MGRS.from_lla(to_lla(datum), datum, precision)
       end
 
-      def self.from_mgrs(mgrs_coord, datum = WGS84)
-        lla_coord = mgrs_coord.to_lla(datum)
+      def self.from_mgrs(mgrs, datum = WGS84)
+        lla_coord = mgrs.to_lla(datum)
         from_lla(lla_coord, datum)
       end
 
@@ -228,8 +228,8 @@ module Geodetic
         WebMercator.from_lla(to_lla(datum), datum)
       end
 
-      def self.from_web_mercator(web_mercator_coord, datum = WGS84)
-        lla_coord = web_mercator_coord.to_lla(datum)
+      def self.from_web_mercator(web_mercator, datum = WGS84)
+        lla_coord = web_mercator.to_lla(datum)
         from_lla(lla_coord, datum)
       end
 
@@ -237,8 +237,8 @@ module Geodetic
         USNG.from_lla(to_lla(datum), datum, precision)
       end
 
-      def self.from_usng(usng_coord, datum = WGS84)
-        lla_coord = usng_coord.to_lla(datum)
+      def self.from_usng(usng, datum = WGS84)
+        lla_coord = usng.to_lla(datum)
         from_lla(lla_coord, datum)
       end
 
@@ -246,8 +246,8 @@ module Geodetic
         BNG.from_lla(to_lla(datum), datum)
       end
 
-      def self.from_bng(bng_coord, datum = WGS84)
-        lla_coord = bng_coord.to_lla(datum)
+      def self.from_bng(bng, datum = WGS84)
+        lla_coord = bng.to_lla(datum)
         from_lla(lla_coord, datum)
       end
 
@@ -255,8 +255,8 @@ module Geodetic
         StatePlane.from_lla(to_lla(datum), zone_code, datum)
       end
 
-      def self.from_state_plane(sp_coord, datum = WGS84)
-        lla_coord = sp_coord.to_lla(datum)
+      def self.from_state_plane(state_plane, datum = WGS84)
+        lla_coord = state_plane.to_lla(datum)
         from_lla(lla_coord, datum)
       end
 

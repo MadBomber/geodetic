@@ -77,24 +77,8 @@ module Geodetic
 
     # Tests if a point lies on this segment within a tolerance (meters).
     def contains?(point, tolerance: 10.0)
-      target = point.is_a?(Coordinate::LLA) ? point : point.to_lla
-      seg_len = length_meters
-
-      return @start_point == target || @end_point == target if seg_len < 1e-6
-
-      dist_a_p = @start_point.distance_to(target).meters
-      dist_p_b = target.distance_to(@end_point).meters
-
-      # Exact endpoint match
-      return true if dist_a_p < 1e-6 || dist_p_b < 1e-6
-
-      return false if dist_a_p > seg_len || dist_p_b > seg_len
-
-      delta = Math.atan(tolerance / seg_len) * Geodetic::DEG_PER_RAD
-      bearing_ap = @start_point.bearing_to(target).degrees
-      bearing_pb = target.bearing_to(@end_point).degrees
-
-      (bearing_ap - bearing_pb).abs <= delta
+      _closest, distance = project(point)
+      distance <= tolerance
     end
 
     # True if the point is a vertex (start or end point).

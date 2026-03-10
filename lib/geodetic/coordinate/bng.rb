@@ -138,15 +138,15 @@ module Geodetic
         end
       end
 
-      def self.from_lla(lla_coord, datum = WGS84)
+      def self.from_lla(lla, datum = WGS84)
         # Convert to OSGB36 if needed
         if datum == WGS84
           # Simplified WGS84 to OSGB36 transformation
-          lat = lla_coord.lat + 0.00015
-          lng = lla_coord.lng - 0.00045
-          osgb36_lla = LLA.new(lat: lat, lng: lng, alt: lla_coord.alt)
+          lat = lla.lat + 0.00015
+          lng = lla.lng - 0.00045
+          osgb36_lla = LLA.new(lat: lat, lng: lng, alt: lla.alt)
         else
-          osgb36_lla = lla_coord
+          osgb36_lla = lla
         end
 
         # Convert to BNG using Transverse Mercator
@@ -158,8 +158,8 @@ module Geodetic
         to_lla(datum).to_ecef(datum)
       end
 
-      def self.from_ecef(ecef_coord, datum = WGS84)
-        lla_coord = ecef_coord.to_lla(datum)
+      def self.from_ecef(ecef, datum = WGS84)
+        lla_coord = ecef.to_lla(datum)
         from_lla(lla_coord, datum)
       end
 
@@ -167,8 +167,8 @@ module Geodetic
         to_lla(datum).to_utm(datum)
       end
 
-      def self.from_utm(utm_coord, datum = WGS84)
-        lla_coord = utm_coord.to_lla(datum)
+      def self.from_utm(utm, datum = WGS84)
+        lla_coord = utm.to_lla(datum)
         from_lla(lla_coord, datum)
       end
 
@@ -176,8 +176,8 @@ module Geodetic
         to_lla(datum).to_enu(reference_lla)
       end
 
-      def self.from_enu(enu_coord, reference_lla, datum = WGS84)
-        lla_coord = enu_coord.to_lla(reference_lla)
+      def self.from_enu(enu, reference_lla, datum = WGS84)
+        lla_coord = enu.to_lla(reference_lla)
         from_lla(lla_coord, datum)
       end
 
@@ -185,8 +185,8 @@ module Geodetic
         to_lla(datum).to_ned(reference_lla)
       end
 
-      def self.from_ned(ned_coord, reference_lla, datum = WGS84)
-        lla_coord = ned_coord.to_lla(reference_lla)
+      def self.from_ned(ned, reference_lla, datum = WGS84)
+        lla_coord = ned.to_lla(reference_lla)
         from_lla(lla_coord, datum)
       end
 
@@ -194,8 +194,8 @@ module Geodetic
         MGRS.from_lla(to_lla(datum), datum, precision)
       end
 
-      def self.from_mgrs(mgrs_coord, datum = WGS84)
-        lla_coord = mgrs_coord.to_lla(datum)
+      def self.from_mgrs(mgrs, datum = WGS84)
+        lla_coord = mgrs.to_lla(datum)
         from_lla(lla_coord, datum)
       end
 
@@ -203,8 +203,8 @@ module Geodetic
         USNG.from_lla(to_lla(datum), datum, precision)
       end
 
-      def self.from_usng(usng_coord, datum = WGS84)
-        lla_coord = usng_coord.to_lla(datum)
+      def self.from_usng(usng, datum = WGS84)
+        lla_coord = usng.to_lla(datum)
         from_lla(lla_coord, datum)
       end
 
@@ -212,8 +212,8 @@ module Geodetic
         WebMercator.from_lla(to_lla(datum), datum)
       end
 
-      def self.from_web_mercator(web_mercator_coord, datum = WGS84)
-        lla_coord = web_mercator_coord.to_lla(datum)
+      def self.from_web_mercator(web_mercator, datum = WGS84)
+        lla_coord = web_mercator.to_lla(datum)
         from_lla(lla_coord, datum)
       end
 
@@ -221,8 +221,8 @@ module Geodetic
         UPS.from_lla(to_lla(datum), datum)
       end
 
-      def self.from_ups(ups_coord, datum = WGS84)
-        lla_coord = ups_coord.to_lla(datum)
+      def self.from_ups(ups, datum = WGS84)
+        lla_coord = ups.to_lla(datum)
         from_lla(lla_coord, datum)
       end
 
@@ -230,8 +230,8 @@ module Geodetic
         StatePlane.from_lla(to_lla(datum), zone_code, datum)
       end
 
-      def self.from_state_plane(state_plane_coord, datum = WGS84)
-        lla_coord = state_plane_coord.to_lla(datum)
+      def self.from_state_plane(state_plane, datum = WGS84)
+        lla_coord = state_plane.to_lla(datum)
         from_lla(lla_coord, datum)
       end
 
@@ -312,13 +312,13 @@ module Geodetic
         LLA.new(lat: lat_deg, lng: lng_deg, alt: 0.0)
       end
 
-      def self.transverse_mercator_forward(lla_coord, datum)
+      def self.transverse_mercator_forward(lla, datum)
         # Forward Transverse Mercator projection from OSGB36 lat/lng to BNG
         a = datum.a
         e2 = datum.e2
 
-        lat = lla_coord.lat * RAD_PER_DEG
-        lng = lla_coord.lng * RAD_PER_DEG
+        lat = lla.lat * RAD_PER_DEG
+        lng = lla.lng * RAD_PER_DEG
         lat0_rad = ORIGIN_LATITUDE * RAD_PER_DEG
         lng0_rad = ORIGIN_LONGITUDE * RAD_PER_DEG
         k0 = SCALE_FACTOR

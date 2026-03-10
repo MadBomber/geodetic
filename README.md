@@ -73,7 +73,11 @@ require "geodetic"
 
 include Geodetic
 
+# lng:, lon:, and long: are all accepted for longitude
 lla = Coordinates::LLA.new(lat: 47.6205, lng: -122.3493, alt: 184.0)
+lla = Coordinates::LLA.new(lat: 47.6205, lon: -122.3493, alt: 184.0)
+lla = Coordinates::LLA.new(lat: 47.6205, long: -122.3493, alt: 184.0)
+# Readers: lla.lng, lla.lon, lla.long, lla.longitude all return the same value
 ecef = Coordinates::ECEF.new(x: -2304643.57, y: -3638650.07, z: 4688674.43)
 utm = Coordinates::UTM.new(easting: 548894.0, northing: 5272748.0, altitude: 184.0, zone: 10, hemisphere: "N")
 enu = Coordinates::ENU.new(e: 100.0, n: 200.0, u: 50.0)

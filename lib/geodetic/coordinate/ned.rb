@@ -89,8 +89,8 @@ module Geodetic
         MGRS.from_lla(to_lla(reference_lla), datum, precision)
       end
 
-      def self.from_mgrs(mgrs_coord, reference_lla, datum = WGS84)
-        lla = mgrs_coord.to_lla(datum)
+      def self.from_mgrs(mgrs, reference_lla, datum = WGS84)
+        lla = mgrs.to_lla(datum)
         from_lla(lla, reference_lla)
       end
 
@@ -98,8 +98,8 @@ module Geodetic
         USNG.from_lla(to_lla(reference_lla), datum, precision)
       end
 
-      def self.from_usng(usng_coord, reference_lla, datum = WGS84)
-        lla = usng_coord.to_lla(datum)
+      def self.from_usng(usng, reference_lla, datum = WGS84)
+        lla = usng.to_lla(datum)
         from_lla(lla, reference_lla)
       end
 
@@ -107,8 +107,8 @@ module Geodetic
         WebMercator.from_lla(to_lla(reference_lla), datum)
       end
 
-      def self.from_web_mercator(wm_coord, reference_lla, datum = WGS84)
-        lla = wm_coord.to_lla(datum)
+      def self.from_web_mercator(web_mercator, reference_lla, datum = WGS84)
+        lla = web_mercator.to_lla(datum)
         from_lla(lla, reference_lla)
       end
 
@@ -116,8 +116,8 @@ module Geodetic
         UPS.from_lla(to_lla(reference_lla), datum)
       end
 
-      def self.from_ups(ups_coord, reference_lla, datum = WGS84)
-        lla = ups_coord.to_lla(datum)
+      def self.from_ups(ups, reference_lla, datum = WGS84)
+        lla = ups.to_lla(datum)
         from_lla(lla, reference_lla)
       end
 
@@ -125,8 +125,8 @@ module Geodetic
         StatePlane.from_lla(to_lla(reference_lla), zone_code, datum)
       end
 
-      def self.from_state_plane(sp_coord, reference_lla, datum = WGS84)
-        lla = sp_coord.to_lla(datum)
+      def self.from_state_plane(state_plane, reference_lla, datum = WGS84)
+        lla = state_plane.to_lla(datum)
         from_lla(lla, reference_lla)
       end
 
@@ -134,8 +134,8 @@ module Geodetic
         BNG.from_lla(to_lla(reference_lla))
       end
 
-      def self.from_bng(bng_coord, reference_lla)
-        lla = bng_coord.to_lla
+      def self.from_bng(bng, reference_lla)
+        lla = bng.to_lla
         from_lla(lla, reference_lla)
       end
 
@@ -143,8 +143,8 @@ module Geodetic
         GH36.new(to_lla(reference_lla), precision: precision)
       end
 
-      def self.from_gh36(gh36_coord, reference_lla)
-        lla = gh36_coord.to_lla
+      def self.from_gh36(gh36, reference_lla)
+        lla = gh36.to_lla
         from_lla(lla, reference_lla)
       end
 
@@ -152,8 +152,8 @@ module Geodetic
         GH.new(to_lla(reference_lla), precision: precision)
       end
 
-      def self.from_gh(gh_coord, reference_lla)
-        lla = gh_coord.to_lla
+      def self.from_gh(gh, reference_lla)
+        lla = gh.to_lla
         from_lla(lla, reference_lla)
       end
 
@@ -161,8 +161,8 @@ module Geodetic
         HAM.new(to_lla(reference_lla), precision: precision)
       end
 
-      def self.from_ham(ham_coord, reference_lla)
-        lla = ham_coord.to_lla
+      def self.from_ham(ham, reference_lla)
+        lla = ham.to_lla
         from_lla(lla, reference_lla)
       end
 
@@ -170,8 +170,8 @@ module Geodetic
         OLC.new(to_lla(reference_lla), precision: precision)
       end
 
-      def self.from_olc(olc_coord, reference_lla)
-        lla = olc_coord.to_lla
+      def self.from_olc(olc, reference_lla)
+        lla = olc.to_lla
         from_lla(lla, reference_lla)
       end
 
@@ -179,8 +179,8 @@ module Geodetic
         GEOREF.new(to_lla(reference_lla), precision: precision)
       end
 
-      def self.from_georef(georef_coord, reference_lla)
-        lla = georef_coord.to_lla
+      def self.from_georef(georef, reference_lla)
+        lla = georef.to_lla
         from_lla(lla, reference_lla)
       end
 
@@ -188,8 +188,8 @@ module Geodetic
         GARS.new(to_lla(reference_lla), precision: precision)
       end
 
-      def self.from_gars(gars_coord, reference_lla)
-        lla = gars_coord.to_lla
+      def self.from_gars(gars, reference_lla)
+        lla = gars.to_lla
         from_lla(lla, reference_lla)
       end
 
@@ -197,8 +197,8 @@ module Geodetic
         H3.new(to_lla(reference_lla), precision: precision)
       end
 
-      def self.from_h3(h3_coord, reference_lla)
-        lla = h3_coord.to_lla
+      def self.from_h3(h3, reference_lla)
+        lla = h3.to_lla
         from_lla(lla, reference_lla)
       end
 

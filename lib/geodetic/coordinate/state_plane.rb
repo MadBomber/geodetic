@@ -156,15 +156,15 @@ module Geodetic
         end
       end
 
-      def self.from_lla(lla_coord, zone_code, datum = WGS84)
+      def self.from_lla(lla, zone_code, datum = WGS84)
         zone_info = ZONES[zone_code.to_s.upcase]
         raise ArgumentError, "Unknown zone: #{zone_code}" unless zone_info
 
         case zone_info[:projection]
         when 'lambert_conformal_conic'
-          from_lla_lambert_conformal_conic(lla_coord, zone_code, zone_info, datum)
+          from_lla_lambert_conformal_conic(lla, zone_code, zone_info, datum)
         when 'transverse_mercator'
-          from_lla_transverse_mercator(lla_coord, zone_code, zone_info, datum)
+          from_lla_transverse_mercator(lla, zone_code, zone_info, datum)
         else
           raise ArgumentError, "Unsupported projection: #{zone_info[:projection]}"
         end
@@ -174,8 +174,8 @@ module Geodetic
         to_lla(datum).to_ecef(datum || @datum)
       end
 
-      def self.from_ecef(ecef_coord, zone_code, datum = WGS84)
-        lla_coord = ecef_coord.to_lla(datum)
+      def self.from_ecef(ecef, zone_code, datum = WGS84)
+        lla_coord = ecef.to_lla(datum)
         from_lla(lla_coord, zone_code, datum)
       end
 
@@ -183,8 +183,8 @@ module Geodetic
         to_lla(datum).to_utm(datum || @datum)
       end
 
-      def self.from_utm(utm_coord, zone_code, datum = WGS84)
-        lla_coord = utm_coord.to_lla(datum)
+      def self.from_utm(utm, zone_code, datum = WGS84)
+        lla_coord = utm.to_lla(datum)
         from_lla(lla_coord, zone_code, datum)
       end
 
@@ -192,8 +192,8 @@ module Geodetic
         to_lla(datum).to_enu(reference_lla)
       end
 
-      def self.from_enu(enu_coord, reference_lla, zone_code, datum = WGS84)
-        lla_coord = enu_coord.to_lla(reference_lla)
+      def self.from_enu(enu, reference_lla, zone_code, datum = WGS84)
+        lla_coord = enu.to_lla(reference_lla)
         from_lla(lla_coord, zone_code, datum)
       end
 
@@ -201,8 +201,8 @@ module Geodetic
         to_lla(datum).to_ned(reference_lla)
       end
 
-      def self.from_ned(ned_coord, reference_lla, zone_code, datum = WGS84)
-        lla_coord = ned_coord.to_lla(reference_lla)
+      def self.from_ned(ned, reference_lla, zone_code, datum = WGS84)
+        lla_coord = ned.to_lla(reference_lla)
         from_lla(lla_coord, zone_code, datum)
       end
 
@@ -210,8 +210,8 @@ module Geodetic
         MGRS.from_lla(to_lla(datum), datum || @datum, precision)
       end
 
-      def self.from_mgrs(mgrs_coord, zone_code, datum = WGS84)
-        lla_coord = mgrs_coord.to_lla(datum)
+      def self.from_mgrs(mgrs, zone_code, datum = WGS84)
+        lla_coord = mgrs.to_lla(datum)
         from_lla(lla_coord, zone_code, datum)
       end
 
@@ -219,8 +219,8 @@ module Geodetic
         USNG.from_lla(to_lla(datum), datum || @datum, precision)
       end
 
-      def self.from_usng(usng_coord, zone_code, datum = WGS84)
-        lla_coord = usng_coord.to_lla(datum)
+      def self.from_usng(usng, zone_code, datum = WGS84)
+        lla_coord = usng.to_lla(datum)
         from_lla(lla_coord, zone_code, datum)
       end
 
@@ -228,8 +228,8 @@ module Geodetic
         WebMercator.from_lla(to_lla(datum), datum || @datum)
       end
 
-      def self.from_web_mercator(web_mercator_coord, zone_code, datum = WGS84)
-        lla_coord = web_mercator_coord.to_lla(datum)
+      def self.from_web_mercator(web_mercator, zone_code, datum = WGS84)
+        lla_coord = web_mercator.to_lla(datum)
         from_lla(lla_coord, zone_code, datum)
       end
 
@@ -237,8 +237,8 @@ module Geodetic
         UPS.from_lla(to_lla(datum), datum || @datum)
       end
 
-      def self.from_ups(ups_coord, zone_code, datum = WGS84)
-        lla_coord = ups_coord.to_lla(datum)
+      def self.from_ups(ups, zone_code, datum = WGS84)
+        lla_coord = ups.to_lla(datum)
         from_lla(lla_coord, zone_code, datum)
       end
 
@@ -246,8 +246,8 @@ module Geodetic
         BNG.from_lla(to_lla(datum), datum || @datum)
       end
 
-      def self.from_bng(bng_coord, zone_code, datum = WGS84)
-        lla_coord = bng_coord.to_lla(datum)
+      def self.from_bng(bng, zone_code, datum = WGS84)
+        lla_coord = bng.to_lla(datum)
         from_lla(lla_coord, zone_code, datum)
       end
 
@@ -255,8 +255,8 @@ module Geodetic
         GH36.new(to_lla(datum), precision: precision)
       end
 
-      def self.from_gh36(gh36_coord, zone_code, datum = WGS84)
-        lla_coord = gh36_coord.to_lla(datum)
+      def self.from_gh36(gh36, zone_code, datum = WGS84)
+        lla_coord = gh36.to_lla(datum)
         from_lla(lla_coord, zone_code, datum)
       end
 
@@ -264,8 +264,8 @@ module Geodetic
         GH.new(to_lla(datum), precision: precision)
       end
 
-      def self.from_gh(gh_coord, zone_code, datum = WGS84)
-        lla_coord = gh_coord.to_lla(datum)
+      def self.from_gh(gh, zone_code, datum = WGS84)
+        lla_coord = gh.to_lla(datum)
         from_lla(lla_coord, zone_code, datum)
       end
 
@@ -273,8 +273,8 @@ module Geodetic
         HAM.new(to_lla(datum), precision: precision)
       end
 
-      def self.from_ham(ham_coord, zone_code, datum = WGS84)
-        lla_coord = ham_coord.to_lla(datum)
+      def self.from_ham(ham, zone_code, datum = WGS84)
+        lla_coord = ham.to_lla(datum)
         from_lla(lla_coord, zone_code, datum)
       end
 
@@ -282,8 +282,8 @@ module Geodetic
         OLC.new(to_lla(datum), precision: precision)
       end
 
-      def self.from_olc(olc_coord, zone_code, datum = WGS84)
-        lla_coord = olc_coord.to_lla(datum)
+      def self.from_olc(olc, zone_code, datum = WGS84)
+        lla_coord = olc.to_lla(datum)
         from_lla(lla_coord, zone_code, datum)
       end
 
@@ -291,8 +291,8 @@ module Geodetic
         GEOREF.new(to_lla(datum), precision: precision)
       end
 
-      def self.from_georef(georef_coord, zone_code, datum = WGS84)
-        lla_coord = georef_coord.to_lla(datum)
+      def self.from_georef(georef, zone_code, datum = WGS84)
+        lla_coord = georef.to_lla(datum)
         from_lla(lla_coord, zone_code, datum)
       end
 
@@ -300,8 +300,8 @@ module Geodetic
         GARS.new(to_lla(datum), precision: precision)
       end
 
-      def self.from_gars(gars_coord, zone_code, datum = WGS84)
-        lla_coord = gars_coord.to_lla(datum)
+      def self.from_gars(gars, zone_code, datum = WGS84)
+        lla_coord = gars.to_lla(datum)
         from_lla(lla_coord, zone_code, datum)
       end
 
@@ -309,8 +309,8 @@ module Geodetic
         H3.new(to_lla(datum), precision: precision)
       end
 
-      def self.from_h3(h3_coord, zone_code, datum = WGS84)
-        lla_coord = h3_coord.to_lla(datum)
+      def self.from_h3(h3, zone_code, datum = WGS84)
+        lla_coord = h3.to_lla(datum)
         from_lla(lla_coord, zone_code, datum)
       end
 
@@ -359,7 +359,7 @@ module Geodetic
       end
 
       # Find appropriate zone for a given LLA coordinate
-      def self.find_zone_for_lla(lla_coord, state_name = nil)
+      def self.find_zone_for_lla(lla, state_name = nil)
         # This is a simplified version - real implementation would use precise zone boundaries
         candidate_zones = state_name ? zones_for_state(state_name) : ZONES
 
@@ -448,10 +448,10 @@ module Geodetic
         LLA.new(lat: lat, lng: lng, alt: 0.0)
       end
 
-      def self.from_lla_lambert_conformal_conic(lla_coord, zone_code, zone_info, datum)
+      def self.from_lla_lambert_conformal_conic(lla, zone_code, zone_info, datum)
         # Lambert Conformal Conic forward projection (simplified)
-        lat = lla_coord.lat * RAD_PER_DEG
-        lng = lla_coord.lng * RAD_PER_DEG
+        lat = lla.lat * RAD_PER_DEG
+        lng = lla.lng * RAD_PER_DEG
 
         lat0_rad = zone_info[:latitude_of_origin] * RAD_PER_DEG
         lon0_rad = zone_info[:central_meridian] * RAD_PER_DEG
@@ -474,10 +474,10 @@ module Geodetic
         new(easting: x, northing: y, zone_code: zone_code, datum: datum)
       end
 
-      def self.from_lla_transverse_mercator(lla_coord, zone_code, zone_info, datum)
+      def self.from_lla_transverse_mercator(lla, zone_code, zone_info, datum)
         # Transverse Mercator forward projection (simplified)
-        lat = lla_coord.lat * RAD_PER_DEG
-        lng = lla_coord.lng * RAD_PER_DEG
+        lat = lla.lat * RAD_PER_DEG
+        lng = lla.lng * RAD_PER_DEG
 
         lat0_rad = zone_info[:latitude_of_origin] * RAD_PER_DEG
         lon0_rad = zone_info[:central_meridian] * RAD_PER_DEG

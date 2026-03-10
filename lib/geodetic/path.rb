@@ -161,8 +161,9 @@ module Geodetic
     def bounds
       raise ArgumentError, "path is empty" if empty?
 
-      lats = @coordinates.map { |c| c.is_a?(Coordinate::LLA) ? c.lat : c.to_lla.lat }
-      lngs = @coordinates.map { |c| c.is_a?(Coordinate::LLA) ? c.lng : c.to_lla.lng }
+      llas = @coordinates.map { |c| c.is_a?(Coordinate::LLA) ? c : c.to_lla }
+      lats = llas.map(&:lat)
+      lngs = llas.map(&:lng)
 
       Areas::BoundingBox.new(
         nw: Coordinate::LLA.new(lat: lats.max, lng: lngs.min, alt: 0),
@@ -185,6 +186,8 @@ module Geodetic
 
     def intersects?(other_path)
       raise ArgumentError, "expected a Path" unless other_path.is_a?(Path)
+
+      return false unless bounds_overlap?(bounds, other_path.bounds)
 
       segments.each do |seg1|
         other_path.segments.each do |seg2|
@@ -494,19 +497,6 @@ module Geodetic
       end
     end
 
-    def resolve_point_from(other)
-      case other
-      when Feature
-        geo = other.geometry
-        geo.respond_to?(:centroid) ? geo.centroid : geo
-      when Path
-        raise ArgumentError, "path is empty" if other.empty?
-        other.first
-      else
-        other.respond_to?(:centroid) ? other.centroid : other
-      end
-    end
-
     def dup_path
       self.class.new(coordinates: @coordinates.dup)
     end
@@ -517,6 +507,13 @@ module Geodetic
 
     def offset_point(lla, bearing_deg, distance_m)
       Vector.new(distance: distance_m, bearing: bearing_deg).destination_from(lla)
+    end
+
+    def bounds_overlap?(a, b)
+      a.nw.lat >= b.se.lat &&
+        b.nw.lat >= a.se.lat &&
+        a.se.lng >= b.nw.lng &&
+        b.se.lng >= a.nw.lng
     end
 
     def mean_bearing(b1, b2)

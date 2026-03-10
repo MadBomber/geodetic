@@ -55,24 +55,24 @@ module Geodetic
         UTM.new(easting: utm_easting, northing: utm_northing, zone: zone_number, hemisphere: hemisphere)
       end
 
-      def self.from_utm(utm_coord, precision = 5)
+      def self.from_utm(utm, precision = 5)
         # Create instance to access instance methods
         temp_instance = new()
 
         # Get 100km square identifier
-        square_id = temp_instance.utm_to_square(utm_coord.zone, utm_coord.easting, utm_coord.northing)
+        square_id = temp_instance.utm_to_square(utm.zone, utm.easting, utm.northing)
 
         # Calculate position within the 100km square
-        square_easting = utm_coord.easting % 100000
-        square_northing = utm_coord.northing % 100000
+        square_easting = utm.easting % 100000
+        square_northing = utm.northing % 100000
 
         # Create grid zone designator using hemisphere-aware band letter
-        if utm_coord.hemisphere == 'N'
-          zone_letter = get_zone_letter(utm_coord.northing)
+        if utm.hemisphere == 'N'
+          zone_letter = get_zone_letter(utm.northing)
         else
-          zone_letter = get_zone_letter_south(utm_coord.northing)
+          zone_letter = get_zone_letter_south(utm.northing)
         end
-        grid_zone = "#{utm_coord.zone}#{zone_letter}"
+        grid_zone = "#{utm.zone}#{zone_letter}"
 
         new(grid_zone: grid_zone, square_id: square_id, easting: square_easting, northing: square_northing, precision: precision)
       end
@@ -82,8 +82,8 @@ module Geodetic
         utm_coord.to_lla(datum)
       end
 
-      def self.from_lla(lla_coord, datum = WGS84, precision = 5)
-        utm_coord = UTM.from_lla(lla_coord, datum)
+      def self.from_lla(lla, datum = WGS84, precision = 5)
+        utm_coord = UTM.from_lla(lla, datum)
         from_utm(utm_coord, precision)
       end
 
@@ -91,8 +91,8 @@ module Geodetic
         to_lla(datum).to_ecef(datum)
       end
 
-      def self.from_ecef(ecef_coord, datum = WGS84, precision = 5)
-        lla_coord = ecef_coord.to_lla(datum)
+      def self.from_ecef(ecef, datum = WGS84, precision = 5)
+        lla_coord = ecef.to_lla(datum)
         from_lla(lla_coord, datum, precision)
       end
 
@@ -100,8 +100,8 @@ module Geodetic
         to_lla(datum).to_enu(reference_lla)
       end
 
-      def self.from_enu(enu_coord, reference_lla, datum = WGS84, precision = 5)
-        lla_coord = enu_coord.to_lla(reference_lla)
+      def self.from_enu(enu, reference_lla, datum = WGS84, precision = 5)
+        lla_coord = enu.to_lla(reference_lla)
         from_lla(lla_coord, datum, precision)
       end
 
@@ -109,8 +109,8 @@ module Geodetic
         to_lla(datum).to_ned(reference_lla)
       end
 
-      def self.from_ned(ned_coord, reference_lla, datum = WGS84, precision = 5)
-        lla_coord = ned_coord.to_lla(reference_lla)
+      def self.from_ned(ned, reference_lla, datum = WGS84, precision = 5)
+        lla_coord = ned.to_lla(reference_lla)
         from_lla(lla_coord, datum, precision)
       end
 
@@ -118,40 +118,40 @@ module Geodetic
         WebMercator.from_lla(to_lla(datum), datum)
       end
 
-      def self.from_web_mercator(wm_coord, datum = WGS84, precision = 5)
-        from_lla(wm_coord.to_lla(datum), datum, precision)
+      def self.from_web_mercator(web_mercator, datum = WGS84, precision = 5)
+        from_lla(web_mercator.to_lla(datum), datum, precision)
       end
 
       def to_ups(datum = WGS84)
         UPS.from_lla(to_lla(datum), datum)
       end
 
-      def self.from_ups(ups_coord, datum = WGS84, precision = 5)
-        from_lla(ups_coord.to_lla(datum), datum, precision)
+      def self.from_ups(ups, datum = WGS84, precision = 5)
+        from_lla(ups.to_lla(datum), datum, precision)
       end
 
       def to_usng
         USNG.from_mgrs(self)
       end
 
-      def self.from_usng(usng_coord)
-        usng_coord.to_mgrs
+      def self.from_usng(usng)
+        usng.to_mgrs
       end
 
       def to_state_plane(zone_code, datum = WGS84)
         StatePlane.from_lla(to_lla(datum), zone_code, datum)
       end
 
-      def self.from_state_plane(sp_coord, datum = WGS84, precision = 5)
-        from_lla(sp_coord.to_lla(datum), datum, precision)
+      def self.from_state_plane(state_plane, datum = WGS84, precision = 5)
+        from_lla(state_plane.to_lla(datum), datum, precision)
       end
 
       def to_bng(datum = WGS84)
         BNG.from_lla(to_lla(datum), datum)
       end
 
-      def self.from_bng(bng_coord, datum = WGS84, precision = 5)
-        from_lla(bng_coord.to_lla(datum), datum, precision)
+      def self.from_bng(bng, datum = WGS84, precision = 5)
+        from_lla(bng.to_lla(datum), datum, precision)
       end
 
       def ==(other)

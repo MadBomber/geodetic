@@ -226,60 +226,60 @@ module Geodetic
         GH36.new(self, precision: precision)
       end
 
-      def self.from_gh36(gh36_coord, datum = WGS84)
-        gh36_coord.to_lla(datum)
+      def self.from_gh36(gh36, datum = WGS84)
+        gh36.to_lla(datum)
       end
 
       def to_gh(precision: 12)
         GH.new(self, precision: precision)
       end
 
-      def self.from_gh(gh_coord, datum = WGS84)
-        gh_coord.to_lla(datum)
+      def self.from_gh(gh, datum = WGS84)
+        gh.to_lla(datum)
       end
 
       def to_ham(precision: 6)
         HAM.new(self, precision: precision)
       end
 
-      def self.from_ham(ham_coord, datum = WGS84)
-        ham_coord.to_lla(datum)
+      def self.from_ham(ham, datum = WGS84)
+        ham.to_lla(datum)
       end
 
       def to_olc(precision: 10)
         OLC.new(self, precision: precision)
       end
 
-      def self.from_olc(olc_coord, datum = WGS84)
-        olc_coord.to_lla(datum)
+      def self.from_olc(olc, datum = WGS84)
+        olc.to_lla(datum)
       end
 
       def to_georef(precision: 8)
         GEOREF.new(self, precision: precision)
       end
 
-      def self.from_georef(georef_coord, datum = WGS84)
-        georef_coord.to_lla(datum)
+      def self.from_georef(georef, datum = WGS84)
+        georef.to_lla(datum)
       end
 
       def to_gars(precision: 7)
         GARS.new(self, precision: precision)
       end
 
-      def self.from_gars(gars_coord, datum = WGS84)
-        gars_coord.to_lla(datum)
+      def self.from_gars(gars, datum = WGS84)
+        gars.to_lla(datum)
       end
 
       def to_h3(precision: 7)
         H3.new(self, precision: precision)
       end
 
-      def self.from_h3(h3_coord, datum = WGS84)
-        h3_coord.to_lla(datum)
+      def self.from_h3(h3, datum = WGS84)
+        h3.to_lla(datum)
       end
 
-      def self.from_lla(lla_coord, datum = WGS84)
-        lla_coord
+      def self.from_lla(lla, datum = WGS84)
+        lla
       end
 
       def to_s(precision = 6)

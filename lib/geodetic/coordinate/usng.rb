@@ -49,13 +49,13 @@ module Geodetic
         MGRS.new(mgrs_string: mgrs_string)
       end
 
-      def self.from_mgrs(mgrs_coord)
+      def self.from_mgrs(mgrs)
         # Extract components from MGRS
-        grid_zone = mgrs_coord.grid_zone_designator
-        square_id = mgrs_coord.square_identifier
-        easting = mgrs_coord.easting
-        northing = mgrs_coord.northing
-        precision = mgrs_coord.precision
+        grid_zone = mgrs.grid_zone_designator
+        square_id = mgrs.square_identifier
+        easting = mgrs.easting
+        northing = mgrs.northing
+        precision = mgrs.precision
 
         new(grid_zone: grid_zone, square_id: square_id, easting: easting, northing: northing, precision: precision)
       end
@@ -64,8 +64,8 @@ module Geodetic
         to_mgrs.to_utm
       end
 
-      def self.from_utm(utm_coord, precision = 5)
-        mgrs_coord = MGRS.from_utm(utm_coord, precision)
+      def self.from_utm(utm, precision = 5)
+        mgrs_coord = MGRS.from_utm(utm, precision)
         from_mgrs(mgrs_coord)
       end
 
@@ -73,8 +73,8 @@ module Geodetic
         to_mgrs.to_lla(datum)
       end
 
-      def self.from_lla(lla_coord, datum = WGS84, precision = 5)
-        mgrs_coord = MGRS.from_lla(lla_coord, datum, precision)
+      def self.from_lla(lla, datum = WGS84, precision = 5)
+        mgrs_coord = MGRS.from_lla(lla, datum, precision)
         from_mgrs(mgrs_coord)
       end
 
@@ -82,8 +82,8 @@ module Geodetic
         to_lla(datum).to_ecef(datum)
       end
 
-      def self.from_ecef(ecef_coord, datum = WGS84, precision = 5)
-        lla_coord = ecef_coord.to_lla(datum)
+      def self.from_ecef(ecef, datum = WGS84, precision = 5)
+        lla_coord = ecef.to_lla(datum)
         from_lla(lla_coord, datum, precision)
       end
 
@@ -91,8 +91,8 @@ module Geodetic
         to_lla(datum).to_enu(reference_lla)
       end
 
-      def self.from_enu(enu_coord, reference_lla, datum = WGS84, precision = 5)
-        lla_coord = enu_coord.to_lla(reference_lla)
+      def self.from_enu(enu, reference_lla, datum = WGS84, precision = 5)
+        lla_coord = enu.to_lla(reference_lla)
         from_lla(lla_coord, datum, precision)
       end
 
@@ -100,8 +100,8 @@ module Geodetic
         to_lla(datum).to_ned(reference_lla)
       end
 
-      def self.from_ned(ned_coord, reference_lla, datum = WGS84, precision = 5)
-        lla_coord = ned_coord.to_lla(reference_lla)
+      def self.from_ned(ned, reference_lla, datum = WGS84, precision = 5)
+        lla_coord = ned.to_lla(reference_lla)
         from_lla(lla_coord, datum, precision)
       end
 
@@ -109,8 +109,8 @@ module Geodetic
         UPS.from_lla(to_lla(datum), datum)
       end
 
-      def self.from_ups(ups_coord, datum = WGS84, precision = 5)
-        lla_coord = ups_coord.to_lla(datum)
+      def self.from_ups(ups, datum = WGS84, precision = 5)
+        lla_coord = ups.to_lla(datum)
         from_lla(lla_coord, datum, precision)
       end
 
@@ -118,8 +118,8 @@ module Geodetic
         WebMercator.from_lla(to_lla(datum), datum)
       end
 
-      def self.from_web_mercator(web_mercator_coord, datum = WGS84, precision = 5)
-        lla_coord = web_mercator_coord.to_lla(datum)
+      def self.from_web_mercator(web_mercator, datum = WGS84, precision = 5)
+        lla_coord = web_mercator.to_lla(datum)
         from_lla(lla_coord, datum, precision)
       end
 
@@ -127,16 +127,16 @@ module Geodetic
         BNG.from_lla(to_lla(datum), datum)
       end
 
-      def self.from_bng(bng_coord, datum = WGS84, precision = 5)
-        from_lla(bng_coord.to_lla(datum), datum, precision)
+      def self.from_bng(bng, datum = WGS84, precision = 5)
+        from_lla(bng.to_lla(datum), datum, precision)
       end
 
       def to_state_plane(zone_code, datum = WGS84)
         StatePlane.from_lla(to_lla(datum), zone_code, datum)
       end
 
-      def self.from_state_plane(sp_coord, datum = WGS84, precision = 5)
-        from_lla(sp_coord.to_lla(datum), datum, precision)
+      def self.from_state_plane(state_plane, datum = WGS84, precision = 5)
+        from_lla(state_plane.to_lla(datum), datum, precision)
       end
 
       def ==(other)
@@ -196,7 +196,7 @@ module Geodetic
             adjacent_usng = USNG.new(grid_zone: @grid_zone_designator, square_id: @square_identifier,
                                      easting: new_east, northing: new_north, precision: @precision)
             squares[direction] = adjacent_usng
-          rescue => e
+          rescue ArgumentError
             # Skip invalid adjacent squares (e.g., crossing zone boundaries)
             squares[direction] = nil
           end

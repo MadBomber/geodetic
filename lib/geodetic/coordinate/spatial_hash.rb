@@ -191,8 +191,8 @@ module Geodetic
         LLA.new(lat: lat, lng: lng, alt: 0.0)
       end
 
-      def self.from_lla(lla_coord, datum = WGS84, precision = default_precision)
-        new(lla_coord, precision: precision)
+      def self.from_lla(lla, datum = WGS84, precision = default_precision)
+        new(lla, precision: precision)
       end
 
       # --- Standard conversions (all chain through LLA) ---
@@ -201,24 +201,24 @@ module Geodetic
         to_lla(datum).to_ecef(datum)
       end
 
-      def self.from_ecef(ecef_coord, datum = WGS84, precision = default_precision)
-        new(ecef_coord, precision: precision)
+      def self.from_ecef(ecef, datum = WGS84, precision = default_precision)
+        new(ecef, precision: precision)
       end
 
       def to_utm(datum = WGS84)
         to_lla(datum).to_utm(datum)
       end
 
-      def self.from_utm(utm_coord, datum = WGS84, precision = default_precision)
-        new(utm_coord, precision: precision)
+      def self.from_utm(utm, datum = WGS84, precision = default_precision)
+        new(utm, precision: precision)
       end
 
       def to_enu(reference_lla, datum = WGS84)
         to_lla(datum).to_enu(reference_lla)
       end
 
-      def self.from_enu(enu_coord, reference_lla, datum = WGS84, precision = default_precision)
-        lla_coord = enu_coord.to_lla(reference_lla)
+      def self.from_enu(enu, reference_lla, datum = WGS84, precision = default_precision)
+        lla_coord = enu.to_lla(reference_lla)
         new(lla_coord, precision: precision)
       end
 
@@ -226,8 +226,8 @@ module Geodetic
         to_lla(datum).to_ned(reference_lla)
       end
 
-      def self.from_ned(ned_coord, reference_lla, datum = WGS84, precision = default_precision)
-        lla_coord = ned_coord.to_lla(reference_lla)
+      def self.from_ned(ned, reference_lla, datum = WGS84, precision = default_precision)
+        lla_coord = ned.to_lla(reference_lla)
         new(lla_coord, precision: precision)
       end
 
@@ -235,48 +235,48 @@ module Geodetic
         MGRS.from_lla(to_lla(datum), datum, mgrs_precision)
       end
 
-      def self.from_mgrs(mgrs_coord, datum = WGS84, precision = default_precision)
-        new(mgrs_coord, precision: precision)
+      def self.from_mgrs(mgrs, datum = WGS84, precision = default_precision)
+        new(mgrs, precision: precision)
       end
 
       def to_usng(datum = WGS84, usng_precision = 5)
         USNG.from_lla(to_lla(datum), datum, usng_precision)
       end
 
-      def self.from_usng(usng_coord, datum = WGS84, precision = default_precision)
-        new(usng_coord, precision: precision)
+      def self.from_usng(usng, datum = WGS84, precision = default_precision)
+        new(usng, precision: precision)
       end
 
       def to_web_mercator(datum = WGS84)
         WebMercator.from_lla(to_lla(datum), datum)
       end
 
-      def self.from_web_mercator(wm_coord, datum = WGS84, precision = default_precision)
-        new(wm_coord, precision: precision)
+      def self.from_web_mercator(web_mercator, datum = WGS84, precision = default_precision)
+        new(web_mercator, precision: precision)
       end
 
       def to_ups(datum = WGS84)
         UPS.from_lla(to_lla(datum), datum)
       end
 
-      def self.from_ups(ups_coord, datum = WGS84, precision = default_precision)
-        new(ups_coord, precision: precision)
+      def self.from_ups(ups, datum = WGS84, precision = default_precision)
+        new(ups, precision: precision)
       end
 
       def to_state_plane(zone_code, datum = WGS84)
         StatePlane.from_lla(to_lla(datum), zone_code, datum)
       end
 
-      def self.from_state_plane(sp_coord, datum = WGS84, precision = default_precision)
-        new(sp_coord, precision: precision)
+      def self.from_state_plane(state_plane, datum = WGS84, precision = default_precision)
+        new(state_plane, precision: precision)
       end
 
       def to_bng(datum = WGS84)
         BNG.from_lla(to_lla(datum), datum)
       end
 
-      def self.from_bng(bng_coord, datum = WGS84, precision = default_precision)
-        new(bng_coord, precision: precision)
+      def self.from_bng(bng, datum = WGS84, precision = default_precision)
+        new(bng, precision: precision)
       end
 
       # --- Equality and utility ---

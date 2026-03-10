@@ -152,48 +152,48 @@ module Geodetic
         MGRS.from_utm(self, precision)
       end
 
-      def self.from_mgrs(mgrs_coord, datum = WGS84)
-        mgrs_coord.to_utm
+      def self.from_mgrs(mgrs, datum = WGS84)
+        mgrs.to_utm
       end
 
       def to_usng(datum = WGS84, precision = 5)
         USNG.from_utm(self, precision)
       end
 
-      def self.from_usng(usng_coord, datum = WGS84)
-        usng_coord.to_utm
+      def self.from_usng(usng, datum = WGS84)
+        usng.to_utm
       end
 
       def to_web_mercator(datum = WGS84)
         WebMercator.from_lla(to_lla(datum), datum)
       end
 
-      def self.from_web_mercator(wm_coord, datum = WGS84)
-        from_lla(wm_coord.to_lla(datum), datum)
+      def self.from_web_mercator(web_mercator, datum = WGS84)
+        from_lla(web_mercator.to_lla(datum), datum)
       end
 
       def to_ups(datum = WGS84)
         UPS.from_lla(to_lla(datum), datum)
       end
 
-      def self.from_ups(ups_coord, datum = WGS84)
-        from_lla(ups_coord.to_lla(datum), datum)
+      def self.from_ups(ups, datum = WGS84)
+        from_lla(ups.to_lla(datum), datum)
       end
 
       def to_state_plane(zone_code, datum = WGS84)
         StatePlane.from_lla(to_lla(datum), zone_code, datum)
       end
 
-      def self.from_state_plane(sp_coord, datum = WGS84)
-        from_lla(sp_coord.to_lla(datum), datum)
+      def self.from_state_plane(state_plane, datum = WGS84)
+        from_lla(state_plane.to_lla(datum), datum)
       end
 
       def to_bng(datum = WGS84)
         BNG.from_lla(to_lla(datum))
       end
 
-      def self.from_bng(bng_coord, datum = WGS84)
-        from_lla(bng_coord.to_lla, datum)
+      def self.from_bng(bng, datum = WGS84)
+        from_lla(bng.to_lla, datum)
       end
 
       def to_s(precision = 2)
