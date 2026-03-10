@@ -753,6 +753,8 @@ The [`examples/`](examples/) directory contains runnable demo scripts showing pr
 | [`04_bearing_calculations.rb`](examples/04_bearing_calculations.rb) | Bearing class, compass directions, elevation angles, and chain bearings |
 | [`05_map_rendering/`](examples/05_map_rendering/) | Render landmarks on a raster map with Feature objects, polygon areas, bearing arrows, and icons using [libgd-gis](https://rubygems.org/gems/libgd-gis) |
 | [`06_path_operations.rb`](examples/06_path_operations.rb) | Path class: construction, navigation, mutation, path arithmetic, closest approach, containment, Enumerable, equality, subpaths, split, interpolation, bounding boxes, polygon conversion, intersection, path-to-path/area closest points, and Feature integration |
+| [`07_segments_and_shapes.rb`](examples/07_segments_and_shapes.rb) | Segment and polygon subclasses: Triangle, Rectangle, Pentagon, Hexagon, Octagon with containment, edges, and bounding boxes |
+| [`08_geodetic_arithmetic.rb`](examples/08_geodetic_arithmetic.rb) | Geodetic arithmetic: building geometry with + (Segments, Paths, Circles), Vector class (Vincenty direct, components, arithmetic, dot/cross products), translation with * (Coordinates, Segments, Paths, Circles, Polygons), and corridors |
 
 Run any example with:
 

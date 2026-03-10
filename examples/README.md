@@ -101,3 +101,19 @@ Demonstrates `Geodetic::Segment` and the polygon subclasses (`Triangle`, `Rectan
 - **Bounding boxes** via `to_bounding_box` on any polygon subclass
 - **Containment testing** with `includes?` across different shapes
 - **Feature integration** wrapping Segment and area geometries with labels and metadata
+
+## 08 - Geodetic Arithmetic
+
+Demonstrates the operator-based geometry system and the `Geodetic::Vector` class using West Coast cities. Covers:
+
+- **Building Segments with +** combining two coordinates, including cross-system (LLA + UTM)
+- **Chaining + into Paths** with Coordinate + Coordinate + Coordinate, Coordinate + Segment, and Segment + Segment
+- **Coordinate + Distance → Circle** with commutative Distance + Coordinate
+- **Vector construction** from distance/bearing, from a Segment (`to_vector`), and from north/east components
+- **Vector arithmetic** with addition, subtraction, scalar multiplication, reverse, zero cancellation, dot product, and cross product
+- **Coordinate + Vector → Segment** solving the Vincenty direct problem, and Vector + Coordinate for the reverse
+- **Extending geometry with Vectors** using Segment + Vector, Vector + Segment, and Path + Vector
+- **Translation with \*** shifting Coordinates, Segments, Paths, Circles, and Polygons by a Vector (also available as `.translate`)
+- **Key distinction: + vs \*** where `P + V` returns a Segment (the journey) and `P * V` returns a Coordinate (the destination)
+- **Path corridors** with `to_corridor(width:)` converting a path into a polygon, and translating the corridor
+- **Composing operations** chaining arithmetic, vector math, and corridors in single expressions
