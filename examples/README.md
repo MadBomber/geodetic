@@ -213,3 +213,40 @@ Run:
 ```bash
 ruby -Ilib examples/13_geos_operations.rb
 ```
+
+## 14 - GEOS Map Rendering
+
+Visualizes GEOS spatial operations on a single raster map using the `Geodetic::Map::LibGdGis` adapter. All eight GEOS operation categories rendered with distinct colors on a dark or light basemap, with an embedded legend. Covers:
+
+- **Boolean intersection** (red) of two overlapping Manhattan polygons
+- **Boolean difference** (purple) showing lower Manhattan minus midtown
+- **Point buffer** (green) around the Empire State Building via `Geos.buffer`
+- **Path buffer** (yellow corridor) along a 4-point route via `Geos.buffer`
+- **Convex hull** (cyan, transparent) enclosing 8 NYC landmarks via `Geos.convex_hull`
+- **Simplification** (pink) reducing a 60-vertex circle to 8 vertices via `Geos.simplify`
+- **Nearest points** (yellow dots + line) between Lower Manhattan and Brooklyn via `Geos.nearest_points`
+- **Prepared geometry containment** (green/red dots) testing 30 random points against the hull via `Geos.prepare`
+- **Map adapter pattern** using `Geodetic::Map::LibGdGis` with `add_to_map` on Geodetic objects
+- **Custom drawing** via render block for landmark labels, test point markers, and color legend
+- **Light/dark theme** switching with macOS system detection
+
+Prerequisites:
+
+```bash
+gem install libgd-gis
+brew install gd geos   # macOS
+```
+
+Run:
+
+```bash
+ruby -Ilib examples/14_geos_map_rendering.rb
+```
+
+CLI flags:
+
+```
+--light / --dark       Select basemap theme (default: macOS system setting)
+```
+
+Output: `examples/geos_showcase.png`
