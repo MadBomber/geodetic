@@ -8,6 +8,29 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 
+## [0.8.0] - 2026-03-10
+
+### Added
+
+- **Map adapter pattern** (`Geodetic::Map`) for rendering geodetic objects on maps with pluggable backends
+  - `Geodetic::Map::Base` — abstract adapter interface with `add(object, **style)` auto-dispatch by geometry type
+  - `Geodetic::Map::LibGdGis` — concrete adapter for raster PNG output via the `libgd-gis` gem
+  - `MapMethods` mixin — adds `add_to_map(map, **style)` to all coordinates, paths, segments, areas, and features
+  - Render block pattern: `map.render(path) { |gd_map| ... }` for custom GD drawing after adapter layers
+  - `gd_map` accessor for post-render access to the underlying `GD::GIS::Map`
+  - Accepts `BoundingBox` or `[west, south, east, north]` array for bbox
+  - Supports point, line, and polygon layers with style options (color, stroke, fill, width, label, icon, font, symbol, segments)
+- GEOS map rendering example (`examples/14_geos_map_rendering.rb`) — visualizes 8 GEOS operation categories (boolean intersection/difference, point/path buffering, convex hull, simplification, nearest points, prepared geometry containment) on a single raster map with distinct colors and an embedded legend
+- 28 new map adapter tests covering all geometry types, style handling, ENU/NED rejection, chaining, and LibGdGis bbox resolution
+- Documentation: `docs/reference/map-rendering.md` (architecture, usage, style options, color format, prerequisites)
+
+### Changed
+
+- Refactored `examples/05_map_rendering/demo.rb` to use the new `Map::LibGdGis` adapter instead of raw `GD::GIS::Map` calls
+- Updated `docs/reference/geos-acceleration.md` with reference to example 14
+- Updated `examples/README.md` with example 14 description
+- Updated `CLAUDE.md` with map adapter architecture, file layout, and expanded examples range
+
 ## [0.7.0] - 2026-03-10
 
 ### Added

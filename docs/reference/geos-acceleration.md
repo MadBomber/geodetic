@@ -161,6 +161,12 @@ Run the benchmark yourself:
 ruby -Ilib examples/12_geos_benchmark.rb
 ```
 
+For a visual demonstration of GEOS operations rendered on a map:
+
+```bash
+ruby -Ilib examples/14_geos_map_rendering.rb
+```
+
 ## Architecture Notes
 
 - **Thread safety**: Uses the reentrant GEOS `_r` API with per-process context initialization
