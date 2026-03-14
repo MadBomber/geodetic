@@ -8,6 +8,56 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 
+## [0.8.5] - 2026-03-14
+
+### Added
+
+- **S2 Spherical Geometry coordinate system** (`Geodetic::Coordinate::S2`) — Google's hierarchical spatial index as the 19th coordinate system
+  - Projects a cube onto the unit sphere, subdivides into quadrilateral cells via a Hilbert space-filling curve
+  - 31 levels (0-30): level 0 ≈ 85M km² (face cell), level 30 ≈ 0.7 cm² (leaf cell)
+  - Cell IDs are 64-bit integers; tokens are hex with trailing zeros stripped (shorter at coarser levels)
+  - Inherits from `SpatialHash` — all standard conversions, mixins (distance, bearing, arithmetic), and serialization (WKT, WKB, GeoJSON) work automatically
+  - Cell hierarchy: `parent(level)`, `children` (4 per cell), `level`, `face` (0-5 cube faces)
+  - `neighbors` returns Array of 4 edge-adjacent cells (via libs2 `GetEdgeNeighbors`)
+  - `contains?(other)` and `intersects?(other)` via cell ID range arithmetic (pure Ruby, no FFI)
+  - `range_min` / `range_max` for database range scans — spatial queries become `BETWEEN` on a BIGINT column with standard B-tree indexes
+  - `cell_area` returns exact spherical surface area in square meters (via libs2 `S2Cell::ExactArea`)
+  - `S2.average_cell_area(level)` — global average for a level (static, via libs2)
+  - `to_area` returns `Areas::Polygon` with 4 vertices (cell boundary as quadrilateral)
+  - `precision_in_meters` returns `{ lat:, lng:, area_m2: }` edge/area estimates
+  - `leaf?` / `face_cell?` — level 30 and level 0 predicates
+  - `valid?` — cell ID structure validation (face bits, sentinel bit position)
+  - `inspect` shows token, level, and face
+  - Construction from token string, 64-bit integer, or any coordinate object
+  - `LIBS2_PATH` env var for custom library path
+  - Requires `libs2` shared library (`brew install s2geometry` on macOS); graceful degradation when unavailable
+  - Hand-written `LLA#to_s2` / `LLA.from_s2` to avoid self-referencing `to_lla` in auto-generated hash conversions
+- **`Geodetic::NativeLibrary` mixin** — extracted common Fiddle infrastructure shared by LibGEOS, LibH3, and LibS2
+  - `load_library(env_var:, lib_names:, error_message:)` — discovers and loads shared libraries across platforms
+  - `available?` / `require_library!` / `handle` — availability checks with graceful degradation
+  - `bind(name, args, ret)` — creates `Fiddle::Function` bindings (returns nil when unavailable)
+  - Fiddle type constants (`PTR`, `INT`, `DBL`, `CHAR`, `VOID`, `UINT64`, `INT64`) scoped to `NativeLibrary` module — no namespace pollution when users `include Geodetic`
+  - `LIBRARY_SEARCH_DIRS` — standard search directories for macOS (Homebrew ARM/Intel) and Linux (system, Debian multiarch)
+  - Platform-aware path generation: tries both `.dylib` and `.so` extensions automatically
+- **`Geodetic::Coordinate::S2::S2Math` module** — pure Ruby S2 coordinate math (no FFI required)
+  - ST↔UV quadratic transforms, face/UV↔XYZ projection, XYZ↔lat/lng conversion
+  - Cell vertex computation (4 corners via the full coordinate pipeline)
+  - Bit manipulation: `cell_level`, `cell_face`, `cell_parent`, `cell_child`, `valid_cell_id?`
+  - Token encode/decode: `cell_id_to_token`, `token_to_cell_id`
+  - Range arithmetic: `range_min`, `range_max` for database scans
+- 52 S2 tests covering construction, round-trip conversion, properties, hierarchy, containment, intersection, neighbors, range scans, cell area, polygons, equality, cross-hash conversions, distance/bearing, and inspect
+- S2 example (`examples/15_s2_geometry.rb`) — 15-section demo covering construction, properties, round-trip conversion, cell hierarchy, edge neighbors, containment/intersection, cell area, cell polygons, database range scans, cross-hash conversions, distance/bearing, arithmetic, serialization, six cube faces, and performance benchmarks
+- Documentation: `docs/coordinate-systems/s2.md` (cell ID vs token, six cube faces, levels table, hierarchy, neighbors, containment, range scans, serialization, arithmetic, implementation notes)
+
+### Changed
+
+- Refactored `LibGEOS` (geos.rb) to use `NativeLibrary` mixin — removed ~40 lines of boilerplate search/load/bind code
+- Refactored `LibH3` (coordinate/h3.rb) to use `NativeLibrary` mixin — removed ~30 lines of boilerplate
+- Updated `docs/coordinate-systems/index.md`: 18→19 coordinate systems, added S2 to spatial hashing table, expanded conversion matrix to 19×19, updated conversion paths
+- Updated `README.md`: 18→19 coordinate systems throughout, added S2 optional dependency section, added S2 usage section with code examples, added examples 14 and 15 to the table
+- Updated `geodetic.gemspec` description to list 19 coordinate systems including S2
+- Total test count: 1991→2043 runs, 3755→3891 assertions
+
 ## [0.8.0] - 2026-03-11
 
 ### Added
