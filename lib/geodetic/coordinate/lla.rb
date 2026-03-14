@@ -278,6 +278,14 @@ module Geodetic
         h3.to_lla(datum)
       end
 
+      def to_s2(precision: 15)
+        S2.new(self, precision: precision)
+      end
+
+      def self.from_s2(s2, datum = WGS84)
+        s2.to_lla(datum)
+      end
+
       def self.from_lla(lla, datum = WGS84)
         lla
       end

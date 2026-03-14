@@ -5,6 +5,7 @@ module Geodetic
 end
 
 require_relative "geodetic/version"
+require_relative "geodetic/native_library"
 require_relative "geodetic/datum"
 require_relative "geodetic/distance"
 require_relative "geodetic/bearing"

@@ -21,73 +21,24 @@
 module Geodetic
   module Geos
     module LibGEOS
-      require 'fiddle'
+      extend Geodetic::NativeLibrary
 
-      SEARCH_PATHS = [
-        ENV['LIBGEOS_PATH'],
-        '/opt/homebrew/lib/libgeos_c.dylib',
-        '/opt/homebrew/lib/libgeos_c.1.dylib',
-        '/usr/local/lib/libgeos_c.dylib',
-        '/usr/local/lib/libgeos_c.1.dylib',
-        '/usr/lib/libgeos_c.so',
-        '/usr/lib/libgeos_c.so.1',
-        '/usr/local/lib/libgeos_c.so',
-        '/usr/local/lib/libgeos_c.so.1',
-        '/usr/lib/x86_64-linux-gnu/libgeos_c.so',
-        '/usr/lib/aarch64-linux-gnu/libgeos_c.so',
-      ].compact.freeze
+      load_library(
+        env_var: 'LIBGEOS_PATH',
+        lib_names: ['libgeos_c', 'libgeos_c.1'],
+        error_message: "libgeos_c not found. Install GEOS: brew install geos (macOS) " \
+          "or see https://libgeos.org/usage/install/. " \
+          "Set LIBGEOS_PATH env var to specify a custom library path."
+      )
 
-      @handle = nil
-      @available = false
       @context = nil
 
       class << self
-        attr_reader :handle
-
-        def available?
-          @available
-        end
-
-        def require_library!
-          return if @available
-          raise Geodetic::Error,
-            "libgeos_c not found. Install GEOS: brew install geos (macOS) " \
-            "or see https://libgeos.org/usage/install/. " \
-            "Set LIBGEOS_PATH env var to specify a custom library path."
-        end
-
         def context
           require_library!
           @context ||= F_GEOS_INIT_R.call
         end
       end
-
-      begin
-        path = SEARCH_PATHS.find { |p| File.exist?(p) }
-        if path
-          @handle = Fiddle.dlopen(path)
-          @available = true
-        end
-      rescue Fiddle::DLError
-        @available = false
-      end
-
-      # --- Function binding helper ---
-
-      def self.bind(name, args, ret)
-        return nil unless @available
-        ptr = @handle[name]
-        Fiddle::Function.new(ptr, args, ret)
-      rescue Fiddle::DLError
-        nil
-      end
-
-      # Type aliases
-      PTR  = Fiddle::TYPE_VOIDP
-      INT  = Fiddle::TYPE_INT
-      CHAR = Fiddle::TYPE_CHAR
-      DBL  = Fiddle::TYPE_DOUBLE
-      VOID = Fiddle::TYPE_VOID
 
       # --- Context management ---
 

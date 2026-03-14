@@ -29,65 +29,21 @@ module Geodetic
       # --- FFI bindings to libh3 via fiddle ---
 
       module LibH3
-        require 'fiddle'
+        extend Geodetic::NativeLibrary
 
-        SEARCH_PATHS = [
-          ENV['LIBH3_PATH'],
-          '/opt/homebrew/lib/libh3.dylib',
-          '/opt/homebrew/lib/libh3.1.dylib',
-          '/usr/local/lib/libh3.dylib',
-          '/usr/local/lib/libh3.1.dylib',
-          '/usr/lib/libh3.so',
-          '/usr/lib/libh3.so.1',
-          '/usr/local/lib/libh3.so',
-          '/usr/local/lib/libh3.so.1',
-          '/usr/lib/x86_64-linux-gnu/libh3.so',
-          '/usr/lib/aarch64-linux-gnu/libh3.so',
-        ].compact.freeze
-
-        @handle = nil
-        @available = false
-
-        class << self
-          attr_reader :handle
-
-          def available?
-            @available
-          end
-
-          def require_library!
-            return if @available
-            raise Geodetic::Error,
-              "libh3 not found. Install H3: brew install h3 (macOS) " \
-              "or see https://h3geo.org/docs/installation. " \
-              "Set LIBH3_PATH env var to specify a custom library path."
-          end
-        end
-
-        begin
-          path = SEARCH_PATHS.find { |p| File.exist?(p) }
-          if path
-            @handle = Fiddle.dlopen(path)
-            @available = true
-          end
-        rescue Fiddle::DLError
-          @available = false
-        end
+        load_library(
+          env_var: 'LIBH3_PATH',
+          lib_names: ['libh3', 'libh3.1'],
+          error_message: "libh3 not found. Install H3: brew install h3 (macOS) " \
+            "or see https://h3geo.org/docs/installation. " \
+            "Set LIBH3_PATH env var to specify a custom library path."
+        )
 
         # Struct sizes
         SIZEOF_LATLNG = 2 * Fiddle::SIZEOF_DOUBLE          # 16 bytes
         SIZEOF_CELL_BOUNDARY = 8 + 10 * SIZEOF_LATLNG       # 168 bytes (int + pad + 10 LatLngs)
         SIZEOF_H3INDEX = Fiddle::SIZEOF_LONG_LONG            # 8 bytes
         SIZEOF_INT64 = Fiddle::SIZEOF_LONG_LONG              # 8 bytes
-
-        # Function bindings (lazy-loaded)
-        def self.bind(name, args, ret)
-          return nil unless @available
-          ptr = @handle[name]
-          Fiddle::Function.new(ptr, args, ret)
-        rescue Fiddle::DLError
-          nil
-        end
 
         # H3Error latLngToCell(const LatLng *g, int res, H3Index *out)
         F_LAT_LNG_TO_CELL = bind('latLngToCell',
