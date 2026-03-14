@@ -1,6 +1,6 @@
 # Coordinate Systems Overview
 
-The Geodetic gem supports 18 coordinate systems organized into six categories. All coordinate classes live under `Geodetic::Coordinate`.
+The Geodetic gem supports 19 coordinate systems organized into six categories. All coordinate classes live under `Geodetic::Coordinate`.
 
 ## Global Systems
 
@@ -47,6 +47,7 @@ The Geodetic gem supports 18 coordinate systems organized into six categories. A
 | [**GEOREF**](georef.md) | `Geodetic::Coordinate::GEOREF` | World Geographic Reference System. A geocode system used in aviation and military applications that encodes positions using letter tiles (15° grid), letter degree subdivisions, and numeric minute pairs. Uses a 24-letter alphabet (A-Z excluding I and O). Supports variable precision from 15° tiles (2 chars) down to 0.01-minute resolution (12 chars). Default precision is 8 characters (1-minute resolution). |
 | [**GARS**](gars.md) | `Geodetic::Coordinate::GARS` | Global Area Reference System. An NGA standard that divides the world into 30-minute cells identified by a 3-digit longitude band (001-720) and 2-letter latitude band. Cells are subdivided into 15-minute quadrants (1-4) and 5-minute keypads (1-9, telephone layout). Variable precision: 5 chars (30'), 6 chars (15'), 7 chars (5'). Default precision is 7 characters. |
 | [**H3**](h3.md) | `Geodetic::Coordinate::H3` | H3 Hexagonal Hierarchical Index. Uber's spatial indexing system that divides the globe into hexagonal cells (and 12 pentagons) at 16 resolution levels (0-15). Each cell is a 64-bit integer displayed as a hex string. Unlike the rectangular spatial hashes, `to_area` returns an `Areas::Polygon` with 6 vertices (5 for pentagons) and `neighbors` returns an Array of 6 cells. **Requires `libh3` installed** (`brew install h3` on macOS). |
+| [**S2**](s2.md) | `Geodetic::Coordinate::S2` | S2 Spherical Geometry Index. Google's hierarchical spatial indexing system that projects a cube onto the unit sphere, subdividing into quadrilateral cells via a Hilbert space-filling curve. 31 levels (0-30) with 64-bit cell IDs displayed as hex tokens. Cells are geodesic quadrilaterals with very low distortion (~0.56%). `to_area` returns an `Areas::Polygon` with 4 vertices. `neighbors` returns an Array of 4 edge cells. Cell IDs enable efficient database range scans on standard B-tree indexes. **Requires `libs2` installed** (`brew install s2geometry` on macOS). |
 
 ## Regional Systems
 
@@ -61,26 +62,27 @@ The Geodetic gem supports 18 coordinate systems organized into six categories. A
 
 Every coordinate system can convert to every other coordinate system. The table below confirms full interoperability:
 
-| From \ To | LLA | ECEF | UTM | ENU | NED | MGRS | USNG | WebMercator | UPS | StatePlane | BNG | GH36 | GH | HAM | OLC | GEOREF | GARS | H3 |
-|-----------|-----|------|-----|-----|-----|------|------|-------------|-----|------------|-----|------|----|----|-----|--------|------|-----|
-| **LLA**        | --  | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y |
-| **ECEF**       | Y | --  | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y |
-| **UTM**        | Y | Y | --  | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y |
-| **ENU**        | Y | Y | Y | --  | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y |
-| **NED**        | Y | Y | Y | Y | --  | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y |
-| **MGRS**       | Y | Y | Y | Y | Y | --  | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y |
-| **USNG**       | Y | Y | Y | Y | Y | Y | --  | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y |
-| **WebMercator**| Y | Y | Y | Y | Y | Y | Y | --  | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y |
-| **UPS**        | Y | Y | Y | Y | Y | Y | Y | Y | --  | Y | Y | Y | Y | Y | Y | Y | Y | Y |
-| **StatePlane** | Y | Y | Y | Y | Y | Y | Y | Y | Y | --  | Y | Y | Y | Y | Y | Y | Y | Y |
-| **BNG**        | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | --  | Y | Y | Y | Y | Y | Y | Y |
-| **GH36**       | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | --  | Y | Y | Y | Y | Y | Y |
-| **GH**         | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | -- | Y | Y | Y | Y | Y |
-| **HAM**        | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | -- | Y | Y | Y | Y |
-| **OLC**        | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | -- | Y | Y | Y |
-| **GEOREF**     | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | -- | Y | Y |
-| **GARS**       | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | -- | Y |
-| **H3**         | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | -- |
+| From \ To | LLA | ECEF | UTM | ENU | NED | MGRS | USNG | WebMercator | UPS | StatePlane | BNG | GH36 | GH | HAM | OLC | GEOREF | GARS | H3 | S2 |
+|-----------|-----|------|-----|-----|-----|------|------|-------------|-----|------------|-----|------|----|----|-----|--------|------|-----|-----|
+| **LLA**        | --  | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y |
+| **ECEF**       | Y | --  | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y |
+| **UTM**        | Y | Y | --  | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y |
+| **ENU**        | Y | Y | Y | --  | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y |
+| **NED**        | Y | Y | Y | Y | --  | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y |
+| **MGRS**       | Y | Y | Y | Y | Y | --  | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y |
+| **USNG**       | Y | Y | Y | Y | Y | Y | --  | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y |
+| **WebMercator**| Y | Y | Y | Y | Y | Y | Y | --  | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y |
+| **UPS**        | Y | Y | Y | Y | Y | Y | Y | Y | --  | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y |
+| **StatePlane** | Y | Y | Y | Y | Y | Y | Y | Y | Y | --  | Y | Y | Y | Y | Y | Y | Y | Y | Y |
+| **BNG**        | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | --  | Y | Y | Y | Y | Y | Y | Y | Y |
+| **GH36**       | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | --  | Y | Y | Y | Y | Y | Y | Y |
+| **GH**         | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | -- | Y | Y | Y | Y | Y | Y |
+| **HAM**        | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | -- | Y | Y | Y | Y | Y |
+| **OLC**        | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | -- | Y | Y | Y | Y |
+| **GEOREF**     | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | -- | Y | Y | Y |
+| **GARS**       | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | -- | Y | Y |
+| **H3**         | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | -- | Y |
+| **S2**         | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | -- |
 
 ## Universal Distance and Bearing Calculations
 
@@ -100,6 +102,6 @@ Conversions typically route through **LLA** or **ECEF** as intermediate steps:
 - **ECEF** is the intermediate for local tangent plane systems (ENU, NED), since the rotation from global Cartesian to local frames is straightforward in ECEF.
 - **ENU and NED** convert between each other directly by reordering axes and inverting the vertical component.
 - **MGRS and USNG** route through UTM, which in turn routes through LLA.
-- **WebMercator, UPS, BNG, StatePlane, GH36, GH, HAM, OLC, GEOREF, GARS, and H3** all convert through LLA.
+- **WebMercator, UPS, BNG, StatePlane, GH36, GH, HAM, OLC, GEOREF, GARS, H3, and S2** all convert through LLA.
 
 For example, converting from BNG to NED follows the chain: `BNG -> LLA -> ECEF -> ENU -> NED`. The gem handles this automatically when you call a conversion method.

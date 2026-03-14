@@ -13,7 +13,7 @@
 <td width="50%" valign="top">
 <strong>Key Features</strong><br>
 
-- <strong>18 Coordinate Systems</strong> - LLA, ECEF, UTM, ENU, NED, MGRS, USNG, Web Mercator, UPS, State Plane, BNG, GH36, GH, HAM, OLC, GEOREF, GARS, H3<br>
+- <strong>19 Coordinate Systems</strong> - LLA, ECEF, UTM, ENU, NED, MGRS, USNG, Web Mercator, UPS, State Plane, BNG, GH36, GH, HAM, OLC, GEOREF, GARS, H3, S2<br>
 - <strong>Full Bidirectional Conversions</strong> - Every system converts to and from every other system<br>
 - <strong>Distance Calculations</strong> - Vincenty great-circle and straight-line with unit tracking<br>
 - <strong>Bearing Calculations</strong> - Forward azimuth, back azimuth, compass directions, elevation angles<br>
@@ -36,7 +36,7 @@
 </tr>
 </table>
 
-<p>Geodetic enables precise conversion between geodetic coordinate systems in Ruby. All 18 coordinate systems support complete bidirectional conversions with high precision. Review the <a href="https://madbomber.github.io/geodetic/">full documentation website</a> and explore the <a href="examples/">runnable examples</a>.</p>
+<p>Geodetic enables precise conversion between geodetic coordinate systems in Ruby. All 19 coordinate systems support complete bidirectional conversions with high precision. Review the <a href="https://madbomber.github.io/geodetic/">full documentation website</a> and explore the <a href="examples/">runnable examples</a>.</p>
 
 ## Installation
 
@@ -86,6 +86,24 @@ Set `GEODETIC_GEOS_DISABLE=1` to force pure Ruby for all operations, even when G
 Geodetic::Geos.available?  # => true when libgeos_c is found and not disabled
 ```
 
+### Optional: S2 Spherical Geometry Index
+
+The S2 coordinate system requires Google's [S2 Geometry library](https://github.com/google/s2geometry) installed on your system. S2 projects a cube onto the sphere and subdivides it into quadrilateral cells via a Hilbert space-filling curve, providing very low distortion (~0.56%) across the entire Earth surface. Cell IDs are 64-bit integers that enable efficient spatial database queries on standard B-tree indexes.
+
+```bash
+# macOS
+brew install s2geometry
+
+# Linux (build from source)
+# See https://github.com/google/s2geometry
+```
+
+You can set the `LIBS2_PATH` environment variable to point to a custom `libs2` location. See [S2 documentation](docs/coordinate-systems/s2.md) for detailed API reference and [example 15](examples/15_s2_geometry.rb) for a comprehensive demo.
+
+```ruby
+Geodetic::Coordinate::S2.available?  # => true when libs2 is found
+```
+
 ## Usage
 
 ### Basic Coordinate Creation
@@ -132,7 +150,7 @@ Geodetic::Coordinate.systems
 # Get short names
 Geodetic::Coordinate.systems.map { |c| c.name.split('::').last }
 # => ["LLA", "ECEF", "UTM", "ENU", "NED", "MGRS", "USNG", "WebMercator",
-#     "UPS", "StatePlane", "BNG", "GH36", "GH", "HAM", "OLC", "GEOREF", "GARS", "H3"]
+#     "UPS", "StatePlane", "BNG", "GH36", "GH", "HAM", "OLC", "GEOREF", "GARS", "H3", "S2"]
 ```
 
 ### Coordinate Conversions
@@ -546,6 +564,51 @@ olc.precision              # => 10
 olc.precision_in_meters    # => { lat: 13.9, lng: 13.9 }
 ```
 
+### S2 Spherical Geometry Index
+
+Google's hierarchical spatial index using a cube-on-sphere projection with Hilbert curve ordering. Cell IDs are 64-bit integers displayed as hex tokens. See [S2 documentation](docs/coordinate-systems/s2.md) for the full API.
+
+```ruby
+# From a token string or integer
+s2 = Coordinate::S2.new("54906ab14")
+s2 = Coordinate::S2.new(6093487605347778560)
+
+# From any coordinate
+s2 = Coordinate::S2.new(lla)
+s2 = lla.to_s2(precision: 20)     # level 20
+
+# Decode back to LLA
+lla = s2.to_lla
+
+# Properties
+s2.level               # => 15
+s2.face                # => 2 (cube face 0-5)
+s2.cell_id             # => 6093487605347778560 (for database storage)
+s2.to_s                # => "54906ab14" (token for display)
+
+# Hierarchy
+s2.parent(10)          # => S2 at level 10
+s2.children            # => [S2, S2, S2, S2] at level 16
+
+# Neighbors (4 edge-adjacent cells)
+s2.neighbors           # => [S2, S2, S2, S2]
+
+# Containment
+parent.contains?(child)   # => true
+parent.intersects?(child) # => true
+
+# Cell area (exact spherical surface area)
+s2.cell_area           # => 77544.2 (square meters)
+
+# Cell boundary as polygon
+polygon = s2.to_area   # => Areas::Polygon with 4 vertices
+polygon.includes?(s2.to_lla)  # => true
+
+# Database range scans (spatial queries on B-tree indexes)
+s2.range_min           # => start of cell ID range
+s2.range_max           # => end of cell ID range
+```
+
 ### Geographic Areas
 
 ```ruby
@@ -896,6 +959,8 @@ The [`examples/`](examples/) directory contains runnable demo scripts showing pr
 | [`11_wkb_serialization.rb`](examples/11_wkb_serialization.rb) | WKB serialization: `to_wkb`/`to_wkb_hex` on all geometry types, EWKB/SRID, Z-dimension, parsing, roundtrip, and binary/hex file I/O |
 | [`12_geos_benchmark.rb`](examples/12_geos_benchmark.rb) | GEOS performance benchmark: polygon validation, point-in-polygon, path intersection, PreparedGeometry batch containment, and GEOS-only boolean operations |
 | [`13_geos_operations.rb`](examples/13_geos_operations.rb) | GEOS-only operations: boolean overlay (intersection, difference, symmetric difference, union), buffering, convex hull, simplification, validity checking, geometry repair, planar measurements, nearest points, PreparedGeometry, and operation chaining |
+| [`14_geos_map_rendering.rb`](examples/14_geos_map_rendering.rb) | GEOS map rendering: visualizes 8 GEOS operation categories on a single raster map with distinct colors and an embedded legend |
+| [`15_s2_geometry.rb`](examples/15_s2_geometry.rb) | S2 Geometry: construction, round-trip conversion, cell hierarchy (parent/children), edge neighbors, containment/intersection, cell area calculations, cell polygons, database range scans, cross-hash conversions, distance/bearing, arithmetic, serialization (WKT/WKB/GeoJSON), six cube faces, and performance benchmarks |
 
 Run any example with:
 
